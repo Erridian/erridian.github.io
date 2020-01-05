@@ -1,88 +1,214 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
-    <link rel="stylesheet prefetch" href="https://codepad.co/css/normalize.min.css"/>
-                                    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="shortcut icon" href="ill.jpg" />
+	<title> OWNED TEIROP </title>
+	<script language=javascript>
+    var rev = "fwd";
+    function titlebar(val){
+        var msg  = "TEIROP OWNED ";
+        var res = " TEIROP OWNED ";
+        var speed = 110;
+        var pos = val;
+        msg = "    "+msg+" Don`t CRY";
+        var le = msg.length;
+        if(rev == "fwd"){
+            if(pos < le){
+                pos = pos+1;
+                scroll = msg.substr(0,pos);
+                document.title = scroll;
+                timer = window.setTimeout("titlebar("+pos+")",speed);
+            }
+            else {
+                rev = "bwd";
+                timer = window.setTimeout("titlebar("+pos+")",speed);
+            }
         }
-        *,::before,::after{box-sizing:border-box;margin:0;padding:0}body{align-items:center;background-color:#fde7fd;display:flex;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;-webkit-font-smoothing:none;justify-content:center;min-height:100vh}.spin{perspective:500px;position:relative;transform-style:preserve-3d}.spin-group{animation:1.8s ease-in-out infinite alternate both spin-group;display:block;line-height:.8;text-align:center;transform-style:preserve-3d;will-change:transform}.spin-group-text{color:#ff79ff;font-size:100px;font-weight:700;text-shadow:-1px 0 #3f2e53,1px 0 #3f2e53,0 -1px #04e7fe;will-change:transform}.spin-group-text:nth-child(n+2){position:absolute;top:0;left:0}.spin-group-text:nth-child(2){transform:translateZ(1px)}.spin-group-text:nth-child(3){transform:translateZ(2px)}.spin-group-text:nth-child(4){transform:translateZ(3px)}.spin-group-text:nth-child(5){transform:translateZ(4px)}.spin-group-text:nth-child(6){transform:translateZ(5px)}.spin-group-text:nth-child(7){transform:translateZ(6px)}.spin-group-text:nth-child(8){transform:translateZ(7px)}.spin-group-text:nth-child(9){transform:translateZ(8px)}.spin-group-text:nth-child(10){transform:translateZ(9px)}.spin-group-text:nth-child(11){transform:translateZ(10px)}.spin-group-text:nth-child(12){transform:translateZ(11px)}.spin-group-text:nth-child(13){transform:translateZ(12px)}.spin-group-text:nth-child(14){transform:translateZ(13px)}.spin-group-text:nth-child(15){transform:translateZ(14px)}.spin-group-text:nth-child(16){transform:translateZ(15px)}.spin-group-text:nth-child(17){transform:translateZ(16px)}.spin-group-text:nth-child(18){transform:translateZ(17px)}.spin-group-text:nth-child(19){transform:translateZ(18px)}.spin-group-text:nth-child(20){transform:translateZ(19px)}@keyframes spin-group{from{transform:rotateY(-10deg) rotateX(-20deg)}to{transform:rotateY(10deg) rotateX(-20deg)}}
-
-    </style>
-            
-    </head>
-<body>
-<p class='spin'>
-  <span class='spin-group'>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-    <span class='spin-group-text'>
-      ТЫ<br/>ПИДОР
-    </span>
-  </span>
-</p>
-
-<script type="text/javascript">
-    
+        else {
+            if(pos > 0) {
+                pos = pos-1;
+                var ale = le-pos;
+                scrol = msg.substr(ale,le);
+                document.title = scrol;
+                timer = window.setTimeout("titlebar("+pos+")",speed);
+            }
+            else {
+                rev = "fwd";
+                timer = window.setTimeout("titlebar("+pos+")",speed);
+            }
+        }
+    }
+    titlebar(0);
 </script>
-</body>
+	<style type="text/css">body, a, a:link{cursor:url(cursor.cur), default;} a:hover {cursor:url(cursor2.cur),wait;}</style>
+	<link href="./core.css" rel="stylesheet">
+	 
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+	<link rel=”stylesheet” type=”text/css” href=”/public_html/css/font-awesome.css” media=”all” />
+<style type="text/css"></style></head>
+<body  >
+
+<video autoplay="1" loop="2"><source src="vid/1.mp4" type="video/mp4"></video>
+
+    <div class="block">
+
+	<div class="pageOverlay">
+
+	<p align="center">#TEIROP OWNED</p>
+
+		<div class="lightbox">
+			<div class="wrapper">
+				<div class="titles animate"><a class="btn-draw" href="http://steamcommunity.com/id/nextlvl404/" target="_blank"><span>STEAM</span></a>
+<a class="btn-draw" href="#" target="_blank"><span>VK</span></a>
+<a class="btn-draw" href="skype:live:b7c9ae77c1ef8e0a" target="_blank"><span>Skype</span></a>
+
+				</div>
+
+
+					<div class="media animate"> </div>
+
+<canvas id="can1vas"></canvas>
+<script type="text/javascript">
+let resizeReset = function() {
+	w = canvasBody.width = window.innerWidth;
+	h = canvasBody.height = window.innerHeight;
+}
+
+const opts = { 
+	particleColor: "rgb(200,200,200)",
+	lineColor: "rgb(200,22,200)",
+	particleAmount: 30,
+	defaultSpeed: 1,
+	variantSpeed: 1,
+	defaultRadius: 2,
+	variantRadius: 2,
+	linkRadius: 200,
+};
+
+
+window.addEventListener("resize", function(){
+	deBouncer();
+});
+
+let deBouncer = function() {
+    clearTimeout(tid);
+    tid = setTimeout(function() {
+        resizeReset();
+    }, delay);
+};
+
+let checkDistance = function(x1, y1, x2, y2){ 
+	return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+};
+
+let linkPoints = function(point1, hubs){ 
+	for (let i = 0; i < hubs.length; i++) {
+		let distance = checkDistance(point1.x, point1.y, hubs[i].x, hubs[i].y);
+		let opacity = 1 - distance / opts.linkRadius;
+		if (opacity > 0) { 
+			drawArea.lineWidth = 0.5;
+			drawArea.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opacity})`;
+			drawArea.beginPath();
+			drawArea.moveTo(point1.x, point1.y);
+			drawArea.lineTo(hubs[i].x, hubs[i].y);
+			drawArea.closePath();
+			drawArea.stroke();
+		}
+	}
+}
+
+Particle = function(xPos, yPos){ 
+	this.x = Math.random() * w; 
+	this.y = Math.random() * h;
+	this.speed = opts.defaultSpeed + Math.random() * opts.variantSpeed; 
+	this.directionAngle = Math.floor(Math.random() * 360); 
+	this.color = opts.particleColor;
+	this.radius = opts.defaultRadius + Math.random() * opts. variantRadius; 
+	this.vector = {
+		x: Math.cos(this.directionAngle) * this.speed,
+		y: Math.sin(this.directionAngle) * this.speed
+	};
+	this.update = function(){ 
+		this.border(); 
+		this.x += this.vector.x; 
+		this.y += this.vector.y; 
+	};
+	this.border = function(){ 
+		if (this.x >= w || this.x <= 0) { 
+			this.vector.x *= -1;
+		}
+		if (this.y >= h || this.y <= 0) {
+			this.vector.y *= -1;
+		}
+		if (this.x > w) this.x = w;
+		if (this.y > h) this.y = h;
+		if (this.x < 0) this.x = 0;
+		if (this.y < 0) this.y = 0;	
+	};
+	this.draw = function(){ 
+		drawArea.beginPath();
+		drawArea.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+		drawArea.closePath();
+		drawArea.fillStyle = this.color;
+		drawArea.fill();
+	};
+};
+
+function setup(){ 
+	particles = [];
+	resizeReset();
+	for (let i = 0; i < opts.particleAmount; i++){
+		particles.push( new Particle() );
+	}
+	window.requestAnimationFrame(loop);
+}
+
+function loop(){ 
+	window.requestAnimationFrame(loop);
+	drawArea.clearRect(0,0,w,h);
+	for (let i = 0; i < particles.length; i++){
+		particles[i].update();
+		particles[i].draw();
+	}
+	for (let i = 0; i < particles.length; i++){
+		linkPoints(particles[i], particles);
+	}
+}
+
+const canvasBody = document.getElementById("can1vas"),
+drawArea = canvasBody.getContext("2d");
+let delay = 200, tid,
+rgb = opts.lineColor.match(/\d+/g);
+resizeReset();
+setup();
+</script>
+
+						
+ <script type="text/javascript" >
+    window.onkeydown = function(evt) {
+        if(evt.keyCode == 123) return false;
+    };
+
+    window.onkeypress = function(evt) {
+        if(evt.keyCode == 123) return false;
+    };
+	    window.onkeypress = function(evt) {
+        if(evt.keyCode == 85) return false;
+		
+    };
+	    window.onkeypress = function(evt) {
+        if(evt.keyCode == 17) return false;
+    };
+</script></div>
+					</a>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+		</div>
+
+	</body>
 </html>
+
