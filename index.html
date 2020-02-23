@@ -1,214 +1,83 @@
-<html>
+<!--
+
+Слит сайтом WebStudio.PW
+vk.com/qu1kgg - вк
+vk.com/ws_pw - группа вк
+WebStudio.PW - сайтом
+Trade.WebStudio.PW - поддержать меня
+-->
+<html lang="rus">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="shortcut icon" href="ill.jpg" />
-	<title> OWNED TEIROP </title>
-	<script language=javascript>
-    var rev = "fwd";
-    function titlebar(val){
-        var msg  = "ERRIDIAN OWNED ";
-        var res = " ERRIDIAN OWNED ";
-        var speed = 110;
-        var pos = val;
-        msg = "    "+msg+" Don`t CRY";
-        var le = msg.length;
-        if(rev == "fwd"){
-            if(pos < le){
-                pos = pos+1;
-                scroll = msg.substr(0,pos);
-                document.title = scroll;
-                timer = window.setTimeout("titlebar("+pos+")",speed);
+<meta charset="UTF-8">
+<script type="text/javascript">
+//<![CDATA[
+window.__cfRocketOptions = {byc:0,p:0,petok:"3e89d049a9ad166c5ccef301b250ddcab3d8e061-1520522923-86400"};
+//]]>
+</script>
+<script type="text/javascript" src="cdn-cgi/scripts/935cb224/cloudflare-static/rocket.min.js"></script>
+<link rel="shortcut icon" href="mother.ico" type="image/x-icon">
+<script data-rocketsrc="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/rocketscript"></script>
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css">
+<title>Lokigoodful</title>
+</head>
+<video id="video" width="100%" height="auto" autoplay="autoplay" loop="loop" preload="auto"><source src="https://lokigoodful.org/media/16.mp4"></source></video>
+<script type="text/rocketscript">
+    var tl = new Array(
+        "Welcome to Lokigoodful page =)"
+    );
+
+    var speed = 80;
+    var index = 0; text_pos = 0;
+    var str_length = tl[0].length;
+    var contents, row;
+
+    function type_text()
+    {
+        contents = '';
+        row = Math.max(0, index-7);
+        while (row<index) contents += tl[row++] + '\r\n';
+        document.getElementById("anim_text").innerHTML= contents + tl[index].substring(0,text_pos) + "_";
+
+        if (text_pos ++== str_length)
+        {
+            text_pos = 0;
+            index++;
+            if (index != tl.length)
+            {
+                str_length = tl[index].length;
+                setTimeout("type_text()", 1500);
             }
-            else {
-                rev = "bwd";
-                timer = window.setTimeout("titlebar("+pos+")",speed);
-            }
-        }
-        else {
-            if(pos > 0) {
-                pos = pos-1;
-                var ale = le-pos;
-                scrol = msg.substr(ale,le);
-                document.title = scrol;
-                timer = window.setTimeout("titlebar("+pos+")",speed);
-            }
-            else {
-                rev = "fwd";
-                timer = window.setTimeout("titlebar("+pos+")",speed);
-            }
+        } else {
+            setTimeout("type_text()", speed);
         }
     }
-    titlebar(0);
 </script>
-	<style type="text/css">body, a, a:link{cursor:url(cursor.cur), default;} a:hover {cursor:url(cursor2.cur),wait;}</style>
-	<link href="./core.css" rel="stylesheet">
-	 
-  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
-	<link rel=”stylesheet” type=”text/css” href=”/public_html/css/font-awesome.css” media=”all” />
-<style type="text/css"></style></head>
-<body  >
-
-<video autoplay="1" loop="2"><source src="vid/1.mp4" type="video/mp4"></video>
-
-    <div class="block">
-
-	<div class="pageOverlay">
-
-	<p align="center">#ERRIDIAN OWNED</p>
-
-		<div class="lightbox">
-			<div class="wrapper">
-				<div class="titles animate"><a class="btn-draw" href="http://steamcommunity.com/id/erridian/" target="_blank"><span>STEAM</span></a>
-<a class="btn-draw" href="http://vk.com/erridian" target="_blank"><span>VK</span></a>
-//<a class="btn-draw" href="skype:live:b7c9ae77c1ef8e0a" target="_blank"><span>Skype</span></a>
-
-				</div>
-
-
-					<div class="media animate"> </div>
-
-<canvas id="can1vas"></canvas>
-<script type="text/javascript">
-let resizeReset = function() {
-	w = canvasBody.width = window.innerWidth;
-	h = canvasBody.height = window.innerHeight;
-}
-
-const opts = { 
-	particleColor: "rgb(200,200,200)",
-	lineColor: "rgb(200,22,200)",
-	particleAmount: 30,
-	defaultSpeed: 1,
-	variantSpeed: 1,
-	defaultRadius: 2,
-	variantRadius: 2,
-	linkRadius: 200,
-};
-
-
-window.addEventListener("resize", function(){
-	deBouncer();
-});
-
-let deBouncer = function() {
-    clearTimeout(tid);
-    tid = setTimeout(function() {
-        resizeReset();
-    }, delay);
-};
-
-let checkDistance = function(x1, y1, x2, y2){ 
-	return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-};
-
-let linkPoints = function(point1, hubs){ 
-	for (let i = 0; i < hubs.length; i++) {
-		let distance = checkDistance(point1.x, point1.y, hubs[i].x, hubs[i].y);
-		let opacity = 1 - distance / opts.linkRadius;
-		if (opacity > 0) { 
-			drawArea.lineWidth = 0.5;
-			drawArea.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opacity})`;
-			drawArea.beginPath();
-			drawArea.moveTo(point1.x, point1.y);
-			drawArea.lineTo(hubs[i].x, hubs[i].y);
-			drawArea.closePath();
-			drawArea.stroke();
-		}
-	}
-}
-
-Particle = function(xPos, yPos){ 
-	this.x = Math.random() * w; 
-	this.y = Math.random() * h;
-	this.speed = opts.defaultSpeed + Math.random() * opts.variantSpeed; 
-	this.directionAngle = Math.floor(Math.random() * 360); 
-	this.color = opts.particleColor;
-	this.radius = opts.defaultRadius + Math.random() * opts. variantRadius; 
-	this.vector = {
-		x: Math.cos(this.directionAngle) * this.speed,
-		y: Math.sin(this.directionAngle) * this.speed
-	};
-	this.update = function(){ 
-		this.border(); 
-		this.x += this.vector.x; 
-		this.y += this.vector.y; 
-	};
-	this.border = function(){ 
-		if (this.x >= w || this.x <= 0) { 
-			this.vector.x *= -1;
-		}
-		if (this.y >= h || this.y <= 0) {
-			this.vector.y *= -1;
-		}
-		if (this.x > w) this.x = w;
-		if (this.y > h) this.y = h;
-		if (this.x < 0) this.x = 0;
-		if (this.y < 0) this.y = 0;	
-	};
-	this.draw = function(){ 
-		drawArea.beginPath();
-		drawArea.arc(this.x, this.y, this.radius, 0, Math.PI*2);
-		drawArea.closePath();
-		drawArea.fillStyle = this.color;
-		drawArea.fill();
-	};
-};
-
-function setup(){ 
-	particles = [];
-	resizeReset();
-	for (let i = 0; i < opts.particleAmount; i++){
-		particles.push( new Particle() );
-	}
-	window.requestAnimationFrame(loop);
-}
-
-function loop(){ 
-	window.requestAnimationFrame(loop);
-	drawArea.clearRect(0,0,w,h);
-	for (let i = 0; i < particles.length; i++){
-		particles[i].update();
-		particles[i].draw();
-	}
-	for (let i = 0; i < particles.length; i++){
-		linkPoints(particles[i], particles);
-	}
-}
-
-const canvasBody = document.getElementById("can1vas"),
-drawArea = canvasBody.getContext("2d");
-let delay = 200, tid,
-rgb = opts.lineColor.match(/\d+/g);
-resizeReset();
-setup();
-</script>
-
-						
- <script type="text/javascript" >
-    window.onkeydown = function(evt) {
-        if(evt.keyCode == 123) return false;
-    };
-
-    window.onkeypress = function(evt) {
-        if(evt.keyCode == 123) return false;
-    };
-	    window.onkeypress = function(evt) {
-        if(evt.keyCode == 85) return false;
-		
-    };
-	    window.onkeypress = function(evt) {
-        if(evt.keyCode == 17) return false;
-    };
-</script></div>
-					</a>
-
-
-				</div>
-			</div>
-		</div>
-	</div>
-		</div>
-
-	</body>
+<body onload="!window.__cfRl||__cfRl.r(function(){type_text()},this)">
+<div class="main">
+<div class="main header">
+<span class="name">
+<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bdcfd2d2c9fdd1d2d6d4dad2d2d9dbc8d1">[email&#160;protected]</a> ~/.bash
+</span>
+<span class="controls">
+<ul class="controls_list">
+<li class="fa fa-window-minimize"></li>
+<li class="fa fa-window-maximize"></li>
+<li class="fa fa-window-close"></li>
+</ul>
+</span>
+</div>
+<div class="main content">
+<p><span class="domain"><a href="https://vk.com/lokigoodful" target="_blank"><span class="__cf_email__" data-cfemail="a9dbc6c6dde9c5c6c2c0cec6c6cdcfdcc5">[email&#160;protected]</span>:</a></span> ~$ bash --version</p>
+<p>GNU bash, version 4.3.46(1)--release (x86_64-pc-linux-gnu)</p>
+<p>Copyright (C) 2017 Free Software Foundation, Inc.</p>
+<p>License GPLv3+: GNU GPL version 3 or later.</p>
+<p>This is free software; you are free to change and redistribute it.</p>
+<p>There is NO WARRANTY, to the extent premitted by law.</p>
+<p><span class="domain"><a href="https://vk.com/lokigoodful" target="_blank"><span class="__cf_email__" data-cfemail="85f7eaeaf1c5e9eaeeece2eaeae1e3f0e9">[email&#160;protected]</span>:</a></span> ~$ <a href="https://developed.lokigoodful.org" ">Cheatsmaking</a></p>
+<p><span class="domain"><a href="https://vk.com/lokigoodful" target="_blank"><span class="__cf_email__" data-cfemail="cdbfa2a2b98da1a2a6a4aaa2a2a9abb8a1">[email&#160;protected]</span>:</a></span> ~$ <span id="anim_text"></span></p>
+</div>
+</div>
+<script data-cfasync="false" src="cdn-cgi/scripts/d07b1474/cloudflare-static/email-decode.min.js"></script></body>
+<a class="notice" target="_" href="http://filemanager.lokigoodful.org/">@filemanager</a>
 </html>
-
