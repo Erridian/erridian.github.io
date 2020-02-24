@@ -49,6 +49,37 @@ window.__cfRocketOptions = {byc:0,p:0,petok:"3e89d049a9ad166c5ccef301b250ddcab3d
         }
     }
 </script>
+<script type="text/rocketscript">
+    var tl = new Array(
+        "How are u?"
+    );
+
+    var speed = 80;
+    var index = 0; text_pos = 0;
+    var str_length = tl[0].length;
+    var contents, row;
+
+    function type_text()
+    {
+        contents = '';
+        row = Math.max(0, index-7);
+        while (row<index) contents += tl[row++] + '\r\n';
+        document.getElementById("anim_text2").innerHTML= contents + tl[index].substring(0,text_pos) + "_";
+
+        if (text_pos ++== str_length)
+        {
+            text_pos = 0;
+            index++;
+            if (index != tl.length)
+            {
+                str_length = tl[index].length;
+                setTimeout("type_text()", 1500);
+            }
+        } else {
+            setTimeout("type_text()", speed);
+        }
+    }
+</script>
 <body onload="!window.__cfRl||__cfRl.r(function(){type_text()},this)">
 <div class="main">
 <div class="main header">
@@ -72,6 +103,7 @@ window.__cfRocketOptions = {byc:0,p:0,petok:"3e89d049a9ad166c5ccef301b250ddcab3d
 <p>There is NO WARRANTY, to the extent premitted by law.</p>
 <p><span class="domain"><a href="https://vk.com/erridian" >[root@erridian]</span>:</a></span> ~$ <a href="https://twitch.tv/erridian" ">My Twitch</a></p>
 <p><span class="domain"><a href="https://vk.com/erridian" >[root@erridian]</span>:</a></span> ~$ <span id="anim_text"></span></p>
+<p><span class="domain"><a href="https://vk.com/erridian" >[root@erridian]</span>:</a></span> ~$ <span id="anim_text2"></span></p>
 </div>
 </div>
 <script data-cfasync="false" src="cdn-cgi/scripts/d07b1474/cloudflare-static/email-decode.min.js"></script></body>
