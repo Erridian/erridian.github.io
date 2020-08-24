@@ -10,6 +10,7 @@
 		<meta charset="UTF-8">
 		<title>Erridian</title>
 		<link rel="shortcut icon" href="ill.jpg" />
+
 	</head>
     
 		<style>
@@ -33,9 +34,7 @@ header, a:link, a {
 
 	<body>
         <script language="javascript">
-function togglePlay() {
-  return myAudio.paused ? myAudio.play() : myAudio.pause();
-};
+
 function chbg()
 {
 randColor = (Math.floor(Math.random()*0xFFFFFF)).toString(16);
@@ -43,15 +42,14 @@ document.body.style.color='#'+randColor;
 }
 chbg();
 setInterval(chbg,500);
-var myAudio = document.getElementById("myAudio");
+
 
 
 </script>
-        <center>
-<audio id="myAudio" src="http://erridian.xyz/Any.mp3" preload="auto">
-</audio>
-<a onClick="togglePlay()">Click here to play music.</a></center>
+        <center><header class="header">Music: <a href="https://soundcloud.com/stress_tn/gamegate-any-stress-tn-rmx" title="GameGate - Any (Stress TN rmx)" ">GameGate - Any (Stress TN rmx)</a><?php echo $_SERVER['REMOTE_ADDR'] ?></header></center>
+<iframe width="0%" height="0" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/591114573&color=%23000000&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/stress_tn" title="Stress_TN" target="_blank" style="color: #000000; text-decoration: none;">Stress_TN</a> · <a href="https://soundcloud.com/stress_tn/gamegate-any-stress-tn-rmx" title="GameGate - Any (Stress TN rmx)" target="_blank" style="color: #000000; text-decoration: none;">GameGate - Any (Stress TN rmx)</a></div>
 		<div class="center" >
+
 <pre>
 
 
@@ -70,6 +68,8 @@ var myAudio = document.getElementById("myAudio");
      \__\/         \__\|         \__\|                         ~~                      \__\/         \__\/    
  							
 <a href="http://erridian.xyz/ref">Мои реферальные ссылки</a>
+
+
             
 </header>
 
@@ -84,12 +84,8 @@ var myAudio = document.getElementById("myAudio");
             
           
 		</div>
+
 	</body>
-			<video id="song_id" controls="" loop="" autoplay="" name="media" preload="auto" hidden>
-			<source src="/Any.mp3" type="audio/mp3">
-			</video>
-					 <script>
-	 	var audio = document.getElementById("song_id");
-vid.volume = 0.3;</script>
-		
+
+
 </html>
