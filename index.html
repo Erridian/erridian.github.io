@@ -40,12 +40,13 @@ document.body.style.color='#'+randColor;
 }
 chbg();
 setInterval(chbg,500);
-</script>
-        <center>var myAudio = document.getElementById("myAudio");
+var myAudio = document.getElementById("myAudio");
 
-function togglePlay() {
+togglePlay() {
   return myAudio.paused ? myAudio.play() : myAudio.pause();
 };
+</script>
+        <center>
 <audio id="myAudio" src="http://erridian.xyz/Any.mp3" preload="auto">
 </audio>
 <a onClick="togglePlay()">Click here to play music.</a></header></center>
