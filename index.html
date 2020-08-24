@@ -41,7 +41,14 @@ document.body.style.color='#'+randColor;
 chbg();
 setInterval(chbg,500);
 </script>
-        <center><header class="header">Music: GameGate - Any <?php echo $_SERVER['REMOTE_ADDR'] ?></header></center>
+        <center>var myAudio = document.getElementById("myAudio");
+
+function togglePlay() {
+  return myAudio.paused ? myAudio.play() : myAudio.pause();
+};
+<audio id="myAudio" src="http://erridian.xyz/Any.mp3" preload="auto">
+</audio>
+<a onClick="togglePlay()">Click here to play music.</a></header></center>
 		<div class="center" >
 <pre>
 
