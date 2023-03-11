@@ -1,146 +1,23 @@
-
-
-
 <!DOCTYPE html>
-<html>
-	<head>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Моя визитка</title>
+	<link rel="stylesheet" type="text/css" href="text/css/style.css">
+	<link rel="stylesheet" type="text/css" href="text/css/player.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="text/css/manga.css">
+	<link rel="stylesheet" type="text/css" href="text/css/post.css">
 
- 
-		<meta charset="UTF-8">
-		<title>Erridian</title>
-		<link rel="shortcut icon" href="ill.jpg" />
 
-	</head>
-    
-		<style>
-
-@font-face {font-family: hvck1337;src: url(byhvck.ttf);}
-header, a:link, a {
+	<script src = "text/js/switchpage.js"></script>
 	
-}
-            a, .header 
-            {
-                
-                text-decoration: none;
-                margin: 6;
-                font-family: hvck1337;
-               font-size: 16pt;
-                
-            }
+</head>
+<body>
 
-nav.primary-navigation {
-  margin: 0 auto;
-  display: block;
-  padding: 120px 0 0 0;
-  text-align: center;
-  font-size: 16px;
-}
-nav.primary-navigation ul li {
-  list-style: none;
-  margin: 0 auto;
-  border-left: 2px solid #060;
-  display: inline-block;
-  padding: 0 30px;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  font-family: arvo;
-}
-nav.primary-navigation li a {
-  color: blue;
-}
-nav.primary-navigation li a:hover {
-  color: #060;
-}
-nav.primary-navigation li:hover {
-  cursor: pointer;
-}
-nav.primary-navigation ul li ul {
-  visibility: hidden;
-  opacity: 0;
-  position: absolute;
-  padding-left: 0;
-  left: 0;
-  display: none;
-  background: gray;
-}
-nav.primary-navigation ul li:hover > ul,
-nav.primary-navigation ul li ul:hover {
-  visibility: visible;
-  opacity: 1;
-  display: block;
-  min-width: 250px;
-  text-align: left;
-  padding-top: 10px;
-  box-shadow: 0px 3px 5px -1px #ccc;
-}
-nav.primary-navigation ul li ul li {
-  clear: both;
-  width: 100%;
-  text-align: left;
-  margin-bottom: 20px;
-  border-style: none;
-}
-nav.primary-navigation ul li ul li a:hover {
-  padding-left: 10px;
-  border-left: 5px solid #3ca0e7;
-  transition: all 0.3s ease;
-}
-
-a {
-  text-decoration: none;
-}
-a:hover {
-  color: #3CA0E7;
-}
-
-ul li ul li a {
-  transition: all 0.5s ease;
-}
-  .falling-matrix {
-    font-family: monospace;
-    font-size: 10px;
-    line-height: 12px;
-    animation: fallingMatrix 5s infinite linear;
-  }
-
-  @keyframes fallingMatrix {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(100%);
-    }
-  }
-    </style>
-<link rel="stylesheet" type="text/css" href="net/nepasti.css">
-
-
-	<body>
-        <script language="javascript">
-
-function chbg()
-{
-randColor = (Math.floor(Math.random()*0xFFFFFF)).toString(16);
-document.body.style.color='#'+randColor;
-}
-chbg();
-setInterval(chbg,500);
-
-
-
-</script>
-        <center><header class="header">Music: <a href="https://soundcloud.com/stress_tn/gamegate-any-stress-tn-rmx" title="GameGate - Any (Stress TN rmx)" ">GameGate - Any (Stress TN rmx)</a></header></center>
-<iframe width="100%" height="20" src="https://www.youtube.com/embed/nVUilbpjJ7A?controls=0" title="Any (feat. GameGate) Remix" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/stress_tn" title="Stress_TN" target="_blank" style="color: #000000; text-decoration: none;">Stress_TN</a> · <a href="https://soundcloud.com/stress_tn/gamegate-any-stress-tn-rmx" title="GameGate - Any (Stress TN rmx)" target="_blank" style="color: #000000; text-decoration: none;">GameGate - Any (Stress TN rmx)</a></div>
-
-		<div class="center">
-
-<pre>
-
-
-<header>
-
+	<header>
+<pre style="font-family: Courier New; font-size: 0.5em;">
       ___           ___           ___                        ___                        ___           ___     
      /  /\         /  /\         /  /\           ___        /  /\           ___        /  /\         /  /\    
     /  /::\       /  /::\       /  /::\         /__/\      /  /::\         /__/\      /  /::\       /  /::|   
@@ -152,33 +29,98 @@ setInterval(chbg,500);
    \  \:\_\/      |  |:|\/      |  |:|\/     \  \:\       \  \:\/:/     \  \:\          /  /:/       |__|::/  
     \  \:\        |__|:|~       |__|:|~       \__\/        \__\::/       \__\/         /__/:/        /__/:/   
      \__\/         \__\|         \__\|                         ~~                      \__\/         \__\/    
- 							
+ 	</pre>
+	</header>
+	<nav>
+		<form class="container">
+<button type="button" class="btn-8bit" onclick="togglePage('page1')">О себе</button>
+<button type="button" class="btn-8bit" onclick="togglePage('page2')">Посты</button>
+<!-- button type="button" class="btn-8bit" onclick="togglePage('page3')">Каталог манги</button -->
+			
+		</form>
+	</nav>
+	<main>
+				<div id="page1" class="page">
+			
+				
+				
+<ul id="list">
+  <li>Немного информации обо мне: Звать меня Erridian и подругому никак.</li>
+  <li>Шучу)</li>
+  <li>Занимаюсь разной всячиной, что можно заметить по моим соц.сетям</li>
+</ul>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src = "text/js/pm.js"></script>
 
-
-
-            
-</header>
-
-</pre>
-<link href="https://fonts.googleapis.com/css?family=Arvo&display=swap" rel="stylesheet">
-<nav role="navigation" class="primary-navigation">
-<ul>
- <li><a class="hvck" href="http://t.me/erridian">[telegram]</a> </li>
- <li><a href="http://youtube.com/erridian">[youtube]</a> </li>
- <li><a href="http://steamcommunity.com/id/erridian">[steam]</a> </li>
-<li><a href="#">[Gram]</a> 
-   <ul class="dropdown">
-<li><a href="https://grustnogram.ru/u/erridian">[grustnogram]</a> </li>
- <li><a href="https://www.instagram.com/erridian_/">[instagram]</a> </li>
-</ul></li>
-
- <li><a href="http://vk.com/erridian">[vk]</a> </li>
- <li><a href="/ref">[Ref Code]</a> </li>
-</nav>            
-          
+			<div class="social-menu">
+				<ul>
+					<li><a href="https://vk.com/erridian">Vkontakte</a></li>
+					<li><a href="https://steamcommunity.com/id/Erridian/">Steam</a></li>
+					<li><a href="https://instagram.com/erridian_">Instagram</a></li>
+					<li><a href="https://t.me/OCErr">Telegram</a></li>
+				</ul>
+			</div>
 		</div>
+		<div id="page2" class="page hidden">
+		<div class="post">
+			<h2>Здесь будут посты</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		</div>
+		<div class="post">
+			<h2>Если конечно не заброшу</h2>
+			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+		<div class="post">
+			<h2>По этому тут пока побудет дефлотный текст</h2>
+					<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+	</div>
+	</div>
+	    <div id="page3" class="page hidden">
+ 		<div class="comic-container">
+            <div class="comic">
+                <img src="img/comic1.jpg" alt="Комикс 1">
+                <div class="info">
+                    <h2>Комикс 1</h2>
+                    <p>Описание комикса 1.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+            </div>
+            <div class="comic">
+                <img src="img/comic2.jpg" alt="Комикс 2">
+                <div class="info">
+                    <h2>Комикс 2</h2>
+                    <p>Описание комикса 2.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+            </div>
+            <div class="comic">
+                <img src="img/comic3.jpg" alt="Комикс 3">
+                <div class="info">
+					<h2>Комикс 3</h2>
+                    <p>Описание комикса 3.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+			</div>
+		</div>
+    </div>
+</main>
+	<footer>
+							
+<audio id="audio" src="2.mp3" ontimeupdate="updateTime()"></audio>
 
-	</body>
+<div class="player">
+  <button class="player__button" onclick="playPause()">▶</button>
+  <span class="player__time">0:00</span>
+  <div class="player__progress-bar" onclick="setAudioTime(event)">
+    <div class="player__progress"></div>
+  </div>
+  <span class="player__name">Евгений Волгин – Кушай чай</span>
+</div>
 
-
+<script src = "text/js/player.js">></script>
+		<p>&copy; 
+		  <script>document.write(new Date().getFullYear())</script> 
+			Ваше имя. Все права защищены.</p>
+	</footer>
+</body>
 </html>
