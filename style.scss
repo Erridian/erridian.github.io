@@ -13,274 +13,640 @@
 /* BASE RULES */
 /**************/
 
-html {
-  font-size: 100%;
+.player {
+		position: relative;
+ 		display: flex;
+ 		align-items: center;
+  		background-color: #2b2b2b;
+  		border: 2.5px solid #000;
+  		border-radius: 50px;
+  		padding: 8px;
+  		box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+		}
+
+		.player__button {
+  		display: flex;
+  		align-items: center;
+  		justify-content: center;
+  		background-color: #fcd12a;
+  		border: 2px solid #000;
+  		border-radius: 50%;
+  		width: 40px;
+  		height: 40px;
+  		margin-right: 8px;
+  		font-size: 16px;
+  		line-height: 0;
+  		box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+		}
+
+.player__button:hover {
+  background-color: #fff;
+  color: #2b2b2b;
 }
 
-body {
-	background: $white;
-  font: 18px/1.4 $helvetica;
-  color: $darkGray;
+.player__time {
+  font-size: 14px;
+  color: #fcd12a;
+  margin-right: 8px;
 }
 
-.container {
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 0 10px;
+.player__progress-bar {
   width: 100%;
+  height: 4px;
+  background-color: #000;
+  position: relative;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: $helveticaNeue;
-  color: $darkerGray;
-  font-weight: bold;
+.player__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #fcd12a;
+  width: 50%;
+  border-radius: 2px;
+}
 
-  line-height: 1.7;
-  margin: 1em 0 15px;
-  padding: 0;
+.player__progress::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: #fcd12a;
+  border-radius: 50%;
+  position: absolute;
+  top: -2px;
+  left: 100%;
+  margin-left: -4px;
+}
 
-  @include mobile {
-    line-height: 1.4;
-  }
+.player__progress-bar:hover .player__progress {
+  opacity: ;
+}
+
+.player__name {
+position: absolute;
+top: 0;
+left: 50%;
+ font-size: 13px;
+  transform: translateX(-50%);
+}
+
+.player__name:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+#list {
+  display: none;
+}
+		.post {
+			background-color: #6C3A98;
+			border-radius: 5px;
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+		.post h2 {
+			font-size: 2em;
+			margin-top: 0;
+			margin-bottom: 10px;
+		}
+		.post p {
+			margin: 0;
+			font-size: 1.2em;
+			line-height: 1.5;
+		}
+		form {
+			position: relative;
+		}
+		* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+header {
+	background-color: #1a1a1a;
+	color: #fff;
+	padding: 10px;
 }
 
 h1 {
-  font-size: 30px;
-  a {
-    color: inherit;
-  }
+	font-size: 36px;
+	font-family: 'Press Start 2P', sans-serif;
+	text-align: center;
 }
 
-h2 {
-  font-size: 24px;
+main {
+	padding: 20px;
 }
 
-h3 {
-  font-size: 20px;
+.comic-container {
+	display: flex;
+	flex-wrap: wrap;
 }
 
-h4 {
-  font-size: 18px;
-  color: $gray;
+.comic {
+	flex: 1 1 300px;
+	margin: 10px;
+	background-color: #fff;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-p {
-  margin: 15px 0;
+.comic img {
+	max-width: 100%;
+	height: auto;
 }
 
-a {
-  color: $blue;
-  text-decoration: none;
-	cursor: pointer;
-  &:hover, &:active {
-    color: $blue;
-  }
+.info {
+	padding: 10px;
 }
 
-ul, ol {
-  margin: 15px 0;
-  padding-left: 30px;
+.info h2 {
+	font-size: 24px;
+	margin-bottom: 10px;
 }
 
-ul {
-  list-style-type: disc;
+.info p {
+	margin-bottom: 10px;
 }
 
-ol {
-  list-style-type: decimal;
+.chapters {
+	margin-top: 20px;
 }
 
-ol ul, ul ol, ul ul, ol ol {
-  margin: 0;
+.chapters ul {
+	list-style: none;
+	padding: 0;
 }
 
-ul ul, ol ul {
-  list-style-type: circle;
+.chapters ul li {
+	margin-bottom: 10px;
 }
 
-em, i {
-  font-style: italic;
+.chapters ul li a {
+	display: inline-block;
+	padding: 5px 10px;
+	background-color: #1a1a1a;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
 }
 
-strong, b {
-  font-weight: bold;
+.chapters ul li a:hover {
+	background-color: #333;
 }
 
-img {
-  max-width: 100%;
+.gallery-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: none;
+	z-index
 }
 
-// Fixes images in popup boxes from Google Translate
-.gmnoprint img {
-  max-width: none;
+html {
+			height: 100%;
+		}
+		body {
+			display: flex;
+			flex-direction: column;
+			min-height: 100%;
+			background-color: #000;
+			color: #fff;
+			font-family: 'Press Start 2P', cursive;
+		}
+		header {
+			background-image: linear-gradient(to right, #6C3A98, #36D1DC);
+			padding: 10px;
+			text-align: center;
+		}
+		main {
+			flex: 1;
+			padding: 20px;
+		}
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			margin-bottom: 10px;
+		}
+
+.social-menu {
+position: relative;
+bottom: 0;
+left: 0;
+right: 0;
+margin: 0 auto;
+width: fit-content;
+display: flex;
+justify-content: center;
+margin-top: 20px;
+}
+		.social-menu li {
+			margin: 0 10px;
+		}
+		.social-menu a {
+			color: #fff;
+			text-decoration: none;
+			font-size: 1.5em;
+			font-size: calc(1.5em - 1px);
+			transition: font-size 0.2s ease-in-out;
+		}
+		.social-menu a:hover {
+			color: #6C3A98;
+			font-size: 1.5em;
+		}
+		footer {
+			background-image: linear-gradient(to right, #6C3A98, #36D1DC);
+			padding: 10px;
+			text-align: center;
+		}
+		.hidden {
+			display: none;
+		}
+		.btn-8bit {
+		font-family: 'Press Start 2P';
+		background-color: #000;
+		border: none;
+		color: #fff;
+		font-size: 1.25em;
+		padding: 10px 20px;
+		border-radius: 5px;
+		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+		text-align: center;
+		}
+
+		.btn-8bit:hover {
+		background-color: #666;
+		cursor: pointer;
+		
+		}
+		.container {
+		text-align: center;
+		}
+		.tree {
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
-.date {
-  font-style: italic;
-  color: $gray;
+.tree > li {
+	margin: 0;
+	padding: 0;
+	line-height: 1.5em;
+	position: relative;
 }
 
-// Specify the color of the selection
-::-moz-selection {
-  color: $black;
-  background: $lightGray;
-}
-::selection {
-  color: $black;
-  background: $lightGray;
+.tree li ul {
+	margin-top: 0.5em;
+	padding-left: 1em;
 }
 
-// Nicolas Gallagher's micro clearfix hack
-// http://nicolasgallagher.com/micro-clearfix-hack/
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
+.tree li:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: -0.5em;
+	border-left: 1px solid #ccc;
 }
 
-.clearfix:after {
-    clear: both;
+.tree li:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: -0.5em;
+	border-left: 1px solid #ccc;
 }
 
-/*********************/
-/* LAYOUT / SECTIONS */
-/*********************/
-
-//
-// .masthead
-//
-
-.wrapper-masthead {
-  margin-bottom: 50px;
+.tree li:last-child:before {
+	height: 1.5em;
 }
 
-.masthead {
-  padding: 20px 0;
-  border-bottom: 1px solid $lightGray;
-
-  @include mobile {
-    text-align: center;
-  }
+.tree li > ul:before {
+	content: "";
+	position: absolute;
+	top: 0.5em;
+	left: -0.5em;
+	width: 1em;
+	height: 0;
+	border-top: 1px solid #ccc;
 }
 
-.site-avatar {
-  float: left;
-  width: 70px;
-  height: 70px;
-  margin-right: 15px;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
-
-  img {
-    border-radius: 5px;
-  }
+.tree li > ul:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: -0.5em;
+	width: 1em;
+	height: 0;
+	border-bottom: 1px solid #ccc;
 }
 
-.site-info {
-  float: left;
-
-  @include mobile {
-    float: none;
-    display: block;
-    margin: 0 auto;
-  }
+.tree li > ul > li {
+	position: relative;
 }
 
-.site-name {
-  margin: 0;
-  color: $darkGray;
+.tree li > ul > li:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -0.5em;
+	width: 1em;
+	height: 1px;
+	border-top: 1px solid #ccc;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Position the image container (needed to position the left and right arrows) */
+.container {
+  position: relative;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
   cursor: pointer;
-  font-family: $helveticaNeue;
-  font-weight: 300;
-  font-size: 28px;
-  letter-spacing: 1px;
 }
 
-.site-description {
-  margin: -5px 0 0 0;
-  color: $gray;
-  font-size: 16px;
-
-  @include mobile {
-    margin: 3px 0;
-  }
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-nav {
-  float: right;
-  margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue;
-  font-size: 18px;
-
-  @include mobile {
-    float: none;
-    margin-top: 9px;
-    display: block;
-    font-size: 16px;
-  }
-
-  a {
-    margin-left: 20px;
-    color: $darkGray;
-    text-align: right;
-    font-weight: 300;
-    letter-spacing: 1px;
-
-    @include mobile {
-      margin: 0 10px;
-      color: $blue;
-    }
-  }
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
 }
 
-//
-// .main
-//
-
-.posts > .post {
-  padding-bottom: 2em;
-  border-bottom: 1px solid $lightGray;
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.posts > .post:last-child {
-  padding-bottom: 1em;
-  border-bottom: none;
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
 }
 
-.post {
-  blockquote {
-    margin: 1.8em .8em;
-    border-left: 2px solid $gray;
-    padding: 0.1em 1em;
-    color: $gray;
-    font-size: 22px;
-    font-style: italic;
-  }
-
-  .comments {
-    margin-top: 10px;
-  }
-
-  .read-more {
-    text-transform: uppercase;
-    font-size: 15px;
-  }
-}
-
-.wrapper-footer {
-  margin-top: 50px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
-}
-
-footer {
-  padding: 20px 0;
+/* Container for image text */
+.caption-container {
   text-align: center;
+  background-color: #222;
+  padding: 2px 16px;
+  color: white;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* Position the image container (needed to position the left and right arrows) */
+.container {
+  position: relative;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* Container for image text */
+.caption-container {
+  text-align: center;
+  background-color: #222;
+  padding: 2px 16px;
+  color: white;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+        .comic-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 0 auto;
+            max-width: 1000px;
+        }
+
+        .comic {
+            width: 300px;
+            margin: 10px;
+            background-color: #BBB;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.3s ease-in-out;
+            overflow: hidden;
+        }
+
+        .comic:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .comic img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .comic .info {
+            padding: 10px;
+        }
+
+        .comic h2 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+
+        .comic p {
+            font-size: 14px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .comic a {
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .comic a:hover {
+            background-color: #f8f8f8;
+        }
+			nav.primary-navigation {
+  margin: 0 auto;
+  display: block;
+  padding: 120px 0 0 0;
+  text-align: center;
+  font-size: 11px;
+}
+nav.primary-navigation ul li {
+  list-style: none;
+  margin: 0 auto;
+  border-left: 2px solid #060;
+  display: inline-block;
+  padding: 0 30px;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+}
+
+nav.primary-navigation li a:hover {
+  color: blue;
+}
+nav.primary-navigation li:hover {
+  cursor: pointer;
+}
+nav.primary-navigation ul li ul {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  padding-left: 0;
+  left: 0;
+  display: none;
+  background: gray;
+}
+nav.primary-navigation ul li:hover > ul,
+nav.primary-navigation ul li ul:hover {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+  min-width: 250px;
+  text-align: left;
+  padding-top: 10px;
+  box-shadow: 0px 3px 5px -1px #ccc;
+}
+nav.primary-navigation ul li ul li {
+  clear: both;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 20px;
+  border-style: none;
+}
+nav.primary-navigation ul li ul li a:hover {
+  padding-left: 10px;
+  border-left: 5px solid #3ca0e7;
+  transition: all 0.3s ease;
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS

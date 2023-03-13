@@ -1,635 +1,84 @@
-.player {
-		position: relative;
- 		display: flex;
- 		align-items: center;
-  		background-color: #2b2b2b;
-  		border: 2.5px solid #000;
-  		border-radius: 50px;
-  		padding: 8px;
-  		box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
-		}
 
-		.player__button {
-  		display: flex;
-  		align-items: center;
-  		justify-content: center;
-  		background-color: #fcd12a;
-  		border: 2px solid #000;
-  		border-radius: 50%;
-  		width: 40px;
-  		height: 40px;
-  		margin-right: 8px;
-  		font-size: 16px;
-  		line-height: 0;
-  		box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-		}
-
-.player__button:hover {
-  background-color: #fff;
-  color: #2b2b2b;
-}
-
-.player__time {
-  font-size: 14px;
-  color: #fcd12a;
-  margin-right: 8px;
-}
-
-.player__progress-bar {
-  width: 100%;
-  height: 4px;
-  background-color: #000;
-  position: relative;
-}
-
-.player__progress {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  background-color: #fcd12a;
-  width: 50%;
-  border-radius: 2px;
-}
-
-.player__progress::before {
-  content: "";
-  display: block;
-  width: 8px;
-  height: 8px;
-  background-color: #fcd12a;
-  border-radius: 50%;
-  position: absolute;
-  top: -2px;
-  left: 100%;
-  margin-left: -4px;
-}
-
-.player__progress-bar:hover .player__progress {
-  opacity: ;
-}
-
-.player__name {
-position: absolute;
-top: 0;
-left: 50%;
- font-size: 13px;
-  transform: translateX(-50%);
-}
-
-.player__name:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-#list {
-  display: none;
-}
-		.post {
-			background-color: #6C3A98;
-			border-radius: 5px;
-			padding: 20px;
-			margin-bottom: 20px;
-		}
-		.post h2 {
-			font-size: 2em;
-			margin-top: 0;
-			margin-bottom: 10px;
-		}
-		.post p {
-			margin: 0;
-			font-size: 1.2em;
-			line-height: 1.5;
-		}
-		form {
-			position: relative;
-		}
-		* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
-header {
-	background-color: #1a1a1a;
-	color: #fff;
-	padding: 10px;
-}
-
-h1 {
-	font-size: 36px;
-	font-family: 'Press Start 2P', sans-serif;
-	text-align: center;
-}
-
-main {
-	padding: 20px;
-}
-
-.comic-container {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.comic {
-	flex: 1 1 300px;
-	margin: 10px;
-	background-color: #fff;
-	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.comic img {
-	max-width: 100%;
-	height: auto;
-}
-
-.info {
-	padding: 10px;
-}
-
-.info h2 {
-	font-size: 24px;
-	margin-bottom: 10px;
-}
-
-.info p {
-	margin-bottom: 10px;
-}
-
-.chapters {
-	margin-top: 20px;
-}
-
-.chapters ul {
-	list-style: none;
-	padding: 0;
-}
-
-.chapters ul li {
-	margin-bottom: 10px;
-}
-
-.chapters ul li a {
-	display: inline-block;
-	padding: 5px 10px;
-	background-color: #1a1a1a;
-	color: #fff;
-	text-decoration: none;
-	border-radius: 5px;
-}
-
-.chapters ul li a:hover {
-	background-color: #333;
-}
-
-.gallery-container {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.8);
-	display: none;
-	z-index
-}
-
-html {
-			height: 100%;
-		}
-		body {
-			display: flex;
-			flex-direction: column;
-			min-height: 100%;
-			background-color: #000;
-			color: #fff;
-			font-family: 'Press Start 2P', cursive;
-		}
-		header {
-			background-image: linear-gradient(to right, #6C3A98, #36D1DC);
-			padding: 10px;
-			text-align: center;
-		}
-		main {
-			flex: 1;
-			padding: 20px;
-		}
-		ul {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-		}
-		li {
-			margin-bottom: 10px;
-		}
-
-.social-menu {
-position: relative;
-bottom: 0;
-left: 0;
-right: 0;
-margin: 0 auto;
-width: fit-content;
-display: flex;
-justify-content: center;
-margin-top: 20px;
-}
-		.social-menu li {
-			margin: 0 10px;
-		}
-		.social-menu a {
-			color: #fff;
-			text-decoration: none;
-			font-size: 1.5em;
-			font-size: calc(1.5em - 1px);
-			transition: font-size 0.2s ease-in-out;
-		}
-		.social-menu a:hover {
-			color: #6C3A98;
-			font-size: 1.5em;
-		}
-		footer {
-			background-image: linear-gradient(to right, #6C3A98, #36D1DC);
-			padding: 10px;
-			text-align: center;
-		}
-		.hidden {
-			display: none;
-		}
-		.btn-8bit {
-		font-family: 'Press Start 2P';
-		background-color: #000;
-		border: none;
-		color: #fff;
-		font-size: 1.25em;
-		padding: 10px 20px;
-		border-radius: 5px;
-		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-		text-align: center;
-		}
-
-		.btn-8bit:hover {
-		background-color: #666;
-		cursor: pointer;
-		
-		}
-		.container {
-		text-align: center;
-		}
-		.tree {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.tree > li {
-	margin: 0;
-	padding: 0;
-	line-height: 1.5em;
-	position: relative;
-}
-
-.tree li ul {
-	margin-top: 0.5em;
-	padding-left: 1em;
-}
-
-.tree li:before {
-	content: "";
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: -0.5em;
-	border-left: 1px solid #ccc;
-}
-
-.tree li:after {
-	content: "";
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: -0.5em;
-	border-left: 1px solid #ccc;
-}
-
-.tree li:last-child:before {
-	height: 1.5em;
-}
-
-.tree li > ul:before {
-	content: "";
-	position: absolute;
-	top: 0.5em;
-	left: -0.5em;
-	width: 1em;
-	height: 0;
-	border-top: 1px solid #ccc;
-}
-
-.tree li > ul:after {
-	content: "";
-	position: absolute;
-	bottom: 0;
-	left: -0.5em;
-	width: 1em;
-	height: 0;
-	border-bottom: 1px solid #ccc;
-}
-
-.tree li > ul > li {
-	position: relative;
-}
-
-.tree li > ul > li:before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: -0.5em;
-	width: 1em;
-	height: 1px;
-	border-top: 1px solid #ccc;
-}
-* {
-  box-sizing: border-box;
-}
-
-/* Position the image container (needed to position the left and right arrows) */
-.container {
-  position: relative;
-}
-
-/* Hide the images by default */
-.mySlides {
-  display: none;
-}
-
-/* Add a pointer when hovering over the thumbnail images */
-.cursor {
-  cursor: pointer;
-}
-
-/* Next & previous buttons */
-.prev,
-.next {
-  cursor: pointer;
-  position: absolute;
-  top: 40%;
-  width: auto;
-  padding: 16px;
-  margin-top: -50px;
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover,
-.next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
-/* Container for image text */
-.caption-container {
-  text-align: center;
-  background-color: #222;
-  padding: 2px 16px;
-  color: white;
-}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Six columns side by side */
-.column {
-  float: left;
-  width: 16.66%;
-}
-
-/* Add a transparency effect for thumnbail images */
-.demo {
-  opacity: 0.6;
-}
-
-.active,
-.demo:hover {
-  opacity: 1;
-}
-* {
-  box-sizing: border-box;
-}
-
-/* Position the image container (needed to position the left and right arrows) */
-.container {
-  position: relative;
-}
-
-/* Hide the images by default */
-.mySlides {
-  display: none;
-}
-
-/* Add a pointer when hovering over the thumbnail images */
-.cursor {
-  cursor: pointer;
-}
-
-/* Next & previous buttons */
-.prev,
-.next {
-  cursor: pointer;
-  position: absolute;
-  top: 40%;
-  width: auto;
-  padding: 16px;
-  margin-top: -50px;
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover,
-.next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
-/* Container for image text */
-.caption-container {
-  text-align: center;
-  background-color: #222;
-  padding: 2px 16px;
-  color: white;
-}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Six columns side by side */
-.column {
-  float: left;
-  width: 16.66%;
-}
-
-/* Add a transparency effect for thumnbail images */
-.demo {
-  opacity: 0.6;
-}
-
-.active,
-.demo:hover {
-  opacity: 1;
-}
-        .comic-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin: 0 auto;
-            max-width: 1000px;
-        }
-
-        .comic {
-            width: 300px;
-            margin: 10px;
-            background-color: #BBB;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-            transition: box-shadow 0.3s ease-in-out;
-            overflow: hidden;
-        }
-
-        .comic:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .comic img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .comic .info {
-            padding: 10px;
-        }
-
-        .comic h2 {
-            font-size: 20px;
-            margin-top: 0;
-        }
-
-        .comic p {
-            font-size: 14px;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .comic a {
-            color: #333;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: #fff;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .comic a:hover {
-            background-color: #f8f8f8;
-        }
-			nav.primary-navigation {
-  margin: 0 auto;
-  display: block;
-  padding: 120px 0 0 0;
-  text-align: center;
-  font-size: 11px;
-}
-nav.primary-navigation ul li {
-  list-style: none;
-  margin: 0 auto;
-  border-left: 2px solid #060;
-  display: inline-block;
-  padding: 0 30px;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-}
-
-nav.primary-navigation li a:hover {
-  color: blue;
-}
-nav.primary-navigation li:hover {
-  cursor: pointer;
-}
-nav.primary-navigation ul li ul {
-  visibility: hidden;
-  opacity: 0;
-  position: absolute;
-  padding-left: 0;
-  left: 0;
-  display: none;
-  background: gray;
-}
-nav.primary-navigation ul li:hover > ul,
-nav.primary-navigation ul li ul:hover {
-  visibility: visible;
-  opacity: 1;
-  display: block;
-  min-width: 250px;
-  text-align: left;
-  padding-top: 10px;
-  box-shadow: 0px 3px 5px -1px #ccc;
-}
-nav.primary-navigation ul li ul li {
-  clear: both;
-  width: 100%;
-  text-align: left;
-  margin-bottom: 20px;
-  border-style: none;
-}
-nav.primary-navigation ul li ul li a:hover {
-  padding-left: 10px;
-  border-left: 5px solid #3ca0e7;
-  transition: all 0.3s ease;
-}
+.highlight {
+  background-color: #efefef;
+  padding: 7px 7px 7px 10px;
+  border: 1px solid #ddd;
+  -moz-box-shadow: 3px 3px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 3px 3px rgba(0,0,0,0.1);
+  box-shadow: 3px 3px rgba(0,0,0,0.1);
+  margin: 20px 0 20px 0;
+  overflow: scroll;
+}
+
+code {
+  font-family:'Bitstream Vera Sans Mono','Courier', monospace;
+}
+
+.highlight .c { color: #586E75 } /* Comment */
+.highlight .err { color: #93A1A1 } /* Error */
+.highlight .g { color: #93A1A1 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #93A1A1 } /* Literal */
+.highlight .n { color: #93A1A1 } /* Name */
+.highlight .o { color: #859900 } /* Operator */
+.highlight .x { color: #CB4B16 } /* Other */
+.highlight .p { color: #93A1A1 } /* Punctuation */
+.highlight .cm { color: #586E75 } /* Comment.Multiline */
+.highlight .cp { color: #859900 } /* Comment.Preproc */
+.highlight .c1 { color: #586E75 } /* Comment.Single */
+.highlight .cs { color: #859900 } /* Comment.Special */
+.highlight .gd { color: #2AA198 } /* Generic.Deleted */
+.highlight .ge { color: #93A1A1; font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #CB4B16 } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #93A1A1 } /* Generic.Output */
+.highlight .gp { color: #93A1A1 } /* Generic.Prompt */
+.highlight .gs { color: #93A1A1; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #CB4B16 } /* Generic.Subheading */
+.highlight .gt { color: #93A1A1 } /* Generic.Traceback */
+.highlight .kc { color: #CB4B16 } /* Keyword.Constant */
+.highlight .kd { color: #268BD2 } /* Keyword.Declaration */
+.highlight .kn { color: #859900 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #268BD2 } /* Keyword.Reserved */
+.highlight .kt { color: #DC322F } /* Keyword.Type */
+.highlight .ld { color: #93A1A1 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #93A1A1 } /* Name.Attribute */
+.highlight .nb { color: #B58900 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #CB4B16 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #CB4B16 } /* Name.Entity */
+.highlight .ne { color: #CB4B16 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #93A1A1 } /* Name.Label */
+.highlight .nn { color: #93A1A1 } /* Name.Namespace */
+.highlight .nx { color: #555 } /* Name.Other */
+.highlight .py { color: #93A1A1 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .w { color: #93A1A1 } /* Text.Whitespace */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sb { color: #586E75 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .sd { color: #93A1A1 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #CB4B16 } /* Literal.String.Escape */
+.highlight .sh { color: #93A1A1 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #DC322F } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
