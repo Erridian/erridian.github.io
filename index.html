@@ -1,18 +1,138 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Erridian</title>
 
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
+	<link rel="stylesheet" type="text/css" href="text/css/style.css">
+	<link rel="stylesheet" type="text/css" href="text/css/player.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="text/css/manga.css">
+	<link rel="stylesheet" type="text/css" href="text/css/post.css">
+	<link rel="stylesheet" type="text/css" href="text/css/nav.css">
 
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
 
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
+	<script src = "text/js/switchpage.js"></script>
+	<script src = "text/js/eggs.js"></script>
+	
+</head>
+<body>
 
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-    </article>
-  {% endfor %}
+	<header>
+<pre style="font-family: Courier New; font-size: 0.5em;">
+      ___           ___           ___                        ___                        ___           ___     
+     /  /\         /  /\         /  /\           ___        /  /\           ___        /  /\         /  /\    
+    /  /::\       /  /::\       /  /::\         /__/\      /  /::\         /__/\      /  /::\       /  /::|   
+   /  /:/\:\     /  /:/\:\     /  /:/\:\        \__\:\    /  /:/\:\        \__\:\    /  /:/\:\     /  /:|:|   
+  /  /::\ \:\   /  /::\ \:\   /  /::\ \:\       /  /::\  /  /:/  \:\       /  /::\  /  /::\ \:\   /  /:/|:|__ 
+ /__/:/\:\ \:\ /__/:/\:\_\:\ /__/:/\:\_\:\   __/  /:/\/ /__/:/ \__\:|   __/  /:/\/ /__/:/\:\_\:\ /__/:/ |:| /\
+ \  \:\ \:\_\/ \__\/~|::\/:/ \__\/~|::\/:/  /__/\/:/~~  \  \:\ /  /:/  /__/\/:/~~  \__\/  \:\/:/ \__\/  |:|/:/
+  \  \:\ \:\      |  |:|::/     |  |:|::/   \  \::/      \  \:\  /:/   \  \::/          \__\::/      |  |:/:/ 
+   \  \:\_\/      |  |:|\/      |  |:|\/     \  \:\       \  \:\/:/     \  \:\          /  /:/       |__|::/  
+    \  \:\        |__|:|~       |__|:|~       \__\/        \__\::/       \__\/         /__/:/        /__/:/   
+     \__\/         \__\|         \__\|                         ~~                      \__\/         \__\/    
+ 	</pre>
+	</header>
+	<nav>
+		<form class="container">
+<button type="button" class="btn-8bit" onclick="togglePage('page1')">О себе</button>
+<button type="button" class="btn-8bit" onclick="togglePage('page2')">Посты</button>
+<!-- button type="button" class="btn-8bit" onclick="togglePage('page3')">Каталог манги</button -->
+			
+		</form>
+	</nav>
+	<main>
+				<div id="page1" class="page">
+			
+				
+				
+<ul id="list">
+  <li>Немного информации обо мне: Звать меня Erridian и подругому никак.</li>
+  <li>Шучу)</li>
+  <li>Занимаюсь разной всячиной, что можно заметить по моим соц.сетям</li>
+</ul>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src = "text/js/pm.js"></script>
+
+			<div class="social-menu">
+			<nav role="navigation" class="primary-navigation">
+<ul>
+ <li><a class="hvck" href="http://t.me/erridian">[telegram]</a> </li>
+ <li><a href="http://youtube.com/erridian">[youtube]</a> </li>
+ <li><a href="http://steamcommunity.com/id/erridian">[steam]</a> </li>
+<li><a href="#">[Gram]</a> 
+   <ul class="dropdown">
+<li><a href="https://grustnogram.ru/u/erridian">[grustnogram]</a> </li>
+ <li><a href="https://www.instagram.com/erridian_/">[instagram]</a> </li>
+</ul></li>
+
+ <li><a href="http://vk.com/erridian">[vk]</a> </li>
+ <li><a href="/ref">[Ref Code]</a> </li>
+</nav>  
+			
+			</div>
+		</div>
+		<div id="page2" class="page hidden">
+		<div class="post">
+			<h2>Здесь будут посты</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		</div>
+		<div class="post">
+			<h2>Если конечно не заброшу</h2>
+			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+		<div class="post">
+			<h2>По этому тут пока побудет дефлотный текст</h2>
+					<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+	</div>
+	</div>
+	    <div id="page3" class="page hidden">
+ 		<div class="comic-container">
+            <div class="comic">
+                <img src="img/comic1.jpg" alt="Комикс 1">
+                <div class="info">
+                    <h2>Комикс 1</h2>
+                    <p>Описание комикса 1.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+            </div>
+            <div class="comic">
+                <img src="img/comic2.jpg" alt="Комикс 2">
+                <div class="info">
+                    <h2>Комикс 2</h2>
+                    <p>Описание комикса 2.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+            </div>
+            <div class="comic">
+                <img src="img/comic3.jpg" alt="Комикс 3">
+                <div class="info">
+					<h2>Комикс 3</h2>
+                    <p>Описание комикса 3.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+			</div>
+		</div>
+    </div>
+</main>
+	<footer>
+							
+<audio id="audio" src="2.mp3" ontimeupdate="updateTime()"></audio>
+
+<div class="player">
+  <button class="player__button" onclick="playPause()">▶</button>
+  <span class="player__time">0:00</span>
+  <div class="player__progress-bar" onclick="setAudioTime(event)">
+    <div class="player__progress"></div>
+  </div>
+  <span class="player__name">Евгений Волгин – Кушай чай</span>
 </div>
+
+<script src = "text/js/player.js">></script>
+		<p>&copy; 
+		  <script>document.write(new Date().getFullYear())</script> 
+			Erridian. Все права защищены.</p>
+	</footer>
+</body>
+</html>
