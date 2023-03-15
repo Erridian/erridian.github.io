@@ -77,37 +77,31 @@
 		</div>
 
 		<div id="page2" class="page hidden">
-<ul id="posts"></ul>
+  <div id="posts"></div>
 
-    <script>
-      const postDirectory = 'posts.json';
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const postDirectory = '/posts/'; // путь к директории с постами
+    const postContainer = document.querySelector('#posts');
 
-      fetch(postDirectory)
-        .then(response => response.json())
-        .then(data => {
-          const postFiles = data.files.filter(file => file.endsWith('.txt')); // получаем список файлов постов
+    fetch(postDirectory)
+      .then(response => response.text())
+      .then(data => {
+        const postFiles = data
+          .split('\n')
+          .filter(file => file.endsWith('.md'))
+          .map(file => file.replace(/^\.\//, '')); // получаем список файлов постов
 
-          postFiles.forEach(file => {
-            const postElem = document.createElement('li');
-
-            fetch(file)
-              .then(response => response.text())
-              .then(text => {
-                const title = text.split('\n')[0]; // первая строка файла содержит заголовок
-                postElem.innerHTML = `<a href="${file}">${title}</a>`;
-              })
-              .catch(err => {
-                console.error(`Не удалось загрузить файл ${file}`, err);
-              });
-
-            const postsElem = document.getElementById('posts');
-            postsElem.appendChild(postElem);
-          });
-        })
-        .catch(err => {
-          console.error('Не удалось загрузить список файлов постов', err);
+        postFiles.forEach(file => {
+          fetch(file)
+            .then(response => response.text())
+            .then(markdown => {
+              const postHTML = marked(markdown); // преобразуем Markdown в HTML
+              postContainer.innerHTML += postHTML; // добавляем пост на страницу
+            });
         });
-    </script>
+      });
+  </script>
 	</div>
 
 	    <div id="page3" class="page hidden">
