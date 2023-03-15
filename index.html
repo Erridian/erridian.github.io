@@ -49,7 +49,7 @@
 				
 				
 <ul id="list">
-  <li>Немного информации обо мне: Звать меня Erridian и подругому никак.</li>
+  <li>Не1много информации обо мне: Звать меня Erridian и подругому никак.</li>
   <li>Шучу)</li>
   <li>Занимаюсь разной всячиной, что можно заметить по моим соц.сетям</li>
 </ul>
@@ -75,59 +75,30 @@
 			</div>
 		</div>
 		<div id="page2" class="page hidden">
-     <div id="posts"></div>
+   <div id="posts"></div>
 
-    <script>
-      // Путь к директории с файлами markdown на сервере
-      const postsDir = 'posts/';
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const postDirectory = '/posts/'; // путь к директории с постами
+    const postContainer = document.querySelector('#posts');
 
-      // Создаем экземпляр Showdown.js
-      const converter = new showdown.Converter();
+    fetch(postDirectory)
+      .then(response => response.text())
+      .then(data => {
+        const postFiles = data
+          .split('\n')
+          .filter(file => file.endsWith('.md'))
+          .map(file => file.replace(/^\.\//, '')); // получаем список файлов постов
 
-      // Функция для загрузки файла с сервера
-      const getFile = (path) => {
-        return new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-              if (xhr.status === 200) {
-                resolve(xhr.responseText);
-              } else {
-                reject(`Error loading ${path}: ${xhr.status}`);
-              }
-            }
-          };
-          xhr.open('GET', path, true);
-          xhr.send(null);
+        postFiles.forEach(file => {
+          fetch(file)
+            .then(response => response.text())
+            .then(markdown => {
+              const postHTML = marked(markdown); // преобразуем Markdown в HTML
+              postContainer.innerHTML += postHTML; // добавляем пост на страницу
+            });
         });
-      };
-
-      // Функция для загрузки и отображения поста
-      const loadPost = async (filename) => {
-        try {
-          // Загружаем содержимое файла
-          const markdown = await getFile(postsDir + filename);
-
-          // Конвертируем markdown в HTML
-          const html = converter.makeHtml(markdown);
-
-          // Создаем элемент для отображения поста
-          const postElem = document.createElement('div');
-          postElem.innerHTML = html;
-
-          // Добавляем элемент на страницу
-          const postsElem = document.getElementById('posts');
-          postsElem.appendChild(postElem);
-        } catch (err) {
-          console.error(err);
-        }
-      };
-
-      // Список файлов, которые нужно загрузить
-      const filenames = ['post1.md', 'post2.md', 'post3.md'];
-
-      // Загружаем и отображаем все посты
-      filenames.forEach(loadPost);
+      });
     </script>
 	    <div id="page3" class="page hidden">
  		<div class="comic-container">
