@@ -101,6 +101,13 @@
             });
         });
       });
+	  fetch(file)
+  .then(response => response.text())
+  .then(markdown => {
+    const postHTML = marked(markdown);
+    console.log(postHTML); // отладочный вывод
+    postContainer.innerHTML += postHTML;
+  });
   </script>
 	</div>
 
