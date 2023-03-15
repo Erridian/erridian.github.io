@@ -90,7 +90,7 @@
         const postFiles = data
           .split('\n')
           .filter(file => file.endsWith('.md'))
-          .map(file => file.replace(/^\.\//, '')); // получаем список файлов постов
+          .map(file => `${postDirectory}${file.replace(/^\.\//, '')}`); // получаем список файлов постов
 
         postFiles.forEach(file => {
           fetch(file)
