@@ -75,31 +75,28 @@
 			</div>
 		</div>
 		<div id="page2" class="page hidden">
-   <div id="posts"></div>
+<div id="posts"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    const postDirectory = 'posts/'; // путь к директории с постами
-    const postContainer = document.querySelector('#posts');
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Получаем содержимое файла с постами
+  $.ajax({
+    url: "posts.md",
+    dataType: "text",
+    success: function(data) {
+      // Преобразуем Markdown в HTML
+      var converter = new showdown.Converter();
+      var html = converter.makeHtml(data);
+      
+      // Выводим HTML-код на страницу
+      $("#posts").html(html);
+    }
+  });
+});
+</script>
+	</div>
 
-    fetch(postDirectory)
-      .then(response => response.text())
-      .then(data => {
-        const postFiles = data
-          .split('\n')
-          .filter(file => file.endsWith('.md'))
-          .map(file => file.replace(/^\.\//, '')); // получаем список файлов постов
-
-        postFiles.forEach(file => {
-          fetch(file)
-            .then(response => response.text())
-            .then(markdown => {
-              const postHTML = marked(markdown); // преобразуем Markdown в HTML
-              postContainer.innerHTML += postHTML; // добавляем пост на страницу
-            });
-        });
-      });
-    </script>
 	    <div id="page3" class="page hidden">
  		<div class="comic-container">
             <div class="comic">
