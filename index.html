@@ -81,6 +81,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
+  fetch(postDirectory)
+  .then(response => response.text())
+  .then(data => {
+    console.log('Fetched post directory:', data);
     const postDirectory = './'; // путь к директории с постами
     const postContainer = document.querySelector('#posts');
 
