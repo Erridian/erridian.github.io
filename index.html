@@ -77,18 +77,37 @@
 		</div>
 
 		<div id="page2" class="page hidden">
-		<div class="post">
-			<h2>Здесь будут посты</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-		</div>
-		<div class="post">
-			<h2>Если конечно не заброшу</h2>
-			<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		</div>
-		<div class="post">
-			<h2>По этому тут пока побудет дефлотный текст</h2>
-					<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-	</div>
+<ul id="posts"></ul>
+
+    <script>
+      const postDirectory = 'posts.json';
+
+      fetch(postDirectory)
+        .then(response => response.json())
+        .then(data => {
+          const postFiles = data.files.filter(file => file.endsWith('.txt')); // получаем список файлов постов
+
+          postFiles.forEach(file => {
+            const postElem = document.createElement('li');
+
+            fetch(file)
+              .then(response => response.text())
+              .then(text => {
+                const title = text.split('\n')[0]; // первая строка файла содержит заголовок
+                postElem.innerHTML = `<a href="${file}">${title}</a>`;
+              })
+              .catch(err => {
+                console.error(`Не удалось загрузить файл ${file}`, err);
+              });
+
+            const postsElem = document.getElementById('posts');
+            postsElem.appendChild(postElem);
+          });
+        })
+        .catch(err => {
+          console.error('Не удалось загрузить список файлов постов', err);
+        });
+    </script>
 	</div>
 
 	    <div id="page3" class="page hidden">
