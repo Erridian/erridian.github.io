@@ -17,6 +17,7 @@
 	<script src = "text/js/eggs.js"></script>
 	<script src = "text/js/showdown.min.js"></script>
 	<script src = "text/js/jquery-3.6.0.min.js"></script>
+	<script src = "./text/js/load-posts.js"></script>
 	
 </head>
 <body>
@@ -79,34 +80,7 @@
 		<div id="page2" class="page hidden">
   <div id="posts"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-  
-    const postDirectory = './'; // путь к директории с постами
-    const postContainer = document.querySelector('#posts');
 
-	console.log('Fetching post directory:', postDirectory);
-    fetch(postDirectory)
-      .then(response => response.text())
-      .then(data => {
-	   console.log('Fetched post directory:', data);
-        const postFiles = data
-          .split('\n')
-          .filter(file => file.endsWith('.md'))
-          .map(file => `${postDirectory}${file.replace(/^\.\//, '')}`); // получаем список файлов постов
-
-        postFiles.forEach(file => {
-          fetch(file)
-            .then(response => response.text())
-            .then(markdown => {
-              const postHTML = marked(markdown); // преобразуем Markdown в HTML
-			  console.log(postHTML); // отладочный вывод
-              postContainer.innerHTML += postHTML; // добавляем пост на страницу
-            });
-        });
-      });
-
-  </script>
 	</div>
 
 	    <div id="page3" class="page hidden">
