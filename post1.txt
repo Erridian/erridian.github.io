@@ -4,13 +4,23 @@
 
 Адрес: mc.erridian.ru
 
+Сервер ванильный с минимум плагинов
+
 Версия 1.20.1
+
 Так-же можно заходить и с Bedrock и PE версии
 
-### More Information
+### Доступ по Whitelist
 
-A place to include any other types of information that you'd like to include about yourself.
+Да, сервер доступен только по белому списку.
 
-### Contact me
+Это сделанно для того, чтобы отгородить от различных вредителей.
 
-[email@domain.com](mailto:email@domain.com)
+
+### Получение доступа
+
+Для получения доступа к серверу можете перейти по ссылке и оплатить доступ. 
+
+Таким образом вы поддержите сервер и так же поможете его оплатить)
+
+https://moguchaya-kuchka.trademc.org/
