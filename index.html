@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erridian.ru</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            background-color: #008080;
+            margin: 0;
+            padding: 20px;
+            font-family: 'MS Sans Serif', Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .window {
+            background: #ffd1dc; /* Пастельно-розовый */
+            border: 3px solid;
+            border-color: #ffffff #ffb3c6 #ffb3c6 #ffffff; /* Розовые границы */
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 5px 5px 15px rgba(255, 179, 198, 0.2);
+        }
+
+        .title-bar {
+            background: #000080;
+            color: white;
+            padding: 3px 5px;
+            font-weight: bold;
+        }
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+
+        button.win98 {
+            background: #ffd1dc;
+            border: 3px solid;
+            border-color: #ffffff #ff85a2 #ff85a2 #ffffff;
+            padding: 10px;
+            cursor: pointer;
+            font-family: 'MS Sans Serif', Arial, sans-serif;
+            color: #800040; /* Темно-розовый текст */
+            transition: all 0.2s;
+        }
+
+        button.win98:hover {
+            background: #ffb3c6;
+        }
+
+        button.win98:active {
+            border-color: #ff85a2 #ffffff #ffffff #ff85a2;
+        }
+        .content {
+            padding: 20px;
+            min-height: 200px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        a {
+            color: #000080;
+            text-decoration: underline;
+        }
+
+        .ascii-logo {
+            white-space: pre;
+            font-family: monospace;
+            text-align: center;
+            background: black;
+            color: white;
+            padding: 10px;
+            margin: 10px;
+			
+        }
+		a {
+    color: #8b5d5d;
+    text-decoration: none;
+    position: relative;
+    padding: 2px 4px;
+    margin: 2px;
+    background: #f0e0d6;
+    border: 2px solid;
+    border-color: #ffffff #d3b8b8 #d3b8b8 #ffffff;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+a:hover {
+    background: #e8d0c4;
+    border-color: #d3b8b8 #ffffff #ffffff #d3b8b8;
+    transform: translate(1px, 1px);
+}
+
+a::before {
+    content: '➤';
+    margin-right: 5px;
+    color: #a86d6d;
+    font-size: 0.9em;
+}
+
+/* Для ссылок в списках */
+ul a {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin: 5px 0;
+}
+
+ul a::after {
+    content: '';
+    border-bottom: 1px dotted #d3b8b8;
+    flex-grow: 1;
+    margin-left: 8px;
+    margin-right: 5px;
+    opacity: 0.5;
+}
+
+/* Эффект при наведении на псевдо-элементы */
+a:hover::before {
+    content: '⚫';
+    color: #ff1493;
+}
+
+/* Специальный стиль для внешних ссылок */
+a[href^="http"]::after {
+    content: '↗';
+    font-size: 0.8em;
+    margin-left: 4px;
+    vertical-align: super;
+    line-height: 1;
+}
+.hidden {
+    display: none !important;
+}
+
+#errorModal .title-bar .icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+#errorModal::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: -1;
+}
+    </style>
+	    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHLSURBVHgBzZbdScNQEIWPAa1P/QGf9MEHqYWFjVhbWFiItYXYQqwtxBZibaEt1BZiC7GFhY1YW9jCwkasLdQWYguxhVhbqC3EFp7JXkhuErXwQeDAZe/MmTtzd3NxHMdxHMdxHMdxHMf5R1QqFZtMJq1oNIqGhoaGhoaGhoaGhoaGhkbUf8JkMmmVy+W3Wq32Wa/XvxqNxne73f7pdDq/3W73t9fr/fb7/d/BYPA3HA7/RqPR33g8/ms0Gt9Go/Gt0Wh8G41Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8Q0A3wBwD8CJ8t3K7kH5rHxQ3irPlXvKLeWqckm5oJxVzigDZaiMlLHyVvkA4BMA3gG8AXgF8ALgGcATgEcADwDuAdwBuAVwA+AKwCWAjvICwDmAMwCnAE4AHAM4AnAI4ADAPoA9ALsAdgBsA9gCsAlgA8A6gDUAqwBWACwDWAJQBrAIYAHAPIB5AHMAZgHMAJgGMAVgEsAEgHEAYwBGAYwAGAYwBGAIwCCAAQB9AHoB9ADoBtAFoBNAL4AeAN0AugB0AugA0A6gDUArgBYAzQCaADQCaADQAKAeQB2AWgA1AKoBVAGIARQDKAIQAigEkA8gD0AugBwA2QCyAGQCyACQDiANQCqAFAA+AA9ACgAXQDIAB0ASgEQACQDiAcQBiAUQAyAaQBQAC0AkAANABAAAIQBBAAEAPgBeAF4AHgBuAG4ALgAuAM4Apx+AH4APgBeAF4AXgOcPwCm8v0gTp8b8WAAAAABJRU5ErkJggg==">
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="ascii-logo">
+  ███████╗██████╗ ██████╗ ██╗██████╗ ██╗ █████╗ ███╗   ██╗
+  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗██║██╔══██╗████╗  ██║
+  █████╗  ██████╔╝██████╔╝██║██║  ██║██║███████║██╔██╗ ██║
+  ██╔══╝  ██╔══██╗██╔══██╗██║██║  ██║██║██╔══██║██║╚██╗██║
+  ███████╗██║  ██║██║  ██║██║██████╔╝██║██║  ██║██║ ╚████║
+  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+            </div>
+        </div>
+        
+        <div class="buttons-container">
+            <button class="win98" onclick="showSection('about')">О себе</button>
+            <button class="win98" onclick="showSection('socials')">Соцсети</button>
+            <button class="win98" onclick="showSection('projects')">Проекты</button>
+            <button class="win98" onclick="showSection('posts')">Посты</button>
+        </div>
+
+        <div class="content">
+            <div id="about">
+                <h2>О себе</h2>
+                <p>Звать меня [Name]. О чем можно убедиться взглянув на мои соц сети.</p>
+                <p>Занимаюсь разными вещами. От творческих, до бесполезных</p>
+                <p>А-кхем</p>
+            </div>
+
+            <div id="socials" class="hidden">
+                <h2>Социальные сети</h2>
+                <ul>
+                    <li><a href="https://vk.com/erridian">🖳 VKontakte</a></li>
+                    <li><a href="https://t.me/ocerr">📡 Telegram</a></li>
+                    <li><a href="#">GitHub</a></li>
+                </ul>
+            </div>
+
+            <div id="projects" class="hidden">
+                <h2>Проекты</h2>
+                <h3>Личный блог:</h3>
+                <ul>
+                    <li><a href="https://vk.com/chikdyk">🖳 ВК</a></li>
+                    <li><a href="https://t.me/ocerr">📡 Телеграм</a></li>
+                </ul>
+                
+                <h3>Перевод манги:</h3>
+                <ul>
+                    <li><a href="https://mangalib.org/ru/team/56970--fun-chozas">Читать на MangaLib</a></li>
+                    <li><a href="https://web.usagi.one/list/person/fun_chozas">Читать на Usagi</a></li>
+                    <li><a href="https://vk.com/funchozas">🖳 Группа ВК</a></li>
+                    <li><a href="https://t.me/fun_chozas">📡 Телеграм-канал</a></li>
+                </ul>
+            </div>
+
+            <div id="posts" class="hidden">
+                <h2>Последние посты</h2>
+                <div id="postsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Скрыть все секции
+            document.querySelectorAll('.content > div').forEach(div => {
+                div.classList.add('hidden');
+            });
+            
+            // Показать выбранную секцию
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Загрузка Markdown-постов
+        fetch('posts.md')
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById('postsContent').innerHTML = marked.parse(text);
+            })
+            .catch(error => {
+                console.error('Error loading posts:', error);
+                document.getElementById('postsContent').innerHTML = '<p>Посты временно недоступны</p>';
+            });
+
+        // Показать раздел "О себе" при загрузке
+        showSection('about');
+    </script>
+	<div id="errorModal" class="window hidden" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
+    <div class="title-bar">
+        <span class="icon">⚠</span>
+        Ошибка 0xDEADBEEF
+    </div>
+    <div class="content" style="text-align: center;">
+        <p>Неизвестная ошибка в модуле INSTAGRAM_DRIVER</p>
+        <div style="margin: 15px 0;">
+            <a href="https://instagram.com/erridian_" 
+               style="font-size: 16px; padding: 8px 15px;"
+               class="win98">
+                Открыть повреждённый модуль
+            </a>
+        </div>
+        <button class="win98" onclick="document.getElementById('errorModal').classList.add('hidden')">
+            OK
+        </button>
+    </div>
+</div>
+
+<script>
+(function() {
+    const secretCode = ['и','н','с','т','а'];
+    let inputBuffer = [];
+    
+    document.addEventListener('keydown', (e) => {
+        // Получаем символ с учетом раскладки
+        const char = e.key.toLowerCase();
+        
+        inputBuffer.push(char);
+        if(inputBuffer.length > secretCode.length) {
+            inputBuffer.shift();
+        }
+        
+        if(inputBuffer.join('') === secretCode.join('')) {
+            document.getElementById('errorModal').classList.remove('hidden');
+            inputBuffer = [];
+        }
+    });
+})();
+</script>
+
+</body>
+</html>
