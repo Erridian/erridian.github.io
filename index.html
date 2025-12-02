@@ -3,288 +3,568 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erridian.ru</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <title>Erridian OS 95</title>
     <style>
+        /* --- Шрифты и переменные --- */
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --win-gray: #c0c0c0;
+            --win-border-light: #ffffff;
+            --win-border-dark: #808080;
+            --win-border-black: #000000;
+            --win-blue: #000080;
+            --vapor-pink: #ff71ce;
+            --vapor-blue: #01cdfe;
+            --vapor-purple: #b967ff;
+            --text-color: #000;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
-            background-color: #008080;
-            margin: 0;
-            padding: 20px;
-            font-family: 'MS Sans Serif', Arial, sans-serif;
-            font-size: 14px;
+            margin: 0; padding: 0;
+            font-family: 'VT323', monospace;
+            height: 100vh; overflow: hidden;
+            user-select: none; font-size: 18px;
+            background-color: #000;
         }
 
-        .window {
-            background: #ffd1dc; /* Пастельно-розовый */
-            border: 3px solid;
-            border-color: #ffffff #ffb3c6 #ffb3c6 #ffffff; /* Розовые границы */
-            margin: 20px auto;
-            max-width: 600px;
-            box-shadow: 5px 5px 15px rgba(255, 179, 198, 0.2);
+        /* --- ФОНОВЫЕ СЛОИ --- */
+        #bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; transition: background 0.5s;
         }
 
-        .title-bar {
-            background: #000080;
-            color: white;
-            padding: 3px 5px;
-            font-weight: bold;
+        /* Тема 1: Vapor Grid */
+        .theme-grid {
+            background: linear-gradient(to bottom, #010a10 0%, #2f1138 75%, #561845 100%);
+            perspective: 500px; overflow: hidden;
         }
-
-        .buttons-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            padding: 20px;
-        }
-
-        button.win98 {
-            background: #ffd1dc;
-            border: 3px solid;
-            border-color: #ffffff #ff85a2 #ff85a2 #ffffff;
-            padding: 10px;
-            cursor: pointer;
-            font-family: 'MS Sans Serif', Arial, sans-serif;
-            color: #800040; /* Темно-розовый текст */
-            transition: all 0.2s;
-        }
-
-        button.win98:hover {
-            background: #ffb3c6;
-        }
-
-        button.win98:active {
-            border-color: #ff85a2 #ffffff #ffffff #ff85a2;
-        }
-        .content {
-            padding: 20px;
-            min-height: 200px;
-        }
-
-        .hidden {
+        .sun {
+            position: absolute; top: 10%; left: 50%;
+            transform: translate(-50%, 0);
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #ffed00 0%, #ff0055 100%);
+            box-shadow: 0 0 40px #ff0055;
             display: none;
         }
+        .theme-grid .sun { display: block; }
+        
+        .grid-plane {
+            position: absolute; bottom: -30%; left: -50%; width: 200%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 113, 206, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 113, 206, 0.4) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: rotateX(60deg);
+            animation: gridMove 20s linear infinite;
+            display: none;
+        }
+        .theme-grid .grid-plane { display: block; }
 
-        a {
-            color: #000080;
-            text-decoration: underline;
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 400px; }
         }
 
-        .ascii-logo {
-            white-space: pre;
-            font-family: monospace;
-            text-align: center;
-            background: black;
-            color: white;
-            padding: 10px;
-            margin: 10px;
-			
+        /* Другие темы */
+        .theme-pastel { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); }
+        .theme-classic { background-color: #008080; }
+        .theme-night {
+            background: #1a0b2e;
+            background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+            radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
+            background-size: 550px 550px, 350px 350px;
         }
-		a {
-    color: #8b5d5d;
-    text-decoration: none;
-    position: relative;
-    padding: 2px 4px;
-    margin: 2px;
-    background: #f0e0d6;
-    border: 2px solid;
-    border-color: #ffffff #d3b8b8 #d3b8b8 #ffffff;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
 
-a:hover {
-    background: #e8d0c4;
-    border-color: #d3b8b8 #ffffff #ffffff #d3b8b8;
-    transform: translate(1px, 1px);
-}
+        /* --- BIOS SCREEN --- */
+        #boot-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; color: #ddd; z-index: 5000;
+            padding: 20px; font-family: 'VT323', monospace; font-size: 20px;
+            display: flex; flex-direction: column; cursor: none;
+        }
+        .bios-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .energy-star-logo { font-size: 40px; color: var(--vapor-pink); }
+        .bios-text { margin-bottom: 5px; text-shadow: 0 0 5px var(--vapor-blue); }
+        .bios-bottom { position: absolute; bottom: 20px; left: 20px; }
 
-a::before {
-    content: '➤';
-    margin-right: 5px;
-    color: #a86d6d;
-    font-size: 0.9em;
-}
+        /* --- UI COMPONENTS --- */
+        .desktop {
+            position: relative; width: 100%; height: calc(100vh - 40px);
+            padding: 20px; display: flex; flex-direction: column; flex-wrap: wrap;
+            align-content: flex-start; gap: 20px; opacity: 0; transition: opacity 1s;
+        }
 
-/* Для ссылок в списках */
-ul a {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    margin: 5px 0;
-}
+        .icon {
+            width: 80px; text-align: center; cursor: pointer; color: #fff;
+            text-shadow: 1px 1px 0 #000; display: flex; flex-direction: column; align-items: center;
+        }
+        .icon:active .icon-text { background-color: var(--win-blue); border: 1px dotted white; }
+        .icon-img { width: 48px; height: 48px; background-size: contain; background-repeat: no-repeat; margin-bottom: 5px; image-rendering: pixelated; }
 
-ul a::after {
-    content: '';
-    border-bottom: 1px dotted #d3b8b8;
-    flex-grow: 1;
-    margin-left: 8px;
-    margin-right: 5px;
-    opacity: 0.5;
-}
+        /* SVG Иконки */
+        .icon-comp { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💻</text></svg>'); }
+        .icon-fold { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📁</text></svg>'); }
+        .icon-web { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌐</text></svg>'); }
+        .icon-err { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📄</text></svg>'); }
+        .icon-set { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📺</text></svg>'); }
+        .icon-mus { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎵</text></svg>'); }
 
-/* Эффект при наведении на псевдо-элементы */
-a:hover::before {
-    content: '⚫';
-    color: #ff1493;
-}
+        /* --- Окна --- */
+        .window {
+            position: absolute; background-color: var(--win-gray);
+            border: 2px solid; border-color: var(--win-border-light) var(--win-border-black) var(--win-border-black) var(--win-border-light);
+            box-shadow: 2px 2px 0 var(--win-border-dark); min-width: 300px;
+            display: none; flex-direction: column;
+        }
+        .window.active { z-index: 100; }
 
-/* Специальный стиль для внешних ссылок */
-a[href^="http"]::after {
-    content: '↗';
-    font-size: 0.8em;
-    margin-left: 4px;
-    vertical-align: super;
-    line-height: 1;
-}
-.hidden {
-    display: none !important;
-}
+        .title-bar {
+            background: linear-gradient(90deg, var(--win-blue), #1084d0);
+            padding: 3px 5px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .vapor-title { background: linear-gradient(90deg, var(--vapor-pink), var(--vapor-purple)); }
+        
+        .title-bar-text { color: white; font-weight: bold; margin-left: 2px; }
+        .title-bar-controls button {
+            width: 16px; height: 14px; background-color: var(--win-gray);
+            border: 1px solid; border-color: var(--win-border-light) var(--win-border-black) var(--win-border-black) var(--win-border-light);
+            font-size: 9px; line-height: 8px; font-weight: bold; cursor: pointer;
+        }
+        .title-bar-controls button:active { border-color: var(--win-border-black) var(--win-border-light) var(--win-border-light) var(--win-border-black); }
 
-#errorModal .title-bar .icon {
-    margin-right: 8px;
-    font-size: 18px;
-}
+        .window-body { padding: 15px; font-size: 18px; color: black; overflow-y: auto; max-height: 400px; }
+        .window-body a { color: blue; text-decoration: underline; cursor: pointer;}
 
-#errorModal::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: -1;
-}
+        /* --- Плеер (WinAmp Style) --- */
+        .winamp-body { background: #222; color: #0f0; padding: 10px; font-family: monospace; }
+        .player-screen {
+            background: #000; border: 2px inset #555; padding: 5px; margin-bottom: 10px;
+            height: 30px; overflow: hidden; white-space: nowrap; display: flex; align-items: center;
+        }
+        .player-controls { display: flex; gap: 5px; flex-wrap: wrap; }
+        .player-btn {
+            background: linear-gradient(#eee, #ccc); border: 1px outset #fff;
+            padding: 5px 10px; font-size: 14px; cursor: pointer; min-width: 60px; color: black;
+        }
+        .player-btn:active { border: 1px inset #fff; }
+        
+        /* Volume Control (simple) */
+        .volume-control { margin-top: 10px; display: flex; align-items: center; gap: 5px; color: #0f0; font-size: 14px; }
+        input[type="range"] { width: 100px; cursor: pointer; }
+
+        /* --- Панель задач --- */
+        .taskbar {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 35px;
+            background-color: var(--win-gray); border-top: 2px solid var(--win-border-light);
+            display: flex; align-items: center; padding: 2px; z-index: 1000;
+            opacity: 0; transition: opacity 1s;
+        }
+        .start-btn {
+            display: flex; align-items: center; height: 26px; padding: 0 5px;
+            background-color: var(--win-gray); border: 2px outset #fff;
+            font-weight: bold; font-family: inherit; font-size: 16px; cursor: pointer;
+        }
+        .start-btn:active, .start-btn.active { border: 2px inset #fff; }
+        .start-btn img { width: 18px; margin-right: 5px; }
+        .clock { margin-left: auto; border: 2px inset #fff; padding: 0 10px; height: 26px; display: flex; align-items: center; background: #fff; font-size: 16px; }
+
+        /* --- Меню пуск --- */
+        .start-menu {
+            position: absolute; bottom: 37px; left: 2px; width: 200px;
+            background-color: var(--win-gray); border: 2px outset #fff;
+            display: none; flex-direction: column; z-index: 1001;
+        }
+        .sidebar { width: 25px; background: #000080; position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: flex-end; }
+        .sidebar-text { transform: rotate(-90deg); transform-origin: left top; color: white; font-weight: bold; font-size: 20px; margin-left: 3px; margin-bottom: 5px; }
+        .menu-items { margin-left: 25px; display: flex; flex-direction: column; }
+        .menu-item { padding: 8px 15px; cursor: pointer; color: black; }
+        .menu-item:hover { background-color: var(--win-blue); color: white; }
+
+        /* --- Эффекты --- */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px; pointer-events: none; z-index: 9999;
+        }
+        .radio-group label { display: block; margin: 5px 0; cursor: pointer; }
+
+        @media (max-width: 600px) {
+            .window { width: 95% !important; left: 2.5% !important; top: 50px !important; }
+            .bios-header { flex-direction: column-reverse; }
+        }
     </style>
-	    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAHLSURBVHgBzZbdScNQEIWPAa1P/QGf9MEHqYWFjVhbWFiItYXYQqwtxBZibaEt1BZiC7GFhY1YW9jCwkasLdQWYguxhVhbqC3EFp7JXkhuErXwQeDAZe/MmTtzd3NxHMdxHMdxHMdxHMf5R1QqFZtMJq1oNIqGhoaGhoaGhoaGhoaGhkbUf8JkMmmVy+W3Wq32Wa/XvxqNxne73f7pdDq/3W73t9fr/fb7/d/BYPA3HA7/RqPR33g8/ms0Gt9Go/Gt0Wh8G41Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8a3RaHxrNBrfGo3Gt0aj8Q0A3wBwD8CJ8t3K7kH5rHxQ3irPlXvKLeWqckm5oJxVzigDZaiMlLHyVvkA4BMA3gG8AXgF8ALgGcATgEcADwDuAdwBuAVwA+AKwCWAjvICwDmAMwCnAE4AHAM4AnAI4ADAPoA9ALsAdgBsA9gCsAlgA8A6gDUAqwBWACwDWAJQBrAIYAHAPIB5AHMAZgHMAJgGMAVgEsAEgHEAYwBGAYwAGAYwBGAIwCCAAQB9AHoB9ADoBtAFoBNAL4AeAN0AugB0AugA0A6gDUArgBYAzQCaADQCaADQAKAeQB2AWgA1AKoBVAGIARQDKAIQAigEkA8gD0AugBwA2QCyAGQCyACQDiANQCqAFAA+AA9ACgAXQDIAB0ASgEQACQDiAcQBiAUQAyAaQBQAC0AkAANABAAAIQBBAAEAPgBeAF4AHgBuAG4ALgAuAM4Apx+AH4APgBeAF4AXgOcPwCm8v0gTp8b8WAAAAABJRU5ErkJggg==">
 </head>
 <body>
-    <div class="window">
-        <div class="title-bar">
-            <div class="ascii-logo">
+
+    <div class="scanlines"></div>
+
+    <!-- СЛОЙ ФОНА -->
+    <div id="bg-layer" class="theme-grid">
+        <div class="sun"></div>
+        <div class="grid-plane"></div>
+    </div>
+
+    <!-- BIOS BOOT SCREEN -->
+    <div id="boot-screen">
+        <div class="bios-header">
+            <div>
+                <div class="bios-text">ERRIDIAN MODULAR BIOS v4.51PG</div>
+                <div class="bios-text" style="color: var(--vapor-pink);">Copyright (C) 1984-2025, Erridian Systems Inc.</div>
+            </div>
+            <div style="border: 2px solid white; padding: 5px;">
+                <span class="energy-star-logo">★</span> ENERGY
+            </div>
+        </div>
+        <div class="bios-text">CPU: Vaporwave Edition 420MHz</div>
+        <div class="bios-text" id="memory-check">Memory Test: 0 KB</div>
+        <div id="bios-details"></div>
+        <div class="bios-bottom">
+            <div class="bios-text">Press <strong>DEL</strong> to enter SETUP</div>
+            <div class="bios-text">07/21/2025-i440LX-ERRIDIAN-00</div>
+        </div>
+    </div>
+
+    <!-- РАБОЧИЙ СТОЛ -->
+    <div class="desktop" id="desktop">
+        <div class="icon" onclick="openWindow('about')">
+            <div class="icon-comp icon-img"></div>
+            <div class="icon-text">О себе</div>
+        </div>
+        <div class="icon" onclick="openWindow('projects')">
+            <div class="icon-fold icon-img"></div>
+            <div class="icon-text">Проекты</div>
+        </div>
+        <div class="icon" onclick="openWindow('socials')">
+            <div class="icon-web icon-img"></div>
+            <div class="icon-text">Соцсети</div>
+        </div>
+        <div class="icon" onclick="openWindow('settings')">
+            <div class="icon-set icon-img"></div>
+            <div class="icon-text">Свойства</div>
+        </div>
+        <div class="icon" onclick="openWindow('player')">
+            <div class="icon-mus icon-img"></div>
+            <div class="icon-text">Радио</div>
+        </div>
+        <div class="icon" onclick="openWindow('error')">
+            <div class="icon-err icon-img"></div>
+            <div class="icon-text">error.log</div>
+        </div>
+    </div>
+
+    <!-- ОКНА -->
+    
+    <!-- О себе -->
+    <div class="window" id="about" style="top: 30px; left: 50px; width: 400px;">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'about')">
+            <div class="title-bar-text">Erridian.txt</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('about')">X</button></div>
+        </div>
+        <div class="window-body">
+            <pre style="color: var(--vapor-purple); font-size: 10px;">
   ███████╗██████╗ ██████╗ ██╗██████╗ ██╗ █████╗ ███╗   ██╗
   ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗██║██╔══██╗████╗  ██║
   █████╗  ██████╔╝██████╔╝██║██║  ██║██║███████║██╔██╗ ██║
   ██╔══╝  ██╔══██╗██╔══██╗██║██║  ██║██║██╔══██║██║╚██╗██║
   ███████╗██║  ██║██║  ██║██║██████╔╝██║██║  ██║██║ ╚████║
   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+            </pre>
+            <p><strong>Привет!</strong></p>
+            <p>Звать меня [Name]. О чем можно убедиться взглянув на мои соц сети.</p>
+            <p>Занимаюсь разными вещами. От творческих, до бесполезных...»</p>
+			<p>А-кхем...</p>
+        </div>
+    </div>
+
+    <!-- Проекты -->
+    <div class="window" id="projects" style="top: 60px; left: 100px; width: 350px;">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')">
+            <div class="title-bar-text">Projects</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('projects')">X</button></div>
+        </div>
+        <div class="window-body">
+            <p>📂 <strong>Мои активности:</strong></p>
+            <ul>
+                <li><a href="#">Личный блог</a></li>
+                <li><a href="#">GitHub Репозитории</a></li>
+            </ul>
+            <hr>
+            <p>📂 <strong>Переводы:</strong></p>
+            <ul>
+                <li>MangaLib / Usagi Team</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Соцсети -->
+    <div class="window" id="socials" style="top: 90px; left: 150px;">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'socials')">
+            <div class="title-bar-text">Connection</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('socials')">X</button></div>
+        </div>
+        <div class="window-body">
+            <p>📡 <a href="https://t.me/erridian" target="_blank">Telegram</a></p>
+            <p>🖳 <a href="https://vk.com/erridian" target="_blank">VKontakte</a></p>
+            <p>💻 <a href="https://github.com/erridian" target="_blank">GitHub</a></p>
+        </div>
+    </div>
+
+    <!-- Настройки -->
+    <div class="window" id="settings" style="top: 150px; left: 300px; width: 300px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'settings')">
+            <div class="title-bar-text">Display Properties</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('settings')">X</button></div>
+        </div>
+        <div class="window-body">
+            <fieldset>
+                <legend>Background Wallpaper</legend>
+                <div class="radio-group">
+                    <label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Vaporwave Grid 3D</label>
+                    <label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel Gradient</label>
+                    <label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Windows Teal</label>
+                    <label><input type="radio" name="bg" value="theme-night" onclick="setTheme('theme-night')"> Deep Night</label>
+                </div>
+            </fieldset>
+            <div style="margin-top: 10px; text-align: center;">
+                <button onclick="closeWindow('settings')" style="padding: 5px 20px;">OK</button>
             </div>
         </div>
-        
-        <div class="buttons-container">
-            <button class="win98" onclick="showSection('about')">О себе</button>
-            <button class="win98" onclick="showSection('socials')">Соцсети</button>
-            <button class="win98" onclick="showSection('projects')">Проекты</button>
-            <button class="win98" onclick="showSection('posts')">Посты</button>
+    </div>
+
+    <!-- Плеер (REAL Radio) -->
+    <div class="window" id="player" style="top: 200px; left: 400px; width: 340px; background: #c0c0c0;">
+        <div class="title-bar" style="background: #000080;" onmousedown="dragMouseDown(event, 'player')">
+            <div class="title-bar-text">WinAmp - Stream Player</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('player')">X</button></div>
         </div>
-
-        <div class="content">
-            <div id="about">
-                <h2>О себе</h2>
-                <p>Звать меня [Name]. О чем можно убедиться взглянув на мои соц сети.</p>
-                <p>Занимаюсь разными вещами. От творческих, до бесполезных</p>
-                <p>А-кхем</p>
+        <div class="winamp-body">
+            <div class="player-screen" id="player-screen">Ready to play...</div>
+            <div class="player-controls">
+                <button class="player-btn" onclick="playRadio('vapor')">Vapor</button>
+                <button class="player-btn" onclick="playRadio('soviet')">Soviet</button>
+                <button class="player-btn" onclick="playRadio('chiptune')">Chip</button>
+                <button class="player-btn" onclick="playRadio('lofi')">Lofi</button>
+                <button class="player-btn" style="color:red;" onclick="stopRadio()">STOP</button>
             </div>
-
-            <div id="socials" class="hidden">
-                <h2>Социальные сети</h2>
-                <ul>
-                    <li><a href="https://vk.com/erridian">🖳 VKontakte</a></li>
-                    <li><a href="https://t.me/ocerr">📡 Telegram</a></li>
-                    <li><a href="#">GitHub</a></li>
-                </ul>
+            <div class="volume-control">
+                <span>Vol:</span>
+                <input type="range" min="0" max="1" step="0.05" value="0.5" oninput="setVolume(this.value)">
             </div>
+        </div>
+    </div>
+    
+    <!-- AUDIO ELEMENT -->
+    <audio id="audio-player"></audio>
 
-            <div id="projects" class="hidden">
-                <h2>Проекты</h2>
-                <h3>Личный блог:</h3>
-                <ul>
-                    <li><a href="https://vk.com/chikdyk">🖳 ВК</a></li>
-                    <li><a href="https://t.me/ocerr">📡 Телеграм</a></li>
-                </ul>
-                
-                <h3>Перевод манги:</h3>
-                <ul>
-                    <li><a href="https://mangalib.org/ru/team/56970--fun-chozas">Читать на MangaLib</a></li>
-                    <li><a href="https://web.usagi.one/list/person/fun_chozas">Читать на Usagi</a></li>
-                    <li><a href="https://vk.com/funchozas">🖳 Группа ВК</a></li>
-                    <li><a href="https://t.me/fun_chozas">📡 Телеграм-канал</a></li>
-                </ul>
-            </div>
+    <!-- Ошибка -->
+    <div class="window" id="error" style="top: 300px; left: 350px;">
+        <div class="title-bar" style="background: red;" onmousedown="dragMouseDown(event, 'error')">
+            <div class="title-bar-text">Critical Error</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('error')">X</button></div>
+        </div>
+        <div class="window-body" style="text-align: center;">
+            <p>⚠ Ошибка 0xDEADBEEF</p>
+            <button onclick="closeWindow('error')">OK</button>
+        </div>
+    </div>
 
-            <div id="posts" class="hidden">
-                <h2>Последние посты</h2>
-                <div id="postsContent"></div>
-            </div>
+    <!-- ПАНЕЛЬ ЗАДАЧ -->
+    <div class="taskbar" id="taskbar">
+        <button class="start-btn" onclick="toggleStartMenu()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Windows_95_logo_icon.svg/512px-Windows_95_logo_icon.svg.png" alt="logo">
+            Start
+        </button>
+        <div style="width: 2px; height: 26px; border-left: 1px solid white; border-right: 1px solid gray; margin: 0 5px;"></div>
+        <div class="clock" id="clock">12:00 PM</div>
+    </div>
+
+    <div class="start-menu" id="startMenu">
+        <div class="sidebar"><span class="sidebar-text">ERRIDIAN 95</span></div>
+        <div class="menu-items">
+            <div class="menu-item" onclick="openWindow('about'); toggleStartMenu()">📂 О себе</div>
+            <div class="menu-item" onclick="openWindow('projects'); toggleStartMenu()">💻 Проекты</div>
+            <div class="menu-item" onclick="openWindow('settings'); toggleStartMenu()">📺 Настройки</div>
+            <div class="menu-item" onclick="openWindow('player'); toggleStartMenu()">🎵 Радио</div>
+            <hr style="width: 100%; border: 1px inset white;">
+            <div class="menu-item" onclick="window.close()">🚪 Выход</div>
         </div>
     </div>
 
     <script>
-        function showSection(sectionId) {
-            // Скрыть все секции
-            document.querySelectorAll('.content > div').forEach(div => {
-                div.classList.add('hidden');
+        // --- BIOS ---
+        const bootScreen = document.getElementById('boot-screen');
+        const memoryCheckText = document.getElementById('memory-check');
+        const biosDetails = document.getElementById('bios-details');
+        const desktop = document.getElementById('desktop');
+        const taskbar = document.getElementById('taskbar');
+
+        const bootLines = [
+            { text: "Detecting Primary Master ... Erridian HD 20GB", delay: 1000 },
+            { text: "Detecting Secondary Master ... CD-ROM", delay: 1500 },
+            { text: "Booting from Hard Disk...", delay: 2500 }
+        ];
+
+        function runBios() {
+            let mem = 0;
+            const memInterval = setInterval(() => {
+                mem += 1024;
+                if (mem >= 64512) {
+                    mem = 64512;
+                    memoryCheckText.innerText = "Memory Test: " + mem + " KB OK";
+                    clearInterval(memInterval);
+                    showBootLines();
+                } else {
+                    memoryCheckText.innerText = "Memory Test: " + mem + " KB";
+                }
+            }, 5);
+        }
+
+        function showBootLines() {
+            bootLines.forEach(line => {
+                setTimeout(() => {
+                    biosDetails.innerHTML += '<div class="bios-text">' + line.text + '</div>';
+                }, line.delay);
             });
+            setTimeout(() => {
+                bootScreen.style.display = 'none';
+                desktop.style.opacity = 1;
+                taskbar.style.opacity = 1;
+                openWindow('about'); 
+            }, 3500);
+        }
+
+        // --- THEME ---
+        function setTheme(themeName) {
+            document.getElementById('bg-layer').className = themeName; 
+        }
+
+        // --- REAL AUDIO PLAYER (Direct Stream) ---
+        const audio = document.getElementById('audio-player');
+        const screen = document.getElementById('player-screen');
+        audio.volume = 0.5; // Default volume
+
+        // Прямые ссылки на потоки (Обязательно HTTPS для GitHub Pages)
+        const stations = {
+            'vapor': { url: 'https://radio.plaza.one/mp3', name: 'Nightwave Plaza' },
+            'soviet': { url: 'https://radiorecord.hostingradio.ru/synth96.aacp', name: 'Record Synthwave' }, 
+            'chiptune': { url: 'https://relay.rainwave.cc/chiptune.ogg?1:TjVColB3tE', name: 'CVGM.net Chiptune' }, 
+            'lofi': { url: 'https://lofi.stream.laut.fm/lofi', name: 'Lofi 24/7' } 
+        };
+
+        function playRadio(genre) {
+            const station = stations[genre];
+            if(!station) return;
+
+            screen.innerText = "Connecting...";
             
-            // Показать выбранную секцию
-            document.getElementById(sectionId).classList.remove('hidden');
-        }
-
-        // Загрузка Markdown-постов
-        fetch('posts.md')
-            .then(response => response.text())
-            .then(text => {
-                document.getElementById('postsContent').innerHTML = marked.parse(text);
-            })
-            .catch(error => {
-                console.error('Error loading posts:', error);
-                document.getElementById('postsContent').innerHTML = '<p>Посты временно недоступны</p>';
+            // Сбрасываем и загружаем новый
+            audio.src = station.url;
+            audio.play().then(() => {
+                // Успешный запуск
+                runMarquee("Playing: " + station.name + " (" + genre.toUpperCase() + ")");
+            }).catch(e => {
+                // Ошибка (например, браузер заблокировал автоплей)
+                screen.innerText = "Error: Click again";
+                console.error(e);
             });
+        }
 
-        // Показать раздел "О себе" при загрузке
-        showSection('about');
+        function stopRadio() {
+            audio.pause();
+            audio.src = "";
+            screen.innerText = "Stopped.";
+            if(window.marqueeInterval) clearInterval(window.marqueeInterval);
+        }
+        
+        function setVolume(val) {
+            audio.volume = val;
+        }
+
+        function runMarquee(text) {
+            let marqueeText = text + "   ***   ";
+            if(window.marqueeInterval) clearInterval(window.marqueeInterval);
+            
+            // Мгновенное обновление
+            screen.innerText = marqueeText;
+            
+            window.marqueeInterval = setInterval(function() {
+                marqueeText = marqueeText.substring(1) + marqueeText[0];
+                screen.innerText = marqueeText;
+            }, 200);
+        }
+
+        // Обработка ошибок потока
+        audio.onerror = function() {
+            screen.innerText = "Stream Error / Offline";
+            if(window.marqueeInterval) clearInterval(window.marqueeInterval);
+        };
+
+        // --- WINDOW MANAGER ---
+        let zIndex = 100;
+        function openWindow(id) {
+            const win = document.getElementById(id);
+            win.style.display = 'flex';
+            bringToFront(win);
+        }
+        function closeWindow(id) { document.getElementById(id).style.display = 'none'; }
+        function bringToFront(el) {
+            zIndex++; el.style.zIndex = zIndex;
+            document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // --- DRAG N DROP ---
+        function dragMouseDown(e, id) {
+            e = e || window.event; e.preventDefault();
+            const elmnt = document.getElementById(id);
+            bringToFront(elmnt);
+            let pos3 = e.clientX, pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+            function elementDrag(e) {
+                e = e || window.event; e.preventDefault();
+                let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        }
+
+        // --- CLOCK & START ---
+        function updateClock() {
+            const now = new Date();
+            let h = now.getHours(), m = String(now.getMinutes()).padStart(2, '0');
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12;
+            document.getElementById('clock').innerText = h + ":" + m + " " + ampm;
+        }
+        setInterval(updateClock, 1000);
+
+        function toggleStartMenu() {
+            const menu = document.getElementById('startMenu');
+            const btn = document.querySelector('.start-btn');
+            if (menu.style.display === 'flex') {
+                menu.style.display = 'none'; btn.classList.remove('active');
+            } else {
+                menu.style.display = 'flex'; btn.classList.add('active');
+            }
+        }
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('startMenu'), btn = document.querySelector('.start-btn');
+            if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.style.display = 'none'; btn.classList.remove('active');
+            }
+        });
+
+        window.onload = function() {
+            runBios();
+            updateClock();
+        }
     </script>
-	<div id="errorModal" class="window hidden" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
-    <div class="title-bar">
-        <span class="icon">⚠</span>
-        Ошибка 0xDEADBEEF
-    </div>
-    <div class="content" style="text-align: center;">
-        <p>Неизвестная ошибка в модуле INSTAGRAM_DRIVER</p>
-        <div style="margin: 15px 0;">
-            <a href="https://instagram.com/erridian_" 
-               style="font-size: 16px; padding: 8px 15px;"
-               class="win98">
-                Открыть повреждённый модуль
-            </a>
-        </div>
-        <button class="win98" onclick="document.getElementById('errorModal').classList.add('hidden')">
-            OK
-        </button>
-    </div>
-</div>
-
-<script>
-(function() {
-    const secretCode = ['и','н','с','т','а'];
-    let inputBuffer = [];
-    
-    document.addEventListener('keydown', (e) => {
-        // Получаем символ с учетом раскладки
-        const char = e.key.toLowerCase();
-        
-        inputBuffer.push(char);
-        if(inputBuffer.length > secretCode.length) {
-            inputBuffer.shift();
-        }
-        
-        if(inputBuffer.join('') === secretCode.join('')) {
-            document.getElementById('errorModal').classList.remove('hidden');
-            inputBuffer = [];
-        }
-    });
-})();
-</script>
-
 </body>
 </html>
