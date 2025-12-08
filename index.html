@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erridian OS 95 - Holiday Edition</title>
+    <title>Erridian OS 95 - Ultimate Edition</title>
     <style>
         /* --- ШРИФТЫ И ПЕРЕМЕННЫЕ --- */
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -28,6 +28,21 @@
             height: 100vh; overflow: hidden;
             user-select: none; font-size: 18px;
             background-color: #000;
+        }
+
+        /* --- GLITCH EFFECT --- */
+        @keyframes glitch-anim {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+        .glitch-hover:hover {
+            animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: var(--vapor-pink);
+            text-shadow: 2px 0 var(--vapor-blue), -2px 0 var(--vapor-purple);
         }
 
         /* --- ФОНЫ --- */
@@ -62,103 +77,34 @@
         .bios-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .bios-text { margin-bottom: 5px; text-shadow: 0 0 5px var(--vapor-blue); }
 
-        /* --- CHRISTMAS DECORATIONS --- */
-        #xmas-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 500; /* Под окнами, но над фоном */
-            display: none; /* Включается JS-ом */
-        }
-        
-        /* Снег */
-        .snowflake {
-            position: absolute; top: -10px; color: #fff; font-size: 20px;
-            animation: fall linear infinite;
-            text-shadow: 0 0 5px var(--vapor-blue);
-        }
-        @keyframes fall {
-            to { transform: translateY(105vh); }
-        }
-
-        /* Гирлянда */
-        .lights-wire {
-            position: absolute; top: 0; left: 0; width: 100%; height: 20px;
-            display: flex; justify-content: space-around; overflow: hidden;
-            z-index: 9000; /* Поверх всего */
-        }
-        .light-bulb {
-            width: 12px; height: 12px; border-radius: 50%;
-            background: #444; margin-top: 5px;
-            animation: flash 1s infinite alternate;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
+        /* --- XMAS --- */
+        #xmas-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500; display: none; }
+        .snowflake { position: absolute; top: -10px; color: #fff; font-size: 20px; animation: fall linear infinite; text-shadow: 0 0 5px var(--vapor-blue); }
+        @keyframes fall { to { transform: translateY(105vh); } }
+        .lights-wire { position: absolute; top: 0; left: 0; width: 100%; height: 20px; display: flex; justify-content: space-around; overflow: hidden; z-index: 9000; }
+        .light-bulb { width: 12px; height: 12px; border-radius: 50%; background: #444; margin-top: 5px; animation: flash 1s infinite alternate; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
         .light-bulb:nth-child(odd) { animation-duration: 1.5s; background: var(--vapor-pink); box-shadow: 0 0 10px var(--vapor-pink); }
         .light-bulb:nth-child(even) { animation-duration: 1.2s; background: var(--vapor-blue); box-shadow: 0 0 10px var(--vapor-blue); }
         .light-bulb:nth-child(3n) { animation-duration: 1.8s; background: var(--vapor-purple); box-shadow: 0 0 10px var(--vapor-purple); }
-
-        @keyframes flash {
-            0% { opacity: 0.5; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1.1); }
-        }
-
-        /* --- BSOD --- */
-        #bsod {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0000AA; color: #fff; z-index: 99999;
-            padding: 50px; font-family: 'Courier New', monospace; font-size: 20px; cursor: none;
-        }
-        .bsod-center { text-align: center; margin-top: 100px; }
+        @keyframes flash { 0% { opacity: 0.5; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.1); } }
 
         /* --- SCREENSAVER --- */
-        #screensaver {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: black; z-index: 9000; cursor: none; overflow: hidden;
-        }
-        #saver-text {
-            position: absolute; color: var(--vapor-pink); font-size: 40px; font-weight: bold;
-            animation: glow 2s infinite alternate;
-        }
-        @keyframes glow { from { text-shadow: 0 0 10px var(--vapor-blue); } to { text-shadow: 0 0 20px var(--vapor-purple); } }
+        #screensaver { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9000; cursor: none; overflow: hidden; }
+        #saver-text { position: absolute; color: var(--vapor-pink); font-size: 40px; font-weight: bold; white-space: nowrap; }
 
         /* --- CLIPPY --- */
-        #clippy-container {
-            position: fixed; bottom: 50px; right: 20px; width: 100px; height: 100px; z-index: 5000;
-            pointer-events: none; 
-        }
-        #clippy-bubble {
-            position: absolute; bottom: 80px; right: 10px; background: #ffffcc; border: 1px solid #000;
-            padding: 10px; border-radius: 5px; font-size: 14px; color: black; width: 150px;
-            display: none; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); pointer-events: auto;
-        }
+        #clippy-container { position: fixed; bottom: 50px; right: 20px; width: 100px; height: 100px; z-index: 5000; pointer-events: none; }
+        #clippy-bubble { position: absolute; bottom: 80px; right: 10px; background: #ffffcc; border: 1px solid #000; padding: 10px; border-radius: 5px; font-size: 14px; color: black; width: 150px; display: none; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); pointer-events: auto; }
         #clippy-char { font-size: 60px; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5)); }
 
         /* --- DESKTOP --- */
-        .desktop {
-            position: relative; width: 100%; height: calc(100vh - 40px);
-            padding: 20px; display: flex; flex-direction: column; flex-wrap: wrap;
-            align-content: flex-start; gap: 15px; opacity: 0; transition: opacity 1s;
-        }
-        .icon { width: 80px; text-align: center; cursor: pointer; color: #fff; text-shadow: 1px 1px 0 #000; display: flex; flex-direction: column; align-items: center; }
+        .desktop { position: relative; width: 100%; height: calc(100vh - 40px); padding: 20px; display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; gap: 15px; opacity: 0; transition: opacity 1s; }
+        .icon { width: 80px; text-align: center; cursor: pointer; color: #fff; text-shadow: 1px 1px 0 #000; display: flex; flex-direction: column; align-items: center; margin-bottom: 10px; }
         .icon:active .icon-text { background-color: var(--win-blue); border: 1px dotted white; }
-        .icon-img { width: 48px; height: 48px; background-size: contain; background-repeat: no-repeat; margin-bottom: 5px; image-rendering: pixelated; }
-
-        /* SVGs for Icons */
-        .icon-comp { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💻</text></svg>'); }
-        .icon-fold { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📁</text></svg>'); }
-        .icon-web { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌐</text></svg>'); }
-        .icon-set { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📺</text></svg>'); }
-        .icon-mus { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎵</text></svg>'); }
-        .icon-paint { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎨</text></svg>'); }
-        .icon-cmd { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📟</text></svg>'); }
-        .icon-defrag { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💾</text></svg>'); }
-        .icon-danger { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">☢️</text></svg>'); }
+        .icon-img { width: 48px; height: 48px; background-size: contain; background-repeat: no-repeat; margin-bottom: 5px; image-rendering: pixelated; font-size: 40px; text-align: center; line-height: 48px;}
 
         /* --- WINDOWS --- */
-        .window {
-            position: absolute; background-color: var(--win-gray);
-            border: 2px solid; border-color: var(--win-border-light) var(--win-border-black) var(--win-border-black) var(--win-border-light);
-            box-shadow: 2px 2px 0 var(--win-border-dark); min-width: 300px;
-            display: none; flex-direction: column;
-        }
+        .window { position: absolute; background-color: var(--win-gray); border: 2px solid; border-color: var(--win-border-light) var(--win-border-black) var(--win-border-black) var(--win-border-light); box-shadow: 2px 2px 0 var(--win-border-dark); min-width: 300px; display: none; flex-direction: column; }
         .window.active { z-index: 100; }
         .title-bar { background: linear-gradient(90deg, var(--win-blue), #1084d0); padding: 3px 5px; display: flex; justify-content: space-between; align-items: center; }
         .vapor-title { background: linear-gradient(90deg, var(--vapor-pink), var(--vapor-purple)); }
@@ -168,7 +114,10 @@
         .window-body { padding: 15px; font-size: 18px; color: black; overflow-y: auto; max-height: 400px; }
         .window-body a { color: blue; text-decoration: underline; cursor: pointer;}
 
-        /* --- SPECIAL WINDOWS STYLES --- */
+        /* BSOD */
+        #bsod { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0000AA; color: #fff; z-index: 99999; padding: 50px; font-family: 'Courier New', monospace; font-size: 20px; cursor: none; }
+        .bsod-center { text-align: center; margin-top: 100px; }
+
         /* Terminal */
         .cmd-body { background: black; color: #00ff00; font-family: monospace; padding: 10px; height: 300px; overflow-y: auto; }
         .cmd-input-line { display: flex; }
@@ -187,14 +136,25 @@
         .block.done { background: #000080; }
         .block.vapor { background: var(--vapor-pink); }
 
-        /* Player */
-        .winamp-body { background: #222; color: #0f0; padding: 10px; font-family: monospace; }
-        .player-screen { background: #000; border: 2px inset #555; padding: 5px; margin-bottom: 10px; height: 30px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
-        .player-controls { display: flex; gap: 5px; flex-wrap: wrap; }
-        .player-btn { background: linear-gradient(#eee, #ccc); border: 1px outset #fff; padding: 5px 10px; font-size: 14px; cursor: pointer; min-width: 60px; color: black; }
-        .player-btn:active { border: 1px inset #fff; }
+        /* Calculator */
+        .calc-display { background: white; border: 2px inset #888; text-align: right; padding: 5px; margin-bottom: 10px; font-family: monospace; font-size: 24px; }
+        .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .calc-btn { height: 35px; background: var(--win-gray); border: 2px outset #fff; cursor: pointer; font-weight: bold; }
+        .calc-btn:active { border: 2px inset #fff; }
+        
+        /* Minesweeper */
+        .mine-grid { display: grid; grid-template-columns: repeat(9, 30px); gap: 1px; border: 3px inset #fff; background: #808080; width: fit-content; margin: 0 auto; }
+        .mine-cell { width: 30px; height: 30px; background: #c0c0c0; border: 2px outset #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; }
+        .mine-cell.revealed { border: 1px solid #808080; background: #c0c0c0; }
+        .mine-cell:active { border: none; }
+        
+        /* Recycle Bin */
+        .file-list { display: flex; flex-direction: column; gap: 5px; }
+        .file-item { display: flex; align-items: center; padding: 5px; cursor: pointer; }
+        .file-item:hover { background: #000080; color: white; }
+        .file-icon { margin-right: 10px; }
 
-        /* --- TASKBAR & MENU --- */
+        /* Taskbar */
         .taskbar { position: fixed; bottom: 0; left: 0; width: 100%; height: 35px; background-color: var(--win-gray); border-top: 2px solid var(--win-border-light); display: flex; align-items: center; padding: 2px; z-index: 1000; opacity: 0; transition: opacity 1s; }
         .start-btn { display: flex; align-items: center; height: 26px; padding: 0 5px; background-color: var(--win-gray); border: 2px outset #fff; font-weight: bold; font-family: inherit; font-size: 16px; cursor: pointer; }
         .start-btn:active, .start-btn.active { border: 2px inset #fff; }
@@ -222,12 +182,9 @@
 
     <div class="scanlines"></div>
 
-    <!-- XMAS LAYER (Snow & Lights) -->
+    <!-- XMAS LAYER -->
     <div id="xmas-layer">
-        <div class="lights-wire" id="lights-container">
-            <!-- Lights generated by JS -->
-        </div>
-        <!-- Snow generated by JS -->
+        <div class="lights-wire" id="lights-container"></div>
     </div>
 
     <!-- ФОН -->
@@ -237,7 +194,7 @@
     </div>
 
     <!-- SCREENSAVER -->
-    <div id="screensaver" onclick="stopSaver()">
+    <div id="screensaver">
         <div id="saver-text">ERRIDIAN</div>
     </div>
 
@@ -282,50 +239,159 @@
 
     <!-- DESKTOP -->
     <div class="desktop" id="desktop">
+        <div class="icon" onclick="openWindow('mycomp')">
+            <div class="icon-img">💻</div>
+            <div class="icon-text glitch-hover">System</div>
+        </div>
+        <div class="icon" onclick="openWindow('recycle')">
+            <div class="icon-img">🗑️</div>
+            <div class="icon-text glitch-hover">Recycle</div>
+        </div>
         <div class="icon" onclick="openWindow('about')">
-            <div class="icon-comp icon-img"></div>
-            <div class="icon-text">О себе</div>
+            <div class="icon-img">📄</div>
+            <div class="icon-text glitch-hover">About Me</div>
         </div>
         <div class="icon" onclick="openWindow('projects')">
-            <div class="icon-fold icon-img"></div>
-            <div class="icon-text">Проекты</div>
+            <div class="icon-img">📁</div>
+            <div class="icon-text glitch-hover">Projects</div>
         </div>
-        <div class="icon" onclick="openWindow('skills')">
-            <div class="icon-defrag icon-img"></div>
-            <div class="icon-text">Навыки</div>
+        <div class="icon" onclick="openWindow('notepad')">
+            <div class="icon-img">📝</div>
+            <div class="icon-text glitch-hover">Notepad</div>
         </div>
-        <div class="icon" onclick="openWindow('terminal')">
-            <div class="icon-cmd icon-img"></div>
-            <div class="icon-text">Terminal</div>
+        <div class="icon" onclick="openWindow('calc')">
+            <div class="icon-img">🧮</div>
+            <div class="icon-text glitch-hover">Calc</div>
+        </div>
+        <div class="icon" onclick="openWindow('minesweeper')">
+            <div class="icon-img">💣</div>
+            <div class="icon-text glitch-hover">Sweeper</div>
         </div>
         <div class="icon" onclick="openWindow('paint')">
-            <div class="icon-paint icon-img"></div>
-            <div class="icon-text">Paint</div>
+            <div class="icon-img">🎨</div>
+            <div class="icon-text glitch-hover">Paint</div>
         </div>
-        <div class="icon" onclick="openWindow('settings')">
-            <div class="icon-set icon-img"></div>
-            <div class="icon-text">Свойства</div>
+        <div class="icon" onclick="openWindow('terminal')">
+            <div class="icon-img">📟</div>
+            <div class="icon-text glitch-hover">CMD</div>
         </div>
         <div class="icon" onclick="openWindow('player')">
-            <div class="icon-mus icon-img"></div>
-            <div class="icon-text">Радио</div>
+            <div class="icon-img">🎵</div>
+            <div class="icon-text glitch-hover">WinAmp</div>
         </div>
-        <div class="icon" onclick="showBsod()">
-            <div class="icon-danger icon-img"></div>
-            <div class="icon-text">DO NOT TOUCH</div>
+        <div class="icon" onclick="openWindow('settings')">
+            <div class="icon-img">📺</div>
+            <div class="icon-text glitch-hover">Settings</div>
+        </div>
+         <div class="icon" onclick="showBsod()">
+            <div class="icon-img">☢️</div>
+            <div class="icon-text glitch-hover">Danger</div>
         </div>
     </div>
 
     <!-- WINDOWS -->
 
+    <!-- My Computer -->
+    <div class="window" id="mycomp" style="top: 20px; left: 20px; width: 350px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'mycomp')">
+            <div class="title-bar-text glitch-hover">System Information</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('mycomp')">X</button></div>
+        </div>
+        <div class="window-body">
+            <p><strong>System Diagnostics:</strong></p>
+            <ul id="sys-info"></ul>
+        </div>
+    </div>
+
+    <!-- Recycle Bin -->
+    <div class="window" id="recycle" style="top: 50px; left: 50px; width: 300px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'recycle')">
+            <div class="title-bar-text glitch-hover">Recycle Bin</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('recycle')">X</button></div>
+        </div>
+        <div class="window-body">
+            <div class="file-list">
+                <div class="file-item" onclick="alert('File corrupted: Cannot restore lost dreams.')">
+                    <span class="file-icon">📄</span> hopes_and_dreams.txt
+                </div>
+                <div class="file-item" onclick="alert('Error 404: Time not found.')">
+                    <span class="file-icon">💾</span> wasted_time.exe
+                </div>
+                <div class="file-item" onclick="alert('This file is too heavy to move.')">
+                    <span class="file-icon">🖼️</span> childhood_memories.jpg
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notepad -->
+    <div class="window" id="notepad" style="top: 80px; left: 80px; width: 300px; height: 300px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'notepad')">
+            <div class="title-bar-text glitch-hover">thoughts.txt - Notepad</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('notepad')">X</button></div>
+        </div>
+        <div class="window-body" style="padding: 0; height: 100%; display: flex; flex-direction: column;">
+            <div style="background: #ddd; padding: 2px 5px; border-bottom: 1px solid #888; font-size: 14px;">File Edit Search Help</div>
+            <textarea id="notepad-area" style="width: 100%; height: 100%; border: none; resize: none; font-family: 'Courier New'; font-size: 16px; padding: 5px; outline: none; background: white;" placeholder="Type here... (Auto-saved)"></textarea>
+        </div>
+    </div>
+
+    <!-- Calculator -->
+    <div class="window" id="calc" style="top: 110px; left: 110px; width: 220px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'calc')">
+            <div class="title-bar-text glitch-hover">Calculator</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('calc')">X</button></div>
+        </div>
+        <div class="window-body">
+            <div class="calc-display" id="calc-display">0</div>
+            <div class="calc-keys">
+                <button class="calc-btn" onclick="calcInput('7')">7</button>
+                <button class="calc-btn" onclick="calcInput('8')">8</button>
+                <button class="calc-btn" onclick="calcInput('9')">9</button>
+                <button class="calc-btn" onclick="calcInput('/')">/</button>
+                <button class="calc-btn" onclick="calcInput('4')">4</button>
+                <button class="calc-btn" onclick="calcInput('5')">5</button>
+                <button class="calc-btn" onclick="calcInput('6')">6</button>
+                <button class="calc-btn" onclick="calcInput('*')">*</button>
+                <button class="calc-btn" onclick="calcInput('1')">1</button>
+                <button class="calc-btn" onclick="calcInput('2')">2</button>
+                <button class="calc-btn" onclick="calcInput('3')">3</button>
+                <button class="calc-btn" onclick="calcInput('-')">-</button>
+                <button class="calc-btn" onclick="calcInput('0')">0</button>
+                <button class="calc-btn" onclick="calcInput('.')">.</button>
+                <button class="calc-btn" onclick="calcResult()">=</button>
+                <button class="calc-btn" onclick="calcInput('+')">+</button>
+                <button class="calc-btn" onclick="calcClear()" style="grid-column: span 4; background: #ffcccc;">C</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minesweeper -->
+    <div class="window" id="minesweeper" style="top: 140px; left: 140px; width: auto;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'minesweeper')">
+            <div class="title-bar-text glitch-hover">VaporSweeper</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('minesweeper')">X</button></div>
+        </div>
+        <div class="window-body" style="text-align: center; background: #c0c0c0;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border: 2px inset #fff; padding: 5px;">
+                <div style="background:black; color:red; font-family: monospace; font-size: 20px; padding: 0 5px;">010</div>
+                <button onclick="initMinesweeper()">😎</button>
+                <div style="background:black; color:red; font-family: monospace; font-size: 20px; padding: 0 5px;" id="timer">000</div>
+            </div>
+            <div class="mine-grid" id="mine-grid">
+                <!-- JS Generated -->
+            </div>
+        </div>
+    </div>
+
     <!-- About -->
-    <div class="window" id="about" style="top: 30px; left: 30px; width: 400px;">
+    <div class="window" id="about" style="top: 30px; left: 300px; width: 400px;">
         <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'about')">
-            <div class="title-bar-text">Erridian.txt</div>
+            <div class="title-bar-text glitch-hover">Erridian.txt</div>
             <div class="title-bar-controls"><button onclick="closeWindow('about')">X</button></div>
         </div>
         <div class="window-body">
-             <pre style="color: var(--vapor-purple); font-size: 10px;">
+            <pre style="color: var(--vapor-purple); font-size: 10px;">
   ███████╗██████╗ ██████╗ ██╗██████╗ ██╗ █████╗ ███╗   ██╗
   ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗██║██╔══██╗████╗  ██║
   █████╗  ██████╔╝██████╔╝██║██║  ██║██║███████║██╔██╗ ██║
@@ -339,11 +405,12 @@
 			<p>А-кхем...</p>
         </div>
     </div>
+    </div>
 
     <!-- Projects -->
-    <div class="window" id="projects" style="top: 60px; left: 80px; width: 350px;">
+    <div class="window" id="projects" style="top: 60px; left: 350px; width: 350px;">
         <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')">
-            <div class="title-bar-text">Projects</div>
+            <div class="title-bar-text glitch-hover">Projects</div>
             <div class="title-bar-controls"><button onclick="closeWindow('projects')">X</button></div>
         </div>
         <div class="window-body">
@@ -356,16 +423,14 @@
     </div>
 
     <!-- Defrag (Skills) -->
-    <div class="window" id="skills" style="top: 90px; left: 130px; width: 320px;">
+    <div class="window" id="skills" style="top: 90px; left: 400px; width: 320px;">
         <div class="title-bar" onmousedown="dragMouseDown(event, 'skills')">
-            <div class="title-bar-text">Disk Defragmenter - Skills (C:)</div>
+            <div class="title-bar-text glitch-hover">Disk Defragmenter - Skills</div>
             <div class="title-bar-controls"><button onclick="closeWindow('skills')">X</button></div>
         </div>
         <div class="window-body">
             <p id="defrag-status">Optimizing: JS Kernel...</p>
-            <div class="defrag-grid" id="defrag-grid">
-                <!-- Blocks generated by JS -->
-            </div>
+            <div class="defrag-grid" id="defrag-grid"></div>
             <div style="margin-top: 10px; display: flex; gap: 10px; font-size: 14px;">
                 <span style="display:inline-block; width:10px; height:10px; background:#000080;"></span> Opt
                 <span style="display:inline-block; width:10px; height:10px; background:var(--vapor-pink);"></span> Vapor
@@ -376,9 +441,9 @@
     </div>
 
     <!-- Terminal -->
-    <div class="window" id="terminal" style="top: 120px; left: 180px; width: 500px;">
+    <div class="window" id="terminal" style="top: 120px; left: 450px; width: 500px;">
         <div class="title-bar" style="background: #000;" onmousedown="dragMouseDown(event, 'terminal')">
-            <div class="title-bar-text">MS-DOS Prompt</div>
+            <div class="title-bar-text glitch-hover">MS-DOS Prompt</div>
             <div class="title-bar-controls"><button onclick="closeWindow('terminal')">X</button></div>
         </div>
         <div class="cmd-body" id="cmd-output" onclick="document.getElementById('cmd-input').focus()">
@@ -394,9 +459,9 @@
     </div>
 
     <!-- Paint -->
-    <div class="window" id="paint" style="top: 150px; left: 230px; width: 450px;">
+    <div class="window" id="paint" style="top: 150px; left: 500px; width: 450px;">
         <div class="title-bar" onmousedown="dragMouseDown(event, 'paint')">
-            <div class="title-bar-text">untitled - Paint</div>
+            <div class="title-bar-text glitch-hover">untitled - Paint</div>
             <div class="title-bar-controls"><button onclick="closeWindow('paint')">X</button></div>
         </div>
         <div class="window-body" style="padding: 5px;">
@@ -415,7 +480,7 @@
     <!-- Settings -->
     <div class="window" id="settings" style="top: 200px; left: 300px; width: 300px;">
         <div class="title-bar" onmousedown="dragMouseDown(event, 'settings')">
-            <div class="title-bar-text">Display Properties</div>
+            <div class="title-bar-text glitch-hover">Display Properties</div>
             <div class="title-bar-controls"><button onclick="closeWindow('settings')">X</button></div>
         </div>
         <div class="window-body">
@@ -441,7 +506,7 @@
     <!-- Player -->
     <div class="window" id="player" style="top: 220px; left: 400px; width: 340px;">
         <div class="title-bar" style="background: #000080;" onmousedown="dragMouseDown(event, 'player')">
-            <div class="title-bar-text">WinAmp</div>
+            <div class="title-bar-text glitch-hover">WinAmp</div>
             <div class="title-bar-controls"><button onclick="closeWindow('player')">X</button></div>
         </div>
         <div class="winamp-body">
@@ -470,7 +535,9 @@
         <div class="sidebar"><span class="sidebar-text">ERRIDIAN 95</span></div>
         <div class="menu-items">
             <div class="menu-item" onclick="openWindow('about'); toggleStartMenu()">📂 О себе</div>
-            <div class="menu-item" onclick="openWindow('skills'); toggleStartMenu()">💾 Навыки</div>
+            <div class="menu-item" onclick="openWindow('minesweeper'); toggleStartMenu()">💣 Сапёр</div>
+            <div class="menu-item" onclick="openWindow('notepad'); toggleStartMenu()">📝 Блокнот</div>
+            <div class="menu-item" onclick="openWindow('calc'); toggleStartMenu()">🧮 Калькулятор</div>
             <div class="menu-item" onclick="openWindow('terminal'); toggleStartMenu()">📟 CMD</div>
             <div class="menu-item" onclick="openWindow('paint'); toggleStartMenu()">🎨 Paint</div>
             <div class="menu-item" onclick="showBsod(); toggleStartMenu()">☢️ Crash</div>
@@ -480,70 +547,171 @@
     </div>
 
     <script>
-        // --- BOOT & BIOS ---
         window.onload = function() {
             runBios(); updateClock(); initDefrag(); initPaint(); startClippy(); initXmas();
+            setupScreensaver(); loadSysInfo(); initNotepad(); initMinesweeper();
         };
 
+        // --- SCREENSAVER LOGIC ---
+        let idleTime = 0, saverInterval, animInterval;
+        const saverDiv = document.getElementById('screensaver'), saverText = document.getElementById('saver-text');
+        let posX = 100, posY = 100, velX = 2, velY = 2;
+
+        function setupScreensaver() {
+            ['mousemove', 'mousedown', 'keypress', 'touchmove', 'scroll', 'click'].forEach(evt => document.addEventListener(evt, resetTimer));
+            saverInterval = setInterval(() => { idleTime++; if (idleTime >= 60) startSaver(); }, 1000);
+        }
+        function resetTimer() { idleTime = 0; if (saverDiv.style.display === 'block') stopSaver(); }
+        function startSaver() {
+            if (saverDiv.style.display === 'block') return;
+            saverDiv.style.display = 'block';
+            posX = Math.random() * (window.innerWidth - 200); posY = Math.random() * (window.innerHeight - 100);
+            velX = 3; velY = 3; clearInterval(animInterval); animInterval = setInterval(animateDVD, 20);
+        }
+        function stopSaver() { saverDiv.style.display = 'none'; clearInterval(animInterval); }
+        function animateDVD() {
+            const winW = window.innerWidth, winH = window.innerHeight, textW = saverText.offsetWidth, textH = saverText.offsetHeight;
+            posX += velX; posY += velY;
+            if (posX <= 0 || posX + textW >= winW) { velX = -velX; changeColor(); }
+            if (posY <= 0 || posY + textH >= winH) { velY = -velY; changeColor(); }
+            saverText.style.left = posX + 'px'; saverText.style.top = posY + 'px';
+        }
+        function changeColor() {
+            const colors = ['#ff71ce', '#01cdfe', '#b967ff', '#fff', '#ffff00'];
+            saverText.style.color = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // --- BOOT & BIOS ---
         function runBios() {
             let mem = 0;
-            const memText = document.getElementById('memory-check');
-            const lines = document.getElementById('bios-details');
+            const memText = document.getElementById('memory-check'), lines = document.getElementById('bios-details');
             const interval = setInterval(() => {
                 mem += 2048;
                 if(mem >= 64512) {
                     mem = 64512; memText.innerText = "Memory Test: "+mem+" KB OK"; clearInterval(interval);
                     setTimeout(() => lines.innerHTML += '<div>Detecting HDD... OK</div>', 500);
-                    setTimeout(() => lines.innerHTML += '<div>Loading Holiday Modules...</div>', 1000);
-                    setTimeout(() => lines.innerHTML += '<div>Booting Erridian OS...</div>', 2000);
+                    setTimeout(() => lines.innerHTML += '<div>Booting Erridian OS...</div>', 1500);
                     setTimeout(() => {
                         document.getElementById('boot-screen').style.display = 'none';
                         document.getElementById('desktop').style.opacity = 1;
                         document.getElementById('taskbar').style.opacity = 1;
                         openWindow('about');
-                    }, 3500);
+                    }, 3000);
                 } else memText.innerText = "Memory Test: "+mem+" KB";
             }, 10);
         }
 
-        // --- XMAS LOGIC ---
+        // --- SYSTEM INFO ---
+        function loadSysInfo() {
+            const list = document.getElementById('sys-info');
+            list.innerHTML = `
+                <li>OS: Erridian 95</li>
+                <li>Resolution: ${screen.width}x${screen.height}</li>
+                <li>Browser: ${navigator.userAgent.split(' ')[0]}</li>
+                <li>Cores: ${navigator.hardwareConcurrency || 1}</li>
+                <li>Language: ${navigator.language.toUpperCase()}</li>
+            `;
+        }
+
+        // --- NOTEPAD ---
+        function initNotepad() {
+            const area = document.getElementById('notepad-area');
+            const saved = localStorage.getItem('vapor_note');
+            if(saved) area.value = saved;
+            area.addEventListener('input', () => localStorage.setItem('vapor_note', area.value));
+        }
+
+        // --- CALCULATOR ---
+        let calcBuffer = "";
+        function calcInput(v) {
+            calcBuffer += v; document.getElementById('calc-display').innerText = calcBuffer;
+        }
+        function calcResult() {
+            try { calcBuffer = eval(calcBuffer).toString(); } catch(e) { calcBuffer = "Error"; }
+            document.getElementById('calc-display').innerText = calcBuffer;
+        }
+        function calcClear() { calcBuffer = ""; document.getElementById('calc-display').innerText = "0"; }
+
+        // --- MINESWEEPER ---
+        const rows = 9, cols = 9, minesCount = 10;
+        let mineGrid = [], mines = [];
+        
+        function initMinesweeper() {
+            const container = document.getElementById('mine-grid');
+            container.innerHTML = '';
+            mineGrid = []; mines = [];
+            // Init Grid
+            for(let r=0; r<rows; r++) {
+                mineGrid[r] = [];
+                for(let c=0; c<cols; c++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'mine-cell';
+                    cell.dataset.r = r; cell.dataset.c = c;
+                    cell.onclick = () => clickCell(r, c);
+                    container.appendChild(cell);
+                    mineGrid[r][c] = { mine: false, revealed: false, el: cell };
+                }
+            }
+            // Place Mines
+            let placed = 0;
+            while(placed < minesCount) {
+                let r = Math.floor(Math.random() * rows);
+                let c = Math.floor(Math.random() * cols);
+                if(!mineGrid[r][c].mine) { mineGrid[r][c].mine = true; placed++; }
+            }
+        }
+        
+        function clickCell(r, c) {
+            if(r<0 || r>=rows || c<0 || c>=cols || mineGrid[r][c].revealed) return;
+            const cell = mineGrid[r][c];
+            cell.revealed = true;
+            cell.el.classList.add('revealed');
+            
+            if(cell.mine) {
+                cell.el.innerHTML = '💣'; cell.el.style.background = 'red';
+                alert('GAME OVER');
+                initMinesweeper();
+            } else {
+                let count = 0;
+                for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) {
+                    if(r+i>=0 && r+i<rows && c+j>=0 && c+j<cols && mineGrid[r+i][c+j].mine) count++;
+                }
+                if(count > 0) { 
+                    cell.el.innerText = count;
+                    const colors = ['blue', 'green', 'red', 'purple', 'maroon', 'turquoise', 'black', 'gray'];
+                    cell.el.style.color = colors[count-1];
+                } else {
+                    for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) clickCell(r+i, c+j);
+                }
+            }
+        }
+
+        // --- XMAS ---
         function initXmas() {
             const layer = document.getElementById('xmas-layer');
             const lights = document.getElementById('lights-container');
-            
-            // Create Snow
             for(let i=0; i<50; i++) {
                 let flake = document.createElement('div');
-                flake.className = 'snowflake';
-                flake.innerText = '❄';
+                flake.className = 'snowflake'; flake.innerText = '❄';
                 flake.style.left = Math.random() * 100 + 'vw';
                 flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
                 flake.style.opacity = Math.random();
                 layer.appendChild(flake);
             }
-
-            // Create Lights
             for(let i=0; i<30; i++) {
                 let bulb = document.createElement('div');
-                bulb.className = 'light-bulb';
-                lights.appendChild(bulb);
+                bulb.className = 'light-bulb'; lights.appendChild(bulb);
             }
-            
-            // Show by default
             layer.style.display = 'block';
         }
-
         function toggleXmas() {
             const cb = document.getElementById('xmas-toggle');
-            const layer = document.getElementById('xmas-layer');
-            layer.style.display = cb.checked ? 'block' : 'none';
+            document.getElementById('xmas-layer').style.display = cb.checked ? 'block' : 'none';
         }
 
-        // --- WINDOW MANAGER ---
+        // --- WINDOWS ---
         let zIndex = 100;
-        function openWindow(id) {
-            const win = document.getElementById(id); win.style.display = 'flex'; bringToFront(win);
-        }
+        function openWindow(id) { document.getElementById(id).style.display = 'flex'; bringToFront(document.getElementById(id)); }
         function closeWindow(id) { document.getElementById(id).style.display = 'none'; }
         function bringToFront(el) {
             zIndex++; el.style.zIndex = zIndex;
@@ -553,60 +721,47 @@
         function dragMouseDown(e, id) {
             e.preventDefault(); const elmnt = document.getElementById(id); bringToFront(elmnt);
             let pos3 = e.clientX, pos4 = e.clientY;
-            document.onmouseup = closeDrag; document.onmousemove = elementDrag;
-            function elementDrag(e) {
+            document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
+            document.onmousemove = (e) => {
                 e.preventDefault();
                 let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
                 pos3 = e.clientX; pos4 = e.clientY;
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-            }
-            function closeDrag() { document.onmouseup = null; document.onmousemove = null; }
+            };
         }
 
         // --- PAINT ---
         let ctx, painting = false;
         function initPaint() {
-            const canvas = document.getElementById('paintCanvas');
-            ctx = canvas.getContext('2d');
+            const c = document.getElementById('paintCanvas'); ctx = c.getContext('2d');
             ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = 'black';
-            
-            canvas.addEventListener('mousedown', (e) => { painting = true; draw(e); });
-            canvas.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
-            canvas.addEventListener('mousemove', draw);
+            c.addEventListener('mousedown', (e) => { painting = true; draw(e); });
+            c.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
+            c.addEventListener('mousemove', draw);
         }
         function draw(e) {
             if(!painting) return;
-            const rect = document.getElementById('paintCanvas').getBoundingClientRect();
-            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-            ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+            const r = document.getElementById('paintCanvas').getBoundingClientRect();
+            ctx.lineTo(e.clientX - r.left, e.clientY - r.top);
+            ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
         }
         function setPaintColor(c) { ctx.strokeStyle = c; }
         function clearCanvas() { ctx.clearRect(0,0,400,300); }
 
-        // --- DEFRAG (SKILLS) ---
+        // --- DEFRAG ---
         function initDefrag() {
-            const grid = document.getElementById('defrag-grid');
-            for(let i=0; i<100; i++) {
-                let div = document.createElement('div');
-                div.className = 'block';
-                div.id = 'block-'+i;
-                grid.appendChild(div);
-            }
+            const g = document.getElementById('defrag-grid');
+            for(let i=0; i<100; i++) { let d = document.createElement('div'); d.className = 'block'; d.id = 'block-'+i; g.appendChild(d); }
         }
         function startDefrag() {
-            const status = document.getElementById('defrag-status');
-            let i = 0;
+            const s = document.getElementById('defrag-status'); let i = 0;
             const int = setInterval(() => {
-                if(i >= 100) { 
-                    clearInterval(int); status.innerText = "Optimization Complete.";
-                } else {
-                    const block = document.getElementById('block-'+i);
-                    block.className = 'block reading';
-                    setTimeout(() => block.className = 'block writing', 20);
-                    setTimeout(() => block.className = 'block ' + (Math.random() > 0.8 ? 'vapor' : 'done'), 50);
-                    status.innerText = "Optimizing Sector " + i;
-                    i++;
+                if(i >= 100) { clearInterval(int); s.innerText = "Optimization Complete."; } else {
+                    const b = document.getElementById('block-'+i); b.className = 'block reading';
+                    setTimeout(() => b.className = 'block writing', 20);
+                    setTimeout(() => b.className = 'block ' + (Math.random() > 0.8 ? 'vapor' : 'done'), 50);
+                    s.innerText = "Optimizing Sector " + i; i++;
                 }
             }, 50);
         }
@@ -614,104 +769,62 @@
         // --- TERMINAL ---
         function handleCmd(e) {
             if(e.key === 'Enter') {
-                const input = e.target;
-                const val = input.value.trim().toLowerCase();
-                const history = document.getElementById('cmd-history');
-                history.innerHTML += `<div>C:\\WINDOWS> ${input.value}</div>`;
-                
-                let response = "";
+                const inp = e.target; const val = inp.value.trim().toLowerCase();
+                const h = document.getElementById('cmd-history');
+                h.innerHTML += `<div>C:\\WINDOWS> ${inp.value}</div>`;
+                let r = "";
                 switch(val) {
-                    case 'help': response = "Commands: about, projects, clear, date, reboot, matrix, sudo"; break;
-                    case 'about': response = "Erridian. Web Developer. Retro Enthusiast."; break;
-                    case 'projects': response = "Visit 'Projects' folder on desktop."; openWindow('projects'); break;
-                    case 'clear': history.innerHTML = ""; response = ""; break;
-                    case 'date': response = new Date().toString(); break;
+                    case 'help': r = "Commands: about, projects, clear, date, reboot, matrix, sudo"; break;
+                    case 'about': r = "Erridian. Web Developer. Retro Enthusiast."; break;
+                    case 'projects': r = "Visit 'Projects' folder on desktop."; openWindow('projects'); break;
+                    case 'clear': h.innerHTML = ""; r = ""; break;
+                    case 'date': r = new Date().toString(); break;
                     case 'reboot': location.reload(); break;
-                    case 'sudo': response = "Admin privileges required. You have no power here."; break;
-                    case 'matrix': response = "Wake up, Neo... (Just kidding, CSS effect not loaded)"; break;
-                    default: response = val ? "Bad command or file name" : "";
+                    case 'sudo': r = "Admin privileges required."; break;
+                    case 'matrix': r = "Wake up, Neo..."; break;
+                    default: r = val ? "Bad command" : "";
                 }
-                
-                if(response) history.innerHTML += `<div>${response}</div>`;
-                input.value = "";
-                document.getElementById('cmd-output').scrollTop = document.getElementById('cmd-output').scrollHeight;
+                if(r) h.innerHTML += `<div>${r}</div>`;
+                inp.value = ""; document.getElementById('cmd-output').scrollTop = document.getElementById('cmd-output').scrollHeight;
             }
         }
 
-        // --- CLIPPY (VAPOR) ---
-        const quotes = [
-            "Ты ищешь ответы в коде?",
-            "Музыка играет, но слышит ли её кто-то?",
-            "Это всего лишь эмуляция...",
-            "Где твой бог теперь?",
-            "Ностальгия - это ловушка.",
-            "Эстетика вечна."
-        ];
+        // --- CLIPPY ---
+        const quotes = ["Ты ищешь ответы?", "Музыка играет...", "Эстетика вечна."];
         function startClippy() {
             setInterval(() => {
-                const bubble = document.getElementById('clippy-bubble');
+                const b = document.getElementById('clippy-bubble');
                 if(Math.random() > 0.7) {
-                    bubble.innerText = quotes[Math.floor(Math.random() * quotes.length)];
-                    bubble.style.display = 'block';
-                    setTimeout(() => bubble.style.display = 'none', 4000);
+                    b.innerText = quotes[Math.floor(Math.random() * quotes.length)];
+                    b.style.display = 'block'; setTimeout(() => b.style.display = 'none', 4000);
                 }
             }, 10000);
         }
 
-        // --- BSOD & SAVER ---
+        // --- BSOD ---
         function showBsod() { document.getElementById('bsod').style.display = 'block'; }
         function hideBsod() { document.getElementById('bsod').style.display = 'none'; }
         
-        let idleTime = 0;
-        document.onmousemove = resetTimer;
-        document.onkeypress = resetTimer;
-        
-        function resetTimer() {
-            document.getElementById('screensaver').style.display = 'none';
-            idleTime = 0;
-        }
-        
-        setInterval(() => {
-            idleTime++;
-            if(idleTime > 60) {
-                const saver = document.getElementById('screensaver');
-                saver.style.display = 'block';
-                const text = document.getElementById('saver-text');
-                const x = Math.floor(Math.random() * (window.innerWidth - 200));
-                const y = Math.floor(Math.random() * (window.innerHeight - 100));
-                text.style.top = y + 'px';
-                text.style.left = x + 'px';
-            }
-        }, 1000);
-
         // --- COMMON ---
         function setTheme(t) { document.getElementById('bg-layer').className = t; }
         function updateClock() {
-            const now = new Date();
-            let h = now.getHours(), m = String(now.getMinutes()).padStart(2, '0');
+            const now = new Date(); let h = now.getHours(), m = String(now.getMinutes()).padStart(2, '0');
             document.getElementById('clock').innerText = h + ":" + m + " " + (h>=12?'PM':'AM');
         }
         setInterval(updateClock, 1000);
         function toggleStartMenu() {
-            const m = document.getElementById('startMenu');
-            m.style.display = (m.style.display==='flex')?'none':'flex';
+            const m = document.getElementById('startMenu'); m.style.display = (m.style.display==='flex')?'none':'flex';
         }
+        document.addEventListener('click', e => {
+            const m = document.getElementById('startMenu'), b = document.querySelector('.start-btn');
+            if(!m.contains(e.target) && !b.contains(e.target)) { m.style.display = 'none'; b.classList.remove('active'); }
+        });
 
-        // --- AUDIO ---
-        const stations = {
-            'vapor': 'https://radio.plaza.one/mp3',
-            'soviet': 'https://radiorecord.hostingradio.ru/synth96.aacp',
-            'chiptune': { url: 'https://relay.rainwave.cc/chiptune.ogg?1:TjVColB3tE'}, 
-            'lofi': 'https://lofi.stream.laut.fm/lofi'
-        };
+        // --- RADIO ---
+        const stations = {'vapor': 'https://radio.plaza.one/mp3', 'soviet': 'https://radiorecord.hostingradio.ru/synth96.aacp', 'chiptune': 'https://relay.rainwave.cc/chiptune.ogg?1:TjVColB3tE', 'lofi': 'https://lofi.stream.laut.fm/lofi'};
         const audio = document.getElementById('audio-player');
-        const pScreen = document.getElementById('player-screen');
-        
-        function playRadio(g) {
-            audio.src = stations[g]; audio.play();
-            pScreen.innerText = "Playing: " + g.toUpperCase();
-        }
-        function stopRadio() { audio.pause(); pScreen.innerText = "Stopped"; }
+        function playRadio(g) { audio.src = stations[g]; audio.play(); document.getElementById('player-screen').innerText = "Playing: " + g.toUpperCase(); }
+        function stopRadio() { audio.pause(); document.getElementById('player-screen').innerText = "Stopped"; }
 
     </script>
 </body>
