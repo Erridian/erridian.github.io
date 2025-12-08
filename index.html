@@ -28,7 +28,13 @@
             height: 100vh; overflow: hidden;
             user-select: none; font-size: 18px;
             background-color: #000;
+            transition: filter 0.5s, transform 1s; /* Для эффектов пасхалок */
         }
+        
+        /* Класс для инверсии (Konami Code) */
+        body.invert { filter: invert(100%); }
+        /* Класс для бочки */
+        body.barrel-roll { transform: rotate(360deg); }
 
         /* --- GLITCH EFFECT --- */
         @keyframes glitch-anim {
@@ -76,6 +82,13 @@
         }
         .bios-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .bios-text { margin-bottom: 5px; text-shadow: 0 0 5px var(--vapor-blue); }
+
+        /* --- MATRIX EFFECT --- */
+        #matrix-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 7000; display: none; background: black;
+            cursor: pointer;
+        }
 
         /* --- XMAS --- */
         #xmas-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500; display: none; }
@@ -159,7 +172,7 @@
         .start-btn { display: flex; align-items: center; height: 26px; padding: 0 5px; background-color: var(--win-gray); border: 2px outset #fff; font-weight: bold; font-family: inherit; font-size: 16px; cursor: pointer; }
         .start-btn:active, .start-btn.active { border: 2px inset #fff; }
         .start-btn img { width: 18px; margin-right: 5px; }
-        .clock { margin-left: auto; border: 2px inset #fff; padding: 0 10px; height: 26px; display: flex; align-items: center; background: #fff; font-size: 16px; }
+        .clock { margin-left: auto; border: 2px inset #fff; padding: 0 10px; height: 26px; display: flex; align-items: center; background: #fff; font-size: 16px; cursor: pointer;}
         
         .start-menu { position: absolute; bottom: 37px; left: 2px; width: 200px; background-color: var(--win-gray); border: 2px outset #fff; display: none; flex-direction: column; z-index: 1001; }
         .sidebar { width: 25px; background: #000080; position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: flex-end; }
@@ -182,6 +195,9 @@
 
     <div class="scanlines"></div>
 
+    <!-- EASTER EGG LAYERS -->
+    <canvas id="matrix-canvas"></canvas>
+
     <!-- XMAS LAYER -->
     <div id="xmas-layer">
         <div class="lights-wire" id="lights-container"></div>
@@ -189,7 +205,7 @@
 
     <!-- ФОН -->
     <div id="bg-layer" class="theme-grid">
-        <div class="sun"></div>
+        <div class="sun" onclick="alert('System Warning: Sun temperature Critical!')"></div>
         <div class="grid-plane"></div>
     </div>
 
@@ -378,9 +394,7 @@
                 <button onclick="initMinesweeper()">😎</button>
                 <div style="background:black; color:red; font-family: monospace; font-size: 20px; padding: 0 5px;" id="timer">000</div>
             </div>
-            <div class="mine-grid" id="mine-grid">
-                <!-- JS Generated -->
-            </div>
+            <div class="mine-grid" id="mine-grid"></div>
         </div>
     </div>
 
@@ -404,7 +418,6 @@
             <p>Занимаюсь разными вещами. От творческих, до бесполезных...»</p>
 			<p>А-кхем...</p>
         </div>
-    </div>
     </div>
 
     <!-- Projects -->
@@ -528,7 +541,7 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Windows_95_logo_icon.svg/512px-Windows_95_logo_icon.svg.png" alt="logo"> Start
         </button>
         <div style="width: 2px; height: 26px; border-left: 1px solid white; border-right: 1px solid gray; margin: 0 5px;"></div>
-        <div class="clock" id="clock">12:00 PM</div>
+        <div class="clock" id="clock" onclick="clockClick()">12:00 PM</div>
     </div>
 
     <div class="start-menu" id="startMenu">
@@ -551,6 +564,76 @@
             runBios(); updateClock(); initDefrag(); initPaint(); startClippy(); initXmas();
             setupScreensaver(); loadSysInfo(); initNotepad(); initMinesweeper();
         };
+
+        // --- EASTER EGGS ---
+        
+        // 1. KONAMI CODE (INVERT COLORS)
+        const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+        let konamiPos = 0;
+        document.addEventListener('keydown', (e) => {
+            if(e.key === konamiCode[konamiPos]) {
+                konamiPos++;
+                if(konamiPos === konamiCode.length) {
+                    document.body.classList.toggle('invert');
+                    konamiPos = 0;
+                    alert("CHEAT CODE ACTIVATED: NEGATIVE ZONE");
+                }
+            } else { konamiPos = 0; }
+        });
+
+        // 2. CLOCK CLICKER (SECRET TIME)
+        let clockClicks = 0;
+        let secretTime = false;
+        function clockClick() {
+            clockClicks++;
+            if(clockClicks === 7) {
+                secretTime = true;
+                alert("It's always 4:20 somewhere...");
+                updateClock();
+            }
+        }
+
+        // 3. START BUTTON RAGE
+        let startClicks = 0;
+        function toggleStartMenu() {
+            startClicks++;
+            if(startClicks === 10) { alert("ХВАТИТ ТЫКАТЬ! Я БОЮСЬ ЩЕКОТКИ!"); startClicks = 0; }
+            const m = document.getElementById('startMenu');
+            m.style.display = (m.style.display==='flex')?'none':'flex';
+        }
+
+        // 4. MATRIX EFFECT
+        function startMatrix() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+            const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const nums = '0123456789';
+            const alphabet = katakana + latin + nums;
+            const fontSize = 16;
+            const columns = canvas.width/fontSize;
+            const rainDrops = Array.from({ length: columns }).fill(canvas.height);
+            
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0F0';
+                ctx.font = fontSize + 'px monospace';
+                for(let i = 0; i < rainDrops.length; i++) {
+                    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                    ctx.fillText(text, i*fontSize, rainDrops[i]*fontSize);
+                    if(rainDrops[i]*fontSize > canvas.height && Math.random() > 0.975) {
+                        rainDrops[i] = 0;
+                    }
+                    rainDrops[i]++;
+                }
+            }
+            setInterval(drawMatrix, 30);
+            canvas.onclick = () => canvas.style.display = 'none'; // Click to close
+        }
 
         // --- SCREENSAVER LOGIC ---
         let idleTime = 0, saverInterval, animInterval;
@@ -635,54 +718,33 @@
         // --- MINESWEEPER ---
         const rows = 9, cols = 9, minesCount = 10;
         let mineGrid = [], mines = [];
-        
         function initMinesweeper() {
             const container = document.getElementById('mine-grid');
-            container.innerHTML = '';
-            mineGrid = []; mines = [];
-            // Init Grid
+            container.innerHTML = ''; mineGrid = [];
             for(let r=0; r<rows; r++) {
                 mineGrid[r] = [];
                 for(let c=0; c<cols; c++) {
                     let cell = document.createElement('div');
-                    cell.className = 'mine-cell';
-                    cell.dataset.r = r; cell.dataset.c = c;
-                    cell.onclick = () => clickCell(r, c);
-                    container.appendChild(cell);
+                    cell.className = 'mine-cell'; cell.dataset.r = r; cell.dataset.c = c;
+                    cell.onclick = () => clickCell(r, c); container.appendChild(cell);
                     mineGrid[r][c] = { mine: false, revealed: false, el: cell };
                 }
             }
-            // Place Mines
             let placed = 0;
             while(placed < minesCount) {
-                let r = Math.floor(Math.random() * rows);
-                let c = Math.floor(Math.random() * cols);
+                let r = Math.floor(Math.random() * rows); let c = Math.floor(Math.random() * cols);
                 if(!mineGrid[r][c].mine) { mineGrid[r][c].mine = true; placed++; }
             }
         }
-        
         function clickCell(r, c) {
             if(r<0 || r>=rows || c<0 || c>=cols || mineGrid[r][c].revealed) return;
-            const cell = mineGrid[r][c];
-            cell.revealed = true;
-            cell.el.classList.add('revealed');
-            
-            if(cell.mine) {
-                cell.el.innerHTML = '💣'; cell.el.style.background = 'red';
-                alert('GAME OVER');
-                initMinesweeper();
-            } else {
+            const cell = mineGrid[r][c]; cell.revealed = true; cell.el.classList.add('revealed');
+            if(cell.mine) { cell.el.innerHTML = '💣'; cell.el.style.background = 'red'; alert('GAME OVER'); initMinesweeper(); } 
+            else {
                 let count = 0;
-                for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) {
-                    if(r+i>=0 && r+i<rows && c+j>=0 && c+j<cols && mineGrid[r+i][c+j].mine) count++;
-                }
-                if(count > 0) { 
-                    cell.el.innerText = count;
-                    const colors = ['blue', 'green', 'red', 'purple', 'maroon', 'turquoise', 'black', 'gray'];
-                    cell.el.style.color = colors[count-1];
-                } else {
-                    for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) clickCell(r+i, c+j);
-                }
+                for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) if(r+i>=0 && r+i<rows && c+j>=0 && c+j<cols && mineGrid[r+i][c+j].mine) count++;
+                if(count > 0) { cell.el.innerText = count; cell.el.style.color = ['blue','green','red','purple'][count-1] || 'black'; } 
+                else { for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) clickCell(r+i, c+j); }
             }
         }
 
@@ -695,19 +757,12 @@
                 flake.className = 'snowflake'; flake.innerText = '❄';
                 flake.style.left = Math.random() * 100 + 'vw';
                 flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                flake.style.opacity = Math.random();
-                layer.appendChild(flake);
+                flake.style.opacity = Math.random(); layer.appendChild(flake);
             }
-            for(let i=0; i<30; i++) {
-                let bulb = document.createElement('div');
-                bulb.className = 'light-bulb'; lights.appendChild(bulb);
-            }
+            for(let i=0; i<30; i++) { let bulb = document.createElement('div'); bulb.className = 'light-bulb'; lights.appendChild(bulb); }
             layer.style.display = 'block';
         }
-        function toggleXmas() {
-            const cb = document.getElementById('xmas-toggle');
-            document.getElementById('xmas-layer').style.display = cb.checked ? 'block' : 'none';
-        }
+        function toggleXmas() { const cb = document.getElementById('xmas-toggle'); document.getElementById('xmas-layer').style.display = cb.checked ? 'block' : 'none'; }
 
         // --- WINDOWS ---
         let zIndex = 100;
@@ -723,11 +778,9 @@
             let pos3 = e.clientX, pos4 = e.clientY;
             document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
             document.onmousemove = (e) => {
-                e.preventDefault();
-                let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
+                e.preventDefault(); let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
                 pos3 = e.clientX; pos4 = e.clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
             };
         }
 
@@ -743,8 +796,7 @@
         function draw(e) {
             if(!painting) return;
             const r = document.getElementById('paintCanvas').getBoundingClientRect();
-            ctx.lineTo(e.clientX - r.left, e.clientY - r.top);
-            ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
+            ctx.lineTo(e.clientX - r.left, e.clientY - r.top); ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
         }
         function setPaintColor(c) { ctx.strokeStyle = c; }
         function clearCanvas() { ctx.clearRect(0,0,400,300); }
@@ -774,23 +826,26 @@
                 h.innerHTML += `<div>C:\\WINDOWS> ${inp.value}</div>`;
                 let r = "";
                 switch(val) {
-                    case 'help': r = "Commands: about, projects, clear, date, reboot, matrix, sudo"; break;
+                    case 'help': r = "Commands: about, projects, clear, date, reboot, matrix, sudo, barrel roll, 42, cat"; break;
                     case 'about': r = "Erridian. Web Developer. Retro Enthusiast."; break;
                     case 'projects': r = "Visit 'Projects' folder on desktop."; openWindow('projects'); break;
                     case 'clear': h.innerHTML = ""; r = ""; break;
                     case 'date': r = new Date().toString(); break;
                     case 'reboot': location.reload(); break;
                     case 'sudo': r = "Admin privileges required."; break;
-                    case 'matrix': r = "Wake up, Neo..."; break;
+                    case 'matrix': r = "Wake up, Neo... (Starting Matrix Mode)"; startMatrix(); break;
+                    case 'barrel roll': document.body.classList.toggle('barrel-roll'); r = "Weeeeeee!"; break;
+                    case '42': r = "The Answer to the Ultimate Question of Life, the Universe, and Everything."; break;
+                    case 'cat': r = " /\\_/\\\n( o.o )\n > ^ <"; break;
                     default: r = val ? "Bad command" : "";
                 }
-                if(r) h.innerHTML += `<div>${r}</div>`;
+                if(r) h.innerHTML += `<div style="white-space: pre;">${r}</div>`;
                 inp.value = ""; document.getElementById('cmd-output').scrollTop = document.getElementById('cmd-output').scrollHeight;
             }
         }
 
         // --- CLIPPY ---
-        const quotes = ["Ты ищешь ответы?", "Музыка играет...", "Эстетика вечна."];
+        const quotes = ["Ты ищешь ответы?", "Музыка играет...", "Эстетика вечна.", "Не забудь сохраниться."];
         function startClippy() {
             setInterval(() => {
                 const b = document.getElementById('clippy-bubble');
@@ -808,16 +863,14 @@
         // --- COMMON ---
         function setTheme(t) { document.getElementById('bg-layer').className = t; }
         function updateClock() {
+            if(secretTime) { document.getElementById('clock').innerText = "4:20 PM"; return; }
             const now = new Date(); let h = now.getHours(), m = String(now.getMinutes()).padStart(2, '0');
             document.getElementById('clock').innerText = h + ":" + m + " " + (h>=12?'PM':'AM');
         }
         setInterval(updateClock, 1000);
-        function toggleStartMenu() {
-            const m = document.getElementById('startMenu'); m.style.display = (m.style.display==='flex')?'none':'flex';
-        }
         document.addEventListener('click', e => {
             const m = document.getElementById('startMenu'), b = document.querySelector('.start-btn');
-            if(!m.contains(e.target) && !b.contains(e.target)) { m.style.display = 'none'; b.classList.remove('active'); }
+            if(!m.contains(e.target) && !b.contains(e.target)) { m.style.display = 'none'; startClicks = 0; }
         });
 
         // --- RADIO ---
