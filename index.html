@@ -28,12 +28,11 @@
             height: 100vh; overflow: hidden;
             user-select: none; font-size: 18px;
             background-color: #000;
-            transition: filter 0.5s, transform 1s; /* Для эффектов пасхалок */
+            transition: filter 0.5s, transform 1s;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" style="fill:black;stroke:white;stroke-width:1px;"><path d="M5.5 3.21V20.8l4.66-4.66 4.16 9.6 4.24-1.84-4.16-9.6 7.08-.2L5.5 3.21z"/></svg>'), auto;
         }
         
-        /* Класс для инверсии (Konami Code) */
         body.invert { filter: invert(100%); }
-        /* Класс для бочки */
         body.barrel-roll { transform: rotate(360deg); }
 
         /* --- GLITCH EFFECT --- */
@@ -52,7 +51,9 @@
         }
 
         /* --- ФОНЫ --- */
-        #bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transition: background 0.5s; }
+        #bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transition: background 0.5s; background-size: cover; background-position: center; }
+        
+        /* 1. Vapor Grid (Standard) */
         .theme-grid { background: linear-gradient(to bottom, #010a10 0%, #2f1138 75%, #561845 100%); perspective: 500px; overflow: hidden; }
         .sun {
             position: absolute; top: 10%; left: 50%; transform: translate(-50%, 0);
@@ -69,9 +70,33 @@
         }
         .theme-grid .grid-plane { display: block; }
         @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 0 400px; } }
+
+        /* 2. Pastel */
         .theme-pastel { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); }
+        /* 3. Classic Teal */
         .theme-classic { background-color: #008080; }
+        /* 4. Night */
         .theme-night { background: #1a0b2e; background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px); background-size: 550px 550px; }
+        /* 5. Clouds (Win 95/98 Style) */
+        .theme-clouds {
+            background-color: #3b90bb;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8), transparent 60%), radial-gradient(circle at 20% 80%, rgba(255,255,255,0.6), transparent 50%);
+            background-size: 300px 200px;
+        }
+        /* 6. Miami Sunset */
+        .theme-sunset { background: linear-gradient(180deg, #ff9a9e 0%, #fad0c4 50%, #fad0c4 100%); }
+        /* 7. Hacker Green */
+        .theme-hacker {
+            background-color: #000;
+            background-image: linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, .3) 25%, rgba(0, 255, 0, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, .3) 75%, rgba(0, 255, 0, .3) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, .3) 25%, rgba(0, 255, 0, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, .3) 75%, rgba(0, 255, 0, .3) 76%, transparent 77%, transparent);
+            background-size: 30px 30px;
+        }
+        /* 8. TV Static */
+        .theme-static {
+            background: #111;
+            background-image: repeating-radial-gradient(#000 0 0.0001%,#222 0 0.0002%);
+            background-size: 100% 100%;
+        }
 
         /* --- BIOS --- */
         #boot-screen {
@@ -82,6 +107,13 @@
         }
         .bios-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .bios-text { margin-bottom: 5px; text-shadow: 0 0 5px var(--vapor-blue); }
+
+        /* --- SHUTDOWN SCREEN --- */
+        #shutdown-screen {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 9999; align-items: center; justify-content: center; flex-direction: column;
+        }
+        .shutdown-text { color: #ff8c00; font-size: 30px; font-weight: bold; font-family: 'Courier New', serif; text-align: center; }
 
         /* --- MATRIX EFFECT --- */
         #matrix-canvas {
@@ -224,6 +256,12 @@
             <p>* Press CTRL+ALT+DEL to restart your computer.</p>
         </div>
         <p style="margin-top: 50px; text-align: center;">Press any key to continue_</p>
+    </div>
+    
+    <!-- SHUTDOWN SCREEN -->
+    <div id="shutdown-screen">
+        <div class="shutdown-text">It is now safe to turn off your computer.</div>
+        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; font-family: inherit;">RESTART</button>
     </div>
 
     <!-- BIOS -->
@@ -406,17 +444,15 @@
         </div>
         <div class="window-body">
             <pre style="color: var(--vapor-purple); font-size: 10px;">
-  ███████╗██████╗ ██████╗ ██╗██████╗ ██╗ █████╗ ███╗   ██╗
-  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗██║██╔══██╗████╗  ██║
-  █████╗  ██████╔╝██████╔╝██║██║  ██║██║███████║██╔██╗ ██║
-  ██╔══╝  ██╔══██╗██╔══██╗██║██║  ██║██║██╔══██║██║╚██╗██║
-  ███████╗██║  ██║██║  ██║██║██████╔╝██║██║  ██║██║ ╚████║
-  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+ ███████╗██████╗ ██████╗ 
+ ██╔════╝██╔══██╗██╔══██╗
+ █████╗  ██████╔╝██████╔╝
+ ██╔══╝  ██╔══██╗██╔══██╗
+ ███████╗██║  ██║██║  ██║
+ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
             </pre>
             <p><strong>Привет!</strong></p>
-            <p>Звать меня [Name]. О чем можно убедиться взглянув на мои соц сети.</p>
-            <p>Занимаюсь разными вещами. От творческих, до бесполезных...»</p>
-			<p>А-кхем...</p>
+            <p>Я Erridian. Веб-разработчик, переводчик и ретро-энтузиаст.</p>
         </div>
     </div>
 
@@ -501,9 +537,13 @@
                 <legend>Background</legend>
                 <div class="radio-group">
                     <label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Vaporwave Grid</label>
-                    <label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel</label>
-                    <label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Win Teal</label>
-                    <label><input type="radio" name="bg" value="theme-night" onclick="setTheme('theme-night')"> Night</label>
+                    <label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel Gradient</label>
+                    <label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Windows Teal</label>
+                    <label><input type="radio" name="bg" value="theme-night" onclick="setTheme('theme-night')"> Deep Night</label>
+                    <label><input type="radio" name="bg" value="theme-clouds" onclick="setTheme('theme-clouds')"> Windows Clouds</label>
+                    <label><input type="radio" name="bg" value="theme-sunset" onclick="setTheme('theme-sunset')"> Miami Sunset</label>
+                    <label><input type="radio" name="bg" value="theme-hacker" onclick="setTheme('theme-hacker')"> Hacker Green</label>
+                    <label><input type="radio" name="bg" value="theme-static" onclick="setTheme('theme-static')"> TV Static</label>
                 </div>
             </fieldset>
             <fieldset style="margin-top: 10px;">
@@ -555,7 +595,7 @@
             <div class="menu-item" onclick="openWindow('paint'); toggleStartMenu()">🎨 Paint</div>
             <div class="menu-item" onclick="showBsod(); toggleStartMenu()">☢️ Crash</div>
             <hr style="width: 100%; border: 1px inset white;">
-            <div class="menu-item" onclick="window.close()">🚪 Выход</div>
+            <div class="menu-item" onclick="shutdownPC()">🔌 Выход</div>
         </div>
     </div>
 
@@ -564,6 +604,15 @@
             runBios(); updateClock(); initDefrag(); initPaint(); startClippy(); initXmas();
             setupScreensaver(); loadSysInfo(); initNotepad(); initMinesweeper();
         };
+
+        // --- NEW FEATURES: SHUTDOWN ---
+        function shutdownPC() {
+            document.getElementById('startMenu').style.display = 'none';
+            document.body.style.cursor = 'none';
+            setTimeout(() => {
+                document.getElementById('shutdown-screen').style.display = 'flex';
+            }, 1000);
+        }
 
         // --- EASTER EGGS ---
         
@@ -874,7 +923,7 @@
         });
 
         // --- RADIO ---
-        const stations = {'vapor': 'https://radio.plaza.one/mp3', 'soviet': 'https://radiorecord.hostingradio.ru/synth96.aacp', 'chiptune': 'https://relay.rainwave.cc/chiptune.ogg?1:TjVColB3tE', 'lofi': 'https://lofi.stream.laut.fm/lofi'};
+        const stations = {'vapor': 'https://radio.plaza.one/mp3', 'soviet': 'https://radiorecord.hostingradio.ru/synth96.aacp', 'chiptune': 'https://stream.cvgm.net/cvgm128', 'lofi': 'https://lofi.stream.laut.fm/lofi'};
         const audio = document.getElementById('audio-player');
         function playRadio(g) { audio.src = stations[g]; audio.play(); document.getElementById('player-screen').innerText = "Playing: " + g.toUpperCase(); }
         function stopRadio() { audio.pause(); document.getElementById('player-screen').innerText = "Stopped"; }
