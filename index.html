@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erridian OS 95</title>
+    <title>Erridian OS 95 - Holiday Edition</title>
     <style>
-        /* --- Шрифты и переменные --- */
+        /* --- ШРИФТЫ И ПЕРЕМЕННЫЕ --- */
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
         :root {
@@ -30,90 +30,129 @@
             background-color: #000;
         }
 
-        /* --- ФОНОВЫЕ СЛОИ --- */
-        #bg-layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; transition: background 0.5s;
-        }
-
-        /* Тема 1: Vapor Grid */
-        .theme-grid {
-            background: linear-gradient(to bottom, #010a10 0%, #2f1138 75%, #561845 100%);
-            perspective: 500px; overflow: hidden;
-        }
+        /* --- ФОНЫ --- */
+        #bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transition: background 0.5s; }
+        .theme-grid { background: linear-gradient(to bottom, #010a10 0%, #2f1138 75%, #561845 100%); perspective: 500px; overflow: hidden; }
         .sun {
-            position: absolute; top: 10%; left: 50%;
-            transform: translate(-50%, 0);
-            width: 200px; height: 200px;
-            border-radius: 50%;
+            position: absolute; top: 10%; left: 50%; transform: translate(-50%, 0);
+            width: 200px; height: 200px; border-radius: 50%;
             background: linear-gradient(to bottom, #ffed00 0%, #ff0055 100%);
-            box-shadow: 0 0 40px #ff0055;
-            display: none;
+            box-shadow: 0 0 40px #ff0055; display: none;
         }
         .theme-grid .sun { display: block; }
-        
         .grid-plane {
             position: absolute; bottom: -30%; left: -50%; width: 200%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 113, 206, 0.4) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 113, 206, 0.4) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transform: rotateX(60deg);
-            animation: gridMove 20s linear infinite;
-            display: none;
+            background-image: linear-gradient(rgba(255, 113, 206, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 113, 206, 0.4) 1px, transparent 1px);
+            background-size: 40px 40px; transform: rotateX(60deg);
+            animation: gridMove 20s linear infinite; display: none;
         }
         .theme-grid .grid-plane { display: block; }
-
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 400px; }
-        }
-
-        /* Другие темы */
+        @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 0 400px; } }
         .theme-pastel { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); }
         .theme-classic { background-color: #008080; }
-        .theme-night {
-            background: #1a0b2e;
-            background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-            radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
-            background-size: 550px 550px, 350px 350px;
-        }
+        .theme-night { background: #1a0b2e; background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px); background-size: 550px 550px; }
 
-        /* --- BIOS SCREEN --- */
+        /* --- BIOS --- */
         #boot-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000; color: #ddd; z-index: 5000;
+            background-color: #000; color: #ddd; z-index: 8000;
             padding: 20px; font-family: 'VT323', monospace; font-size: 20px;
             display: flex; flex-direction: column; cursor: none;
         }
         .bios-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
-        .energy-star-logo { font-size: 40px; color: var(--vapor-pink); }
         .bios-text { margin-bottom: 5px; text-shadow: 0 0 5px var(--vapor-blue); }
-        .bios-bottom { position: absolute; bottom: 20px; left: 20px; }
 
-        /* --- UI COMPONENTS --- */
+        /* --- CHRISTMAS DECORATIONS --- */
+        #xmas-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 500; /* Под окнами, но над фоном */
+            display: none; /* Включается JS-ом */
+        }
+        
+        /* Снег */
+        .snowflake {
+            position: absolute; top: -10px; color: #fff; font-size: 20px;
+            animation: fall linear infinite;
+            text-shadow: 0 0 5px var(--vapor-blue);
+        }
+        @keyframes fall {
+            to { transform: translateY(105vh); }
+        }
+
+        /* Гирлянда */
+        .lights-wire {
+            position: absolute; top: 0; left: 0; width: 100%; height: 20px;
+            display: flex; justify-content: space-around; overflow: hidden;
+            z-index: 9000; /* Поверх всего */
+        }
+        .light-bulb {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: #444; margin-top: 5px;
+            animation: flash 1s infinite alternate;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .light-bulb:nth-child(odd) { animation-duration: 1.5s; background: var(--vapor-pink); box-shadow: 0 0 10px var(--vapor-pink); }
+        .light-bulb:nth-child(even) { animation-duration: 1.2s; background: var(--vapor-blue); box-shadow: 0 0 10px var(--vapor-blue); }
+        .light-bulb:nth-child(3n) { animation-duration: 1.8s; background: var(--vapor-purple); box-shadow: 0 0 10px var(--vapor-purple); }
+
+        @keyframes flash {
+            0% { opacity: 0.5; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* --- BSOD --- */
+        #bsod {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0000AA; color: #fff; z-index: 99999;
+            padding: 50px; font-family: 'Courier New', monospace; font-size: 20px; cursor: none;
+        }
+        .bsod-center { text-align: center; margin-top: 100px; }
+
+        /* --- SCREENSAVER --- */
+        #screensaver {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 9000; cursor: none; overflow: hidden;
+        }
+        #saver-text {
+            position: absolute; color: var(--vapor-pink); font-size: 40px; font-weight: bold;
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow { from { text-shadow: 0 0 10px var(--vapor-blue); } to { text-shadow: 0 0 20px var(--vapor-purple); } }
+
+        /* --- CLIPPY --- */
+        #clippy-container {
+            position: fixed; bottom: 50px; right: 20px; width: 100px; height: 100px; z-index: 5000;
+            pointer-events: none; 
+        }
+        #clippy-bubble {
+            position: absolute; bottom: 80px; right: 10px; background: #ffffcc; border: 1px solid #000;
+            padding: 10px; border-radius: 5px; font-size: 14px; color: black; width: 150px;
+            display: none; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); pointer-events: auto;
+        }
+        #clippy-char { font-size: 60px; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5)); }
+
+        /* --- DESKTOP --- */
         .desktop {
             position: relative; width: 100%; height: calc(100vh - 40px);
             padding: 20px; display: flex; flex-direction: column; flex-wrap: wrap;
-            align-content: flex-start; gap: 20px; opacity: 0; transition: opacity 1s;
+            align-content: flex-start; gap: 15px; opacity: 0; transition: opacity 1s;
         }
-
-        .icon {
-            width: 80px; text-align: center; cursor: pointer; color: #fff;
-            text-shadow: 1px 1px 0 #000; display: flex; flex-direction: column; align-items: center;
-        }
+        .icon { width: 80px; text-align: center; cursor: pointer; color: #fff; text-shadow: 1px 1px 0 #000; display: flex; flex-direction: column; align-items: center; }
         .icon:active .icon-text { background-color: var(--win-blue); border: 1px dotted white; }
         .icon-img { width: 48px; height: 48px; background-size: contain; background-repeat: no-repeat; margin-bottom: 5px; image-rendering: pixelated; }
 
-        /* SVG Иконки */
+        /* SVGs for Icons */
         .icon-comp { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💻</text></svg>'); }
         .icon-fold { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📁</text></svg>'); }
         .icon-web { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌐</text></svg>'); }
-        .icon-err { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📄</text></svg>'); }
         .icon-set { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📺</text></svg>'); }
         .icon-mus { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎵</text></svg>'); }
+        .icon-paint { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎨</text></svg>'); }
+        .icon-cmd { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📟</text></svg>'); }
+        .icon-defrag { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">💾</text></svg>'); }
+        .icon-danger { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">☢️</text></svg>'); }
 
-        /* --- Окна --- */
+        /* --- WINDOWS --- */
         .window {
             position: absolute; background-color: var(--win-gray);
             border: 2px solid; border-color: var(--win-border-light) var(--win-border-black) var(--win-border-black) var(--win-border-light);
@@ -121,80 +160,61 @@
             display: none; flex-direction: column;
         }
         .window.active { z-index: 100; }
-
-        .title-bar {
-            background: linear-gradient(90deg, var(--win-blue), #1084d0);
-            padding: 3px 5px; display: flex; justify-content: space-between; align-items: center;
-        }
+        .title-bar { background: linear-gradient(90deg, var(--win-blue), #1084d0); padding: 3px 5px; display: flex; justify-content: space-between; align-items: center; }
         .vapor-title { background: linear-gradient(90deg, var(--vapor-pink), var(--vapor-purple)); }
-        
         .title-bar-text { color: white; font-weight: bold; margin-left: 2px; }
-        .title-bar-controls button {
-            width: 16px; height: 14px; background-color: var(--win-gray);
-            border: 1px solid; border-color: var(--win-border-light) var(--win-border-black) var(--win-border-black) var(--win-border-light);
-            font-size: 9px; line-height: 8px; font-weight: bold; cursor: pointer;
-        }
-        .title-bar-controls button:active { border-color: var(--win-border-black) var(--win-border-light) var(--win-border-light) var(--win-border-black); }
-
+        .title-bar-controls button { width: 16px; height: 14px; background: var(--win-gray); border: 1px outset #fff; font-size: 9px; line-height: 8px; cursor: pointer; }
+        .title-bar-controls button:active { border: 1px inset #fff; }
         .window-body { padding: 15px; font-size: 18px; color: black; overflow-y: auto; max-height: 400px; }
         .window-body a { color: blue; text-decoration: underline; cursor: pointer;}
 
-        /* --- Плеер (WinAmp Style) --- */
-        .winamp-body { background: #222; color: #0f0; padding: 10px; font-family: monospace; }
-        .player-screen {
-            background: #000; border: 2px inset #555; padding: 5px; margin-bottom: 10px;
-            height: 30px; overflow: hidden; white-space: nowrap; display: flex; align-items: center;
-        }
-        .player-controls { display: flex; gap: 5px; flex-wrap: wrap; }
-        .player-btn {
-            background: linear-gradient(#eee, #ccc); border: 1px outset #fff;
-            padding: 5px 10px; font-size: 14px; cursor: pointer; min-width: 60px; color: black;
-        }
-        .player-btn:active { border: 1px inset #fff; }
+        /* --- SPECIAL WINDOWS STYLES --- */
+        /* Terminal */
+        .cmd-body { background: black; color: #00ff00; font-family: monospace; padding: 10px; height: 300px; overflow-y: auto; }
+        .cmd-input-line { display: flex; }
+        .cmd-input { background: transparent; border: none; color: #00ff00; font-family: inherit; font-size: inherit; flex-grow: 1; outline: none; }
         
-        /* Volume Control (simple) */
-        .volume-control { margin-top: 10px; display: flex; align-items: center; gap: 5px; color: #0f0; font-size: 14px; }
-        input[type="range"] { width: 100px; cursor: pointer; }
+        /* Paint */
+        .paint-toolbar { display: flex; gap: 5px; margin-bottom: 5px; background: #ddd; padding: 5px; border-bottom: 1px solid #888; }
+        .color-btn { width: 20px; height: 20px; border: 2px inset #fff; cursor: pointer; }
+        canvas { background: white; cursor: crosshair; border: 2px inset #888; display: block; }
+        
+        /* Defrag */
+        .defrag-grid { display: grid; grid-template-columns: repeat(20, 1fr); gap: 2px; background: #000; padding: 2px; }
+        .block { width: 100%; height: 12px; background: #808080; }
+        .block.reading { background: #ffff00; }
+        .block.writing { background: #ff0000; }
+        .block.done { background: #000080; }
+        .block.vapor { background: var(--vapor-pink); }
 
-        /* --- Панель задач --- */
-        .taskbar {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 35px;
-            background-color: var(--win-gray); border-top: 2px solid var(--win-border-light);
-            display: flex; align-items: center; padding: 2px; z-index: 1000;
-            opacity: 0; transition: opacity 1s;
-        }
-        .start-btn {
-            display: flex; align-items: center; height: 26px; padding: 0 5px;
-            background-color: var(--win-gray); border: 2px outset #fff;
-            font-weight: bold; font-family: inherit; font-size: 16px; cursor: pointer;
-        }
+        /* Player */
+        .winamp-body { background: #222; color: #0f0; padding: 10px; font-family: monospace; }
+        .player-screen { background: #000; border: 2px inset #555; padding: 5px; margin-bottom: 10px; height: 30px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+        .player-controls { display: flex; gap: 5px; flex-wrap: wrap; }
+        .player-btn { background: linear-gradient(#eee, #ccc); border: 1px outset #fff; padding: 5px 10px; font-size: 14px; cursor: pointer; min-width: 60px; color: black; }
+        .player-btn:active { border: 1px inset #fff; }
+
+        /* --- TASKBAR & MENU --- */
+        .taskbar { position: fixed; bottom: 0; left: 0; width: 100%; height: 35px; background-color: var(--win-gray); border-top: 2px solid var(--win-border-light); display: flex; align-items: center; padding: 2px; z-index: 1000; opacity: 0; transition: opacity 1s; }
+        .start-btn { display: flex; align-items: center; height: 26px; padding: 0 5px; background-color: var(--win-gray); border: 2px outset #fff; font-weight: bold; font-family: inherit; font-size: 16px; cursor: pointer; }
         .start-btn:active, .start-btn.active { border: 2px inset #fff; }
         .start-btn img { width: 18px; margin-right: 5px; }
         .clock { margin-left: auto; border: 2px inset #fff; padding: 0 10px; height: 26px; display: flex; align-items: center; background: #fff; font-size: 16px; }
-
-        /* --- Меню пуск --- */
-        .start-menu {
-            position: absolute; bottom: 37px; left: 2px; width: 200px;
-            background-color: var(--win-gray); border: 2px outset #fff;
-            display: none; flex-direction: column; z-index: 1001;
-        }
+        
+        .start-menu { position: absolute; bottom: 37px; left: 2px; width: 200px; background-color: var(--win-gray); border: 2px outset #fff; display: none; flex-direction: column; z-index: 1001; }
         .sidebar { width: 25px; background: #000080; position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: flex-end; }
         .sidebar-text { transform: rotate(-90deg); transform-origin: left top; color: white; font-weight: bold; font-size: 20px; margin-left: 3px; margin-bottom: 5px; }
         .menu-items { margin-left: 25px; display: flex; flex-direction: column; }
         .menu-item { padding: 8px 15px; cursor: pointer; color: black; }
         .menu-item:hover { background-color: var(--win-blue); color: white; }
 
-        /* --- Эффекты --- */
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-            background-size: 100% 4px; pointer-events: none; z-index: 9999;
-        }
+        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px; pointer-events: none; z-index: 9999; }
         .radio-group label { display: block; margin: 5px 0; cursor: pointer; }
 
         @media (max-width: 600px) {
             .window { width: 95% !important; left: 2.5% !important; top: 50px !important; }
             .bios-header { flex-direction: column-reverse; }
+            #clippy-container { display: none; }
         }
     </style>
 </head>
@@ -202,33 +222,65 @@
 
     <div class="scanlines"></div>
 
-    <!-- СЛОЙ ФОНА -->
+    <!-- XMAS LAYER (Snow & Lights) -->
+    <div id="xmas-layer">
+        <div class="lights-wire" id="lights-container">
+            <!-- Lights generated by JS -->
+        </div>
+        <!-- Snow generated by JS -->
+    </div>
+
+    <!-- ФОН -->
     <div id="bg-layer" class="theme-grid">
         <div class="sun"></div>
         <div class="grid-plane"></div>
     </div>
 
-    <!-- BIOS BOOT SCREEN -->
+    <!-- SCREENSAVER -->
+    <div id="screensaver" onclick="stopSaver()">
+        <div id="saver-text">ERRIDIAN</div>
+    </div>
+
+    <!-- BSOD -->
+    <div id="bsod" onclick="hideBsod()">
+        <p style="background: #aaa; color: #0000AA; display: inline-block; font-weight: bold;">Windows</p>
+        <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36.</p>
+        <p>The current application will be terminated.</p>
+        <div class="bsod-center">
+            <p>* Press any key to continue</p>
+            <p>* Press CTRL+ALT+DEL to restart your computer.</p>
+        </div>
+        <p style="margin-top: 50px; text-align: center;">Press any key to continue_</p>
+    </div>
+
+    <!-- BIOS -->
     <div id="boot-screen">
         <div class="bios-header">
             <div>
-                <div class="bios-text">ERRIDIAN MODULAR BIOS v4.51PG</div>
+                <div class="bios-text">ERRIDIAN MODULAR BIOS v4.51PG - HOLIDAY EDITION</div>
                 <div class="bios-text" style="color: var(--vapor-pink);">Copyright (C) 1984-2025, Erridian Systems Inc.</div>
             </div>
-            <div style="border: 2px solid white; padding: 5px;">
-                <span class="energy-star-logo">★</span> ENERGY
+            <div style="border: 2px solid white; padding: 5px; width: 100px; text-align: center;">
+                <span style="font-size: 40px; line-height: 40px;">🎄</span>
+                <div style="font-size: 12px;">MERRY XMAS</div>
             </div>
         </div>
         <div class="bios-text">CPU: Vaporwave Edition 420MHz</div>
         <div class="bios-text" id="memory-check">Memory Test: 0 KB</div>
         <div id="bios-details"></div>
-        <div class="bios-bottom">
+        <div style="position: absolute; bottom: 20px; left: 20px;">
             <div class="bios-text">Press <strong>DEL</strong> to enter SETUP</div>
-            <div class="bios-text">07/21/2025-i440LX-ERRIDIAN-00</div>
+            <div class="bios-text">12/25/2025-i440LX-ERRIDIAN-00</div>
         </div>
     </div>
 
-    <!-- РАБОЧИЙ СТОЛ -->
+    <!-- CLIPPY -->
+    <div id="clippy-container">
+        <div id="clippy-bubble">Похоже, вы пытаетесь найти смысл жизни...</div>
+        <div id="clippy-char">📎</div> 
+    </div>
+
+    <!-- DESKTOP -->
     <div class="desktop" id="desktop">
         <div class="icon" onclick="openWindow('about')">
             <div class="icon-comp icon-img"></div>
@@ -238,9 +290,17 @@
             <div class="icon-fold icon-img"></div>
             <div class="icon-text">Проекты</div>
         </div>
-        <div class="icon" onclick="openWindow('socials')">
-            <div class="icon-web icon-img"></div>
-            <div class="icon-text">Соцсети</div>
+        <div class="icon" onclick="openWindow('skills')">
+            <div class="icon-defrag icon-img"></div>
+            <div class="icon-text">Навыки</div>
+        </div>
+        <div class="icon" onclick="openWindow('terminal')">
+            <div class="icon-cmd icon-img"></div>
+            <div class="icon-text">Terminal</div>
+        </div>
+        <div class="icon" onclick="openWindow('paint')">
+            <div class="icon-paint icon-img"></div>
+            <div class="icon-text">Paint</div>
         </div>
         <div class="icon" onclick="openWindow('settings')">
             <div class="icon-set icon-img"></div>
@@ -250,22 +310,22 @@
             <div class="icon-mus icon-img"></div>
             <div class="icon-text">Радио</div>
         </div>
-        <div class="icon" onclick="openWindow('error')">
-            <div class="icon-err icon-img"></div>
-            <div class="icon-text">error.log</div>
+        <div class="icon" onclick="showBsod()">
+            <div class="icon-danger icon-img"></div>
+            <div class="icon-text">DO NOT TOUCH</div>
         </div>
     </div>
 
-    <!-- ОКНА -->
-    
-    <!-- О себе -->
-    <div class="window" id="about" style="top: 30px; left: 50px; width: 400px;">
+    <!-- WINDOWS -->
+
+    <!-- About -->
+    <div class="window" id="about" style="top: 30px; left: 30px; width: 400px;">
         <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'about')">
             <div class="title-bar-text">Erridian.txt</div>
             <div class="title-bar-controls"><button onclick="closeWindow('about')">X</button></div>
         </div>
         <div class="window-body">
-            <pre style="color: var(--vapor-purple); font-size: 10px;">
+             <pre style="color: var(--vapor-purple); font-size: 10px;">
   ███████╗██████╗ ██████╗ ██╗██████╗ ██╗ █████╗ ███╗   ██╗
   ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗██║██╔══██╗████╗  ██║
   █████╗  ██████╔╝██████╔╝██║██║  ██║██║███████║██╔██╗ ██║
@@ -280,69 +340,112 @@
         </div>
     </div>
 
-    <!-- Проекты -->
-    <div class="window" id="projects" style="top: 60px; left: 100px; width: 350px;">
+    <!-- Projects -->
+    <div class="window" id="projects" style="top: 60px; left: 80px; width: 350px;">
         <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')">
             <div class="title-bar-text">Projects</div>
             <div class="title-bar-controls"><button onclick="closeWindow('projects')">X</button></div>
         </div>
         <div class="window-body">
-            <p>📂 <strong>Мои активности:</strong></p>
-            <ul>
-                <li><a href="#">Личный блог</a></li>
-                <li><a href="#">GitHub Репозитории</a></li>
-            </ul>
+            <p>📂 <strong>Проекты:</strong></p>
+            <ul><li><a href="#">Личный блог</a></li><li><a href="#">GitHub</a></li></ul>
             <hr>
             <p>📂 <strong>Переводы:</strong></p>
-            <ul>
-                <li>MangaLib / Usagi Team</li>
-            </ul>
+            <ul><li>MangaLib / Usagi Team</li></ul>
         </div>
     </div>
 
-    <!-- Соцсети -->
-    <div class="window" id="socials" style="top: 90px; left: 150px;">
-        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'socials')">
-            <div class="title-bar-text">Connection</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('socials')">X</button></div>
+    <!-- Defrag (Skills) -->
+    <div class="window" id="skills" style="top: 90px; left: 130px; width: 320px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'skills')">
+            <div class="title-bar-text">Disk Defragmenter - Skills (C:)</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('skills')">X</button></div>
         </div>
         <div class="window-body">
-            <p>📡 <a href="https://t.me/erridian" target="_blank">Telegram</a></p>
-            <p>🖳 <a href="https://vk.com/erridian" target="_blank">VKontakte</a></p>
-            <p>💻 <a href="https://github.com/erridian" target="_blank">GitHub</a></p>
+            <p id="defrag-status">Optimizing: JS Kernel...</p>
+            <div class="defrag-grid" id="defrag-grid">
+                <!-- Blocks generated by JS -->
+            </div>
+            <div style="margin-top: 10px; display: flex; gap: 10px; font-size: 14px;">
+                <span style="display:inline-block; width:10px; height:10px; background:#000080;"></span> Opt
+                <span style="display:inline-block; width:10px; height:10px; background:var(--vapor-pink);"></span> Vapor
+                <span style="display:inline-block; width:10px; height:10px; background:#ffff00;"></span> Read
+            </div>
+            <button onclick="startDefrag()" style="margin-top: 10px;">Start</button>
         </div>
     </div>
 
-    <!-- Настройки -->
-    <div class="window" id="settings" style="top: 150px; left: 300px; width: 300px;">
+    <!-- Terminal -->
+    <div class="window" id="terminal" style="top: 120px; left: 180px; width: 500px;">
+        <div class="title-bar" style="background: #000;" onmousedown="dragMouseDown(event, 'terminal')">
+            <div class="title-bar-text">MS-DOS Prompt</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('terminal')">X</button></div>
+        </div>
+        <div class="cmd-body" id="cmd-output" onclick="document.getElementById('cmd-input').focus()">
+            <div>Erridian OS [Version 4.10.1998]</div>
+            <div>(C) Copyright 1981-1998 Microsoft Corp.</div>
+            <br>
+            <div id="cmd-history"></div>
+            <div class="cmd-input-line">
+                <span>C:\WINDOWS></span>
+                <input type="text" id="cmd-input" class="cmd-input" autocomplete="off" onkeydown="handleCmd(event)">
+            </div>
+        </div>
+    </div>
+
+    <!-- Paint -->
+    <div class="window" id="paint" style="top: 150px; left: 230px; width: 450px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'paint')">
+            <div class="title-bar-text">untitled - Paint</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('paint')">X</button></div>
+        </div>
+        <div class="window-body" style="padding: 5px;">
+            <div class="paint-toolbar">
+                <div class="color-btn" style="background:black" onclick="setPaintColor('black')"></div>
+                <div class="color-btn" style="background:var(--vapor-pink)" onclick="setPaintColor('#ff71ce')"></div>
+                <div class="color-btn" style="background:var(--vapor-blue)" onclick="setPaintColor('#01cdfe')"></div>
+                <div class="color-btn" style="background:var(--vapor-purple)" onclick="setPaintColor('#b967ff')"></div>
+                <div class="color-btn" style="background:white" onclick="setPaintColor('white')"></div>
+                <button onclick="clearCanvas()" style="margin-left: auto;">Clear</button>
+            </div>
+            <canvas id="paintCanvas" width="400" height="300"></canvas>
+        </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="window" id="settings" style="top: 200px; left: 300px; width: 300px;">
         <div class="title-bar" onmousedown="dragMouseDown(event, 'settings')">
             <div class="title-bar-text">Display Properties</div>
             <div class="title-bar-controls"><button onclick="closeWindow('settings')">X</button></div>
         </div>
         <div class="window-body">
             <fieldset>
-                <legend>Background Wallpaper</legend>
+                <legend>Background</legend>
                 <div class="radio-group">
-                    <label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Vaporwave Grid 3D</label>
-                    <label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel Gradient</label>
-                    <label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Windows Teal</label>
-                    <label><input type="radio" name="bg" value="theme-night" onclick="setTheme('theme-night')"> Deep Night</label>
+                    <label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Vaporwave Grid</label>
+                    <label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel</label>
+                    <label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Win Teal</label>
+                    <label><input type="radio" name="bg" value="theme-night" onclick="setTheme('theme-night')"> Night</label>
                 </div>
             </fieldset>
-            <div style="margin-top: 10px; text-align: center;">
-                <button onclick="closeWindow('settings')" style="padding: 5px 20px;">OK</button>
-            </div>
+            <fieldset style="margin-top: 10px;">
+                <legend>Effects</legend>
+                <div class="radio-group">
+                    <label><input type="checkbox" id="xmas-toggle" checked onclick="toggleXmas()"> Holiday Mode (Snow & Lights)</label>
+                </div>
+            </fieldset>
+            <div style="margin-top:10px; text-align:center;"><button onclick="closeWindow('settings')">OK</button></div>
         </div>
     </div>
 
-    <!-- Плеер (REAL Radio) -->
-    <div class="window" id="player" style="top: 200px; left: 400px; width: 340px; background: #c0c0c0;">
+    <!-- Player -->
+    <div class="window" id="player" style="top: 220px; left: 400px; width: 340px;">
         <div class="title-bar" style="background: #000080;" onmousedown="dragMouseDown(event, 'player')">
-            <div class="title-bar-text">WinAmp - Stream Player</div>
+            <div class="title-bar-text">WinAmp</div>
             <div class="title-bar-controls"><button onclick="closeWindow('player')">X</button></div>
         </div>
         <div class="winamp-body">
-            <div class="player-screen" id="player-screen">Ready to play...</div>
+            <div class="player-screen" id="player-screen">Ready...</div>
             <div class="player-controls">
                 <button class="player-btn" onclick="playRadio('vapor')">Vapor</button>
                 <button class="player-btn" onclick="playRadio('soviet')">Soviet</button>
@@ -350,33 +453,14 @@
                 <button class="player-btn" onclick="playRadio('lofi')">Lofi</button>
                 <button class="player-btn" style="color:red;" onclick="stopRadio()">STOP</button>
             </div>
-            <div class="volume-control">
-                <span>Vol:</span>
-                <input type="range" min="0" max="1" step="0.05" value="0.5" oninput="setVolume(this.value)">
-            </div>
         </div>
     </div>
-    
-    <!-- AUDIO ELEMENT -->
     <audio id="audio-player"></audio>
 
-    <!-- Ошибка -->
-    <div class="window" id="error" style="top: 300px; left: 350px;">
-        <div class="title-bar" style="background: red;" onmousedown="dragMouseDown(event, 'error')">
-            <div class="title-bar-text">Critical Error</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('error')">X</button></div>
-        </div>
-        <div class="window-body" style="text-align: center;">
-            <p>⚠ Ошибка 0xDEADBEEF</p>
-            <button onclick="closeWindow('error')">OK</button>
-        </div>
-    </div>
-
-    <!-- ПАНЕЛЬ ЗАДАЧ -->
+    <!-- Taskbar -->
     <div class="taskbar" id="taskbar">
         <button class="start-btn" onclick="toggleStartMenu()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Windows_95_logo_icon.svg/512px-Windows_95_logo_icon.svg.png" alt="logo">
-            Start
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Windows_95_logo_icon.svg/512px-Windows_95_logo_icon.svg.png" alt="logo"> Start
         </button>
         <div style="width: 2px; height: 26px; border-left: 1px solid white; border-right: 1px solid gray; margin: 0 5px;"></div>
         <div class="clock" id="clock">12:00 PM</div>
@@ -386,129 +470,79 @@
         <div class="sidebar"><span class="sidebar-text">ERRIDIAN 95</span></div>
         <div class="menu-items">
             <div class="menu-item" onclick="openWindow('about'); toggleStartMenu()">📂 О себе</div>
-            <div class="menu-item" onclick="openWindow('projects'); toggleStartMenu()">💻 Проекты</div>
-            <div class="menu-item" onclick="openWindow('settings'); toggleStartMenu()">📺 Настройки</div>
-            <div class="menu-item" onclick="openWindow('player'); toggleStartMenu()">🎵 Радио</div>
+            <div class="menu-item" onclick="openWindow('skills'); toggleStartMenu()">💾 Навыки</div>
+            <div class="menu-item" onclick="openWindow('terminal'); toggleStartMenu()">📟 CMD</div>
+            <div class="menu-item" onclick="openWindow('paint'); toggleStartMenu()">🎨 Paint</div>
+            <div class="menu-item" onclick="showBsod(); toggleStartMenu()">☢️ Crash</div>
             <hr style="width: 100%; border: 1px inset white;">
             <div class="menu-item" onclick="window.close()">🚪 Выход</div>
         </div>
     </div>
 
     <script>
-        // --- BIOS ---
-        const bootScreen = document.getElementById('boot-screen');
-        const memoryCheckText = document.getElementById('memory-check');
-        const biosDetails = document.getElementById('bios-details');
-        const desktop = document.getElementById('desktop');
-        const taskbar = document.getElementById('taskbar');
-
-        const bootLines = [
-            { text: "Detecting Primary Master ... Erridian HD 20GB", delay: 1000 },
-            { text: "Detecting Secondary Master ... CD-ROM", delay: 1500 },
-            { text: "Booting from Hard Disk...", delay: 2500 }
-        ];
+        // --- BOOT & BIOS ---
+        window.onload = function() {
+            runBios(); updateClock(); initDefrag(); initPaint(); startClippy(); initXmas();
+        };
 
         function runBios() {
             let mem = 0;
-            const memInterval = setInterval(() => {
-                mem += 1024;
-                if (mem >= 64512) {
-                    mem = 64512;
-                    memoryCheckText.innerText = "Memory Test: " + mem + " KB OK";
-                    clearInterval(memInterval);
-                    showBootLines();
-                } else {
-                    memoryCheckText.innerText = "Memory Test: " + mem + " KB";
-                }
-            }, 5);
+            const memText = document.getElementById('memory-check');
+            const lines = document.getElementById('bios-details');
+            const interval = setInterval(() => {
+                mem += 2048;
+                if(mem >= 64512) {
+                    mem = 64512; memText.innerText = "Memory Test: "+mem+" KB OK"; clearInterval(interval);
+                    setTimeout(() => lines.innerHTML += '<div>Detecting HDD... OK</div>', 500);
+                    setTimeout(() => lines.innerHTML += '<div>Loading Holiday Modules...</div>', 1000);
+                    setTimeout(() => lines.innerHTML += '<div>Booting Erridian OS...</div>', 2000);
+                    setTimeout(() => {
+                        document.getElementById('boot-screen').style.display = 'none';
+                        document.getElementById('desktop').style.opacity = 1;
+                        document.getElementById('taskbar').style.opacity = 1;
+                        openWindow('about');
+                    }, 3500);
+                } else memText.innerText = "Memory Test: "+mem+" KB";
+            }, 10);
         }
 
-        function showBootLines() {
-            bootLines.forEach(line => {
-                setTimeout(() => {
-                    biosDetails.innerHTML += '<div class="bios-text">' + line.text + '</div>';
-                }, line.delay);
-            });
-            setTimeout(() => {
-                bootScreen.style.display = 'none';
-                desktop.style.opacity = 1;
-                taskbar.style.opacity = 1;
-                openWindow('about'); 
-            }, 3500);
-        }
-
-        // --- THEME ---
-        function setTheme(themeName) {
-            document.getElementById('bg-layer').className = themeName; 
-        }
-
-        // --- REAL AUDIO PLAYER (Direct Stream) ---
-        const audio = document.getElementById('audio-player');
-        const screen = document.getElementById('player-screen');
-        audio.volume = 0.5; // Default volume
-
-        // Прямые ссылки на потоки (Обязательно HTTPS для GitHub Pages)
-        const stations = {
-            'vapor': { url: 'https://radio.plaza.one/mp3', name: 'Nightwave Plaza' },
-            'soviet': { url: 'https://radiorecord.hostingradio.ru/synth96.aacp', name: 'Record Synthwave' }, 
-            'chiptune': { url: 'https://relay.rainwave.cc/chiptune.ogg?1:TjVColB3tE', name: 'CVGM.net Chiptune' }, 
-            'lofi': { url: 'https://lofi.stream.laut.fm/lofi', name: 'Lofi 24/7' } 
-        };
-
-        function playRadio(genre) {
-            const station = stations[genre];
-            if(!station) return;
-
-            screen.innerText = "Connecting...";
+        // --- XMAS LOGIC ---
+        function initXmas() {
+            const layer = document.getElementById('xmas-layer');
+            const lights = document.getElementById('lights-container');
             
-            // Сбрасываем и загружаем новый
-            audio.src = station.url;
-            audio.play().then(() => {
-                // Успешный запуск
-                runMarquee("Playing: " + station.name + " (" + genre.toUpperCase() + ")");
-            }).catch(e => {
-                // Ошибка (например, браузер заблокировал автоплей)
-                screen.innerText = "Error: Click again";
-                console.error(e);
-            });
-        }
+            // Create Snow
+            for(let i=0; i<50; i++) {
+                let flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerText = '❄';
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                flake.style.opacity = Math.random();
+                layer.appendChild(flake);
+            }
 
-        function stopRadio() {
-            audio.pause();
-            audio.src = "";
-            screen.innerText = "Stopped.";
-            if(window.marqueeInterval) clearInterval(window.marqueeInterval);
-        }
-        
-        function setVolume(val) {
-            audio.volume = val;
-        }
-
-        function runMarquee(text) {
-            let marqueeText = text + "   ***   ";
-            if(window.marqueeInterval) clearInterval(window.marqueeInterval);
+            // Create Lights
+            for(let i=0; i<30; i++) {
+                let bulb = document.createElement('div');
+                bulb.className = 'light-bulb';
+                lights.appendChild(bulb);
+            }
             
-            // Мгновенное обновление
-            screen.innerText = marqueeText;
-            
-            window.marqueeInterval = setInterval(function() {
-                marqueeText = marqueeText.substring(1) + marqueeText[0];
-                screen.innerText = marqueeText;
-            }, 200);
+            // Show by default
+            layer.style.display = 'block';
         }
 
-        // Обработка ошибок потока
-        audio.onerror = function() {
-            screen.innerText = "Stream Error / Offline";
-            if(window.marqueeInterval) clearInterval(window.marqueeInterval);
-        };
+        function toggleXmas() {
+            const cb = document.getElementById('xmas-toggle');
+            const layer = document.getElementById('xmas-layer');
+            layer.style.display = cb.checked ? 'block' : 'none';
+        }
 
         // --- WINDOW MANAGER ---
         let zIndex = 100;
         function openWindow(id) {
-            const win = document.getElementById(id);
-            win.style.display = 'flex';
-            bringToFront(win);
+            const win = document.getElementById(id); win.style.display = 'flex'; bringToFront(win);
         }
         function closeWindow(id) { document.getElementById(id).style.display = 'none'; }
         function bringToFront(el) {
@@ -516,55 +550,169 @@
             document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
             el.classList.add('active');
         }
-
-        // --- DRAG N DROP ---
         function dragMouseDown(e, id) {
-            e = e || window.event; e.preventDefault();
-            const elmnt = document.getElementById(id);
-            bringToFront(elmnt);
+            e.preventDefault(); const elmnt = document.getElementById(id); bringToFront(elmnt);
             let pos3 = e.clientX, pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
+            document.onmouseup = closeDrag; document.onmousemove = elementDrag;
             function elementDrag(e) {
-                e = e || window.event; e.preventDefault();
+                e.preventDefault();
                 let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
                 pos3 = e.clientX; pos4 = e.clientY;
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
             }
-            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+            function closeDrag() { document.onmouseup = null; document.onmousemove = null; }
         }
 
-        // --- CLOCK & START ---
+        // --- PAINT ---
+        let ctx, painting = false;
+        function initPaint() {
+            const canvas = document.getElementById('paintCanvas');
+            ctx = canvas.getContext('2d');
+            ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = 'black';
+            
+            canvas.addEventListener('mousedown', (e) => { painting = true; draw(e); });
+            canvas.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
+            canvas.addEventListener('mousemove', draw);
+        }
+        function draw(e) {
+            if(!painting) return;
+            const rect = document.getElementById('paintCanvas').getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+        function setPaintColor(c) { ctx.strokeStyle = c; }
+        function clearCanvas() { ctx.clearRect(0,0,400,300); }
+
+        // --- DEFRAG (SKILLS) ---
+        function initDefrag() {
+            const grid = document.getElementById('defrag-grid');
+            for(let i=0; i<100; i++) {
+                let div = document.createElement('div');
+                div.className = 'block';
+                div.id = 'block-'+i;
+                grid.appendChild(div);
+            }
+        }
+        function startDefrag() {
+            const status = document.getElementById('defrag-status');
+            let i = 0;
+            const int = setInterval(() => {
+                if(i >= 100) { 
+                    clearInterval(int); status.innerText = "Optimization Complete.";
+                } else {
+                    const block = document.getElementById('block-'+i);
+                    block.className = 'block reading';
+                    setTimeout(() => block.className = 'block writing', 20);
+                    setTimeout(() => block.className = 'block ' + (Math.random() > 0.8 ? 'vapor' : 'done'), 50);
+                    status.innerText = "Optimizing Sector " + i;
+                    i++;
+                }
+            }, 50);
+        }
+
+        // --- TERMINAL ---
+        function handleCmd(e) {
+            if(e.key === 'Enter') {
+                const input = e.target;
+                const val = input.value.trim().toLowerCase();
+                const history = document.getElementById('cmd-history');
+                history.innerHTML += `<div>C:\\WINDOWS> ${input.value}</div>`;
+                
+                let response = "";
+                switch(val) {
+                    case 'help': response = "Commands: about, projects, clear, date, reboot, matrix, sudo"; break;
+                    case 'about': response = "Erridian. Web Developer. Retro Enthusiast."; break;
+                    case 'projects': response = "Visit 'Projects' folder on desktop."; openWindow('projects'); break;
+                    case 'clear': history.innerHTML = ""; response = ""; break;
+                    case 'date': response = new Date().toString(); break;
+                    case 'reboot': location.reload(); break;
+                    case 'sudo': response = "Admin privileges required. You have no power here."; break;
+                    case 'matrix': response = "Wake up, Neo... (Just kidding, CSS effect not loaded)"; break;
+                    default: response = val ? "Bad command or file name" : "";
+                }
+                
+                if(response) history.innerHTML += `<div>${response}</div>`;
+                input.value = "";
+                document.getElementById('cmd-output').scrollTop = document.getElementById('cmd-output').scrollHeight;
+            }
+        }
+
+        // --- CLIPPY (VAPOR) ---
+        const quotes = [
+            "Ты ищешь ответы в коде?",
+            "Музыка играет, но слышит ли её кто-то?",
+            "Это всего лишь эмуляция...",
+            "Где твой бог теперь?",
+            "Ностальгия - это ловушка.",
+            "Эстетика вечна."
+        ];
+        function startClippy() {
+            setInterval(() => {
+                const bubble = document.getElementById('clippy-bubble');
+                if(Math.random() > 0.7) {
+                    bubble.innerText = quotes[Math.floor(Math.random() * quotes.length)];
+                    bubble.style.display = 'block';
+                    setTimeout(() => bubble.style.display = 'none', 4000);
+                }
+            }, 10000);
+        }
+
+        // --- BSOD & SAVER ---
+        function showBsod() { document.getElementById('bsod').style.display = 'block'; }
+        function hideBsod() { document.getElementById('bsod').style.display = 'none'; }
+        
+        let idleTime = 0;
+        document.onmousemove = resetTimer;
+        document.onkeypress = resetTimer;
+        
+        function resetTimer() {
+            document.getElementById('screensaver').style.display = 'none';
+            idleTime = 0;
+        }
+        
+        setInterval(() => {
+            idleTime++;
+            if(idleTime > 60) {
+                const saver = document.getElementById('screensaver');
+                saver.style.display = 'block';
+                const text = document.getElementById('saver-text');
+                const x = Math.floor(Math.random() * (window.innerWidth - 200));
+                const y = Math.floor(Math.random() * (window.innerHeight - 100));
+                text.style.top = y + 'px';
+                text.style.left = x + 'px';
+            }
+        }, 1000);
+
+        // --- COMMON ---
+        function setTheme(t) { document.getElementById('bg-layer').className = t; }
         function updateClock() {
             const now = new Date();
             let h = now.getHours(), m = String(now.getMinutes()).padStart(2, '0');
-            let ampm = h >= 12 ? 'PM' : 'AM';
-            h = h % 12 || 12;
-            document.getElementById('clock').innerText = h + ":" + m + " " + ampm;
+            document.getElementById('clock').innerText = h + ":" + m + " " + (h>=12?'PM':'AM');
         }
         setInterval(updateClock, 1000);
-
         function toggleStartMenu() {
-            const menu = document.getElementById('startMenu');
-            const btn = document.querySelector('.start-btn');
-            if (menu.style.display === 'flex') {
-                menu.style.display = 'none'; btn.classList.remove('active');
-            } else {
-                menu.style.display = 'flex'; btn.classList.add('active');
-            }
+            const m = document.getElementById('startMenu');
+            m.style.display = (m.style.display==='flex')?'none':'flex';
         }
-        document.addEventListener('click', function(e) {
-            const menu = document.getElementById('startMenu'), btn = document.querySelector('.start-btn');
-            if (!menu.contains(e.target) && !btn.contains(e.target)) {
-                menu.style.display = 'none'; btn.classList.remove('active');
-            }
-        });
 
-        window.onload = function() {
-            runBios();
-            updateClock();
+        // --- AUDIO ---
+        const stations = {
+            'vapor': 'https://radio.plaza.one/mp3',
+            'soviet': 'https://radiorecord.hostingradio.ru/synth96.aacp',
+            'chiptune': { url: 'https://relay.rainwave.cc/chiptune.ogg?1:TjVColB3tE'}, 
+            'lofi': 'https://lofi.stream.laut.fm/lofi'
+        };
+        const audio = document.getElementById('audio-player');
+        const pScreen = document.getElementById('player-screen');
+        
+        function playRadio(g) {
+            audio.src = stations[g]; audio.play();
+            pScreen.innerText = "Playing: " + g.toUpperCase();
         }
+        function stopRadio() { audio.pause(); pScreen.innerText = "Stopped"; }
+
     </script>
 </body>
 </html>
