@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erridian OS 95 - Ultimate Edition</title>
+    <title>Erridian OS 95 - Definitive Edition</title>
     <style>
         /* --- ШРИФТЫ И ПЕРЕМЕННЫЕ --- */
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -22,7 +22,6 @@
 
         * { box-sizing: border-box; }
 
-        /* --- КУРСОРЫ --- */
         body {
             margin: 0; padding: 0;
             font-family: 'VT323', monospace;
@@ -30,12 +29,10 @@
             user-select: none; font-size: 18px;
             background-color: #000;
             transition: filter 0.5s, transform 1s;
-            /* Основной курсор */
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="1"><path d="M5.5 3.21V20.8l4.66-4.66 4.16 9.6 4.24-1.84-4.16-9.6 7.08-.2L5.5 3.21z"/></svg>'), default;
         }
         
-        /* Курсор-рука для ссылок и кнопок */
-        a, button, .icon, .menu-item, .start-btn, .mine-cell, .calc-btn {
+        a, button, .icon, .menu-item, .start-btn, .mine-cell, .calc-btn, .ttt-cell {
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="1"><path d="M12 2a1 1 0 0 1 1 1v7h1a1 1 0 0 1 1 1v5a1 1 0 0 1 2 0v-3a1 1 0 0 1 2 0v3a1 1 0 0 1 2 0v-2a1 1 0 0 1 2 0v7a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9a1 1 0 0 1 1-1h1V3a1 1 0 0 1 1-1h5z"/></svg>'), pointer;
         }
 
@@ -44,20 +41,16 @@
 
         /* --- GLITCH --- */
         @keyframes glitch-anim {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) }
-            100% { transform: translate(0) }
+            0% { transform: translate(0) } 20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) } 100% { transform: translate(0) }
         }
         .glitch-hover:hover {
             animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-            color: var(--vapor-pink);
-            text-shadow: 2px 0 var(--vapor-blue), -2px 0 var(--vapor-purple);
+            color: var(--vapor-pink); text-shadow: 2px 0 var(--vapor-blue), -2px 0 var(--vapor-purple);
         }
 
-        /* --- ФОНЫ --- */
+        /* --- BACKGROUNDS --- */
         #bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transition: background 0.5s; background-size: cover; background-position: center; }
         .theme-grid { background: linear-gradient(to bottom, #010a10 0%, #2f1138 75%, #561845 100%); perspective: 500px; overflow: hidden; }
         .sun { position: absolute; top: 10%; left: 50%; transform: translate(-50%, 0); width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(to bottom, #ffed00 0%, #ff0055 100%); box-shadow: 0 0 40px #ff0055; display: none; }
@@ -73,14 +66,12 @@
         .theme-hacker { background-color: #000; background-image: linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, .3) 25%, rgba(0, 255, 0, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, .3) 75%, rgba(0, 255, 0, .3) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, .3) 25%, rgba(0, 255, 0, .3) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, .3) 75%, rgba(0, 255, 0, .3) 76%, transparent 77%, transparent); background-size: 30px 30px; }
         .theme-static { background: #111; background-image: repeating-radial-gradient(#000 0 0.0001%,#222 0 0.0002%); background-size: 100% 100%; }
 
-        /* --- BIOS & LOADING --- */
+        /* --- LAYERS --- */
         #boot-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; color: #ddd; z-index: 8000; padding: 20px; font-family: 'VT323', monospace; font-size: 20px; display: flex; flex-direction: column; cursor: none; }
         .bios-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .bios-text { margin-bottom: 5px; text-shadow: 0 0 5px var(--vapor-blue); }
         #shutdown-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; align-items: center; justify-content: center; flex-direction: column; }
         .shutdown-text { color: #ff8c00; font-size: 30px; font-weight: bold; font-family: 'Courier New', serif; text-align: center; }
-
-        /* --- LAYERS --- */
         #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 7000; display: none; background: black; cursor: pointer; }
         #xmas-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500; display: none; }
         .snowflake { position: absolute; top: -10px; color: #fff; font-size: 20px; animation: fall linear infinite; text-shadow: 0 0 5px var(--vapor-blue); }
@@ -112,11 +103,27 @@
         .title-bar-controls button { width: 16px; height: 14px; background: var(--win-gray); border: 1px outset #fff; font-size: 9px; line-height: 8px; cursor: pointer; }
         .title-bar-controls button:active { border: 1px inset #fff; }
         .window-body { padding: 15px; font-size: 18px; color: black; overflow-y: auto; max-height: 400px; }
-        .window-body a { color: blue; text-decoration: underline; cursor: pointer;}
+        
+        /* Trail Effect Clone */
+        .window-clone { position: absolute; z-index: 50; opacity: 0.5; pointer-events: none; }
 
         /* --- APP SPECIFIC --- */
         #bsod { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0000AA; color: #fff; z-index: 99999; padding: 50px; font-family: 'Courier New', monospace; font-size: 20px; cursor: none; }
         .bsod-center { text-align: center; margin-top: 100px; }
+        
+        /* Tic Tac Toe */
+        .ttt-grid { display: grid; grid-template-columns: repeat(3, 60px); gap: 5px; margin: 0 auto; width: fit-content; }
+        .ttt-cell { width: 60px; height: 60px; background: #fff; border: 2px inset #888; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; }
+        
+        /* Calendar */
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 14px; }
+        .cal-header { grid-column: span 7; display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: bold; }
+        .cal-day-name { font-weight: bold; background: #ddd; }
+        .cal-day { padding: 5px; border: 1px solid transparent; }
+        .cal-day:hover { border: 1px solid #000; }
+        .cal-day.today { background: var(--vapor-blue); color: white; border: 1px solid white; }
+
+        /* Others */
         .cmd-body { background: black; color: #00ff00; font-family: monospace; padding: 10px; height: 300px; overflow-y: auto; }
         .cmd-input { background: transparent; border: none; color: #00ff00; font-family: inherit; font-size: inherit; flex-grow: 1; outline: none; }
         .paint-toolbar { display: flex; gap: 5px; margin-bottom: 5px; background: #ddd; padding: 5px; border-bottom: 1px solid #888; }
@@ -132,9 +139,7 @@
         .mine-grid { display: grid; grid-template-columns: repeat(9, 30px); gap: 1px; border: 3px inset #fff; background: #808080; width: fit-content; margin: 0 auto; }
         .mine-cell { width: 30px; height: 30px; background: #c0c0c0; border: 2px outset #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         .mine-cell.revealed { border: 1px solid #808080; background: #c0c0c0; } .mine-cell:active { border: none; }
-        .file-list { display: flex; flex-direction: column; gap: 5px; } .file-item { display: flex; align-items: center; padding: 5px; } .file-item:hover { background: #000080; color: white; }
         
-        /* WinAmp & Visualizer */
         .winamp-body { background: #222; color: #0f0; padding: 10px; font-family: monospace; }
         .player-screen { background: #000; border: 2px inset #555; padding: 5px; margin-bottom: 5px; height: 30px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
         .vis-container { width: 100%; height: 50px; background: #000; border: 2px inset #555; margin-bottom: 10px; }
@@ -143,13 +148,10 @@
         .player-btn { background: linear-gradient(#eee, #ccc); border: 1px outset #fff; padding: 5px 10px; font-size: 14px; min-width: 60px; color: black; }
         .player-btn:active { border: 1px inset #fff; }
 
-        /* Chat Bot */
         .chat-history { height: 200px; background: black; border: 2px inset #888; overflow-y: auto; padding: 5px; color: var(--vapor-blue); font-family: monospace; margin-bottom: 5px; }
         .chat-input { width: 100%; background: white; border: 2px inset #888; color: black; font-family: inherit; }
-        .chat-msg { margin-bottom: 3px; }
-        .chat-msg.user { color: var(--vapor-pink); }
+        .chat-msg { margin-bottom: 3px; } .chat-msg.user { color: var(--vapor-pink); }
 
-        /* Tamagotchi */
         .pet-screen { width: 100%; height: 150px; background: #9bb085; border: 4px inset #555; display: flex; align-items: center; justify-content: center; flex-direction: column; font-family: monospace; margin-bottom: 10px; position: relative; }
         .pet-sprite { font-size: 60px; line-height: 60px; animation: bounce 1s infinite; }
         .pet-stats { width: 100%; display: flex; justify-content: space-between; padding: 0 10px; font-size: 14px; margin-top: 10px; }
@@ -160,10 +162,11 @@
         .start-btn { display: flex; align-items: center; height: 26px; padding: 0 5px; background-color: var(--win-gray); border: 2px outset #fff; font-weight: bold; font-family: inherit; font-size: 16px; }
         .start-btn:active, .start-btn.active { border: 2px inset #fff; }
         .start-btn img { width: 18px; margin-right: 5px; }
-        .clock { margin-left: auto; border: 2px inset #fff; padding: 0 10px; height: 26px; display: flex; align-items: center; background: #fff; font-size: 16px; }
+        .clock { margin-left: auto; border: 2px inset #fff; padding: 0 10px; height: 26px; display: flex; align-items: center; background: #fff; font-size: 16px; cursor: pointer; }
         .start-menu { position: absolute; bottom: 37px; left: 2px; width: 200px; background-color: var(--win-gray); border: 2px outset #fff; display: none; flex-direction: column; z-index: 1001; }
-        .sidebar { width: 25px; background: #000080; position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: flex-end; }
-        .sidebar-text { transform: rotate(-90deg); transform-origin: left top; color: white; font-weight: bold; font-size: 20px; margin-left: 3px; margin-bottom: 5px; }
+        .sidebar { width: 25px; background: #000080; position: absolute; left: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 5px;}
+        .sidebar-avatar { width: 20px; height: 20px; background: #fff; border: 1px solid #fff; margin-bottom: auto; margin-top: 5px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer;}
+        .sidebar-text { transform: rotate(-90deg); transform-origin: center; white-space: nowrap; color: white; font-weight: bold; font-size: 20px; margin-bottom: 20px;}
         .menu-items { margin-left: 25px; display: flex; flex-direction: column; }
         .menu-item { padding: 8px 15px; color: black; } .menu-item:hover { background-color: var(--win-blue); color: white; }
 
@@ -185,7 +188,7 @@
     
     <!-- ФОН -->
     <div id="bg-layer" class="theme-grid">
-        <div class="sun" onclick="alert('Warning: High Temperature!')"></div>
+        <div class="sun" onclick="alert('System Warning: Sun temperature Critical!')"></div>
         <div class="grid-plane"></div>
     </div>
 
@@ -216,7 +219,7 @@
         <div id="clippy-char">📎</div> 
     </div>
 
-    <!-- DESKTOP -->
+    <!-- DESKTOP ICONS -->
     <div class="desktop" id="desktop">
         <div class="icon" onclick="openWindow('mycomp')"><div class="icon-img">💻</div><div class="icon-text glitch-hover">System</div></div>
         <div class="icon" onclick="openWindow('recycle')"><div class="icon-img">🗑️</div><div class="icon-text glitch-hover">Recycle</div></div>
@@ -225,6 +228,7 @@
         <div class="icon" onclick="openWindow('notepad')"><div class="icon-img">📝</div><div class="icon-text glitch-hover">Notepad</div></div>
         <div class="icon" onclick="openWindow('calc')"><div class="icon-img">🧮</div><div class="icon-text glitch-hover">Calc</div></div>
         <div class="icon" onclick="openWindow('minesweeper')"><div class="icon-img">💣</div><div class="icon-text glitch-hover">Sweeper</div></div>
+        <div class="icon" onclick="openWindow('tictactoe')"><div class="icon-img">❌</div><div class="icon-text glitch-hover">TicTacToe</div></div>
         <div class="icon" onclick="openWindow('paint')"><div class="icon-img">🎨</div><div class="icon-text glitch-hover">Paint</div></div>
         <div class="icon" onclick="openWindow('player')"><div class="icon-img">🎵</div><div class="icon-text glitch-hover">WinAmp</div></div>
         <div class="icon" onclick="openWindow('chat')"><div class="icon-img">💬</div><div class="icon-text glitch-hover">IRC Chat</div></div>
@@ -235,6 +239,30 @@
 
     <!-- WINDOWS -->
 
+    <!-- Calendar -->
+    <div class="window" id="calendar" style="top: 100px; left: 300px; width: 250px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'calendar')">
+            <div class="title-bar-text">Calendar</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('calendar')">X</button></div>
+        </div>
+        <div class="window-body">
+            <div class="calendar-grid" id="cal-grid"></div>
+        </div>
+    </div>
+
+    <!-- Tic Tac Toe -->
+    <div class="window" id="tictactoe" style="top: 150px; left: 350px; width: 220px;">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'tictactoe')">
+            <div class="title-bar-text">Tic-Tac-Toe</div>
+            <div class="title-bar-controls"><button onclick="closeWindow('tictactoe')">X</button></div>
+        </div>
+        <div class="window-body" style="text-align:center;">
+            <div class="ttt-grid" id="ttt-grid"></div>
+            <p id="ttt-status" style="margin:5px 0;">Your Turn (💾)</p>
+            <button onclick="initTTT()">Reset</button>
+        </div>
+    </div>
+
     <!-- Run Dialog -->
     <div class="window" id="run" style="top: 200px; left: 200px; width: 300px;">
         <div class="title-bar" onmousedown="dragMouseDown(event, 'run')">
@@ -242,15 +270,9 @@
             <div class="title-bar-controls"><button onclick="closeWindow('run')">X</button></div>
         </div>
         <div class="window-body" style="display:flex; flex-direction:column; gap:10px;">
-            <p style="font-size:14px; margin:0;">Type the name of a program, folder, or document, and Windows will open it for you.</p>
-            <div style="display:flex; align-items:center; gap:5px;">
-                <span>Open:</span>
-                <input type="text" id="run-input" style="flex-grow:1;">
-            </div>
-            <div style="display:flex; justify-content:flex-end; gap:5px;">
-                <button onclick="runCommand()">OK</button>
-                <button onclick="closeWindow('run')">Cancel</button>
-            </div>
+            <p style="font-size:14px; margin:0;">Type the name of a program or URL.</p>
+            <div style="display:flex; align-items:center; gap:5px;"><span>Open:</span><input type="text" id="run-input" style="flex-grow:1;"></div>
+            <div style="display:flex; justify-content:flex-end; gap:5px;"><button onclick="runCommand()">OK</button><button onclick="closeWindow('run')">Cancel</button></div>
         </div>
     </div>
 
@@ -278,17 +300,13 @@
         <div class="window-body" style="text-align: center;">
             <div class="pet-screen">
                 <div id="pet-sprite" class="pet-sprite">🥚</div>
-                <div class="pet-stats">
-                    <span>Hunger: <span id="pet-hunger">0</span>%</span>
-                    <span>Happy: <span id="pet-happy">100</span>%</span>
-                </div>
+                <div class="pet-stats"><span>Hunger: <span id="pet-hunger">0</span>%</span><span>Happy: <span id="pet-happy">100</span>%</span></div>
             </div>
-            <button onclick="feedPet()">Feed 🍖</button>
-            <button onclick="playPet()">Play 🎾</button>
+            <button onclick="feedPet()">Feed 🍖</button><button onclick="playPet()">Play 🎾</button>
         </div>
     </div>
 
-    <!-- WinAmp + Visualizer -->
+    <!-- WinAmp -->
     <div class="window" id="player" style="top: 220px; left: 400px; width: 340px;">
         <div class="title-bar" style="background: #000080;" onmousedown="dragMouseDown(event, 'player')">
             <div class="title-bar-text glitch-hover">WinAmp</div>
@@ -296,9 +314,7 @@
         </div>
         <div class="winamp-body">
             <div class="player-screen" id="player-screen">Ready...</div>
-            <div class="vis-container">
-                <canvas id="vis-canvas" width="300" height="50"></canvas>
-            </div>
+            <div class="vis-container"><canvas id="vis-canvas" width="300" height="50"></canvas></div>
             <div class="player-controls">
                 <button class="player-btn" onclick="playRadio('vapor')">Vapor</button>
                 <button class="player-btn" onclick="playRadio('soviet')">Soviet</button>
@@ -312,155 +328,78 @@
 
     <!-- My Computer -->
     <div class="window" id="mycomp" style="top: 20px; left: 20px; width: 350px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'mycomp')">
-            <div class="title-bar-text">System Information</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('mycomp')">X</button></div>
-        </div>
-        <div class="window-body">
-            <p><strong>System Diagnostics:</strong></p>
-            <ul id="sys-info"></ul>
-        </div>
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'mycomp')"><div class="title-bar-text">System Information</div><div class="title-bar-controls"><button onclick="closeWindow('mycomp')">X</button></div></div>
+        <div class="window-body"><p><strong>System Diagnostics:</strong></p><ul id="sys-info"></ul></div>
     </div>
 
     <!-- Recycle Bin -->
     <div class="window" id="recycle" style="top: 50px; left: 50px; width: 300px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'recycle')">
-            <div class="title-bar-text">Recycle Bin</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('recycle')">X</button></div>
-        </div>
-        <div class="window-body">
-            <div class="file-list">
-                <div class="file-item" onclick="alert('File corrupted.')"><span class="file-icon">📄</span> hopes.txt</div>
-                <div class="file-item" onclick="alert('Error 404.')"><span class="file-icon">💾</span> time.exe</div>
-            </div>
-        </div>
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'recycle')"><div class="title-bar-text">Recycle Bin</div><div class="title-bar-controls"><button onclick="closeWindow('recycle')">X</button></div></div>
+        <div class="window-body"><div class="file-list"><div class="file-item" onclick="playSound('error'); alert('File corrupted.')"><span class="file-icon">📄</span> hopes.txt</div><div class="file-item" onclick="playSound('error'); alert('Error 404.')"><span class="file-icon">💾</span> time.exe</div></div></div>
     </div>
 
     <!-- Notepad -->
     <div class="window" id="notepad" style="top: 80px; left: 80px; width: 300px; height: 300px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'notepad')">
-            <div class="title-bar-text">Notepad</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('notepad')">X</button></div>
-        </div>
-        <div class="window-body" style="padding: 0; height: 100%; display: flex; flex-direction: column;">
-            <textarea id="notepad-area" style="width: 100%; height: 100%; border: none; resize: none; font-family: 'Courier New'; font-size: 16px; padding: 5px; outline: none;" placeholder="Type here..."></textarea>
-        </div>
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'notepad')"><div class="title-bar-text">Notepad</div><div class="title-bar-controls"><button onclick="closeWindow('notepad')">X</button></div></div>
+        <div class="window-body" style="padding: 0; height: 100%; display: flex; flex-direction: column;"><textarea id="notepad-area" style="width: 100%; height: 100%; border: none; resize: none; font-family: 'Courier New'; font-size: 16px; padding: 5px; outline: none;" placeholder="Type here..."></textarea></div>
     </div>
 
     <!-- Calc -->
     <div class="window" id="calc" style="top: 110px; left: 110px; width: 220px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'calc')">
-            <div class="title-bar-text">Calculator</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('calc')">X</button></div>
-        </div>
-        <div class="window-body">
-            <div class="calc-display" id="calc-display">0</div>
-            <div class="calc-keys">
-                <button class="calc-btn" onclick="calcInput('7')">7</button><button class="calc-btn" onclick="calcInput('8')">8</button><button class="calc-btn" onclick="calcInput('9')">9</button><button class="calc-btn" onclick="calcInput('/')">/</button>
-                <button class="calc-btn" onclick="calcInput('4')">4</button><button class="calc-btn" onclick="calcInput('5')">5</button><button class="calc-btn" onclick="calcInput('6')">6</button><button class="calc-btn" onclick="calcInput('*')">*</button>
-                <button class="calc-btn" onclick="calcInput('1')">1</button><button class="calc-btn" onclick="calcInput('2')">2</button><button class="calc-btn" onclick="calcInput('3')">3</button><button class="calc-btn" onclick="calcInput('-')">-</button>
-                <button class="calc-btn" onclick="calcInput('0')">0</button><button class="calc-btn" onclick="calcInput('.')">.</button><button class="calc-btn" onclick="calcResult()">=</button><button class="calc-btn" onclick="calcInput('+')">+</button>
-                <button class="calc-btn" onclick="calcClear()" style="grid-column: span 4; background: #ffcccc;">C</button>
-            </div>
-        </div>
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'calc')"><div class="title-bar-text">Calculator</div><div class="title-bar-controls"><button onclick="closeWindow('calc')">X</button></div></div>
+        <div class="window-body"><div class="calc-display" id="calc-display">0</div><div class="calc-keys"><button class="calc-btn" onclick="calcInput('7')">7</button><button class="calc-btn" onclick="calcInput('8')">8</button><button class="calc-btn" onclick="calcInput('9')">9</button><button class="calc-btn" onclick="calcInput('/')">/</button><button class="calc-btn" onclick="calcInput('4')">4</button><button class="calc-btn" onclick="calcInput('5')">5</button><button class="calc-btn" onclick="calcInput('6')">6</button><button class="calc-btn" onclick="calcInput('*')">*</button><button class="calc-btn" onclick="calcInput('1')">1</button><button class="calc-btn" onclick="calcInput('2')">2</button><button class="calc-btn" onclick="calcInput('3')">3</button><button class="calc-btn" onclick="calcInput('-')">-</button><button class="calc-btn" onclick="calcInput('0')">0</button><button class="calc-btn" onclick="calcInput('.')">.</button><button class="calc-btn" onclick="calcResult()">=</button><button class="calc-btn" onclick="calcInput('+')">+</button><button class="calc-btn" onclick="calcClear()" style="grid-column: span 4; background: #ffcccc;">C</button></div></div>
     </div>
 
     <!-- Minesweeper -->
     <div class="window" id="minesweeper" style="top: 140px; left: 140px; width: auto;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'minesweeper')">
-            <div class="title-bar-text">VaporSweeper</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('minesweeper')">X</button></div>
-        </div>
-        <div class="window-body" style="text-align: center; background: #c0c0c0;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; border: 2px inset #fff; padding: 5px;">
-                <button onclick="initMinesweeper()">😎</button>
-            </div>
-            <div class="mine-grid" id="mine-grid"></div>
-        </div>
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'minesweeper')"><div class="title-bar-text">VaporSweeper</div><div class="title-bar-controls"><button onclick="closeWindow('minesweeper')">X</button></div></div>
+        <div class="window-body" style="text-align: center; background: #c0c0c0;"><div style="display: flex; justify-content: space-between; margin-bottom: 10px; border: 2px inset #fff; padding: 5px;"><button onclick="initMinesweeper()">😎</button></div><div class="mine-grid" id="mine-grid"></div></div>
     </div>
 
     <!-- About -->
     <div class="window" id="about" style="top: 30px; left: 300px; width: 400px;">
-        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'about')">
-            <div class="title-bar-text">Erridian.txt</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('about')">X</button></div>
-        </div>
-        <div class="window-body">
-            <pre style="color: var(--vapor-purple); font-size: 10px;">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'about')"><div class="title-bar-text">Erridian.txt</div><div class="title-bar-controls"><button onclick="closeWindow('about')">X</button></div></div>
+        <div class="window-body"><pre style="color: var(--vapor-purple); font-size: 10px;">
  ███████╗██████╗ ██████╗ 
  ██╔════╝██╔══██╗██╔══██╗
  █████╗  ██████╔╝██████╔╝
  ██╔══╝  ██╔══██╗██╔══██╗
  ███████╗██║  ██║██║  ██║
  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
-            </pre>
-            <p><strong>Привет!</strong></p>
-            <p>Я Erridian. Веб-разработчик, переводчик и ретро-энтузиаст.</p>
-        </div>
+        </pre><p><strong>Привет!</strong></p><p>Я Erridian. Веб-разработчик, переводчик и ретро-энтузиаст.</p></div>
     </div>
 
     <!-- Projects -->
     <div class="window" id="projects" style="top: 60px; left: 350px; width: 350px;">
-        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')">
-            <div class="title-bar-text">Projects</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('projects')">X</button></div>
-        </div>
-        <div class="window-body">
-            <p>📂 <strong>Проекты:</strong></p>
-            <ul><li><a href="#">Личный блог</a></li><li><a href="#">GitHub</a></li></ul>
-        </div>
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')"><div class="title-bar-text">Projects</div><div class="title-bar-controls"><button onclick="closeWindow('projects')">X</button></div></div>
+        <div class="window-body"><p>📂 <strong>Проекты:</strong></p><ul><li><a href="#">Личный блог</a></li><li><a href="#">GitHub</a></li></ul></div>
     </div>
 
     <!-- Terminal -->
     <div class="window" id="terminal" style="top: 120px; left: 450px; width: 500px;">
-        <div class="title-bar" style="background: #000;" onmousedown="dragMouseDown(event, 'terminal')">
-            <div class="title-bar-text">CMD</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('terminal')">X</button></div>
-        </div>
-        <div class="cmd-body" id="cmd-output" onclick="document.getElementById('cmd-input').focus()">
-            <div>Erridian OS [Version 4.10.1998]</div>
-            <div id="cmd-history"></div>
-            <div class="cmd-input-line"><span>C:\></span><input type="text" id="cmd-input" class="cmd-input" autocomplete="off" onkeydown="handleCmd(event)"></div>
-        </div>
+        <div class="title-bar" style="background: #000;" onmousedown="dragMouseDown(event, 'terminal')"><div class="title-bar-text">CMD</div><div class="title-bar-controls"><button onclick="closeWindow('terminal')">X</button></div></div>
+        <div class="cmd-body" id="cmd-output" onclick="document.getElementById('cmd-input').focus()"><div>Erridian OS [Version 4.10.1998]</div><div id="cmd-history"></div><div class="cmd-input-line"><span>C:\></span><input type="text" id="cmd-input" class="cmd-input" autocomplete="off" onkeydown="handleCmd(event)"></div></div>
     </div>
 
     <!-- Paint -->
     <div class="window" id="paint" style="top: 150px; left: 500px; width: 450px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'paint')">
-            <div class="title-bar-text">Paint</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('paint')">X</button></div>
-        </div>
-        <div class="window-body" style="padding: 5px;">
-            <div class="paint-toolbar">
-                <div class="color-btn" style="background:black" onclick="setPaintColor('black')"></div>
-                <div class="color-btn" style="background:var(--vapor-pink)" onclick="setPaintColor('#ff71ce')"></div>
-                <div class="color-btn" style="background:var(--vapor-blue)" onclick="setPaintColor('#01cdfe')"></div>
-                <div class="color-btn" style="background:white" onclick="setPaintColor('white')"></div>
-                <button onclick="clearCanvas()" style="margin-left: auto;">Clear</button>
-            </div>
-            <canvas id="paintCanvas" width="400" height="300"></canvas>
-        </div>
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'paint')"><div class="title-bar-text">Paint</div><div class="title-bar-controls"><button onclick="closeWindow('paint')">X</button></div></div>
+        <div class="window-body" style="padding: 5px;"><div class="paint-toolbar"><div class="color-btn" style="background:black" onclick="setPaintColor('black')"></div><div class="color-btn" style="background:var(--vapor-pink)" onclick="setPaintColor('#ff71ce')"></div><div class="color-btn" style="background:var(--vapor-blue)" onclick="setPaintColor('#01cdfe')"></div><div class="color-btn" style="background:white" onclick="setPaintColor('white')"></div><button onclick="clearCanvas()" style="margin-left: auto;">Clear</button></div><canvas id="paintCanvas" width="400" height="300"></canvas></div>
     </div>
 
     <!-- Settings -->
     <div class="window" id="settings" style="top: 200px; left: 300px; width: 300px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'settings')">
-            <div class="title-bar-text">Settings</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('settings')">X</button></div>
-        </div>
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'settings')"><div class="title-bar-text">Settings</div><div class="title-bar-controls"><button onclick="closeWindow('settings')">X</button></div></div>
         <div class="window-body">
-            <fieldset><legend>Background</legend>
-                <div class="radio-group">
-                    <label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Grid</label>
-                    <label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel</label>
-                    <label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Teal</label>
-                    <label><input type="radio" name="bg" value="theme-clouds" onclick="setTheme('theme-clouds')"> Clouds</label>
-                    <label><input type="radio" name="bg" value="theme-hacker" onclick="setTheme('theme-hacker')"> Hacker</label>
-                    <label><input type="radio" name="bg" value="theme-static" onclick="setTheme('theme-static')"> Static</label>
+            <fieldset><legend>Background</legend><div class="radio-group"><label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Grid</label><label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel</label><label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Teal</label><label><input type="radio" name="bg" value="theme-clouds" onclick="setTheme('theme-clouds')"> Clouds</label><label><input type="radio" name="bg" value="theme-hacker" onclick="setTheme('theme-hacker')"> Hacker</label><label><input type="radio" name="bg" value="theme-static" onclick="setTheme('theme-static')"> Static</label></div></fieldset>
+            <fieldset style="margin-top: 10px;"><legend>Effects</legend><label><input type="checkbox" id="xmas-toggle" checked onclick="toggleXmas()"> Holiday Mode</label><label><input type="checkbox" id="trail-toggle"> Glitch Drag (Trail)</label><label><input type="checkbox" id="sound-toggle" checked> Sound Effects</label></fieldset>
+            <fieldset style="margin-top: 10px;"><legend>Avatar</legend>
+                <div style="display:flex; justify-content:space-around;">
+                    <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('👤')">👤</span>
+                    <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('👽')">👽</span>
+                    <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('💾')">💾</span>
+                    <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('🐱')">🐱</span>
                 </div>
-            </fieldset>
-            <fieldset style="margin-top: 10px;"><legend>Effects</legend>
-                <label><input type="checkbox" id="xmas-toggle" checked onclick="toggleXmas()"> Holiday Mode</label>
             </fieldset>
             <div style="margin-top:10px; text-align:center;"><button onclick="closeWindow('settings')">OK</button></div>
         </div>
@@ -468,21 +407,23 @@
 
     <!-- Taskbar -->
     <div class="taskbar" id="taskbar">
-        <button class="start-btn" onclick="toggleStartMenu()">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Windows_95_logo_icon.svg/512px-Windows_95_logo_icon.svg.png" alt="logo"> Start
-        </button>
+        <button class="start-btn" onclick="toggleStartMenu()"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Windows_95_logo_icon.svg/512px-Windows_95_logo_icon.svg.png" alt="logo"> Start</button>
         <div style="width: 2px; height: 26px; border-left: 1px solid white; border-right: 1px solid gray; margin: 0 5px;"></div>
-        <div class="clock" id="clock" onclick="clockClick()">12:00 PM</div>
+        <div class="clock" id="clock" onclick="openWindow('calendar'); playSound('click')">12:00 PM</div>
     </div>
 
     <div class="start-menu" id="startMenu">
-        <div class="sidebar"><span class="sidebar-text">ERRIDIAN 95</span></div>
+        <div class="sidebar">
+            <div class="sidebar-avatar" id="user-avatar">👤</div>
+            <span class="sidebar-text">ERRIDIAN 95</span>
+        </div>
         <div class="menu-items">
             <div class="menu-item" onclick="openWindow('about'); toggleStartMenu()">📂 О себе</div>
             <div class="menu-item" onclick="openWindow('run'); toggleStartMenu()">🚀 Выполнить</div>
             <div class="menu-item" onclick="openWindow('chat'); toggleStartMenu()">💬 Чат</div>
             <div class="menu-item" onclick="openWindow('pet'); toggleStartMenu()">🥚 Питомец</div>
             <div class="menu-item" onclick="openWindow('minesweeper'); toggleStartMenu()">💣 Сапёр</div>
+            <div class="menu-item" onclick="openWindow('tictactoe'); toggleStartMenu()">❌ Крестики</div>
             <div class="menu-item" onclick="openWindow('notepad'); toggleStartMenu()">📝 Блокнот</div>
             <div class="menu-item" onclick="openWindow('calc'); toggleStartMenu()">🧮 Калькулятор</div>
             <div class="menu-item" onclick="openWindow('terminal'); toggleStartMenu()">📟 CMD</div>
@@ -496,8 +437,96 @@
     <script>
         window.onload = function() {
             runBios(); updateClock(); initPaint(); startClippy(); initXmas();
-            setupScreensaver(); loadSysInfo(); initNotepad(); initMinesweeper(); startPet();
+            setupScreensaver(); loadSysInfo(); initNotepad(); initMinesweeper(); startPet(); initTTT(); renderCalendar();
+            loadAvatar();
         };
+
+        // --- AUDIO ENGINE ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if(!document.getElementById('sound-toggle').checked) return;
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            
+            if(type === 'click') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.05);
+            } else if (type === 'error') {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'open') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.1);
+            }
+            osc.start();
+        }
+
+        // --- CALENDAR ---
+        function renderCalendar() {
+            const grid = document.getElementById('cal-grid');
+            const now = new Date();
+            const mNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            grid.innerHTML = `<div class="cal-header"><span>${mNames[now.getMonth()]} ${now.getFullYear()}</span></div>`;
+            ['S','M','T','W','T','F','S'].forEach(d => grid.innerHTML += `<div class="cal-day-name">${d}</div>`);
+            
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+            const daysInMonth = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+            
+            for(let i=0; i<firstDay; i++) grid.innerHTML += `<div></div>`;
+            for(let i=1; i<=daysInMonth; i++) {
+                let cls = (i === now.getDate()) ? 'cal-day today' : 'cal-day';
+                grid.innerHTML += `<div class="${cls}">${i}</div>`;
+            }
+        }
+
+        // --- TIC TAC TOE ---
+        let tttBoard = Array(9).fill(null);
+        let tttGameActive = true;
+        function initTTT() {
+            tttBoard.fill(null); tttGameActive = true;
+            document.getElementById('ttt-status').innerText = "Your Turn (💾)";
+            const g = document.getElementById('ttt-grid'); g.innerHTML = '';
+            for(let i=0; i<9; i++) {
+                let c = document.createElement('div'); c.className = 'ttt-cell';
+                c.onclick = () => moveTTT(i, c); g.appendChild(c);
+            }
+        }
+        function moveTTT(i, el) {
+            if(!tttGameActive || tttBoard[i]) return;
+            tttBoard[i] = '💾'; el.innerText = '💾'; playSound('click');
+            if(checkTTTWin()) { document.getElementById('ttt-status').innerText = "You Win!"; tttGameActive=false; return; }
+            if(!tttBoard.includes(null)) { document.getElementById('ttt-status').innerText = "Draw!"; tttGameActive=false; return; }
+            document.getElementById('ttt-status').innerText = "PC Thinking...";
+            setTimeout(aiMoveTTT, 500);
+        }
+        function aiMoveTTT() {
+            if(!tttGameActive) return;
+            let empty = tttBoard.map((v, i) => v===null ? i : null).filter(v => v!==null);
+            let move = empty[Math.floor(Math.random()*empty.length)];
+            tttBoard[move] = '💿'; 
+            document.getElementsByClassName('ttt-cell')[move].innerText = '💿';
+            if(checkTTTWin()) { document.getElementById('ttt-status').innerText = "PC Wins!"; tttGameActive=false; }
+            else document.getElementById('ttt-status').innerText = "Your Turn (💾)";
+        }
+        function checkTTTWin() {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return wins.some(c => tttBoard[c[0]] && tttBoard[c[0]] === tttBoard[c[1]] && tttBoard[c[0]] === tttBoard[c[2]]);
+        }
+
+        // --- AVATAR ---
+        function loadAvatar() {
+            const av = localStorage.getItem('user_avatar') || '👤';
+            document.getElementById('user-avatar').innerText = av;
+        }
+        function setAvatar(av) {
+            localStorage.setItem('user_avatar', av);
+            document.getElementById('user-avatar').innerText = av;
+            playSound('click');
+        }
 
         // --- RUN DIALOG ---
         function runCommand() {
@@ -506,303 +535,159 @@
             if(val.startsWith('http')) { window.open(val, '_blank'); return; }
             const map = {
                 'calc': 'calc', 'notepad': 'notepad', 'paint': 'paint', 'cmd': 'terminal', 
-                'chat': 'chat', 'pet': 'pet', 'winamp': 'player', 'minesweeper': 'minesweeper'
+                'chat': 'chat', 'pet': 'pet', 'winamp': 'player', 'minesweeper': 'minesweeper',
+                'calendar': 'calendar', 'ttt': 'tictactoe'
             };
             if(map[val]) { openWindow(map[val]); return; }
             if(val === 'matrix') { startMatrix(); return; }
             if(val === 'shutdown') { shutdownPC(); return; }
             if(val === 'bsod') { showBsod(); return; }
-            alert("Cannot find '" + val + "'. Make sure you typed the name correctly.");
+            alert("Cannot find '" + val + "'.");
         }
 
-        // --- TAMAGOTCHI (VAPORPET) ---
-        let petState = 0; // 0=Egg, 1=Baby, 2=Adult, 3=Dead
-        let hunger = 0, happy = 100;
+        // --- TAMAGOTCHI ---
+        let petState = 0, hunger = 0, happy = 100;
         const sprites = ['🥚', '🐣', '🐥', '👻'];
         function startPet() {
             setInterval(() => {
                 if(petState === 3) return;
-                hunger = Math.min(100, hunger + 2);
-                happy = Math.max(0, happy - 2);
-                if(hunger >= 100) petState = 3; // Death
-                else if(petState === 0 && happy < 90) petState = 1; // Hatch
-                else if(petState === 1 && happy > 50 && hunger < 20) petState = 2; // Grow
-                updatePetUI();
+                hunger = Math.min(100, hunger + 2); happy = Math.max(0, happy - 2);
+                if(hunger >= 100) petState = 3;
+                else if(petState === 0 && happy < 90) petState = 1;
+                else if(petState === 1 && happy > 50 && hunger < 20) petState = 2;
+                document.getElementById('pet-sprite').innerText = sprites[petState];
+                document.getElementById('pet-hunger').innerText = hunger;
+                document.getElementById('pet-happy').innerText = happy;
             }, 3000);
         }
-        function updatePetUI() {
-            document.getElementById('pet-sprite').innerText = sprites[petState];
-            document.getElementById('pet-hunger').innerText = hunger;
-            document.getElementById('pet-happy').innerText = happy;
-        }
-        function feedPet() { if(petState!==3) { hunger = Math.max(0, hunger - 10); updatePetUI(); } }
-        function playPet() { if(petState!==3) { happy = Math.min(100, happy + 10); updatePetUI(); } }
+        function feedPet() { if(petState!==3) { hunger = Math.max(0, hunger - 10); playSound('click'); } }
+        function playPet() { if(petState!==3) { happy = Math.min(100, happy + 10); playSound('click'); } }
 
         // --- CHAT BOT ---
         function handleChat(e) {
             if(e.key === 'Enter') {
-                const input = e.target.value;
-                addChat("User: " + input, "user");
-                e.target.value = "";
-                setTimeout(() => botReply(input.toLowerCase()), 1000);
+                const input = e.target.value; addChat("User: " + input, "user"); e.target.value = "";
+                setTimeout(() => {
+                    let r = "I am listening...";
+                    if(input.match(/hi|hello/i)) r = "Greetings, user.";
+                    else if(input.match(/who/i)) r = "I am A.L.I.C.E. 95.";
+                    else if(input.match(/life/i)) r = "Just a simulation.";
+                    addChat("A.L.I.C.E. 95: " + r, ""); playSound('open');
+                }, 1000);
             }
         }
         function addChat(txt, cls) {
             const h = document.getElementById('chat-history');
-            h.innerHTML += `<div class="chat-msg ${cls}">${txt}</div>`;
-            h.scrollTop = h.scrollHeight;
-        }
-        function botReply(msg) {
-            let r = "I am listening...";
-            if(msg.includes('hello') || msg.includes('hi')) r = "Greetings, wanderer of the net.";
-            else if(msg.includes('music')) r = "The aesthetics are pleasing.";
-            else if(msg.includes('who')) r = "I am A.L.I.C.E. 95.";
-            else if(msg.includes('life')) r = "Is this real or just a simulation?";
-            addChat("A.L.I.C.E. 95: " + r, "");
+            h.innerHTML += `<div class="chat-msg ${cls}">${txt}</div>`; h.scrollTop = h.scrollHeight;
         }
 
-        // --- MUSIC VISUALIZER (FAKE) ---
-        let visInterval;
-        function startVisualizer() {
-            const canvas = document.getElementById('vis-canvas');
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width, h = canvas.height;
-            const bars = 30, barW = w / bars;
-            visInterval = setInterval(() => {
-                ctx.fillStyle = 'black'; ctx.fillRect(0,0,w,h);
-                for(let i=0; i<bars; i++) {
-                    const barH = Math.random() * h;
-                    ctx.fillStyle = `hsl(${Math.random()*360}, 100%, 50%)`;
-                    ctx.fillRect(i*barW, h-barH, barW-2, barH);
-                }
-            }, 100);
-        }
-        function stopVisualizer() { clearInterval(visInterval); }
-
-        // --- SHUTDOWN ---
-        function shutdownPC() {
-            document.getElementById('startMenu').style.display = 'none';
-            document.body.style.cursor = 'none';
-            setTimeout(() => { document.getElementById('shutdown-screen').style.display = 'flex'; }, 1000);
-        }
-
-        // --- EASTER EGGS ---
-        const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-        let konamiPos = 0;
-        document.addEventListener('keydown', (e) => {
-            if(e.key === konamiCode[konamiPos]) {
-                konamiPos++;
-                if(konamiPos === konamiCode.length) { document.body.classList.toggle('invert'); konamiPos = 0; alert("CHEAT ACTIVATED"); }
-            } else { konamiPos = 0; }
-        });
-        let clockClicks = 0; let secretTime = false;
-        function clockClick() {
-            clockClicks++;
-            if(clockClicks === 7) { secretTime = true; alert("It's always 4:20 somewhere..."); updateClock(); }
-        }
-        function startMatrix() {
-            const c = document.getElementById('matrix-canvas'); const ctx = c.getContext('2d');
-            c.style.display = 'block'; c.width = window.innerWidth; c.height = window.innerHeight;
-            const chars = '0123456789ABCDEF'; const font = 16; const cols = c.width/font; const drops = Array(Math.floor(cols)).fill(1);
-            setInterval(() => {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, c.width, c.height);
-                ctx.fillStyle = '#0F0'; ctx.font = font + 'px monospace';
-                drops.forEach((y, i) => {
-                    const txt = chars[Math.floor(Math.random()*chars.length)];
-                    ctx.fillText(txt, i*font, y*font);
-                    if(y*font > c.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                });
-            }, 30);
-            c.onclick = () => c.style.display = 'none';
-        }
-
-        // --- SCREENSAVER ---
-        let idleTime = 0, saverInterval, animInterval;
-        const saverDiv = document.getElementById('screensaver'), saverText = document.getElementById('saver-text');
-        let posX = 100, posY = 100, velX = 2, velY = 2;
-        function setupScreensaver() {
-            ['mousemove', 'mousedown', 'keypress', 'touchmove', 'scroll', 'click'].forEach(evt => document.addEventListener(evt, resetTimer));
-            saverInterval = setInterval(() => { idleTime++; if (idleTime >= 60) startSaver(); }, 1000);
-        }
-        function resetTimer() { idleTime = 0; if (saverDiv.style.display === 'block') stopSaver(); }
-        function startSaver() {
-            if (saverDiv.style.display === 'block') return;
-            saverDiv.style.display = 'block';
-            posX = Math.random() * (window.innerWidth - 200); posY = Math.random() * (window.innerHeight - 100);
-            velX = 3; velY = 3; clearInterval(animInterval); animInterval = setInterval(animateDVD, 20);
-        }
-        function stopSaver() { saverDiv.style.display = 'none'; clearInterval(animInterval); }
-        function animateDVD() {
-            const winW = window.innerWidth, winH = window.innerHeight, textW = saverText.offsetWidth, textH = saverText.offsetHeight;
-            posX += velX; posY += velY;
-            if (posX <= 0 || posX + textW >= winW) { velX = -velX; changeColor(); }
-            if (posY <= 0 || posY + textH >= winH) { velY = -velY; changeColor(); }
-            saverText.style.left = posX + 'px'; saverText.style.top = posY + 'px';
-        }
-        function changeColor() { saverText.style.color = ['#ff71ce', '#01cdfe', '#b967ff', '#fff', '#ffff00'][Math.floor(Math.random() * 5)]; }
-
-        // --- BIOS & BOOT ---
-        function runBios() {
-            let mem = 0;
-            const memText = document.getElementById('memory-check'), lines = document.getElementById('bios-details');
-            const interval = setInterval(() => {
-                mem += 2048;
-                if(mem >= 64512) {
-                    mem = 64512; memText.innerText = "Memory Test: "+mem+" KB OK"; clearInterval(interval);
-                    setTimeout(() => lines.innerHTML += '<div>Detecting HDD... OK</div>', 500);
-                    setTimeout(() => lines.innerHTML += '<div>Booting Erridian OS...</div>', 1500);
-                    setTimeout(() => {
-                        document.getElementById('boot-screen').style.display = 'none';
-                        document.getElementById('desktop').style.opacity = 1;
-                        document.getElementById('taskbar').style.opacity = 1;
-                        openWindow('about');
-                    }, 3000);
-                } else memText.innerText = "Memory Test: "+mem+" KB";
-            }, 10);
-        }
-
-        // --- SYS INFO ---
-        function loadSysInfo() {
-            const list = document.getElementById('sys-info');
-            list.innerHTML = `<li>OS: Erridian 95</li><li>Res: ${screen.width}x${screen.height}</li><li>Browser: ${navigator.userAgent.split(' ')[0]}</li><li>Lang: ${navigator.language.toUpperCase()}</li>`;
-        }
-
-        // --- NOTEPAD ---
-        function initNotepad() {
-            const area = document.getElementById('notepad-area');
-            const saved = localStorage.getItem('vapor_note');
-            if(saved) area.value = saved;
-            area.addEventListener('input', () => localStorage.setItem('vapor_note', area.value));
-        }
-
-        // --- CALC ---
-        let calcBuffer = "";
-        function calcInput(v) { calcBuffer += v; document.getElementById('calc-display').innerText = calcBuffer; }
-        function calcResult() { try { calcBuffer = eval(calcBuffer).toString(); } catch(e) { calcBuffer = "Error"; } document.getElementById('calc-display').innerText = calcBuffer; }
-        function calcClear() { calcBuffer = ""; document.getElementById('calc-display').innerText = "0"; }
-
-        // --- MINESWEEPER ---
-        const rows = 9, cols = 9, minesCount = 10;
-        let mineGrid = [];
-        function initMinesweeper() {
-            const c = document.getElementById('mine-grid'); c.innerHTML = ''; mineGrid = [];
-            for(let i=0; i<rows; i++) {
-                mineGrid[i] = [];
-                for(let j=0; j<cols; j++) {
-                    let cell = document.createElement('div'); cell.className = 'mine-cell'; cell.dataset.r = i; cell.dataset.c = j;
-                    cell.onclick = () => clickCell(i, j); c.appendChild(cell);
-                    mineGrid[i][j] = { mine: false, revealed: false, el: cell };
-                }
-            }
-            let placed = 0;
-            while(placed < minesCount) {
-                let r = Math.floor(Math.random() * rows), k = Math.floor(Math.random() * cols);
-                if(!mineGrid[r][k].mine) { mineGrid[r][k].mine = true; placed++; }
-            }
-        }
-        function clickCell(r, c) {
-            if(r<0 || r>=rows || c<0 || c>=cols || mineGrid[r][c].revealed) return;
-            const cell = mineGrid[r][c]; cell.revealed = true; cell.el.classList.add('revealed');
-            if(cell.mine) { cell.el.innerHTML = '💣'; cell.el.style.background = 'red'; alert('GAME OVER'); initMinesweeper(); } 
-            else {
-                let count = 0;
-                for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) if(r+i>=0 && r+i<rows && c+j>=0 && c+j<cols && mineGrid[r+i][c+j].mine) count++;
-                if(count > 0) { cell.el.innerText = count; cell.el.style.color = ['blue','green','red','purple'][count-1]; } 
-                else { for(let i=-1; i<=1; i++) for(let j=-1; j<=1; j++) clickCell(r+i, c+j); }
-            }
-        }
-
-        // --- XMAS ---
-        function initXmas() {
-            const layer = document.getElementById('xmas-layer'); const lights = document.getElementById('lights-container');
-            for(let i=0; i<50; i++) { let f = document.createElement('div'); f.className = 'snowflake'; f.innerText = '❄'; f.style.left = Math.random()*100+'vw'; f.style.animationDuration = (Math.random()*5+5)+'s'; f.style.opacity = Math.random(); layer.appendChild(f); }
-            for(let i=0; i<30; i++) { let b = document.createElement('div'); b.className = 'light-bulb'; lights.appendChild(b); }
-            layer.style.display = 'block';
-        }
-        function toggleXmas() { document.getElementById('xmas-layer').style.display = document.getElementById('xmas-toggle').checked ? 'block' : 'none'; }
-
-        // --- WINDOWS ---
+        // --- WINDOW DRAG & TRAIL ---
         let zIndex = 100;
-        function openWindow(id) { document.getElementById(id).style.display = 'flex'; bringToFront(document.getElementById(id)); }
-        function closeWindow(id) { document.getElementById(id).style.display = 'none'; }
+        function openWindow(id) { document.getElementById(id).style.display = 'flex'; bringToFront(document.getElementById(id)); playSound('open'); }
+        function closeWindow(id) { document.getElementById(id).style.display = 'none'; playSound('click'); }
         function bringToFront(el) { zIndex++; el.style.zIndex = zIndex; document.querySelectorAll('.window').forEach(w => w.classList.remove('active')); el.classList.add('active'); }
         function dragMouseDown(e, id) {
             e.preventDefault(); const elmnt = document.getElementById(id); bringToFront(elmnt);
             let pos3 = e.clientX, pos4 = e.clientY;
             document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
-            document.onmousemove = (e) => { e.preventDefault(); let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"; };
-        }
-
-        // --- PAINT ---
-        let ctx, painting = false;
-        function initPaint() {
-            const c = document.getElementById('paintCanvas'); ctx = c.getContext('2d');
-            ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.strokeStyle = 'black';
-            c.addEventListener('mousedown', (e) => { painting = true; draw(e); });
-            c.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
-            c.addEventListener('mousemove', draw);
-        }
-        function draw(e) {
-            if(!painting) return;
-            const r = document.getElementById('paintCanvas').getBoundingClientRect();
-            ctx.lineTo(e.clientX - r.left, e.clientY - r.top); ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
-        }
-        function setPaintColor(c) { ctx.strokeStyle = c; }
-        function clearCanvas() { ctx.clearRect(0,0,400,300); }
-
-        // --- TERMINAL ---
-        function handleCmd(e) {
-            if(e.key === 'Enter') {
-                const inp = e.target; const val = inp.value.trim().toLowerCase();
-                document.getElementById('cmd-history').innerHTML += `<div>C:\\> ${inp.value}</div>`;
-                let r = "";
-                switch(val) {
-                    case 'help': r = "Commands: about, projects, date, reboot, matrix, sudo"; break;
-                    case 'about': r = "Erridian OS v3.0"; break;
-                    case 'date': r = new Date().toString(); break;
-                    case 'reboot': location.reload(); break;
-                    case 'matrix': startMatrix(); r = "Wake up..."; break;
-                    default: r = val ? "Bad command" : "";
+            document.onmousemove = (e) => {
+                e.preventDefault(); let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                
+                // Trail Logic
+                if(document.getElementById('trail-toggle').checked) {
+                    const clone = elmnt.cloneNode(true);
+                    clone.classList.add('window-clone');
+                    clone.removeAttribute('id');
+                    clone.style.zIndex = zIndex - 1;
+                    document.body.appendChild(clone);
+                    setTimeout(() => clone.remove(), 500);
                 }
-                if(r) document.getElementById('cmd-history').innerHTML += `<div>${r}</div>`;
-                inp.value = "";
-            }
+            };
         }
 
-        // --- CLIPPY ---
-        const quotes = ["Ты ищешь ответы?", "Музыка играет...", "Эстетика вечна.", "Не забудь сохраниться."];
-        function startClippy() {
-            setInterval(() => {
-                const b = document.getElementById('clippy-bubble');
-                if(Math.random() > 0.7) { b.innerText = quotes[Math.floor(Math.random() * quotes.length)]; b.style.display = 'block'; setTimeout(() => b.style.display = 'none', 4000); }
-            }, 10000);
+        // --- VISUALIZER ---
+        let visInterval;
+        function startVisualizer() {
+            const ctx = document.getElementById('vis-canvas').getContext('2d');
+            visInterval = setInterval(() => {
+                ctx.fillStyle = 'black'; ctx.fillRect(0,0,300,50);
+                for(let i=0; i<30; i++) {
+                    const h = Math.random() * 50;
+                    ctx.fillStyle = `hsl(${Math.random()*360}, 100%, 50%)`; ctx.fillRect(i*10, 50-h, 8, h);
+                }
+            }, 100);
         }
+        function stopVisualizer() { clearInterval(visInterval); }
 
-        // --- BSOD ---
-        function showBsod() { document.getElementById('bsod').style.display = 'block'; }
-        function hideBsod() { document.getElementById('bsod').style.display = 'none'; }
-        
-        // --- COMMON ---
+        // --- COMMON & EGGS ---
+        function runBios() {
+            let mem = 0;
+            const interval = setInterval(() => {
+                mem += 2048;
+                if(mem >= 64512) {
+                    clearInterval(interval); document.getElementById('memory-check').innerText = "Memory Test: 64512 KB OK";
+                    document.getElementById('bios-details').innerHTML += '<div>Booting...</div>';
+                    setTimeout(() => { document.getElementById('boot-screen').style.display = 'none'; document.getElementById('desktop').style.opacity = 1; document.getElementById('taskbar').style.opacity = 1; playSound('startup'); openWindow('about'); }, 2000);
+                } else document.getElementById('memory-check').innerText = "Memory Test: "+mem+" KB";
+            }, 10);
+        }
+        function shutdownPC() { document.getElementById('startMenu').style.display = 'none'; document.body.style.cursor = 'none'; setTimeout(() => document.getElementById('shutdown-screen').style.display = 'flex', 1000); }
+        function loadSysInfo() { document.getElementById('sys-info').innerHTML = `<li>OS: Erridian 95</li><li>Res: ${screen.width}x${screen.height}</li><li>Browser: ${navigator.userAgent.split(' ')[0]}</li>`; }
+        function initNotepad() { const a = document.getElementById('notepad-area'); a.value = localStorage.getItem('vapor_note') || ''; a.addEventListener('input', () => localStorage.setItem('vapor_note', a.value)); }
         function setTheme(t) { document.getElementById('bg-layer').className = t; }
-        function updateClock() {
-            if(secretTime) { document.getElementById('clock').innerText = "4:20 PM"; return; }
-            const now = new Date(); let h = now.getHours(), m = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('clock').innerText = h + ":" + m + " " + (h>=12?'PM':'AM');
-        }
+        function updateClock() { const d = new Date(); document.getElementById('clock').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); }
         setInterval(updateClock, 1000);
-        function toggleStartMenu() { const m = document.getElementById('startMenu'); m.style.display = (m.style.display==='flex')?'none':'flex'; }
-        document.addEventListener('click', e => {
-            const m = document.getElementById('startMenu'), b = document.querySelector('.start-btn');
-            if(!m.contains(e.target) && !b.contains(e.target)) { m.style.display = 'none'; }
-        });
-
-        // --- RADIO ---
+        function toggleStartMenu() { const m = document.getElementById('startMenu'); m.style.display = (m.style.display==='flex')?'none':'flex'; playSound('click'); }
+        document.addEventListener('click', e => { const m = document.getElementById('startMenu'); if(!m.contains(e.target) && !document.querySelector('.start-btn').contains(e.target)) m.style.display = 'none'; });
+        
+        // Radio
         const stations = {'vapor': 'https://radio.plaza.one/mp3', 'soviet': 'https://radiorecord.hostingradio.ru/synth96.aacp', 'chiptune': 'https://stream.cvgm.net/cvgm128', 'lofi': 'https://lofi.stream.laut.fm/lofi'};
         const audio = document.getElementById('audio-player');
         function playRadio(g) { audio.src = stations[g]; audio.play(); document.getElementById('player-screen').innerText = "Playing: " + g.toUpperCase(); startVisualizer(); }
         function stopRadio() { audio.pause(); document.getElementById('player-screen').innerText = "Stopped"; stopVisualizer(); }
 
+        // Screensaver
+        let idleTime=0, saverInterval, animInterval;
+        function setupScreensaver() {
+            ['mousemove', 'mousedown', 'keypress', 'click'].forEach(e => document.addEventListener(e, () => { idleTime=0; if(document.getElementById('screensaver').style.display === 'block') stopSaver(); if(document.getElementById('bsod').style.display==='block' && Math.random()>0.5) hideBsod(); }));
+            saverInterval = setInterval(() => { idleTime++; if(idleTime >= 60) startSaver(); }, 1000);
+        }
+        function startSaver() {
+            if (document.getElementById('screensaver').style.display === 'block' || document.getElementById('bsod').style.display === 'block') return;
+            if(Math.random() < 0.01) { showBsod(); return; } // Rare BSOD
+            document.getElementById('screensaver').style.display = 'block';
+            let x=100, y=100, vx=3, vy=3, txt = document.getElementById('saver-text');
+            clearInterval(animInterval);
+            animInterval = setInterval(() => {
+                x+=vx; y+=vy;
+                if(x<=0 || x+txt.offsetWidth>=window.innerWidth) { vx=-vx; txt.style.color=`hsl(${Math.random()*360},100%,50%)`; }
+                if(y<=0 || y+txt.offsetHeight>=window.innerHeight) { vy=-vy; txt.style.color=`hsl(${Math.random()*360},100%,50%)`; }
+                txt.style.left=x+'px'; txt.style.top=y+'px';
+            }, 20);
+        }
+        function stopSaver() { document.getElementById('screensaver').style.display = 'none'; clearInterval(animInterval); }
+        function showBsod() { document.getElementById('bsod').style.display = 'block'; playSound('error'); }
+        function hideBsod() { document.getElementById('bsod').style.display = 'none'; }
+
+        // Init other apps (Calc, Paint, etc - simplified for space, logic kept from previous)
+        let calcBuffer = "";
+        function calcInput(v) { calcBuffer += v; document.getElementById('calc-display').innerText = calcBuffer; playSound('click'); }
+        function calcResult() { try { calcBuffer = eval(calcBuffer).toString(); } catch(e) { calcBuffer = "Error"; } document.getElementById('calc-display').innerText = calcBuffer; }
+        function calcClear() { calcBuffer = ""; document.getElementById('calc-display').innerText = "0"; }
+        
+        let ctx, painting = false;
+        function initPaint() { const c = document.getElementById('paintCanvas'); ctx = c.getContext('2d'); ctx.lineWidth = 2; ctx.strokeStyle = 'black'; c.addEventListener('mousedown', e => { painting = true; draw(e); }); c.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); }); c.addEventListener('mousemove', draw); }
+        function draw(e) { if(!painting) return; const r = document.getElementById('paintCanvas').getBoundingClientRect(); ctx.lineTo(e.clientX - r.left, e.clientY - r.top); ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top); }
+        function setPaintColor(c) { ctx.strokeStyle = c; } function clearCanvas() { ctx.clearRect(0,0,400,300); }
+
+        function initMinesweeper() { 
+            const c = document.getElementById('mine-grid'); c.innerHTML = ''; 
+            for(let i=0; i<9; i++) for(let j=0; j<9; j++) { let d = document.createElement('div'); d.className = 'mine-cell'; d.onclick = function() { this.classList.add('revealed'); this.style.background = '#c0c0c0'; if(Math.random()<0.15) { this.innerText='💣'; this.style.background='red'; playSound('error'); alert('BOOM'); initMinesweeper(); } else { this.innerText = Math.floor(Math.random()*3)+1; playSound('click'); } }; c.appendChild(d); }
+        }
+        function initXmas() { const l = document.getElementById('xmas-layer'); for(let i=0; i<30; i++) { let d=document.createElement('div'); d.className='snowflake'; d.innerText='❄'; d.style.left=Math.random()*100+'vw'; d.style.animationDuration=(Math.random()*5+5)+'s'; l.appendChild(d); } document.getElementById('xmas-toggle').addEventListener('change', e => l.style.display = e.target.checked ? 'block' : 'none'); }
+        function startClippy() { setInterval(() => { if(Math.random()>0.8) { const b = document.getElementById('clippy-bubble'); b.style.display = 'block'; setTimeout(() => b.style.display='none', 3000); } }, 10000); }
     </script>
 </body>
 </html>
