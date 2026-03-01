@@ -372,7 +372,7 @@
     <!-- Projects -->
     <div class="window" id="projects" style="top: 60px; left: 350px; width: 350px;">
         <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')"><div class="title-bar-text">Projects</div><div class="title-bar-controls"><button onclick="closeWindow('projects')">X</button></div></div>
-        <div class="window-body"><p>📂 <strong>Проекты:</strong></p><ul><li><a href="#">Личный блог</a></li><li><a href="#">GitHub</a></li></ul></div>
+        <div class="window-body"><p>📂 <strong>Проекты:</strong></p><ul><li><a href="https://github.com/Erridian" target="_blank">GitHub</a></li><li><a href="https://vk.com/chikdyk" target="_blank">Личный блог VK</a></li><li><a href="https://t.me/ocerr" target="_blank">Личный блог Telegram</a></li></ul></div>
     </div>
 
     <!-- Terminal -->
@@ -460,6 +460,12 @@
                 osc.type = 'sine'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
                 gain.gain.setValueAtTime(0.1, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.1);
+            } else if (type === 'startup') {
+                osc.type = 'square'; osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.5);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.5);
+            } else {
+                osc.stop(audioCtx.currentTime + 0.1);
             }
             osc.start();
         }
