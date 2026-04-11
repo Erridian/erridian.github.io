@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Makise Kurisu - Future Gadget Lab 004</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%239e1b1b%22>⚙</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -147,13 +148,41 @@
         }
 
         @keyframes rotate-slow {
-            from {
-                transform: rotate(0deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-            to {
-                transform: rotate(360deg);
-            }
+        @keyframes rotate-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            2% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+            4% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); }
+            6% { transform: translate(0); }
+            100% { transform: translate(0); }
+        }
+
+        .gear-small {
+            top: 10vh;
+            left: -5vw;
+            width: 40vh;
+            height: 40vh;
+            border: 1px dashed rgba(158, 27, 27, 0.1);
+            animation: rotate-reverse 80s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gear-small::before {
+            content: '';
+            width: 50%;
+            height: 50%;
+            border: 1px solid rgba(253, 246, 227, 0.04);
+            border-radius: 50%;
         }
 
         /* Main Container */
@@ -204,6 +233,7 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             margin-bottom: 5px;
+            animation: glitch 10s infinite;
         }
 
         .profile {
@@ -309,19 +339,21 @@
 </head>
 
 <body>
+    <audio id="bg-music" src="steinsgateMusicBox.mp3" loop></audio>
     <!-- Background Patterns -->
     <div class="bg-pattern"></div>
     <div class="bg-graphics">
         <div class="cross-line timeline-vertical"></div>
         <div class="timeline-element gear-huge"></div>
-        <div class="physics-formula">R<sub>μν</sub> - ½Rg<sub>μν</sub> + Λg<sub>μν</sub> = (8πG/c<sup>4</sup>)T<sub>μν</sub></div>
+        <div class="timeline-element gear-small"></div>
+        <div class="physics-formula">Δ = r² - 2Mr + a² &nbsp; | &nbsp; ρ² = r² + a² cos² θ</div>
         <div class="divergence-meter">1.048596%</div>
     </div>
 
     <!-- Main Content -->
     <div class="container">
         <header>
-            <span class="member-id">FUTURE GADGET LABORATORY: MEMBER ID 004</span>
+            <span class="member-id" title="Time is passing so quickly... I want to tell you so many things">FUTURE GADGET LABORATORY: MEMBER ID 004</span>
             <h1>MAKISE KURISU</h1>
         </header>
 
@@ -340,6 +372,15 @@
             <div class="footer-accent">Amadeus System</div>
         </footer>
     </div>
+    <script>
+        // Music Trigger
+        const bgMusic = document.getElementById('bg-music');
+        document.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().catch(e => console.log("Audio play blocked: ", e));
+            }
+        }, { once: true });
+    </script>
 </body>
 
 </html>

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IBN 5100 Terminal - Hououin Kyouma</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%2339ff14%22>Ω</text></svg>">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
@@ -368,6 +369,62 @@
         .top-right { top: 15px; right: 15px; text-align: right; }
         .bottom-left { bottom: 15px; left: 15px; animation-delay: 1s; }
 
+        /* Nixie Tube Style */
+        .nixie-meter {
+            position: absolute;
+            top: 20px;
+            right: 150px;
+            display: flex;
+            gap: 5px;
+            background: #1a0a05;
+            padding: 8px 12px;
+            border: 2px solid #3d1a0a;
+            box-shadow: 0 0 15px rgba(255, 176, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .nixie-digit {
+            color: var(--accent-orange);
+            font-size: 28px;
+            font-family: 'VT323', monospace;
+            text-shadow: 0 0 10px rgba(255, 176, 0, 0.8), 0 0 20px rgba(255, 176, 0, 0.4);
+            position: relative;
+        }
+
+        .nixie-digit::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(transparent 50%, rgba(0,0,0,0.1) 50%);
+            background-size: 100% 2px;
+            pointer-events: none;
+        }
+
+        .kongroo {
+            font-style: italic;
+            color: var(--accent-orange);
+            font-weight: bold;
+            font-size: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .kongroo:hover .kongroo-text {
+            visibility: hidden;
+        }
+
+        .kongroo:hover::after {
+            content: 'The Organization is watching you';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: max-content;
+            color: #ff3333;
+            visibility: visible;
+            text-align: right;
+            background: var(--bg-color);
+        }
+
         /* CRT Boot Effect */
         .crt-effect {
             animation: turn-on 2s linear;
@@ -411,7 +468,19 @@
 
 <body>
     <canvas id="matrix-bg"></canvas>
+    <audio id="bg-music" src="steinsgate8bit.mp3" loop></audio>
     <div class="terminal-overlay">
+        <div class="nixie-meter">
+            <span class="nixie-digit">1</span>
+            <span class="nixie-digit">.</span>
+            <span class="nixie-digit">0</span>
+            <span class="nixie-digit">4</span>
+            <span class="nixie-digit">8</span>
+            <span class="nixie-digit">5</span>
+            <span class="nixie-digit">9</span>
+            <span class="nixie-digit">6</span>
+            <span class="nixie-digit">%</span>
+        </div>
         <div class="corner-text top-left">SECURE PORT [428]
 CONNECTION ESTABLISHED...</div>
         <div class="corner-text top-right">MEM_ALLOC: 640K
@@ -454,7 +523,7 @@ CPU_TIME: <span id="cpu-time">0</span>ms</div>
 
         <footer>
             <div class="system-log" id="sys-time">SYS_LOG: Loading...</div>
-            <div class="kongroo">El Psy Kongroo.</div>
+            <div class="kongroo"><span class="kongroo-text">El Psy Kongroo.</span></div>
         </footer>
     </div>
 
@@ -471,6 +540,47 @@ CPU_TIME: <span id="cpu-time">0</span>ms</div>
         }
         setInterval(updateTime, 1000);
         updateTime();
+
+        // Nixie Flicker
+        setInterval(() => {
+            const digits = document.querySelectorAll('.nixie-digit');
+            const target = digits[Math.floor(Math.random() * digits.length)];
+            target.style.opacity = 0.8 + Math.random() * 0.2;
+            setTimeout(() => target.style.opacity = 1, 50);
+        }, 3000);
+
+        // Audio Engine
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playClick() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.className = 'click-osc';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+            
+            // Static hiss
+            const noise = audioCtx.createBufferSource();
+            const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.02, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < buffer.length; i++) data[i] = Math.random() * 2 - 1;
+            noise.buffer = buffer;
+            const noiseGain = audioCtx.createGain();
+            noiseGain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+            noise.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        document.querySelectorAll('.link-btn').forEach(btn => {
+            btn.addEventListener('click', () => playClick());
+        });
 
         // Matrix Background CPU simulation
         const canvas = document.getElementById('matrix-bg');
@@ -512,6 +622,32 @@ CPU_TIME: <span id="cpu-time">0</span>ms</div>
             cpuTime += Math.floor(Math.random() * 25) + 15;
             document.getElementById('cpu-time').innerText = cpuTime;
         }, 100);
+
+        // Music Trigger
+        const bgMusic = document.getElementById('bg-music');
+        document.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.volume = 0.4;
+                bgMusic.play().catch(e => console.log("Audio play blocked: ", e));
+            }
+        }, { once: true });
+
+        // Easter Egg: Organization Detected
+        const header = document.querySelector('h1');
+        header.addEventListener('click', () => {
+            const warning = document.querySelector('.secret-warning');
+            const originalText = warning.innerText;
+            warning.innerText = "*** WARNING: ORGANIZATION DETECTED ***";
+            warning.style.color = "#ff0000";
+            warning.style.fontSize = "30px";
+            playClick(); // reused from existing code
+            
+            setTimeout(() => {
+                warning.innerText = originalText;
+                warning.style.color = "";
+                warning.style.fontSize = "";
+            }, 2000);
+        });
     </script>
 </body>
 
