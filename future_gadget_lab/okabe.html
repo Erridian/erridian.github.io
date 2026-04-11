@@ -463,10 +463,38 @@
                 filter: brightness(1);
             }
         }
+
+        #sern-terminal-alert {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #ff0000;
+            color: #fff;
+            z-index: 10000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-size: 50px;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        #sern-terminal-alert.active {
+            display: flex;
+            opacity: 1;
+        }
     </style>
 </head>
 
 <body>
+    <div id="sern-terminal-alert">
+        <div>CONNECTION TERMINATED</div>
+        <div style="font-size: 20px; margin-top: 20px;">[ DATA_WIPE_IN_PROGRESS ]</div>
+    </div>
     <canvas id="matrix-bg"></canvas>
     <audio id="bg-music" src="steinsgate8bit.mp3" loop></audio>
     <div class="terminal-overlay">
@@ -647,6 +675,23 @@ CPU_TIME: <span id="cpu-time">0</span>ms</div>
                 warning.style.color = "";
                 warning.style.fontSize = "";
             }, 2000);
+        });
+
+        // "sern" keylogger
+        let inputBuffer = "";
+        document.addEventListener('keydown', (e) => {
+            inputBuffer += e.key.toLowerCase();
+            if (inputBuffer.length > 4) inputBuffer = inputBuffer.substring(1);
+            
+            if (inputBuffer === "sern") {
+                const alert = document.getElementById('sern-terminal-alert');
+                alert.classList.add('active');
+                playClick();
+                setTimeout(() => {
+                    alert.classList.remove('active');
+                    inputBuffer = "";
+                }, 1500);
+            }
         });
     </script>
 </body>

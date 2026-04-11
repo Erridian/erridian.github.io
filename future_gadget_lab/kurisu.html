@@ -347,7 +347,7 @@
         <div class="timeline-element gear-huge"></div>
         <div class="timeline-element gear-small"></div>
         <div class="physics-formula">Δ = r² - 2Mr + a² &nbsp; | &nbsp; ρ² = r² + a² cos² θ</div>
-        <div class="divergence-meter">1.048596%</div>
+        <div class="divergence-meter"><span id="div-base">1.048596</span>%</div>
     </div>
 
     <!-- Main Content -->
@@ -380,6 +380,25 @@
                 bgMusic.play().catch(e => console.log("Audio play blocked: ", e));
             }
         }, { once: true });
+
+        // Divergence Fluctuation
+        const divMeter = document.getElementById('div-base');
+        const randomizeDiv = () => {
+            const base = "1.0485";
+            const randomSuffix = Math.floor(Math.random() * 99).toString().padStart(2, '0');
+            divMeter.innerText = base + randomSuffix;
+        };
+        randomizeDiv();
+        // Also subtle fluctuation for profile
+        const profileDiv = document.querySelector('.profile');
+        profileDiv.innerHTML = profileDiv.innerHTML.replace('1.048596', `<span id="prof-div">1.048596</span>`);
+        const profMeter = document.getElementById('prof-div');
+        setInterval(() => {
+            const suffix = Math.floor(Math.random() * 99).toString().padStart(2, '0');
+            const val = "1.0485" + suffix;
+            divMeter.innerText = val;
+            if(profMeter) profMeter.innerText = val;
+        }, 5000);
     </script>
 </body>
 
