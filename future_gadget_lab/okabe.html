@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBN 5100 Terminal - Hououin Kyouma</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --bg-color: #020502;
+            --main-green: #39ff14;
+            /* phosphor green */
+            --accent-orange: #ffb000;
+            /* amber */
+            --scanline-color: rgba(57, 255, 20, 0.05);
+            --dark-green: #0a2408;
+            --text-glow: 0 0 8px rgba(57, 255, 20, 0.7);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--main-green);
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 24px;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            text-shadow: var(--text-glow);
+        }
+
+        /* Scanlines */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(to bottom,
+                    rgba(18, 16, 16, 0) 50%,
+                    var(--scanline-color) 50%);
+            background-size: 100% 4px;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        /* Screen flicker */
+        @keyframes flicker {
+            0% {
+                opacity: 0.98;
+            }
+
+            5% {
+                opacity: 0.95;
+            }
+
+            10% {
+                opacity: 0.9;
+            }
+
+            15% {
+                opacity: 0.95;
+            }
+
+            20% {
+                opacity: 0.98;
+            }
+
+            25% {
+                opacity: 0.95;
+            }
+
+            30% {
+                opacity: 0.9;
+            }
+
+            35% {
+                opacity: 0.96;
+            }
+
+            40% {
+                opacity: 0.98;
+            }
+
+            45% {
+                opacity: 0.95;
+            }
+
+            50% {
+                opacity: 0.99;
+            }
+
+            55% {
+                opacity: 0.95;
+            }
+
+            60% {
+                opacity: 0.9;
+            }
+
+            65% {
+                opacity: 0.96;
+            }
+
+            70% {
+                opacity: 0.98;
+            }
+
+            75% {
+                opacity: 0.95;
+            }
+
+            80% {
+                opacity: 0.9;
+            }
+
+            85% {
+                opacity: 0.96;
+            }
+
+            90% {
+                opacity: 0.98;
+            }
+
+            95% {
+                opacity: 0.95;
+            }
+
+            100% {
+                opacity: 0.99;
+            }
+        }
+
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            z-index: 50;
+            pointer-events: none;
+            animation: flicker 0.15s infinite;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            z-index: 10;
+            padding: 30px;
+            border: 2px solid var(--main-green);
+            box-shadow: inset 0 0 20px rgba(57, 255, 20, 0.2), 0 0 20px rgba(57, 255, 20, 0.2);
+            background: rgba(2, 5, 2, 0.85);
+            position: relative;
+        }
+
+        /* Terminal brackets */
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-orange);
+        }
+
+        .container::before {
+            top: -5px;
+            left: -5px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .container::after {
+            bottom: -5px;
+            right: -5px;
+            border-left: none;
+            border-top: none;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px dashed var(--main-green);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--accent-orange);
+            font-size: 38px;
+            text-shadow: 0 0 10px rgba(255, 176, 0, 0.6);
+            margin-bottom: 10px;
+            word-wrap: break-word;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 28px;
+            letter-spacing: 3px;
+        }
+
+        .secret-warning {
+            color: #ff3333;
+            text-shadow: 0 0 8px rgba(255, 51, 51, 0.8);
+            font-size: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            animation: blink 1.5s infinite step-end;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .profile {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--dark-green);
+            border: 1px solid var(--main-green);
+            border-left: 5px solid var(--main-green);
+        }
+
+        .profile p {
+            margin-bottom: 10px;
+        }
+
+        .profile p:last-child {
+            margin-bottom: 0;
+        }
+
+        .profile .label {
+            color: var(--accent-orange);
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .link-btn {
+            display: block;
+            color: var(--main-green);
+            text-decoration: none;
+            font-size: 24px;
+            padding: 12px 20px;
+            border: 1px solid var(--main-green);
+            background: transparent;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            position: relative;
+            text-align: left;
+        }
+
+        .link-btn:hover {
+            background-color: var(--main-green);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 20px var(--main-green);
+            font-weight: bold;
+        }
+
+        footer {
+            border-top: 1px dashed var(--main-green);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            align-items: center;
+            color: var(--main-green);
+        }
+
+        .system-log {
+            opacity: 0.8;
+            font-size: 16px;
+        }
+
+        .kongroo {
+            font-style: italic;
+            color: var(--accent-orange);
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 26px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .link-btn {
+                font-size: 20px;
+            }
+
+            body {
+                font-size: 18px;
+            }
+
+            .profile {
+                font-size: 18px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -3;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .terminal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .corner-text {
+            position: absolute;
+            color: rgba(57, 255, 20, 0.4);
+            font-size: 18px;
+            white-space: pre-wrap;
+            line-height: 1.2;
+            animation: blink 2s infinite step-end;
+        }
+
+        .top-left { top: 15px; left: 15px; }
+        .top-right { top: 15px; right: 15px; text-align: right; }
+        .bottom-left { bottom: 15px; left: 15px; animation-delay: 1s; }
+
+        /* CRT Boot Effect */
+        .crt-effect {
+            animation: turn-on 2s linear;
+            animation-fill-mode: forwards;
+        }
+
+        .retro-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: text-bottom;
+            margin-right: 10px;
+            fill: currentColor;
+            shape-rendering: crispEdges;
+            image-rendering: pixelated;
+        }
+
+        @keyframes turn-on {
+            0% {
+                transform: scale(1, 0.001) translate3d(0, 0, 0);
+                filter: brightness(0);
+            }
+
+            10% {
+                transform: scale(1, 0.001) translate3d(0, 0, 0);
+                filter: brightness(5);
+            }
+
+            30% {
+                transform: scale(1, 1) translate3d(0, 0, 0);
+                filter: brightness(1.5);
+            }
+
+            100% {
+                transform: scale(1, 1) translate3d(0, 0, 0);
+                filter: brightness(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="matrix-bg"></canvas>
+    <div class="terminal-overlay">
+        <div class="corner-text top-left">SECURE PORT [428]
+CONNECTION ESTABLISHED...</div>
+        <div class="corner-text top-right">MEM_ALLOC: 640K
+CPU_TIME: <span id="cpu-time">0</span>ms</div>
+        <div class="corner-text bottom-left">&gt; RUNNING IBN_5100_EMU...
+&gt; DECRYPTING SERN DB...</div>
+    </div>
+    <div class="container crt-effect">
+        <div class="secret-warning">
+            *** SECRET PAGE. ACCESS RESTRICTED TO CHOSEN ONES ONLY ***
+        </div>
+
+        <header>
+            <h1>[ FUTURE GADGET LABORATORY: MEMBER ID 001 ]</h1>
+            <h2>HOUOUIN KYOUMA</h2>
+        </header>
+
+        <div class="profile">
+            <p><span class="label">Status:</span> Mad Scientist.</p>
+            <p><span class="label">Location:</span> Akihabara.</p>
+            <p><span class="label">Current Objective:</span> Steins Gate.</p>
+        </div>
+
+        <div class="links">
+            <a href="https://vk.com/chikdyk" target="_blank" class="link-btn">
+                &gt;
+                <svg class="retro-icon" viewBox="0 0 24 24">
+                    <path d="M2 2h20v20H2V2zm5 7v6h2v-2h2l2 2h3l-2.5-3 2.5-3h-3l-2 2v-2H7z" />
+                </svg>
+                [ VKONTAKTE ]
+            </a>
+            <a href="https://t.me/ocerr" target="_blank" class="link-btn">
+                &gt;
+                <svg class="retro-icon" viewBox="0 0 24 24">
+                    <path d="M2 2l20 8-20 8 4-8-4-8zm4 8h8v2H6v-2z" />
+                </svg>
+                [ TELEGRAM CHANNEL ]
+            </a>
+        </div>
+
+        <footer>
+            <div class="system-log" id="sys-time">SYS_LOG: Loading...</div>
+            <div class="kongroo">El Psy Kongroo.</div>
+        </footer>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const pad = (n) => n.toString().padStart(2, '0');
+            const dateStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+            const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+            const hex = Math.floor(Math.random() * 65535).toString(16).toUpperCase().padStart(4, '0');
+
+            document.getElementById('sys-time').innerText = `SYS_LOG_[0x${hex}]: ${dateStr} // ${timeStr}`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Matrix Background CPU simulation
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+        let fontSize = 20;
+        let columns, drops;
+
+        function initMatrix() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            columns = Math.floor(canvas.width / (fontSize * 1.5));
+            drops = [];
+            for(let x = 0; x < columns; x++) drops[x] = Math.random() * -50;
+        }
+        window.addEventListener('resize', initMatrix);
+        initMatrix();
+
+        const hexChars = '0123456789ABCDEF'.split('');
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(2, 5, 2, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#39ff14';
+            ctx.font = fontSize + 'px VT323, monospace';
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = hexChars[Math.floor(Math.random() * 16)] + hexChars[Math.floor(Math.random() * 16)];
+                ctx.fillText(text, i * fontSize * 1.5, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 60);
+
+        let cpuTime = 0;
+        setInterval(() => {
+            cpuTime += Math.floor(Math.random() * 25) + 15;
+            document.getElementById('cpu-time').innerText = cpuTime;
+        }, 100);
+    </script>
+</body>
+
+</html>

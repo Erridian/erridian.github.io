@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makise Kurisu - Future Gadget Lab 004</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #161412;
+            /* Sepia tint very dark */
+            --text-color: #fdf6e3;
+            /* Cream/Beige */
+            --accent-color: #9e1b1b;
+            /* Crimson red */
+            --accent-hover: #7a1212;
+            --border-color: rgba(253, 246, 227, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Oswald', sans-serif;
+            font-weight: 300;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* Abstract Background Elements (Huke Style / Timeline) */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(253, 246, 227, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(253, 246, 227, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .bg-graphics {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Intersection Circles / Gears logic */
+        .timeline-element {
+            position: absolute;
+            border: 1px solid rgba(253, 246, 227, 0.05);
+            border-radius: 50%;
+        }
+
+        /* Large slow rotating gear/circle */
+        .gear-huge {
+            top: -20vh;
+            right: -10vw;
+            width: 80vh;
+            height: 80vh;
+            border: 2px dashed rgba(158, 27, 27, 0.15);
+            animation: rotate-slow 120s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gear-huge::before {
+            content: '';
+            width: 60%;
+            height: 60%;
+            border: 1px solid rgba(253, 246, 227, 0.07);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .gear-huge::after {
+            content: '';
+            width: 120%;
+            height: 1px;
+            background: rgba(253, 246, 227, 0.05);
+            position: absolute;
+            transform: rotate(45deg);
+        }
+
+        .cross-line {
+            position: absolute;
+            background: rgba(158, 27, 27, 0.2);
+        }
+
+        .timeline-vertical {
+            left: 15vw;
+            top: 0;
+            width: 1px;
+            height: 100vh;
+            background: linear-gradient(to bottom, transparent, var(--accent-color), transparent);
+            opacity: 0.4;
+        }
+
+        .physics-formula {
+            position: absolute;
+            top: 25vh;
+            left: 10vw;
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            color: rgba(253, 246, 227, 0.04);
+            pointer-events: none;
+            user-select: none;
+            transform: rotate(-15deg);
+            white-space: nowrap;
+        }
+
+        .divergence-meter {
+            position: absolute;
+            bottom: 5vh;
+            right: 2vw;
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 700;
+            color: rgba(253, 246, 227, 0.02);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: -5px;
+        }
+
+        @keyframes rotate-slow {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 600px;
+            width: 100%;
+            z-index: 10;
+            padding: 50px 40px;
+            background: rgba(22, 20, 18, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--accent-color);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        /* Technical accent on container */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: 30px;
+            width: 60px;
+            height: 4px;
+            background: var(--text-color);
+        }
+
+        header {
+            margin-bottom: 35px;
+        }
+
+        .member-id {
+            color: var(--text-color);
+            font-size: 14px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            font-size: clamp(32px, 8vw, 48px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .profile {
+            margin-bottom: 45px;
+            font-size: 20px;
+            line-height: 1.6;
+            color: var(--text-color);
+            border-left: 2px solid var(--border-color);
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .profile::before {
+            content: '';
+            position: absolute;
+            left: -2px;
+            top: 20%;
+            width: 2px;
+            height: 30%;
+            background-color: var(--accent-color);
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 400;
+            padding: 16px 25px;
+            background: rgba(253, 246, 227, 0.03);
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 1.5px;
+        }
+
+        .link-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--accent-color);
+            z-index: -1;
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .link-btn:hover {
+            color: var(--text-color);
+            box-shadow: 0 8px 20px rgba(158, 27, 27, 0.25);
+            transform: translateX(8px);
+        }
+
+        .link-btn:hover::before {
+            width: 100%;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 25px;
+            font-size: 13px;
+            color: var(--text-color);
+            opacity: 0.5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .footer-accent {
+            color: var(--accent-color);
+            font-weight: 700;
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+                border-top-width: 3px;
+            }
+
+            .link-btn {
+                font-size: 18px;
+                padding: 14px 20px;
+            }
+
+            .profile {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Patterns -->
+    <div class="bg-pattern"></div>
+    <div class="bg-graphics">
+        <div class="cross-line timeline-vertical"></div>
+        <div class="timeline-element gear-huge"></div>
+        <div class="physics-formula">R<sub>μν</sub> - ½Rg<sub>μν</sub> + Λg<sub>μν</sub> = (8πG/c<sup>4</sup>)T<sub>μν</sub></div>
+        <div class="divergence-meter">1.048596%</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <span class="member-id">FUTURE GADGET LABORATORY: MEMBER ID 004</span>
+            <h1>MAKISE KURISU</h1>
+        </header>
+
+        <div class="profile">
+            Neuroscientist. Assistant.<br>
+            Reality: Divergence 1.048596%.
+        </div>
+
+        <div class="links">
+            <a href="https://vk.ru/simmiorin" class="link-btn" target="_blank">[ VK GROUP ]</a>
+            <a href="https://t.me/simmiorin_draws" class="link-btn" target="_blank">[ TELEGRAM CHANNEL ]</a>
+        </div>
+
+        <footer>
+            <div>© 2026. The Reading Steiner.</div>
+            <div class="footer-accent">Amadeus System</div>
+        </footer>
+    </div>
+</body>
+
+</html>
