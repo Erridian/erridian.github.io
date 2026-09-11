@@ -367,13 +367,13 @@
  ██╔══╝  ██╔══██╗██╔══██╗
  ███████╗██║  ██║██║  ██║
  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
-        </pre><p><strong>Привет!</strong></p><p>Я Erridian. Перевожу мангу в команде "Fun Chozas", да занимаюсь различными приколямбами... Наверное. Ах, поищите ещё Dropushko, может быть вам полезно будет ;)</p></div>
+        </pre><p><strong>Привет!</strong></p><p>Я Erridian. Перевожу мангу в команде "Fun Chozas", создатель проекта <strong>Dropushko</strong> (форк <em>Giftseeker</em> для автоматизации раздач), да занимаюсь различными приколямбами... Наверное. Заглядывайте в проекты! ;)</p></div>
     </div>
 
     <!-- Projects -->
     <div class="window" id="projects" style="top: 60px; left: 350px; width: 350px;">
         <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')"><div class="title-bar-text">Projects</div><div class="title-bar-controls"><button onclick="closeWindow('projects')">X</button></div></div>
-        <div class="window-body"><p>📂 <strong>Проекты:</strong></p><ul><li><a href="https://github.com/Erridian" target="_blank">GitHub</a></li><li><a href="https://vk.com/chikdyk" target="_blank">Личный блог VK</a></li><li><a href="https://t.me/ocerr" target="_blank">Личный блог Telegram</a></li></ul></div>
+        <div class="window-body"><p>📂 <strong>Проекты:</strong></p><ul><li><a href="https://github.com/Erridian" target="_blank"><strong>Dropushko</strong></a> (форк Giftseeker — автоматизация раздач)</li><li><a href="https://github.com/Erridian" target="_blank">GitHub</a></li><li><a href="https://vk.com/chikdyk" target="_blank">Личный блог VK</a></li><li><a href="https://t.me/ocerr" target="_blank">Личный блог Telegram</a></li></ul></div>
     </div>
 
     <!-- Terminal -->
@@ -549,6 +549,18 @@
             if(map[val]) { openWindow(map[val]); return; }
             if(val === 'matrix') { startMatrix(); return; }
             if(val === 'neocities' || val === 'web1') { window.location.href = 'neocities.html'; return; }
+            // Секретные пасхалки Steins;Gate
+            if(val === 'okabe' || val === 'lab' || val === 'fgl' || val === 'steinsgate' || val === 'elpsykongroo' || val === '1.048596' || val === 'dmail') {
+                playSound('startup');
+                alert('Reading Steiner activated! Divergence: 1.048596%\nConnecting to Future Gadget Laboratory...');
+                window.open('future_gadget_lab/okabe.html', '_blank');
+                return;
+            }
+            if(val === 'kurisu' || val === 'makise' || val === 'christina') {
+                playSound('open');
+                window.open('future_gadget_lab/kurisu.html', '_blank');
+                return;
+            }
             if(val === 'shutdown') { shutdownPC(); return; }
             if(val === 'bsod') { showBsod(); return; }
             alert("Cannot find '" + val + "'.");
@@ -643,7 +655,9 @@
             }, 10);
         }
         function shutdownPC() { document.getElementById('startMenu').style.display = 'none'; document.body.style.cursor = 'none'; setTimeout(() => document.getElementById('shutdown-screen').style.display = 'flex', 1000); }
-        function loadSysInfo() { document.getElementById('sys-info').innerHTML = `<li>OS: Erridian 95</li><li>Res: ${screen.width}x${screen.height}</li><li>Browser: ${navigator.userAgent.split(' ')[0]}</li>`; }
+        function loadSysInfo() {
+            document.getElementById('sys-info').innerHTML = `<li>OS: Erridian 95</li><li>Res: ${screen.width}x${screen.height}</li><li>Browser: ${navigator.userAgent.split(' ')[0]}</li><li style="cursor:pointer; color:#00aa00; margin-top:5px; opacity:0.8;" onclick="window.open('future_gadget_lab/okabe.html', '_blank')" title="Secret Lab Connection">Ω Divergence: 1.048596%</li>`;
+        }
         function initNotepad() { const a = document.getElementById('notepad-area'); a.value = localStorage.getItem('vapor_note') || ''; a.addEventListener('input', () => localStorage.setItem('vapor_note', a.value)); }
         function setTheme(t) { document.getElementById('bg-layer').className = t; }
         function updateClock() { const d = new Date(); document.getElementById('clock').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); }

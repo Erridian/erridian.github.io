@@ -742,12 +742,12 @@
         <!-- Шапка страницы -->
         <header class="site-header">
             <div style="display: flex; justify-content: space-around; align-items: center;">
-                <span style="font-size: 30px;">🔮</span>
+                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerDivergenceEgg()" title="???">🔮</span>
                 <div>
                     <h1 class="header-title">★ ERRIDIAN'S CYBER REALM ★</h1>
                     <div class="header-subtitle">~ Official Web 1.0 Neocities Edition ~</div>
                 </div>
-                <span style="font-size: 30px;">🚀</span>
+                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerKurisuEgg()" title="???">🚀</span>
             </div>
 
             <pre class="ascii-art">
@@ -815,6 +815,8 @@
                             <option value="ForestDump.mp3">Forest Dump</option>
                             <option value="teamrept20113.mp3">Team Rept</option>
                             <option value="Radmila Maro-Skazka111.mp3">Radmila Maro</option>
+                            <option value="future_gadget_lab/steinsgate8bit.mp3">Steins;Gate 8-Bit</option>
+                            <option value="future_gadget_lab/steinsgateMusicBox.mp3">Steins;Gate MusicBox</option>
                             <option value="https://radio.plaza.one/mp3">📻 Nightwave Plaza</option>
                             <option value="https://stream.cvgm.net/cvgm128">📻 Chiptune Radio</option>
                             <option value="https://lofi.stream.laut.fm/lofi">📻 Lo-Fi Stream</option>
@@ -860,6 +862,7 @@
                         <div class="web-badge-88x31 badge-cyber">CYBER<br>1999</div>
                         <div class="web-badge-88x31 badge-html">HTML 4.0<br>STRICT</div>
                         <div class="web-badge-88x31 badge-manga">FUN<br>CHOZAS</div>
+                        <a href="https://github.com/Erridian" target="_blank" class="web-badge-88x31" style="background:#004d1a; color:#00ff66; border-color:#00ff66;">DROPUSHKO<br>SEEKER</a>
                     </div>
                 </div>
             </aside>
@@ -876,10 +879,10 @@
                             <strong>Приветствую, путник сети!</strong>
                         </p>
                         <p>
-                            Меня зовут <strong>Erridian</strong>. Я занимаюсь переводом манги в команде <em>"Fun Chozas"</em>, созданием ламповых уголков в интернете и различными приколямбами.
+                            Меня зовут <strong>Erridian</strong>. Я занимаюсь переводом манги в команде <em>"Fun Chozas"</em>, разработкой проекта <strong>Dropushko</strong> (форк <em>Giftseeker</em> для автоматизации раздач), созданием ламповых уголков в сети и различными приколямбами.
                         </p>
                         <p>
-                            Ах, и если вы искали <strong>Dropushko</strong> — возможно, это место тоже окажется для вас полезным! ;)
+                            Заглядывайте в мои проекты, слушайте музыку и оставляйте весточку в гостевой книге! ;)
                         </p>
 
                         <hr class="rainbow-hr">
@@ -930,6 +933,12 @@
                             <div style="border: 2px outset #5555bb; padding: 8px; background: #080828;">
                                 🎮 <a href="http://steamcommunity.com/id/erridian" target="_blank">Steam Профиль</a>
                                 <div style="font-size: 13px; color: #bbb;">Игры, кооператив и ачивки.</div>
+                            </div>
+                            <div style="border: 2px outset #55ff55; padding: 10px; background: #002208;">
+                                🎁 <a href="https://github.com/Erridian" target="_blank" style="color: #55ff99; font-size: 16px;"><strong>Dropushko</strong> (GitHub)</a>
+                                <div style="font-size: 13px; color: #ccffcc; margin-top: 3px;">
+                                    Мой форк <em>Giftseeker</em> — инструмент для автоматизации поиска, сбора и отслеживания игровых раздач.
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1132,6 +1141,7 @@
             </p>
             <div>
                 <a href="index.html" style="color: #ffff00; font-size: 18px; font-family: 'VT323', monospace;">[ 💾 ВЕРНУТЬСЯ В ERRIDIAN OS 95 ]</a>
+                <span onclick="triggerDivergenceEgg()" style="cursor: pointer; opacity: 0.25; color: #39ff14; margin-left: 10px; font-size: 13px;" title="Operation Skuld">Ω</span>
             </div>
         </footer>
 
@@ -1580,9 +1590,9 @@
         // ГОСТЕВАЯ КНИГА
         // ==========================================
         const initialGb = [
-            { name: "xX_CyberMaster_99_Xx", site: "neocities.org", text: "Крутой ретро сайт! Дизайн напоминает золотые 90-е. Респект за сапёр и музыку!", date: "2024-03-12 18:22" },
-            { name: "SailorMoon_Fan", site: "", text: "Привет из прошлого века! Поставил в закладки Netscape ^_^", date: "2024-02-28 14:05" },
-            { name: "Dropushko", site: "dropushko.realm", text: "Вижу отсылку на себя! Привет вебмастеру Erridian!", date: "2024-01-15 09:30" }
+            { name: "xX_CyberMaster_99_Xx", site: "https://neocities.org", text: "Крутой ретро сайт! Дизайн напоминает золотые 90-е. Респект за сапёр и музыку!", date: "2024-03-12 18:22" },
+            { name: "Hououin Kyouma", site: "future_gadget_lab/okabe.html", text: "Организация следит за этим сайтом! El Psy Kongroo.", date: "2024-02-28 14:05" },
+            { name: "Dropushko", site: "https://github.com/Erridian", text: "Вижу отсылку на себя! Привет вебмастеру Erridian!", date: "2024-01-15 09:30" }
         ];
 
         function loadGuestbook() {
@@ -1593,7 +1603,11 @@
             entries.forEach(e => {
                 const item = document.createElement('div');
                 item.className = 'guestbook-entry';
-                const siteHtml = e.site ? ` | <a href="${e.site}" target="_blank">${e.site}</a>` : '';
+                let siteUrl = '';
+                if (e.site) {
+                    siteUrl = (e.site.startsWith('http') || e.site.startsWith('future_')) ? e.site : 'https://' + e.site;
+                }
+                const siteHtml = siteUrl ? ` | <a href="${siteUrl}" target="_blank">${e.site}</a>` : '';
                 item.innerHTML = `
                     <div class="gb-header">
                         <span>💬 ${e.name}${siteHtml}</span>
@@ -1687,7 +1701,13 @@
 
             let out = '';
             if (lower === 'help') {
-                out = 'Команды: help, dir, cls, ver, date, matrix, theme, play, clear';
+                out = 'Команды: help, dir, cls, ver, date, matrix, theme, play, lab, okabe, kurisu, clear';
+            } else if (lower === 'okabe' || lower === 'fgl' || lower === 'lab' || lower === 'steinsgate' || lower === 'elpsykongroo') {
+                window.open('future_gadget_lab/okabe.html', '_blank');
+                out = 'Opening Future Gadget Lab / IBN 5100 Terminal... El Psy Kongroo.';
+            } else if (lower === 'kurisu') {
+                window.open('future_gadget_lab/kurisu.html', '_blank');
+                out = 'Opening Makise Kurisu profile...';
             } else if (lower === 'dir') {
                 out = 'Volume in drive C is ERRIDIAN_OS\n Directory of C:\\\n\nINDEX    HTML       55,317\nNEOCITY  HTML       32,180\n1        MP3     2,898,322\n2        MP3     2,483,094\nPOSTS    TXT         1,338\n       5 File(s)   5,470,251 bytes';
             } else if (lower === 'cls' || lower === 'clear') {
@@ -1753,6 +1773,32 @@
             const target = links[Math.floor(Math.random() * links.length)];
             window.open(target, '_blank');
         }
+
+        // ==========================================
+        // СЕКРЕТНЫЕ ПАСХАЛКИ (FUTURE GADGET LAB)
+        // ==========================================
+        function triggerDivergenceEgg() {
+            playSfx('fanfare');
+            alert('⚡ [D-MAIL INTERCEPTED] ⚡\nЛиния мировой линии смещена!\nДивергенция: 1.048596%\nСоединение с Future Gadget Laboratory (IBN 5100)...');
+            window.open('future_gadget_lab/okabe.html', '_blank');
+        }
+
+        function triggerKurisuEgg() {
+            playSfx('fanfare');
+            alert('⚙️ [LAB MEMBER 004 DETECTED] ⚙️\nМакисэ Курису подключилась к терминалу.');
+            window.open('future_gadget_lab/kurisu.html', '_blank');
+        }
+
+        // Секретный ввод "elpsy" или "steinsgate" на клавиатуре
+        let secretWebBuffer = '';
+        document.addEventListener('keydown', e => {
+            secretWebBuffer += e.key.toLowerCase();
+            if (secretWebBuffer.length > 20) secretWebBuffer = secretWebBuffer.slice(-20);
+            if (secretWebBuffer.endsWith('elpsy') || secretWebBuffer.endsWith('steinsgate') || secretWebBuffer.endsWith('1048596')) {
+                secretWebBuffer = '';
+                triggerDivergenceEgg();
+            }
+        });
 
         // ==========================================
         // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
