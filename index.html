@@ -235,6 +235,7 @@
         <div class="icon" onclick="openWindow('pet')"><div class="icon-img">🥚</div><div class="icon-text glitch-hover">VaporPet</div></div>
         <div class="icon" onclick="openWindow('run')"><div class="icon-img">🚀</div><div class="icon-text glitch-hover">Run</div></div>
         <div class="icon" onclick="openWindow('settings')"><div class="icon-img">📺</div><div class="icon-text glitch-hover">Settings</div></div>
+        <div class="icon" onclick="window.location.href='neocities.html'"><div class="icon-img">🌐</div><div class="icon-text glitch-hover">Neocities</div></div>
     </div>
 
     <!-- WINDOWS -->
@@ -428,6 +429,7 @@
             <div class="menu-item" onclick="openWindow('calc'); toggleStartMenu()">🧮 Калькулятор</div>
             <div class="menu-item" onclick="openWindow('terminal'); toggleStartMenu()">📟 CMD</div>
             <div class="menu-item" onclick="openWindow('paint'); toggleStartMenu()">🎨 Paint</div>
+            <div class="menu-item" onclick="window.location.href='neocities.html'">🌐 Neocities (Web 1.0)</div>
             <div class="menu-item" onclick="showBsod(); toggleStartMenu()">☢️ Crash</div>
             <hr style="width: 100%; border: 1px inset white;">
             <div class="menu-item" onclick="shutdownPC()">🔌 Выход</div>
@@ -546,6 +548,7 @@
             };
             if(map[val]) { openWindow(map[val]); return; }
             if(val === 'matrix') { startMatrix(); return; }
+            if(val === 'neocities' || val === 'web1') { window.location.href = 'neocities.html'; return; }
             if(val === 'shutdown') { shutdownPC(); return; }
             if(val === 'bsod') { showBsod(); return; }
             alert("Cannot find '" + val + "'.");
