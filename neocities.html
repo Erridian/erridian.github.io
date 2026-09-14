@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>★ Erridian's Cyber Realm ★ Neocities Web 1.0 Edition ★</title>
     <link rel="icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
     <style>
         /* ==========================================================================
            WEB 1.0 / NEOCITIES PARODY THEME STYLES
@@ -106,20 +109,41 @@
             text-decoration: underline;
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23ff00ff' stroke='%23ffffff' stroke-width='1.5'><polygon points='6,2 6,14 10,14 10,18 14,18 14,14 18,14 18,2'/></svg>"), pointer;
         }
-        a:visited { color: var(--link-visited); }
-        a:hover { color: var(--link-hover); background: #000088; text-decoration: none; }
+
+        a:visited {
+            color: var(--link-visited);
+        }
+
+        a:hover {
+            color: var(--link-hover);
+            background: #000088;
+            text-decoration: none;
+        }
 
         /* Заголовки */
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-family: 'VT323', 'Courier New', monospace;
             letter-spacing: 1px;
             margin-top: 5px;
             margin-bottom: 10px;
             text-shadow: 2px 2px #ff007f;
         }
-        h1 { font-size: 32px; }
-        h2 { font-size: 24px; color: var(--accent-cyan); }
-        h3 { font-size: 20px; color: var(--accent-yellow); }
+
+        h1 {
+            font-size: 32px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: var(--accent-cyan);
+        }
+
+        h3 {
+            font-size: 20px;
+            color: var(--accent-yellow);
+        }
 
         /* Главный контейнер (эмуляция 800px Web 1.0 стола) */
         .page-wrapper {
@@ -133,13 +157,11 @@
 
         /* ⚠️ Лента "Under Construction" */
         .construction-banner {
-            background: repeating-linear-gradient(
-                -45deg,
-                #000,
-                #000 15px,
-                #ffcc00 15px,
-                #ffcc00 30px
-            );
+            background: repeating-linear-gradient(-45deg,
+                    #000,
+                    #000 15px,
+                    #ffcc00 15px,
+                    #ffcc00 30px);
             color: #000;
             padding: 6px 12px;
             text-align: center;
@@ -154,6 +176,7 @@
             justify-content: center;
             gap: 15px;
         }
+
         .construction-badge {
             background: #000;
             color: #ffff00;
@@ -165,11 +188,23 @@
 
         /* Мигающий текст <blink> */
         @keyframes blink {
-            0% { opacity: 1; }
-            49% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 0; }
+            0% {
+                opacity: 1;
+            }
+
+            49% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
         }
+
         .blink-text {
             animation: blink 1s infinite steps(1);
             color: #ffff00;
@@ -186,6 +221,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .header-title {
             font-family: 'Press Start 2P', monospace;
             font-size: 20px;
@@ -194,12 +230,14 @@
             margin: 5px 0 12px 0;
             line-height: 1.4;
         }
+
         .header-subtitle {
             font-family: 'VT323', monospace;
             font-size: 22px;
             color: #00ffff;
             text-shadow: 1px 1px #000;
         }
+
         .ascii-art {
             font-family: 'Courier New', monospace;
             font-size: 9px;
@@ -223,13 +261,20 @@
             overflow: hidden;
             white-space: nowrap;
         }
+
         .marquee-content {
             display: inline-block;
             animation: marquee 22s linear infinite;
         }
+
         @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         /* Верхнее меню навигации (Retro Tab Buttons) */
@@ -243,6 +288,7 @@
             padding: 8px 5px;
             margin-bottom: 12px;
         }
+
         .nav-btn {
             background: linear-gradient(180deg, #ddddff 0%, #8888cc 50%, #444499 100%);
             border: 3px outset #ffffff;
@@ -259,27 +305,32 @@
             gap: 5px;
             transition: none;
         }
+
         .nav-btn:hover {
             background: linear-gradient(180deg, #ffffbb 0%, #ffcc00 50%, #bb8800 100%);
             color: #000;
             border-color: #ffffdd;
             transform: translate(-1px, -1px);
         }
+
         .nav-btn:active {
             border: 3px inset #ffffff;
             transform: translate(1px, 1px);
         }
+
         .nav-btn.active {
             background: linear-gradient(180deg, #ffff44 0%, #ffbb00 50%, #aa7700 100%) !important;
             color: #000000 !important;
             border: 3px inset #ffffff !important;
-            box-shadow: 0 0 10px #ffff00, inset 0 0 5px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px #ffff00, inset 0 0 5px rgba(0, 0, 0, 0.5);
             text-shadow: none !important;
         }
+
         .nav-btn.active::before {
             content: "★ ";
             color: #ff0055;
         }
+
         .nav-btn.special-os95 {
             background: linear-gradient(180deg, #ffccf0 0%, #ff66cc 50%, #aa0066 100%);
             color: #fff;
@@ -292,17 +343,22 @@
             grid-template-columns: 220px 1fr 220px;
             gap: 10px;
         }
+
         @media (max-width: 900px) {
             .web-grid {
                 display: flex;
                 flex-direction: column;
             }
+
             .center-col {
-                order: 1; /* Главный контент под кнопками навигации */
+                order: 1;
+                /* Главный контент под кнопками навигации */
             }
+
             .left-col {
                 order: 2;
             }
+
             .right-col {
                 order: 3;
             }
@@ -316,6 +372,7 @@
             padding: 10px;
             box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
         }
+
         .retro-card-title {
             background: var(--table-header-bg);
             color: #ffff00;
@@ -338,6 +395,7 @@
             justify-content: center;
             margin-top: 8px;
         }
+
         .web-badge-88x31 {
             width: 88px;
             height: 31px;
@@ -356,14 +414,49 @@
             cursor: pointer;
             box-shadow: 1px 1px 0 #000;
         }
-        .badge-netscape { background: #000088; border-color: #33ffff; color: #33ffff; }
-        .badge-notepad { background: #fff; color: #000; border-color: #888; }
-        .badge-neocities { background: linear-gradient(45deg, #e60067, #7928ca); color: #fff; }
-        .badge-winamp { background: #ffaa00; color: #000; }
-        .badge-cyber { background: #ff007f; color: #fff; }
-        .badge-html { background: #ff4500; color: #fff; }
-        .badge-noweb2 { background: #000; color: #00ff00; border-color: #00ff00; }
-        .badge-manga { background: #800080; color: #ffeb3b; }
+
+        .badge-netscape {
+            background: #000088;
+            border-color: #33ffff;
+            color: #33ffff;
+        }
+
+        .badge-notepad {
+            background: #fff;
+            color: #000;
+            border-color: #888;
+        }
+
+        .badge-neocities {
+            background: linear-gradient(45deg, #e60067, #7928ca);
+            color: #fff;
+        }
+
+        .badge-winamp {
+            background: #ffaa00;
+            color: #000;
+        }
+
+        .badge-cyber {
+            background: #ff007f;
+            color: #fff;
+        }
+
+        .badge-html {
+            background: #ff4500;
+            color: #fff;
+        }
+
+        .badge-noweb2 {
+            background: #000;
+            color: #00ff00;
+            border-color: #00ff00;
+        }
+
+        .badge-manga {
+            background: #800080;
+            color: #ffeb3b;
+        }
 
         /* Счётчик посещений (Hit Counter) */
         .hit-counter {
@@ -378,6 +471,7 @@
             text-shadow: 0 0 5px #ff0000;
             margin: 5px 0;
         }
+
         .digit {
             background: #111;
             border: 1px solid #333;
@@ -406,6 +500,7 @@
             margin-bottom: 8px;
             font-size: 14px;
         }
+
         .gb-header {
             display: flex;
             justify-content: space-between;
@@ -415,10 +510,13 @@
             margin-bottom: 4px;
             font-family: 'Share Tech Mono', monospace;
         }
+
         .gb-message {
             color: #eee;
         }
-        .gb-form input, .gb-form textarea {
+
+        .gb-form input,
+        .gb-form textarea {
             width: 100%;
             background: #000022;
             border: 2px inset #8888ff;
@@ -428,6 +526,7 @@
             font-size: 16px;
             margin-bottom: 6px;
         }
+
         .retro-btn {
             background: linear-gradient(180deg, #dddddd 0%, #aaaaaa 50%, #888888 100%);
             border: 3px outset #ffffff;
@@ -438,6 +537,7 @@
             padding: 4px 12px;
             cursor: pointer;
         }
+
         .retro-btn:active {
             border: 3px inset #ffffff;
         }
@@ -448,6 +548,7 @@
             border: 3px inset #444488;
             padding: 8px;
         }
+
         .jukebox-screen {
             background: #000;
             border: 2px inset #00ff00;
@@ -460,12 +561,14 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .jukebox-controls {
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
             margin-bottom: 6px;
         }
+
         .juke-btn {
             background: #333366;
             color: #ffff00;
@@ -477,8 +580,15 @@
             flex-grow: 1;
             text-align: center;
         }
-        .juke-btn:hover { background: #555599; }
-        .juke-btn:active { border: 2px inset #7777aa; }
+
+        .juke-btn:hover {
+            background: #555599;
+        }
+
+        .juke-btn:active {
+            border: 2px inset #7777aa;
+        }
+
         .track-select {
             width: 100%;
             background: #000;
@@ -512,6 +622,7 @@
             background: #555;
             padding: 2px;
         }
+
         .sweeper-cell {
             width: 22px;
             height: 22px;
@@ -526,6 +637,7 @@
             cursor: pointer;
             color: #000;
         }
+
         .sweeper-cell.open {
             border: 1px solid #777;
             background: #d0d0dc;
@@ -539,6 +651,7 @@
             margin: 0 auto;
             width: fit-content;
         }
+
         .ttt-box {
             width: 50px;
             height: 50px;
@@ -551,7 +664,10 @@
             justify-content: center;
             cursor: pointer;
         }
-        .ttt-box:active { border: 2px inset #8888ff; }
+
+        .ttt-box:active {
+            border: 2px inset #8888ff;
+        }
 
         /* 3. CyberPet Тамагочи */
         .pet-screen-web1 {
@@ -561,17 +677,24 @@
             font-family: monospace;
             padding: 10px;
             text-align: center;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
             margin-bottom: 6px;
         }
+
         .pet-char {
             font-size: 45px;
             margin: 5px 0;
             animation: petHop 1s infinite alternate;
         }
+
         @keyframes petHop {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-6px); }
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-6px);
+            }
         }
 
         /* 4. Paint Рисовалка */
@@ -582,12 +705,14 @@
             display: block;
             margin: 0 auto 6px auto;
         }
+
         .palette-row {
             display: flex;
             gap: 4px;
             justify-content: center;
             margin-bottom: 6px;
         }
+
         .color-pick {
             width: 20px;
             height: 20px;
@@ -607,6 +732,7 @@
             overflow-y: auto;
             margin-bottom: 6px;
         }
+
         .term-input-row {
             display: flex;
             gap: 5px;
@@ -614,6 +740,7 @@
             border: 1px solid #33ff33;
             padding: 2px 5px;
         }
+
         .term-input {
             background: transparent;
             border: none;
@@ -655,9 +782,17 @@
             user-select: none;
             animation: sparkleFade 0.7s forwards;
         }
+
         @keyframes sparkleFade {
-            0% { opacity: 1; transform: translate(0, 0) scale(1.2) rotate(0deg); }
-            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(180deg); }
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1.2) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(180deg);
+            }
         }
 
         /* Тематический переключатель */
@@ -690,6 +825,7 @@
             border-bottom: 3px outset #6666ee;
             margin-bottom: 12px;
         }
+
         .tab-btn {
             background: #000066;
             color: #ffff00;
@@ -700,19 +836,23 @@
             font-size: 18px;
             cursor: pointer;
         }
+
         .tab-btn.active {
             background: var(--box-bg);
             color: #00ffff;
             border-top-color: #ffff00;
         }
+
         .tab-content {
             display: none;
         }
+
         .tab-content.active {
             display: block;
         }
     </style>
 </head>
+
 <body class="theme-space">
 
     <div class="page-wrapper">
@@ -742,12 +882,14 @@
         <!-- Шапка страницы -->
         <header class="site-header">
             <div style="display: flex; justify-content: space-around; align-items: center;">
-                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerDivergenceEgg()" title="???">🔮</span>
+                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerDivergenceEgg()"
+                    title="???">🔮</span>
                 <div>
                     <h1 class="header-title">★ ERRIDIAN'S CYBER REALM ★</h1>
                     <div class="header-subtitle">~ Official Web 1.0 Neocities Edition ~</div>
                 </div>
-                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerKurisuEgg()" title="???">🚀</span>
+                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerKurisuEgg()"
+                    title="???">🚀</span>
             </div>
 
             <pre class="ascii-art">
@@ -759,25 +901,31 @@
  |______|_|  \_\_|  \_\_____|_____/_____/_/    \_\_| \_|
             </pre>
             <div style="color: #ff99cc; font-family: 'Share Tech Mono', monospace; font-size: 13px;">
-                «Перевод манги • Ретро-код • Различные приколямбы • Droppushko Realm»
+                «Перевод манги • Ретро-код • Различные приколямбы • Dropushko Realm»
             </div>
         </header>
 
         <!-- Бегущая строка -->
         <div class="marquee-box">
             <div class="marquee-content">
-                ★ 彡 WELCOME TO MY PERSONAL CYBER HOMEPAGE! 彡 ★ CURRENT STATUS: ONLINE ★ TRANSLATING MANGA WITH "FUN CHOZAS" ★ MINECRAFT SERVER: mc.erridian.ru ★ FEEL FREE TO SIGN MY GUESTBOOK ★ HAVE A NICE SURFING! ★
+                ★ 彡 WELCOME TO MY PERSONAL CYBER HOMEPAGE! 彡 ★ CURRENT STATUS: ONLINE ★ TRANSLATING MANGA WITH "FUN
+                CHOZAS" ★ VISIT MAIN SITE: erridian.ru ★ FEEL FREE TO SIGN MY GUESTBOOK ★ HAVE A NICE SURFING! ★
             </div>
         </div>
 
         <!-- Панель навигации (Retro Tabs) -->
         <nav class="nav-bar">
-            <button class="nav-btn active" data-tab="tab-bio" onclick="showTab('tab-bio', this)">📄 О себе (Bio)</button>
-            <button class="nav-btn" data-tab="tab-projects" onclick="showTab('tab-projects', this)">📂 Проекты (Links)</button>
+            <button class="nav-btn active" data-tab="tab-bio" onclick="showTab('tab-bio', this)">📄 О себе
+                (Bio)</button>
+            <button class="nav-btn" data-tab="tab-projects" onclick="showTab('tab-projects', this)">📂 Проекты
+                (Links)</button>
             <button class="nav-btn" data-tab="tab-posts" onclick="showTab('tab-posts', this)">📝 Блог (Posts)</button>
-            <button class="nav-btn" data-tab="tab-games" onclick="showTab('tab-games', this)">🕹️ Аркада (Games)</button>
-            <button class="nav-btn" data-tab="tab-guestbook" onclick="showTab('tab-guestbook', this)">📜 Гостевая (Guestbook)</button>
-            <button class="nav-btn" data-tab="tab-terminal" onclick="showTab('tab-terminal', this)">📟 DOS Терминал</button>
+            <button class="nav-btn" data-tab="tab-games" onclick="showTab('tab-games', this)">🕹️ Аркада
+                (Games)</button>
+            <button class="nav-btn" data-tab="tab-guestbook" onclick="showTab('tab-guestbook', this)">📜 Гостевая
+                (Guestbook)</button>
+            <button class="nav-btn" data-tab="tab-terminal" onclick="showTab('tab-terminal', this)">📟 DOS
+                Терминал</button>
             <a href="index.html" class="nav-btn special-os95">💾 Erridian OS 95</a>
         </nav>
 
@@ -790,14 +938,18 @@
                 <div class="retro-card">
                     <div class="retro-card-title"><span>👤 Вебмастер</span><span>★</span></div>
                     <div style="text-align: center; margin-bottom: 8px;">
-                        <div style="width: 100px; height: 100px; border: 3px outset #fff; margin: 0 auto 6px auto; background: #222; display: flex; align-items: center; justify-content: center; font-size: 50px;">
+                        <div
+                            style="width: 100px; height: 100px; border: 3px outset #fff; margin: 0 auto 6px auto; background: #222; display: flex; align-items: center; justify-content: center; font-size: 50px;">
                             🧙‍♂️
                         </div>
-                        <strong style="color: var(--accent-yellow); font-size: 18px; font-family: 'VT323', monospace;">ERRIDIAN</strong>
-                        <div style="font-size: 12px; color: #aaa;">Status: <span style="color: #00ff00;">● Coding</span></div>
+                        <strong
+                            style="color: var(--accent-yellow); font-size: 18px; font-family: 'VT323', monospace;">ERRIDIAN</strong>
+                        <div style="font-size: 12px; color: #aaa;">Status: <span style="color: #00ff00;">● Coding</span>
+                        </div>
                     </div>
                     <p style="font-size: 13px; margin: 4px 0;">
-                        Добро пожаловать в мой уголок киберпространства! Занимаюсь переводом манги, поддержкой серверов и душевными веб-экспериментами.
+                        Добро пожаловать в мой уголок киберпространства! Занимаюсь переводом манги и душевными
+                        веб-экспериментами.
                     </p>
                 </div>
 
@@ -807,7 +959,7 @@
                     <div class="jukebox-body">
                         <div class="jukebox-screen" id="juke-display">Ready to Play...</div>
                         <canvas id="retro-visualizer" width="180" height="40"></canvas>
-                        
+
                         <select id="track-select" class="track-select" onchange="changeTrack(this.value)">
                             <option value="">-- Выберите трек --</option>
                             <option value="1.mp3">Track 1 (1.mp3)</option>
@@ -829,7 +981,8 @@
                         </div>
                         <div style="display: flex; align-items: center; gap: 5px; font-size: 12px;">
                             <span>VOL:</span>
-                            <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.7" style="width: 100%;" oninput="setVolume(this.value)">
+                            <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.7"
+                                style="width: 100%;" oninput="setVolume(this.value)">
                         </div>
                     </div>
                 </div>
@@ -839,7 +992,8 @@
                     <div class="retro-card-title"><span>📊 Посещаемость</span><span>#</span></div>
                     <div>ВЫ ПОСЕТИТЕЛЬ НОМЕР:</div>
                     <div class="hit-counter" id="hitCounter">
-                        <span class="digit">0</span><span class="digit">4</span><span class="digit">2</span><span class="digit">1</span><span class="digit">9</span><span class="digit">5</span>
+                        <span class="digit">0</span><span class="digit">4</span><span class="digit">2</span><span
+                            class="digit">1</span><span class="digit">9</span><span class="digit">5</span>
                     </div>
                     <div class="stardate-widget" id="clock-widget">
                         DATE: 00.00.0000<br>TIME: 00:00:00 MSK
@@ -862,7 +1016,8 @@
                         <div class="web-badge-88x31 badge-cyber">CYBER<br>1999</div>
                         <div class="web-badge-88x31 badge-html">HTML 4.0<br>STRICT</div>
                         <div class="web-badge-88x31 badge-manga">FUN<br>CHOZAS</div>
-                        <a href="https://github.com/Erridian" target="_blank" class="web-badge-88x31" style="background:#004d1a; color:#00ff66; border-color:#00ff66;">DROPUSHKO<br>SEEKER</a>
+                        <a href="https://github.com/Erridian" target="_blank" class="web-badge-88x31"
+                            style="background:#004d1a; color:#00ff66; border-color:#00ff66;">DROPUSHKO<br>SEEKER</a>
                     </div>
                 </div>
             </aside>
@@ -874,26 +1029,20 @@
                 <section id="tab-bio" class="tab-content active">
                     <div class="retro-card">
                         <div class="retro-card-title"><span>📖 ПРИВЕТСТВИЕ / ABOUT ME</span><span>★</span></div>
-                        
+
                         <p style="font-size: 16px; color: #ffffaa;">
                             <strong>Приветствую, путник сети!</strong>
                         </p>
                         <p>
-                            Меня зовут <strong>Erridian</strong>. Я занимаюсь переводом манги в команде <em>"Fun Chozas"</em>, разработкой проекта <strong>Dropushko</strong> (форк <em>Giftseeker</em> для автоматизации раздач), созданием ламповых уголков в сети и различными приколямбами.
+                            Меня зовут <strong>Erridian</strong>. Я занимаюсь переводом манги в команде <em>"Fun
+                                Chozas"</em>, разработкой проекта <strong>Dropushko</strong> (форк <em>Giftseeker</em>
+                            для автоматизации раздач), созданием ламповых уголков в сети и различными приколямбами.
                         </p>
                         <p>
                             Заглядывайте в мои проекты, слушайте музыку и оставляйте весточку в гостевой книге! ;)
                         </p>
 
-                        <hr class="rainbow-hr">
 
-                        <h3>🎮 Мой Minecraft Сервер:</h3>
-                        <div style="background: #000033; border: 2px inset #00ffff; padding: 10px; margin: 8px 0;">
-                            <div>🌐 Адрес: <strong style="color: #00ff00;">mc.erridian.ru</strong></div>
-                            <div>⚙️ Версия: <strong>1.20.1 (Vanilla + полезные плагины)</strong></div>
-                            <div>📱 Совместимость: <strong>Java, Bedrock & PE</strong></div>
-                            <div>🔒 Доступ: <strong>Whitelist (защита от вандалов)</strong></div>
-                        </div>
 
                         <hr class="rainbow-hr">
 
@@ -901,7 +1050,7 @@
                         <ul>
                             <li>Перевод и эдит манги (команда "Fun Chozas");</li>
                             <li>Веб-разработка в духе Web 1.0, 90s эстетики и ретро-систем;</li>
-                            <li>Поддержка игровых серверов и комьюнити;</li>
+
                             <li>Коллекционирование странных и забавных штук со всего интернета!</li>
                         </ul>
                     </div>
@@ -912,11 +1061,12 @@
                     <div class="retro-card">
                         <div class="retro-card-title"><span>🌐 МОИ ПРОЕКТЫ И КИБЕР-ССЫЛКИ</span><span>🔗</span></div>
                         <p>Список моих официальных каналов и проектов во всемирной паутине:</p>
-                        
+
                         <div style="display: grid; gap: 8px; margin-top: 10px;">
                             <div style="border: 2px outset #5555bb; padding: 8px; background: #080828;">
                                 🐙 <a href="https://github.com/Erridian" target="_blank">GitHub Профиль (Erridian)</a>
-                                <div style="font-size: 13px; color: #bbb;">Репозитории, веб-страницы и открытые исходники.</div>
+                                <div style="font-size: 13px; color: #bbb;">Репозитории, веб-страницы и открытые
+                                    исходники.</div>
                             </div>
                             <div style="border: 2px outset #5555bb; padding: 8px; background: #080828;">
                                 💬 <a href="https://vk.com/chikdyk" target="_blank">Личный блог VK (chikdyk)</a>
@@ -935,9 +1085,11 @@
                                 <div style="font-size: 13px; color: #bbb;">Игры, кооператив и ачивки.</div>
                             </div>
                             <div style="border: 2px outset #55ff55; padding: 10px; background: #002208;">
-                                🎁 <a href="https://github.com/Erridian" target="_blank" style="color: #55ff99; font-size: 16px;"><strong>Dropushko</strong> (GitHub)</a>
+                                🎁 <a href="https://github.com/Erridian" target="_blank"
+                                    style="color: #55ff99; font-size: 16px;"><strong>Dropushko</strong> (GitHub)</a>
                                 <div style="font-size: 13px; color: #ccffcc; margin-top: 3px;">
-                                    Мой форк <em>Giftseeker</em> — инструмент для автоматизации поиска, сбора и отслеживания игровых раздач.
+                                    Мой форк <em>Giftseeker</em> — инструмент для автоматизации поиска, сбора и
+                                    отслеживания игровых раздач.
                                 </div>
                             </div>
                         </div>
@@ -948,27 +1100,27 @@
                 <section id="tab-posts" class="tab-content">
                     <div class="retro-card">
                         <div class="retro-card-title"><span>📝 ЗАПИСИ ИЗ КИБЕР-ДНЕВНИКА</span><span>★</span></div>
-                        
-                        <!-- Пост 1 -->
-                        <article style="border: 2px inset #999; padding: 10px; margin-bottom: 12px; background: #05051a;">
-                            <h3 style="color: #00ffff; margin-top: 0;">🌲 Открытие ванильного сервера Minecraft!</h3>
-                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2024-03-15 • Автор: Erridian</div>
-                            <p>Сервер официально запущен! Версия 1.20.1, минимум мешающих плагинов, чистая атмосфера старой доброй игры с друзьями. Заходите: <code>mc.erridian.ru</code>.</p>
-                            <p>Доступ открыт через whitelist — пишите в личные сообщения или в телеграм для добавления!</p>
-                        </article>
+
+
 
                         <!-- Пост 2 -->
-                        <article style="border: 2px inset #999; padding: 10px; margin-bottom: 12px; background: #05051a;">
+                        <article
+                            style="border: 2px inset #999; padding: 10px; margin-bottom: 12px; background: #05051a;">
                             <h3 style="color: #00ffff; margin-top: 0;">📖 Новости перевода манги ("Fun Chozas")</h3>
-                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2023-11-20 • Автор: Erridian</div>
-                            <p>Продолжаем полировать и выпускать свежие главы. Клининг, тайпсет и душевный перевод. Спасибо всем, кто читает и оставляет тёплые отзывы в комментариях!</p>
+                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2023-11-20 •
+                                Автор: Erridian</div>
+                            <p>Продолжаем полировать и выпускать свежие главы. Клининг, тайпсет и душевный перевод.
+                                Спасибо всем, кто читает и оставляет тёплые отзывы в комментариях!</p>
                         </article>
 
                         <!-- Пост 3 -->
                         <article style="border: 2px inset #999; padding: 10px; background: #05051a;">
                             <h3 style="color: #00ffff; margin-top: 0;">🌐 Эра Web 1.0 и ностальгия по Neocities</h3>
-                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2023-08-04 • Автор: Erridian</div>
-                            <p>В эпоху одинаковых соцсетей персональные веб-страницы возвращают тот самый дух творческой свободы и самовыражения: с бегущими строками, дикими фонами и любимой музыкой прямо на главной странице!</p>
+                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2023-08-04 •
+                                Автор: Erridian</div>
+                            <p>В эпоху одинаковых соцсетей персональные веб-страницы возвращают тот самый дух творческой
+                                свободы и самовыражения: с бегущими строками, дикими фонами и любимой музыкой прямо на
+                                главной странице!</p>
                         </article>
                     </div>
                 </section>
@@ -988,46 +1140,61 @@
                         </div>
 
                         <!-- 1. Сапёр -->
-                        <div id="game-sweeper" class="game-view" style="display: block; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
+                        <div id="game-sweeper" class="game-view"
+                            style="display: block; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
                             <h4>💣 Web 1.0 Сапёр (Sweeper)</h4>
                             <div style="margin-bottom: 8px;">
                                 <button class="retro-btn" onclick="initSweeper()">🔄 Новая игра</button>
-                                <span id="sweeper-status" style="margin-left: 10px; font-weight: bold; color: #00ffff;">Удачи!</span>
+                                <span id="sweeper-status"
+                                    style="margin-left: 10px; font-weight: bold; color: #00ffff;">Удачи!</span>
                             </div>
                             <div class="sweeper-board" id="sweeper-board"></div>
                         </div>
 
                         <!-- 2. Крестики-нолики -->
-                        <div id="game-ttt" class="game-view" style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
+                        <div id="game-ttt" class="game-view"
+                            style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
                             <h4>❌ Cyber Крестики-Нолики</h4>
-                            <div id="ttt-status-web" style="margin-bottom: 8px; color: #ffff00; font-weight: bold;">Ваш ход (💾)</div>
+                            <div id="ttt-status-web" style="margin-bottom: 8px; color: #ffff00; font-weight: bold;">Ваш
+                                ход (💾)</div>
                             <div class="ttt-board" id="ttt-board-web"></div>
                             <button class="retro-btn" style="margin-top: 10px;" onclick="initTTTWeb()">Сброс</button>
                         </div>
 
                         <!-- 3. CyberPet Тамагочи -->
-                        <div id="game-pet" class="game-view" style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
+                        <div id="game-pet" class="game-view"
+                            style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
                             <h4>🥚 Виртуальный питомец (CyberPet 2000)</h4>
                             <div class="pet-screen-web1">
                                 <div class="pet-char" id="pet-display-char">🥚</div>
-                                <div>Голод: <span id="pet-hunger-val">0</span>% | Счастье: <span id="pet-happy-val">100</span>%</div>
+                                <div>Голод: <span id="pet-hunger-val">0</span>% | Счастье: <span
+                                        id="pet-happy-val">100</span>%</div>
                             </div>
                             <button class="retro-btn" onclick="feedCyberPet()">🍖 Покормить</button>
                             <button class="retro-btn" onclick="playCyberPet()">🎾 Поиграть</button>
                         </div>
 
                         <!-- 4. Paint Рисовалка -->
-                        <div id="game-paint" class="game-view" style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
+                        <div id="game-paint" class="game-view"
+                            style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
                             <h4>🎨 Ретро Pixel Paint</h4>
                             <div class="palette-row">
-                                <div class="color-pick" style="background:#000;" onclick="setDoodleColor('#000000')"></div>
-                                <div class="color-pick" style="background:#ff0000;" onclick="setDoodleColor('#ff0000')"></div>
-                                <div class="color-pick" style="background:#00ff00;" onclick="setDoodleColor('#00ff00')"></div>
-                                <div class="color-pick" style="background:#0000ff;" onclick="setDoodleColor('#0000ff')"></div>
-                                <div class="color-pick" style="background:#ffff00;" onclick="setDoodleColor('#ffff00')"></div>
-                                <div class="color-pick" style="background:#ff00ff;" onclick="setDoodleColor('#ff00ff')"></div>
-                                <div class="color-pick" style="background:#00ffff;" onclick="setDoodleColor('#00ffff')"></div>
-                                <div class="color-pick" style="background:#ffffff;" onclick="setDoodleColor('#ffffff')"></div>
+                                <div class="color-pick" style="background:#000;" onclick="setDoodleColor('#000000')">
+                                </div>
+                                <div class="color-pick" style="background:#ff0000;" onclick="setDoodleColor('#ff0000')">
+                                </div>
+                                <div class="color-pick" style="background:#00ff00;" onclick="setDoodleColor('#00ff00')">
+                                </div>
+                                <div class="color-pick" style="background:#0000ff;" onclick="setDoodleColor('#0000ff')">
+                                </div>
+                                <div class="color-pick" style="background:#ffff00;" onclick="setDoodleColor('#ffff00')">
+                                </div>
+                                <div class="color-pick" style="background:#ff00ff;" onclick="setDoodleColor('#ff00ff')">
+                                </div>
+                                <div class="color-pick" style="background:#00ffff;" onclick="setDoodleColor('#00ffff')">
+                                </div>
+                                <div class="color-pick" style="background:#ffffff;" onclick="setDoodleColor('#ffffff')">
+                                </div>
                                 <button class="retro-btn" onclick="clearDoodle()">Очистить</button>
                             </div>
                             <canvas id="doodle-canvas" width="300" height="200"></canvas>
@@ -1046,15 +1213,17 @@
                                 <input type="text" id="gb-name" placeholder="Ваше имя / Никнейм..." required>
                                 <input type="text" id="gb-site" placeholder="Ваш сайт / URL...">
                             </div>
-                            <textarea id="gb-text" rows="3" placeholder="Оставьте доброе послание вебмастеру..." required></textarea>
+                            <textarea id="gb-text" rows="3" placeholder="Оставьте доброе послание вебмастеру..."
+                                required></textarea>
                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span>Смайл: 
+                                <span>Смайл:
                                     <button type="button" class="retro-btn" onclick="insertEmoji('✨')">✨</button>
                                     <button type="button" class="retro-btn" onclick="insertEmoji('💾')">💾</button>
                                     <button type="button" class="retro-btn" onclick="insertEmoji('🐱')">🐱</button>
                                     <button type="button" class="retro-btn" onclick="insertEmoji('🔥')">🔥</button>
                                 </span>
-                                <button type="submit" class="retro-btn" style="background: #ffff77;">✍️ Подписать книгу!</button>
+                                <button type="submit" class="retro-btn" style="background: #ffff77;">✍️ Подписать
+                                    книгу!</button>
                             </div>
                         </form>
 
@@ -1078,7 +1247,8 @@
                         </div>
                         <div class="term-input-row">
                             <span>C:\&gt;</span>
-                            <input type="text" id="term-cmd-input" class="term-input" autocomplete="off" onkeydown="handleTermCommand(event)">
+                            <input type="text" id="term-cmd-input" class="term-input" autocomplete="off"
+                                onkeydown="handleTermCommand(event)">
                         </div>
                     </div>
                 </section>
@@ -1090,12 +1260,15 @@
                 <!-- Ретро Shoutbox / IRC Chat -->
                 <div class="retro-card">
                     <div class="retro-card-title"><span>💬 NeoChat Shoutbox</span><span>★</span></div>
-                    <div id="shoutbox-log" style="background: #000; border: 2px inset #666; height: 160px; overflow-y: auto; padding: 5px; font-size: 13px; font-family: 'VT323', monospace; margin-bottom: 6px;">
+                    <div id="shoutbox-log"
+                        style="background: #000; border: 2px inset #666; height: 160px; overflow-y: auto; padding: 5px; font-size: 13px; font-family: 'VT323', monospace; margin-bottom: 6px;">
                         <div style="color: #00ff00;">[SYS]: Connected to IRC server #vaporwave</div>
                         <div style="color: #ff99cc;">&lt;A.L.I.C.E.&gt; Welcome to the Neocities realm, wanderer.</div>
                     </div>
                     <div style="display: flex; gap: 3px;">
-                        <input type="text" id="shoutbox-input" style="flex-grow: 1; background: #000033; border: 2px inset #fff; color: #fff; font-family: 'VT323', monospace; font-size: 15px; padding: 2px 4px;" placeholder="Сообщение..." onkeydown="handleShout(event)">
+                        <input type="text" id="shoutbox-input"
+                            style="flex-grow: 1; background: #000033; border: 2px inset #fff; color: #fff; font-family: 'VT323', monospace; font-size: 15px; padding: 2px 4px;"
+                            placeholder="Сообщение..." onkeydown="handleShout(event)">
                         <button class="retro-btn" onclick="sendShout()">Send</button>
                     </div>
                 </div>
@@ -1103,7 +1276,8 @@
                 <!-- Цитата дня -->
                 <div class="retro-card">
                     <div class="retro-card-title"><span>🔮 Предсказание</span><span>✨</span></div>
-                    <div id="quote-box" style="font-style: italic; font-size: 14px; text-align: center; padding: 5px; color: #ffff99;">
+                    <div id="quote-box"
+                        style="font-style: italic; font-size: 14px; text-align: center; padding: 5px; color: #ffff99;">
                         "The cyberspace is not a destination, it's a feeling."
                     </div>
                     <div style="text-align: center; margin-top: 6px;">
@@ -1114,19 +1288,26 @@
                 <!-- Опасная красная кнопка -->
                 <div class="retro-card" style="text-align: center;">
                     <div class="retro-card-title"><span>☢️ DO NOT CLICK</span><span>⚠️</span></div>
-                    <p style="font-size: 12px; color: #ff6666;">Внимание: эта кнопка вызывает непредсказуемый сбой матрицы!</p>
-                    <button class="retro-btn" style="background: #ff0000; color: #fff; border-color: #ff9999; font-size: 18px; padding: 8px 16px;" onclick="panicGlitch()">💥 НЕ НАЖИМАТЬ!</button>
+                    <p style="font-size: 12px; color: #ff6666;">Внимание: эта кнопка вызывает непредсказуемый сбой
+                        матрицы!</p>
+                    <button class="retro-btn"
+                        style="background: #ff0000; color: #fff; border-color: #ff9999; font-size: 18px; padding: 8px 16px;"
+                        onclick="panicGlitch()">💥 НЕ НАЖИМАТЬ!</button>
                 </div>
 
                 <!-- Webring Виджет -->
                 <div class="webring-box">
                     <div style="color: #ffff00; font-weight: bold; margin-bottom: 4px;">★ THE CYBERSPACE WEBRING ★</div>
-                    <div style="font-size: 12px; margin-bottom: 6px;">[Member of Russian Vaporwave & Anime Webring]</div>
+                    <div style="font-size: 12px; margin-bottom: 6px;">[Member of Russian Vaporwave & Anime Webring]
+                    </div>
                     <div style="display: flex; justify-content: space-around;">
-                        <a href="javascript:void(0)" onclick="alert('Переход на предыдущий сайт вебринга...')">&lt;&lt; Prev</a>
-                        <a href="javascript:void(0)" onclick="alert('Каталог сайтов вебринга: 142 участника.')">Index</a>
+                        <a href="javascript:void(0)" onclick="alert('Переход на предыдущий сайт вебринга...')">&lt;&lt;
+                            Prev</a>
+                        <a href="javascript:void(0)"
+                            onclick="alert('Каталог сайтов вебринга: 142 участника.')">Index</a>
                         <a href="javascript:void(0)" onclick="randomWebring()">Random</a>
-                        <a href="javascript:void(0)" onclick="alert('Переход на следующий сайт вебринга...')">Next &gt;&gt;</a>
+                        <a href="javascript:void(0)" onclick="alert('Переход на следующий сайт вебринга...')">Next
+                            &gt;&gt;</a>
                     </div>
                 </div>
             </aside>
@@ -1136,12 +1317,16 @@
         <!-- Подвал сайта -->
         <footer class="site-footer">
             <p>
-                ★ © 1999-2026 <strong>Erridian</strong>. Сделано с любовью к эстетике Web 1.0, GeoCities и Neocities ★<br>
+                ★ © 1999-2026 <strong>Erridian</strong>. Сделано с любовью к эстетике Web 1.0, GeoCities и Neocities
+                ★<br>
                 Оптимизировано для мониторов 800x600 и 1024x768 • Поддержка CSS & JavaScript
             </p>
             <div>
-                <a href="index.html" style="color: #ffff00; font-size: 18px; font-family: 'VT323', monospace;">[ 💾 ВЕРНУТЬСЯ В ERRIDIAN OS 95 ]</a>
-                <span onclick="triggerDivergenceEgg()" style="cursor: pointer; opacity: 0.25; color: #39ff14; margin-left: 10px; font-size: 13px;" title="Operation Skuld">Ω</span>
+                <a href="index.html" style="color: #ffff00; font-size: 18px; font-family: 'VT323', monospace;">[ 💾
+                    ВЕРНУТЬСЯ В ERRIDIAN OS 95 ]</a>
+                <span onclick="triggerDivergenceEgg()"
+                    style="cursor: pointer; opacity: 0.25; color: #39ff14; margin-left: 10px; font-size: 13px;"
+                    title="Operation Skuld">Ω</span>
             </div>
         </footer>
 
@@ -1165,7 +1350,7 @@
                     }
                 }
                 if (audioCtxInstance && audioCtxInstance.state === 'suspended') {
-                    audioCtxInstance.resume().catch(() => {});
+                    audioCtxInstance.resume().catch(() => { });
                 }
             } catch (e) {
                 console.warn("AudioContext warning:", e);
@@ -1222,7 +1407,7 @@
         // КУРСОРНЫЙ ШЛЕЙФ (90s Star Sparkles)
         // ==========================================
         let lastSparkleTime = 0;
-        document.addEventListener('mousemove', function(e) {
+        document.addEventListener('mousemove', function (e) {
             const now = Date.now();
             if (now - lastSparkleTime < 50) return;
             lastSparkleTime = now;
@@ -1494,9 +1679,9 @@
         }
         function checkTTT(symbol) {
             const wins = [
-                [0,1,2],[3,4,5],[6,7,8],
-                [0,3,6],[1,4,7],[2,5,8],
-                [0,4,8],[2,4,6]
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
             ];
             return wins.some(w => tttState[w[0]] === symbol && tttState[w[1]] === symbol && tttState[w[2]] === symbol);
         }
@@ -1590,9 +1775,9 @@
         // ГОСТЕВАЯ КНИГА
         // ==========================================
         const initialGb = [
-            { name: "xX_CyberMaster_99_Xx", site: "https://neocities.org", text: "Крутой ретро сайт! Дизайн напоминает золотые 90-е. Респект за сапёр и музыку!", date: "2024-03-12 18:22" },
+            { name: "Erridian", site: "https://erridian.ru", text: "Это мой сайт, я его сам сделал)", date: "2026-09-14 10:09" },
             { name: "Hououin Kyouma", site: "future_gadget_lab/okabe.html", text: "Организация следит за этим сайтом! El Psy Kongroo.", date: "2024-02-28 14:05" },
-            { name: "Dropushko", site: "https://github.com/Erridian", text: "Вижу отсылку на себя! Привет вебмастеру Erridian!", date: "2024-01-15 09:30" }
+            { name: "Dropushko", site: "https://github.com/Erridian/giftseeker", text: "Привет тебе из 2К26, чувак)", date: "2026-01-15 09:30" }
         ];
 
         function loadGuestbook() {
@@ -1669,7 +1854,7 @@
                     "Интересная мысль для Web 1.0 пространства!",
                     "A.L.I.C.E. согласна с вами!",
                     "Отличный вайб на этом сайте, не правда ли?",
-                    "Не забудьте заглянуть на Minecraft-сервер mc.erridian.ru!",
+                    "Пейте чай!",
                     "Попробуйте сыграть в сапёра!"
                 ];
                 const r = replies[Math.floor(Math.random() * replies.length)];
@@ -1803,7 +1988,7 @@
         // ==========================================
         // ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
         // ==========================================
-        window.onload = function() {
+        window.onload = function () {
             initCounterAndClock();
             initSweeper();
             initTTTWeb();
@@ -1818,4 +2003,5 @@
         };
     </script>
 </body>
+
 </html>
