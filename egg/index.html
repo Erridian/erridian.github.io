@@ -35,20 +35,37 @@ header, a:link, a {
 
 	<body>
         <script language="javascript">
-
-function chbg()
-{
-randColor = (Math.floor(Math.random()*0xFFFFFF)).toString(16);
-document.body.style.color='#'+randColor;
-
+function chbg() {
+    randColor = (Math.floor(Math.random()*0xFFFFFF)).toString(16);
+    document.body.style.color='#'+randColor;
 }
 chbg();
-setInterval(chbg,500);
+setInterval(chbg, 500);
 
+// Определение IP без PHP через публичный API
+fetch('https://api.ipify.org?format=json')
+    .then(r => r.json())
+    .then(d => {
+        const el = document.getElementById('client-ip');
+        if (el && d.ip) el.textContent = '[' + d.ip + ']';
+    })
+    .catch(() => {});
 
-
+// Автоматическая подгрузка списка из list.txt
+fetch('list.txt')
+    .then(r => r.text())
+    .then(text => {
+        const listEl = document.querySelector('ol.square');
+        if (listEl && text) {
+            const items = text.split('\n').map(s => s.trim()).filter(Boolean);
+            if (items.length > 0) {
+                listEl.innerHTML = items.map(item => '<li>' + item + '</li>').join('\n');
+            }
+        }
+    })
+    .catch(() => {});
 </script>
-        <center><header class="header">Music: <a href="https://soundcloud.com/erridian/feretrum-demo" title="Erridian - Feretrum(demo)" ">Erridian - Feretrum</a><?php echo $_SERVER['REMOTE_ADDR'] ?></header></center>
+        <center><header class="header">Music: <a href="https://soundcloud.com/erridian/feretrum-demo" title="Erridian - Feretrum(demo)">Erridian - Feretrum</a> <span id="client-ip" style="font-size: 13pt; opacity: 0.8;"></span></header></center>
 <iframe width="100%" height="20" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/654309833&color=%23000000&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/erridian" title="Erridian" target="_blank" style="color: #000; text-decoration: none;">Erridian</a>  <a href="https://soundcloud.com/erridian/feretrum-demo" title="Feretrum(demo)" target="_blank" style="color: #000; text-decoration: none;">Feretrum(demo)</a></div>
 		<div class="center" >
 
@@ -59,11 +76,69 @@ setInterval(chbg,500);
 
 
 <ol class="square">
-  <li>Элемент списка</li>
-  <li>Элемент списка</li>
-  <li>Элемент списка</li>
-  <li>Элемент списка</li>
-  <li>Элемент списка</li>
+  <li>Мириады цветов фантомного мира</li>
+  <li>Молокоссосы</li>
+  <li>Праздник кукол</li>
+  <li>Матильда</li>
+  <li>Я, снова я и Ирэн</li>
+  <li>Аисты</li>
+  <li>Познавший синеву небес</li>
+  <li>Невидимый</li>
+  <li>Великий притворщик</li>
+  <li>Бугипоп никогда не смеется</li>
+  <li>Безумный азарт</li>
+  <li>Летние войны</li>
+  <li>Письмо для Момо</li>
+  <li>Возвращение кота</li>
+  <li>Туалетный мальчик Ханакр-кун</li>
+  <li>Мадоку</li>
+  <li>Форест гамп</li>
+  <li>Достучаться до небес</li>
+  <li>Инструкция не прилагается</li>
+  <li>Рассвет Йоны</li>
+  <li>Дитя чудовица или ученик чудовища</li>
+  <li>Кадры</li>
+  <li>Карнавальный фантазм</li>
+  <li>Fate</li>
+  <li>Мангака и его ассистентка</li>
+  <li>В случае с братом медицина бесполезна</li>
+  <li>Розовая пора моей школьной жизни сплошной обман</li>
+  <li>Чай с молоком</li>
+  <li>Манхва придурки</li>
+  <li>Добро пожаловать в бальный зал</li>
+  <li>Тайная жизнь пингвинов</li>
+  <li>Дитя погоды</li>
+  <li>Собачья жизнь</li>
+  <li>Славные парни</li>
+  <li>Джинтельмены</li>
+  <li>Princess principal</li>
+  <li>Элисед</li>
+  <li>Сомали и лесной дух</li>
+  <li>Клаус</li>
+  <li>Могила Светлячков</li>
+  <li>Филандрийский пес</li>
+  <li>Босоногий Гэн</li>
+  <li>В лесу мерцания светлячков</li>
+  <li>Я хочу съесть твою поджелудочную</li>
+  <li>История семьи Аркана</li>
+  <li>У меня мало друзей</li>
+  <li>Президент горничная</li>
+  <li>Эй, цыпочка</li>
+  <li>Страна чудес Вилли</li>
+  <li>Оружейный барон</li>
+  <li>Магическая битва</li>
+  <li>Дороро</li>
+  <li>Черный клевер</li>
+  <li>Эмма</li>
+  <li>Энола Холмс</li>
+  <li>Полночное солнце</li>
+  <li>Весь этот мир</li>
+  <li>Маленькие женщины</li>
+  <li>Инцидент Кэмоно</li>
+  <li>furi kuri</li>
+  <li>Токийские мстители</li>
+  <li>Мед и клевер</li>
+  <li>Добро пожаловать nhk</li>
 </ol>
 
 
