@@ -1484,7 +1484,7 @@
         // СЧЁТЧИК ПОСЕЩЕНИЙ И ЧАСЫ
         // ==========================================
         function initCounterAndClock() {
-            let visits = parseInt(localStorage.getItem('erridian_hit_counter') || '42195');
+            let visits = parseInt(localStorage.getItem('erridian_hit_counter') || '00000');
             visits += 1;
             localStorage.setItem('erridian_hit_counter', visits);
 
@@ -1498,7 +1498,7 @@
                 const now = new Date();
                 const dStr = now.toLocaleDateString('ru-RU');
                 const tStr = now.toLocaleTimeString('ru-RU');
-                document.getElementById('clock-widget').innerHTML = `DATE: ${dStr}<br>TIME: ${tStr} MSK`;
+                document.getElementById('clock-widget').innerHTML = `DATE: ${dStr}<br>TIME: ${tStr}`;
             }
             updateClock();
             setInterval(updateClock, 1000);
