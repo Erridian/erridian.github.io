@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>★ Erridian's Cyber Realm ★ Neocities Web 1.0 Edition ★</title>
     <link rel="icon" href="favicon.ico">
-    <link
-        href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap"
-        rel="stylesheet">
+    <meta name="description" content="Erridian's Cyber Realm - Web 1.0 Neocities Edition. Перевод манги (Fun Chozas), ретро-код, Jukebox, DOS терминал и кибер-пространство.">
+    <meta name="theme-color" content="#000033">
+    <meta property="og:title" content="★ Erridian's Cyber Realm ★ Web 1.0 Edition">
+    <meta property="og:description" content="Ламповый ретро-уголок в стиле Web 1.0 и Neocities: Jukebox с визуализатором, аркадные игры, гостевая книга и DOS-терминал.">
+    <meta property="og:image" content="egg/ill.jpg">
+    <meta property="og:type" content="website">
+
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
     <style>
         /* ==========================================================================
            WEB 1.0 / NEOCITIES PARODY THEME STYLES
@@ -121,9 +127,7 @@
         }
 
         /* Заголовки */
-        h1,
-        h2,
-        h3 {
+        h1, h2, h3, h4 {
             font-family: 'VT323', 'Courier New', monospace;
             letter-spacing: 1px;
             margin-top: 5px;
@@ -131,23 +135,13 @@
             text-shadow: 2px 2px #ff007f;
         }
 
-        h1 {
-            font-size: 32px;
-        }
+        h1 { font-size: 32px; }
+        h2 { font-size: 24px; color: var(--accent-cyan); }
+        h3 { font-size: 20px; color: var(--accent-yellow); }
 
-        h2 {
-            font-size: 24px;
-            color: var(--accent-cyan);
-        }
-
-        h3 {
-            font-size: 20px;
-            color: var(--accent-yellow);
-        }
-
-        /* Главный контейнер (эмуляция 800px Web 1.0 стола) */
+        /* Главный контейнер */
         .page-wrapper {
-            max-width: 960px;
+            max-width: 980px;
             margin: 0 auto;
             background-color: var(--page-bg);
             border: var(--border-outset);
@@ -175,6 +169,7 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .construction-badge {
@@ -188,21 +183,10 @@
 
         /* Мигающий текст <blink> */
         @keyframes blink {
-            0% {
-                opacity: 1;
-            }
-
-            49% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 0;
-            }
+            0% { opacity: 1; }
+            49% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 0; }
         }
 
         .blink-text {
@@ -268,13 +252,8 @@
         }
 
         @keyframes marquee {
-            0% {
-                transform: translateX(100%);
-            }
-
-            100% {
-                transform: translateX(-100%);
-            }
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
         /* Верхнее меню навигации (Retro Tab Buttons) */
@@ -337,7 +316,7 @@
             text-shadow: 1px 1px #000;
         }
 
-        /* Сетка Web 1.0 (Левая колонка + Центральный контент + Правая колонка) */
+        /* Сетка Web 1.0 */
         .web-grid {
             display: grid;
             grid-template-columns: 220px 1fr 220px;
@@ -349,19 +328,9 @@
                 display: flex;
                 flex-direction: column;
             }
-
-            .center-col {
-                order: 1;
-                /* Главный контент под кнопками навигации */
-            }
-
-            .left-col {
-                order: 2;
-            }
-
-            .right-col {
-                order: 3;
-            }
+            .center-col { order: 1; }
+            .left-col { order: 2; }
+            .right-col { order: 3; }
         }
 
         /* Винтажные блоки / фреймы */
@@ -409,54 +378,24 @@
             text-decoration: none;
             color: #fff;
             font-weight: bold;
-            line-height: 1;
+            line-height: 1.05;
             user-select: none;
             cursor: pointer;
             box-shadow: 1px 1px 0 #000;
         }
-
-        .badge-netscape {
-            background: #000088;
-            border-color: #33ffff;
-            color: #33ffff;
+        .web-badge-88x31:hover {
+            filter: brightness(1.2);
+            transform: scale(1.05);
         }
 
-        .badge-notepad {
-            background: #fff;
-            color: #000;
-            border-color: #888;
-        }
-
-        .badge-neocities {
-            background: linear-gradient(45deg, #e60067, #7928ca);
-            color: #fff;
-        }
-
-        .badge-winamp {
-            background: #ffaa00;
-            color: #000;
-        }
-
-        .badge-cyber {
-            background: #ff007f;
-            color: #fff;
-        }
-
-        .badge-html {
-            background: #ff4500;
-            color: #fff;
-        }
-
-        .badge-noweb2 {
-            background: #000;
-            color: #00ff00;
-            border-color: #00ff00;
-        }
-
-        .badge-manga {
-            background: #800080;
-            color: #ffeb3b;
-        }
+        .badge-netscape { background: #000088; border-color: #33ffff; color: #33ffff; }
+        .badge-notepad { background: #fff; color: #000; border-color: #888; }
+        .badge-neocities { background: linear-gradient(45deg, #e60067, #7928ca); color: #fff; }
+        .badge-winamp { background: #ffaa00; color: #000; }
+        .badge-cyber { background: #ff007f; color: #fff; }
+        .badge-html { background: #ff4500; color: #fff; }
+        .badge-noweb2 { background: #000; color: #00ff00; border-color: #00ff00; }
+        .badge-manga { background: #800080; color: #ffeb3b; }
 
         /* Счётчик посещений (Hit Counter) */
         .hit-counter {
@@ -511,9 +450,7 @@
             font-family: 'Share Tech Mono', monospace;
         }
 
-        .gb-message {
-            color: #eee;
-        }
+        .gb-message { color: #eee; }
 
         .gb-form input,
         .gb-form textarea {
@@ -534,13 +471,11 @@
             font-family: 'VT323', monospace;
             font-size: 17px;
             font-weight: bold;
-            padding: 4px 12px;
+            padding: 4px 10px;
             cursor: pointer;
         }
 
-        .retro-btn:active {
-            border: 3px inset #ffffff;
-        }
+        .retro-btn:active { border: 3px inset #ffffff; }
 
         /* Винтажный WinAmp / Jukebox */
         .jukebox-body {
@@ -581,13 +516,8 @@
             text-align: center;
         }
 
-        .juke-btn:hover {
-            background: #555599;
-        }
-
-        .juke-btn:active {
-            border: 2px inset #7777aa;
-        }
+        .juke-btn:hover { background: #555599; }
+        .juke-btn:active { border: 2px inset #7777aa; }
 
         .track-select {
             width: 100%;
@@ -614,7 +544,7 @@
         /* 1. Сапёр */
         .sweeper-board {
             display: grid;
-            grid-template-columns: repeat(9, 22px);
+            grid-template-columns: repeat(9, 24px);
             gap: 1px;
             margin: 0 auto;
             width: fit-content;
@@ -624,8 +554,8 @@
         }
 
         .sweeper-cell {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             background: #b0b0c0;
             border: 2px outset #fff;
             display: flex;
@@ -636,6 +566,7 @@
             font-weight: bold;
             cursor: pointer;
             color: #000;
+            user-select: none;
         }
 
         .sweeper-cell.open {
@@ -665,9 +596,7 @@
             cursor: pointer;
         }
 
-        .ttt-box:active {
-            border: 2px inset #8888ff;
-        }
+        .ttt-box:active { border: 2px inset #8888ff; }
 
         /* 3. CyberPet Тамагочи */
         .pet-screen-web1 {
@@ -688,13 +617,8 @@
         }
 
         @keyframes petHop {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-6px);
-            }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-6px); }
         }
 
         /* 4. Paint Рисовалка */
@@ -704,6 +628,7 @@
             cursor: crosshair;
             display: block;
             margin: 0 auto 6px auto;
+            touch-action: none;
         }
 
         .palette-row {
@@ -711,6 +636,7 @@
             gap: 4px;
             justify-content: center;
             margin-bottom: 6px;
+            flex-wrap: wrap;
         }
 
         .color-pick {
@@ -728,7 +654,7 @@
             font-family: 'Share Tech Mono', monospace;
             font-size: 13px;
             padding: 8px;
-            height: 180px;
+            height: 200px;
             overflow-y: auto;
             margin-bottom: 6px;
         }
@@ -788,7 +714,6 @@
                 opacity: 1;
                 transform: translate(0, 0) scale(1.2) rotate(0deg);
             }
-
             100% {
                 opacity: 0;
                 transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(180deg);
@@ -800,7 +725,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
             background: #000022;
             border: 2px inset #555;
@@ -818,42 +743,35 @@
             margin: 15px 0;
         }
 
-        /* Вкладки для центрального контента */
-        .content-tabs {
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Карточка манги */
+        .manga-card {
+            border: 2px outset #ff00aa;
+            padding: 10px;
+            background: #110022;
+            margin-bottom: 10px;
             display: flex;
-            gap: 3px;
-            border-bottom: 3px outset #6666ee;
-            margin-bottom: 12px;
+            gap: 12px;
+            align-items: flex-start;
         }
-
-        .tab-btn {
-            background: #000066;
-            color: #ffff00;
-            border: 2px outset #8888ff;
-            border-bottom: none;
-            padding: 6px 12px;
+        .manga-badge {
+            background: #ff007f;
+            color: #fff;
             font-family: 'VT323', monospace;
-            font-size: 18px;
-            cursor: pointer;
+            padding: 2px 6px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid #fff;
         }
-
-        .tab-btn.active {
-            background: var(--box-bg);
-            color: #00ffff;
-            border-top-color: #ffff00;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
+        @media (max-width: 600px) {
+            .manga-card { flex-direction: column; }
         }
     </style>
 </head>
 
-<body class="theme-space">
+<body class="theme-space" onclick="unlockWebAudio()" onkeydown="unlockWebAudio()">
 
     <div class="page-wrapper">
 
@@ -862,9 +780,25 @@
             <span>🚧</span>
             <span>⚠️</span>
             <span class="construction-badge">UNDER CONSTRUCTION</span>
-            <span class="blink-text">★ BEST VIEWED IN NETSCAPE NAVIGATOR 4.0 ★</span>
+            <span class="blink-text">★ BEST VIEWED IN NETSCAPE NAVIGATOR 4.0 (800x600) ★</span>
             <span>⚠️</span>
             <span>🚧</span>
+        </div>
+
+        <!-- Навигатор вариаций страниц Neocities -->
+        <div style="background: #000033; border: 2px outset #ff00aa; padding: 6px; text-align: center; margin-bottom: 8px; font-family: 'VT323', monospace; font-size: 16px; line-height: 1.8;">
+            <span>🌐 <strong>REALMS & CONSOLES:</strong></span>
+            <a href="neocities.html" style="background:#ff0055; color:#fff; padding:2px 6px; border:1px inset #fff; margin:0 2px; text-decoration:none;">★ Cyber Realm</a>
+            <a href="neocities_nes.html" style="background:#000; color:#ffff00; border:1px solid #fff; padding:2px 6px; margin:0 2px; text-decoration:none;">👾 NES 8-Bit</a>
+            <a href="neocities_sega.html" style="background:#0022aa; color:#ffcc00; border:1px solid #ffcc00; padding:2px 6px; margin:0 2px; text-decoration:none;">🦔 Sega 16-Bit</a>
+            <a href="neocities_ps1.html" style="background:#2c3e50; color:#00d2d3; border:1px solid #718093; padding:2px 6px; margin:0 2px; text-decoration:none;">💿 PS One</a>
+            <a href="neocities_gameboy.html" style="background:#8bac0f; color:#0f380f; border:1px solid #0f380f; padding:2px 6px; margin:0 2px; text-decoration:none;">🕹️ GameBoy</a>
+            <a href="neocities_vhs.html" style="background:#222; color:#2bf740; border:1px solid #2bf740; padding:2px 6px; margin:0 2px; text-decoration:none;">📼 VHS 90s TV</a>
+            <a href="neocities_geocities.html" style="background:#000066; color:#ffff00; padding:2px 6px; border:1px outset #fff; margin:0 2px; text-decoration:none;">🔥 GeoCities 97</a>
+            <a href="neocities_cyberpunk.html" style="background:#000066; color:#00ff66; padding:2px 6px; border:1px outset #fff; margin:0 2px; text-decoration:none;">⚡ Cyberpunk</a>
+            <a href="neocities_frutiger.html" style="background:#000066; color:#00f0ff; padding:2px 6px; border:1px outset #fff; margin:0 2px; text-decoration:none;">💧 Frutiger Aero</a>
+            <a href="neocities_y2k.html" style="background:#000066; color:#ff99ff; padding:2px 6px; border:1px outset #fff; margin:0 2px; text-decoration:none;">💿 Y2K</a>
+            <a href="index.html" style="background:#000080; color:#fff; padding:2px 6px; border:1px outset #fff; margin:0 2px; text-decoration:none;">💾 OS 95</a>
         </div>
 
         <!-- Переключатель тем и звука -->
@@ -882,14 +816,12 @@
         <!-- Шапка страницы -->
         <header class="site-header">
             <div style="display: flex; justify-content: space-around; align-items: center;">
-                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerDivergenceEgg()"
-                    title="???">🔮</span>
+                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerDivergenceEgg()" title="Divergence Meter">🔮</span>
                 <div>
                     <h1 class="header-title">★ ERRIDIAN'S CYBER REALM ★</h1>
                     <div class="header-subtitle">~ Official Web 1.0 Neocities Edition ~</div>
                 </div>
-                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerKurisuEgg()"
-                    title="???">🚀</span>
+                <span style="font-size: 30px; cursor: pointer; user-select: none;" onclick="triggerKurisuEgg()" title="Lab Member 004">🚀</span>
             </div>
 
             <pre class="ascii-art">
@@ -908,24 +840,19 @@
         <!-- Бегущая строка -->
         <div class="marquee-box">
             <div class="marquee-content">
-                ★ 彡 WELCOME TO MY PERSONAL CYBER HOMEPAGE! 彡 ★ CURRENT STATUS: ONLINE ★ TRANSLATING MANGA WITH "FUN
-                CHOZAS" ★ VISIT MAIN SITE: erridian.ru ★ FEEL FREE TO SIGN MY GUESTBOOK ★ HAVE A NICE SURFING! ★
+                ★ 彡 WELCOME TO MY PERSONAL CYBER HOMEPAGE! 彡 ★ CURRENT STATUS: ONLINE ★ TRANSLATING MANGA WITH "FUN CHOZAS" ★ VISIT REPO: github.com/Erridian ★ FEEL FREE TO SIGN MY GUESTBOOK ★ HAVE A NICE SURFING! ★
             </div>
         </div>
 
         <!-- Панель навигации (Retro Tabs) -->
         <nav class="nav-bar">
-            <button class="nav-btn active" data-tab="tab-bio" onclick="showTab('tab-bio', this)">📄 О себе
-                (Bio)</button>
-            <button class="nav-btn" data-tab="tab-projects" onclick="showTab('tab-projects', this)">📂 Проекты
-                (Links)</button>
+            <button class="nav-btn active" data-tab="tab-bio" onclick="showTab('tab-bio', this)">📄 О себе (Bio)</button>
+            <button class="nav-btn" data-tab="tab-manga" onclick="showTab('tab-manga', this)">📖 Манга (Fun Chozas)</button>
+            <button class="nav-btn" data-tab="tab-projects" onclick="showTab('tab-projects', this)">📂 Проекты (Links)</button>
             <button class="nav-btn" data-tab="tab-posts" onclick="showTab('tab-posts', this)">📝 Блог (Posts)</button>
-            <button class="nav-btn" data-tab="tab-games" onclick="showTab('tab-games', this)">🕹️ Аркада
-                (Games)</button>
-            <button class="nav-btn" data-tab="tab-guestbook" onclick="showTab('tab-guestbook', this)">📜 Гостевая
-                (Guestbook)</button>
-            <button class="nav-btn" data-tab="tab-terminal" onclick="showTab('tab-terminal', this)">📟 DOS
-                Терминал</button>
+            <button class="nav-btn" data-tab="tab-games" onclick="showTab('tab-games', this)">🕹️ Аркада (Games)</button>
+            <button class="nav-btn" data-tab="tab-guestbook" onclick="showTab('tab-guestbook', this)">📜 Гостевая (Guestbook)</button>
+            <button class="nav-btn" data-tab="tab-terminal" onclick="showTab('tab-terminal', this)">📟 DOS Терминал</button>
             <a href="index.html" class="nav-btn special-os95">💾 Erridian OS 95</a>
         </nav>
 
@@ -938,32 +865,35 @@
                 <div class="retro-card">
                     <div class="retro-card-title"><span>👤 Вебмастер</span><span>★</span></div>
                     <div style="text-align: center; margin-bottom: 8px;">
-                        <div
-                            style="width: 100px; height: 100px; border: 3px outset #fff; margin: 0 auto 6px auto; background: #222; display: flex; align-items: center; justify-content: center; font-size: 50px;">
+                        <div style="width: 90px; height: 90px; border: 3px outset #fff; margin: 0 auto 6px auto; background: #222; display: flex; align-items: center; justify-content: center; font-size: 45px;">
                             🧙‍♂️
                         </div>
-                        <strong
-                            style="color: var(--accent-yellow); font-size: 18px; font-family: 'VT323', monospace;">ERRIDIAN</strong>
-                        <div style="font-size: 12px; color: #aaa;">Status: <span style="color: #00ff00;">● Vibing</span>
-                        </div>
+                        <strong style="color: var(--accent-yellow); font-size: 18px; font-family: 'VT323', monospace;">ERRIDIAN</strong>
+                        <div style="font-size: 12px; color: #aaa;">Status: <span style="color: #00ff00;">● Online / Vibing</span></div>
                     </div>
                     <p style="font-size: 13px; margin: 4px 0;">
-                        Добро пожаловать в мой уголок киберпространства! Занимаюсь переводом манги и душевными
-                        веб-экспериментами.
+                        Добро пожаловать в мой уголок киберпространства! Перевожу мангу, ковыряю ретро-код и раздаю приколямбы.
                     </p>
                 </div>
 
-                <!-- Jukebox / Winamp виджет -->
+                <!-- Jukebox / Winamp виджет с таймлайном -->
                 <div class="retro-card">
                     <div class="retro-card-title"><span>🎵 Ретро Jukebox</span><span>⚡</span></div>
                     <div class="jukebox-body">
                         <div class="jukebox-screen" id="juke-display">Ready to Play...</div>
                         <canvas id="retro-visualizer" width="180" height="40"></canvas>
+                        
+                        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #00ff00; font-family: 'Share Tech Mono', monospace; margin-bottom: 2px;">
+                            <span id="juke-current-time">00:00</span>
+                            <span id="juke-total-time">00:00</span>
+                        </div>
+                        <input type="range" id="juke-seek" min="0" max="100" value="0" style="width: 100%; margin-bottom: 6px;" oninput="seekJukebox(this.value)">
 
                         <select id="track-select" class="track-select" onchange="changeTrack(this.value)">
                             <option value="">-- Выберите трек --</option>
                             <option value="1.mp3">Track 1 (1.mp3)</option>
                             <option value="2.mp3">Track 2 (2.mp3)</option>
+                            <option value="Any.mp3">Any Track (Any.mp3)</option>
                             <option value="ForestDump.mp3">Forest Dump</option>
                             <option value="teamrept20113.mp3">Team Rept</option>
                             <option value="Radmila Maro-Skazka111.mp3">Radmila Maro</option>
@@ -975,14 +905,15 @@
                         </select>
 
                         <div class="jukebox-controls">
+                            <button class="juke-btn" onclick="prevTrack()" title="Previous">|◀</button>
                             <button class="juke-btn" onclick="playAudio()">▶ PLAY</button>
-                            <button class="juke-btn" onclick="pauseAudio()">❚❚ PAUSE</button>
-                            <button class="juke-btn" style="color: #ff5555;" onclick="stopAudio()">■ STOP</button>
+                            <button class="juke-btn" onclick="pauseAudio()">❚❚</button>
+                            <button class="juke-btn" onclick="nextTrack()" title="Next">▶|</button>
+                            <button class="juke-btn" style="color: #ff5555;" onclick="stopAudio()">■</button>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 5px; font-size: 12px;">
+                        <div style="display: flex; align-items: center; gap: 5px; font-size: 12px; margin-top: 4px;">
                             <span>VOL:</span>
-                            <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.7"
-                                style="width: 100%;" oninput="setVolume(this.value)">
+                            <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.7" style="width: 100%;" oninput="setVolume(this.value)">
                         </div>
                     </div>
                 </div>
@@ -990,10 +921,9 @@
                 <!-- Счётчик и системная инфа -->
                 <div class="retro-card" style="text-align: center;">
                     <div class="retro-card-title"><span>📊 Посещаемость</span><span>#</span></div>
-                    <div>ВЫ ПОСЕТИТЕЛЬ НОМЕР:</div>
+                    <div style="font-size: 13px;">ВЫ ПОСЕТИТЕЛЬ НОМЕР:</div>
                     <div class="hit-counter" id="hitCounter">
-                        <span class="digit">0</span><span class="digit">0</span><span class="digit">0</span><span
-                            class="digit">0</span><span class="digit">0</span><span class="digit">0</span>
+                        <span class="digit">0</span><span class="digit">0</span><span class="digit">0</span><span class="digit">0</span><span class="digit">4</span><span class="digit">2</span>
                     </div>
                     <div class="stardate-widget" id="clock-widget">
                         DATE: 00.00.0000<br>TIME: 00:00:00
@@ -1008,21 +938,20 @@
                 <div class="retro-card">
                     <div class="retro-card-title"><span>🌟 88x31 Badges</span><span>★</span></div>
                     <div class="button-shelf">
-                        <div class="web-badge-88x31 badge-netscape">NETSCAPE<br>NOW!</div>
-                        <div class="web-badge-88x31 badge-neocities">NEOCITIES<br>HOSTED</div>
-                        <div class="web-badge-88x31 badge-notepad">NOTEPAD<br>MADE</div>
-                        <div class="web-badge-88x31 badge-winamp">WINAMP<br>IT WHIPS</div>
-                        <div class="web-badge-88x31 badge-noweb2">NO TO<br>WEB 2.0</div>
-                        <div class="web-badge-88x31 badge-cyber">CYBER<br>2026</div>
-                        <div class="web-badge-88x31 badge-html">HTML 4.0<br>STRICT</div>
-                        <div class="web-badge-88x31 badge-manga">FUN<br>CHOZAS</div>
-                        <a href="https://github.com/Erridian/giftseeker" target="_blank" class="web-badge-88x31"
-                            style="background:#004d1a; color:#00ff66; border-color:#00ff66;">DROPUSHKO<br>SEEKER</a>
+                        <div class="web-badge-88x31 badge-netscape" title="Netscape 4.0">NETSCAPE<br>NOW!</div>
+                        <div class="web-badge-88x31 badge-neocities" title="Neocities.org">NEOCITIES<br>HOSTED</div>
+                        <div class="web-badge-88x31 badge-notepad" title="Made with Notepad">NOTEPAD<br>MADE</div>
+                        <div class="web-badge-88x31 badge-winamp" title="Winamp 2.91">WINAMP<br>IT WHIPS</div>
+                        <div class="web-badge-88x31 badge-noweb2" title="No to Web 2.0">NO TO<br>WEB 2.0</div>
+                        <div class="web-badge-88x31 badge-cyber" title="Cyber 2026">CYBER<br>2026</div>
+                        <div class="web-badge-88x31 badge-html" title="W3C Valid HTML 4.0">HTML 4.0<br>STRICT</div>
+                        <div class="web-badge-88x31 badge-manga" title="Fun Chozas Manga">FUN<br>CHOZAS</div>
+                        <a href="https://github.com/Erridian/giftseeker" target="_blank" class="web-badge-88x31" style="background:#004d1a; color:#00ff66; border-color:#00ff66;" title="Dropushko Automated Seeker">DROPUSHKO<br>SEEKER</a>
                     </div>
                 </div>
             </aside>
 
-            <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА (Контент, переключаемый вкладками) -->
+            <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА (Контент) -->
             <main class="center-col">
 
                 <!-- ВКЛАДКА: О СЕБЕ -->
@@ -1034,25 +963,53 @@
                             <strong>Приветствую, путник сети!</strong>
                         </p>
                         <p>
-                            Меня зовут <strong>Erridian</strong>. Я занимаюсь переводом манги в команде <em>"Fun
-                                Chozas"</em>, разработкой проекта <strong>Dropushko</strong> (форк <em>Giftseeker</em>
-                            для автоматизации раздач), созданием ламповых уголков в сети и различными приколямбами.
+                            Меня зовут <strong>Erridian</strong>. Я занимаюсь переводом манги в команде <em>"Fun Chozas"</em>, разработкой проекта <strong>Dropushko</strong> (форк <em>Giftseeker</em> для автоматизации раздач), созданием ламповых уголков в сети и различными приколямбами.
                         </p>
                         <p>
                             Заглядывайте в мои проекты, слушайте музыку и оставляйте весточку в гостевой книге! ;)
                         </p>
 
-
-
                         <hr class="rainbow-hr">
 
                         <h3>💻 Чем я занимаюсь:</h3>
                         <ul>
-                            <li>Перевод и эдит манги (команда "Fun Chozas");</li>
+                            <li>Перевод, клининг и тайпсет манги (команда "Fun Chozas");</li>
                             <li>Веб-разработка в духе Web 1.0, 90s эстетики и ретро-систем;</li>
-
+                            <li>Автоматизация сбора халявы и раздач (Dropushko / Giftseeker);</li>
                             <li>Коллекционирование странных и забавных штук со всего интернета!</li>
                         </ul>
+                    </div>
+                </section>
+
+                <!-- ВКЛАДКА: МАНГА (FUN CHOZAS) -->
+                <section id="tab-manga" class="tab-content">
+                    <div class="retro-card">
+                        <div class="retro-card-title"><span>📖 ПЕРЕВОД МАНГИ • FUN CHOZAS</span><span>✨</span></div>
+                        <p>Мы — команда энтузиастов <strong>"Fun Chozas"</strong>. Переводим классные тайтлы с любовью к деталям, правильной локализацией звуков и качественным тайпсетом!</p>
+                        
+                        <div class="manga-card">
+                            <div style="font-size: 40px; text-align: center; min-width: 60px;">📚</div>
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; color: #00ffff;">Fun Chozas Translation Bureau</h4>
+                                <span class="manga-badge">ACTIVE RELEASES</span>
+                                <p style="font-size: 13px; margin: 6px 0;">
+                                    Следите за нашими релизами, свежими главами и обновлениями в наших официальных сообществах.
+                                </p>
+                                <div style="margin-top: 8px;">
+                                    👉 <a href="https://vk.com/chikdyk" target="_blank">Группа VK с релизами</a> | 
+                                    👉 <a href="https://t.me/ocerr" target="_blank">Telegram канал</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: #000022; border: 2px inset #999; padding: 8px; font-size: 13px;">
+                            <strong>🎨 Наши роли в проектах:</strong>
+                            <ul style="margin: 5px 0 0 15px; padding: 0;">
+                                <li><strong>Перевод:</strong> точная адаптация шуток и терминологии;</li>
+                                <li><strong>Клининг & Редро:</strong> аккуратное восстановление артов под текстом;</li>
+                                <li><strong>Тайпсет:</strong> подбор аутентичных шрифтов под настроение сцен.</li>
+                            </ul>
+                        </div>
                     </div>
                 </section>
 
@@ -1065,31 +1022,28 @@
                         <div style="display: grid; gap: 8px; margin-top: 10px;">
                             <div style="border: 2px outset #5555bb; padding: 8px; background: #080828;">
                                 🐙 <a href="https://github.com/Erridian" target="_blank">GitHub Профиль (Erridian)</a>
-                                <div style="font-size: 13px; color: #bbb;">Репозитории, веб-страницы и открытые
-                                    исходники.</div>
+                                <div style="font-size: 13px; color: #bbb;">Репозитории, веб-страницы и открытые исходники.</div>
                             </div>
                             <div style="border: 2px outset #5555bb; padding: 8px; background: #080828;">
                                 💬 <a href="https://vk.com/chikdyk" target="_blank">Личный блог VK (chikdyk)</a>
-                                <div style="font-size: 13px; color: #bbb;">Новости, мысли и релизы.</div>
+                                <div style="font-size: 13px; color: #bbb;">Новости, мысли и релизы переводов.</div>
                             </div>
                             <div style="border: 2px outset #5555bb; padding: 8px; background: #080828;">
                                 ✈️ <a href="https://t.me/ocerr" target="_blank">Личный Telegram-канал (@ocerr)</a>
                                 <div style="font-size: 13px; color: #bbb;">Заметки, апдейты и быстрый коннект.</div>
                             </div>
                             <div style="border: 2px outset #5555bb; padding: 8px; background: #080828;">
-                                📺 <a href="http://youtube.com/erridian" target="_blank">YouTube Канал (Erridian)</a>
+                                📺 <a href="https://youtube.com/erridian" target="_blank">YouTube Канал (Erridian)</a>
                                 <div style="font-size: 13px; color: #bbb;">Видеоматериалы и архивы.</div>
                             </div>
                             <div style="border: 2px outset #5555bb; padding: 8px; background: #080828;">
-                                🎮 <a href="http://steamcommunity.com/id/erridian" target="_blank">Steam Профиль</a>
+                                🎮 <a href="https://steamcommunity.com/id/erridian" target="_blank">Steam Профиль</a>
                                 <div style="font-size: 13px; color: #bbb;">Игры, кооператив и ачивки.</div>
                             </div>
                             <div style="border: 2px outset #55ff55; padding: 10px; background: #002208;">
-                                🎁 <a href="https://github.com/Erridian" target="_blank"
-                                    style="color: #55ff99; font-size: 16px;"><strong>Dropushko</strong> (GitHub)</a>
+                                🎁 <a href="https://github.com/Erridian" target="_blank" style="color: #55ff99; font-size: 16px;"><strong>Dropushko</strong> (GitHub)</a>
                                 <div style="font-size: 13px; color: #ccffcc; margin-top: 3px;">
-                                    Мой форк <em>Giftseeker</em> — инструмент для автоматизации поиска, сбора и
-                                    отслеживания игровых раздач.
+                                    Мой форк <em>Giftseeker</em> — инструмент для автоматизации поиска, сбора и отслеживания игровых раздач.
                                 </div>
                             </div>
                         </div>
@@ -1101,26 +1055,18 @@
                     <div class="retro-card">
                         <div class="retro-card-title"><span>📝 ЗАПИСИ ИЗ КИБЕР-ДНЕВНИКА</span><span>★</span></div>
 
-
-
-                        <!-- Пост 2 -->
-                        <article
-                            style="border: 2px inset #999; padding: 10px; margin-bottom: 12px; background: #05051a;">
+                        <!-- Пост 1 -->
+                        <article style="border: 2px inset #999; padding: 10px; margin-bottom: 12px; background: #05051a;">
                             <h3 style="color: #00ffff; margin-top: 0;">📖 Новости перевода манги ("Fun Chozas")</h3>
-                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2023-11-20 •
-                                Автор: Erridian</div>
-                            <p>Продолжаем полировать и выпускать свежие главы. Клининг, тайпсет и душевный перевод.
-                                Спасибо всем, кто читает и оставляет тёплые отзывы в комментариях!</p>
+                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2024-02-15 • Автор: Erridian</div>
+                            <p>Продолжаем полировать и выпускать свежие главы. Клининг, тайпсет и душевный перевод. Спасибо всем, кто читает и оставляет тёплые отзывы в комментариях!</p>
                         </article>
 
-                        <!-- Пост 3 -->
+                        <!-- Пост 2 -->
                         <article style="border: 2px inset #999; padding: 10px; background: #05051a;">
                             <h3 style="color: #00ffff; margin-top: 0;">🌐 Эра Web 1.0 и ностальгия по Neocities</h3>
-                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2023-08-04 •
-                                Автор: Erridian</div>
-                            <p>В эпоху одинаковых соцсетей персональные веб-страницы возвращают тот самый дух творческой
-                                свободы и самовыражения: с бегущими строками, дикими фонами и любимой музыкой прямо на
-                                главной странице!</p>
+                            <div style="font-size: 12px; color: #ffaa00; margin-bottom: 8px;">Опубликовано: 2023-08-04 • Автор: Erridian</div>
+                            <p>В эпоху одинаковых соцсетей персональные веб-страницы возвращают тот самый дух творческой свободы и самовыражения: с бегущими строками, дикими фонами и любимой музыкой прямо на главной странице!</p>
                         </article>
                     </div>
                 </section>
@@ -1140,61 +1086,46 @@
                         </div>
 
                         <!-- 1. Сапёр -->
-                        <div id="game-sweeper" class="game-view"
-                            style="display: block; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
+                        <div id="game-sweeper" class="game-view" style="display: block; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
                             <h4>💣 Web 1.0 Сапёр (Sweeper)</h4>
                             <div style="margin-bottom: 8px;">
                                 <button class="retro-btn" onclick="initSweeper()">🔄 Новая игра</button>
-                                <span id="sweeper-status"
-                                    style="margin-left: 10px; font-weight: bold; color: #00ffff;">Удачи!</span>
+                                <span id="sweeper-status" style="margin-left: 10px; font-weight: bold; color: #00ffff;">Удачи!</span>
                             </div>
                             <div class="sweeper-board" id="sweeper-board"></div>
                         </div>
 
                         <!-- 2. Крестики-нолики -->
-                        <div id="game-ttt" class="game-view"
-                            style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
+                        <div id="game-ttt" class="game-view" style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
                             <h4>❌ Cyber Крестики-Нолики</h4>
-                            <div id="ttt-status-web" style="margin-bottom: 8px; color: #ffff00; font-weight: bold;">Ваш
-                                ход (💾)</div>
+                            <div id="ttt-status-web" style="margin-bottom: 8px; color: #ffff00; font-weight: bold;">Ваш ход (💾)</div>
                             <div class="ttt-board" id="ttt-board-web"></div>
                             <button class="retro-btn" style="margin-top: 10px;" onclick="initTTTWeb()">Сброс</button>
                         </div>
 
                         <!-- 3. CyberPet Тамагочи -->
-                        <div id="game-pet" class="game-view"
-                            style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
+                        <div id="game-pet" class="game-view" style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
                             <h4>🥚 Виртуальный питомец (CyberPet 2000)</h4>
                             <div class="pet-screen-web1">
                                 <div class="pet-char" id="pet-display-char">🥚</div>
-                                <div>Голод: <span id="pet-hunger-val">0</span>% | Счастье: <span
-                                        id="pet-happy-val">100</span>%</div>
+                                <div>Голод: <span id="pet-hunger-val">0</span>% | Счастье: <span id="pet-happy-val">100</span>%</div>
                             </div>
                             <button class="retro-btn" onclick="feedCyberPet()">🍖 Покормить</button>
                             <button class="retro-btn" onclick="playCyberPet()">🎾 Поиграть</button>
                         </div>
 
                         <!-- 4. Paint Рисовалка -->
-                        <div id="game-paint" class="game-view"
-                            style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
-                            <h4>🎨 Ретро Pixel Paint</h4>
+                        <div id="game-paint" class="game-view" style="display: none; text-align: center; border: 2px inset #666; padding: 10px; background: #111;">
+                            <h4>🎨 Ретро Pixel Paint (Touch & Mouse)</h4>
                             <div class="palette-row">
-                                <div class="color-pick" style="background:#000;" onclick="setDoodleColor('#000000')">
-                                </div>
-                                <div class="color-pick" style="background:#ff0000;" onclick="setDoodleColor('#ff0000')">
-                                </div>
-                                <div class="color-pick" style="background:#00ff00;" onclick="setDoodleColor('#00ff00')">
-                                </div>
-                                <div class="color-pick" style="background:#0000ff;" onclick="setDoodleColor('#0000ff')">
-                                </div>
-                                <div class="color-pick" style="background:#ffff00;" onclick="setDoodleColor('#ffff00')">
-                                </div>
-                                <div class="color-pick" style="background:#ff00ff;" onclick="setDoodleColor('#ff00ff')">
-                                </div>
-                                <div class="color-pick" style="background:#00ffff;" onclick="setDoodleColor('#00ffff')">
-                                </div>
-                                <div class="color-pick" style="background:#ffffff;" onclick="setDoodleColor('#ffffff')">
-                                </div>
+                                <div class="color-pick" style="background:#000000;" onclick="setDoodleColor('#000000')"></div>
+                                <div class="color-pick" style="background:#ff0000;" onclick="setDoodleColor('#ff0000')"></div>
+                                <div class="color-pick" style="background:#00ff00;" onclick="setDoodleColor('#00ff00')"></div>
+                                <div class="color-pick" style="background:#0000ff;" onclick="setDoodleColor('#0000ff')"></div>
+                                <div class="color-pick" style="background:#ffff00;" onclick="setDoodleColor('#ffff00')"></div>
+                                <div class="color-pick" style="background:#ff00ff;" onclick="setDoodleColor('#ff00ff')"></div>
+                                <div class="color-pick" style="background:#00ffff;" onclick="setDoodleColor('#00ffff')"></div>
+                                <div class="color-pick" style="background:#ffffff;" onclick="setDoodleColor('#ffffff')"></div>
                                 <button class="retro-btn" onclick="clearDoodle()">Очистить</button>
                             </div>
                             <canvas id="doodle-canvas" width="300" height="200"></canvas>
@@ -1213,25 +1144,21 @@
                                 <input type="text" id="gb-name" placeholder="Ваше имя / Никнейм..." required>
                                 <input type="text" id="gb-site" placeholder="Ваш сайт / URL...">
                             </div>
-                            <textarea id="gb-text" rows="3" placeholder="Оставьте доброе послание вебмастеру..."
-                                required></textarea>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <textarea id="gb-text" rows="3" placeholder="Оставьте доброе послание вебмастеру..." required></textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
                                 <span>Смайл:
                                     <button type="button" class="retro-btn" onclick="insertEmoji('✨')">✨</button>
                                     <button type="button" class="retro-btn" onclick="insertEmoji('💾')">💾</button>
                                     <button type="button" class="retro-btn" onclick="insertEmoji('🐱')">🐱</button>
                                     <button type="button" class="retro-btn" onclick="insertEmoji('🔥')">🔥</button>
                                 </span>
-                                <button type="submit" class="retro-btn" style="background: #ffff77;">✍️ Подписать
-                                    книгу!</button>
+                                <button type="submit" class="retro-btn" style="background: #ffff77;">✍️ Подписать книгу!</button>
                             </div>
                         </form>
 
                         <hr class="rainbow-hr">
 
-                        <div id="guestbook-list">
-                            <!-- Записи генерируются динамически -->
-                        </div>
+                        <div id="guestbook-list"></div>
                     </div>
                 </section>
 
@@ -1247,8 +1174,7 @@
                         </div>
                         <div class="term-input-row">
                             <span>C:\&gt;</span>
-                            <input type="text" id="term-cmd-input" class="term-input" autocomplete="off"
-                                onkeydown="handleTermCommand(event)">
+                            <input type="text" id="term-cmd-input" class="term-input" autocomplete="off" onkeydown="handleTermCommand(event)">
                         </div>
                     </div>
                 </section>
@@ -1260,15 +1186,12 @@
                 <!-- Ретро Shoutbox / IRC Chat -->
                 <div class="retro-card">
                     <div class="retro-card-title"><span>💬 NeoChat Shoutbox</span><span>★</span></div>
-                    <div id="shoutbox-log"
-                        style="background: #000; border: 2px inset #666; height: 160px; overflow-y: auto; padding: 5px; font-size: 13px; font-family: 'VT323', monospace; margin-bottom: 6px;">
+                    <div id="shoutbox-log" style="background: #000; border: 2px inset #666; height: 160px; overflow-y: auto; padding: 5px; font-size: 13px; font-family: 'VT323', monospace; margin-bottom: 6px;">
                         <div style="color: #00ff00;">[SYS]: Connected to IRC server #vaporwave</div>
                         <div style="color: #ff99cc;">&lt;A.L.I.C.E.&gt; Welcome to the Neocities realm, wanderer.</div>
                     </div>
                     <div style="display: flex; gap: 3px;">
-                        <input type="text" id="shoutbox-input"
-                            style="flex-grow: 1; background: #000033; border: 2px inset #fff; color: #fff; font-family: 'VT323', monospace; font-size: 15px; padding: 2px 4px;"
-                            placeholder="Сообщение..." onkeydown="handleShout(event)">
+                        <input type="text" id="shoutbox-input" style="flex-grow: 1; background: #000033; border: 2px inset #fff; color: #fff; font-family: 'VT323', monospace; font-size: 15px; padding: 2px 4px;" placeholder="Сообщение..." onkeydown="handleShout(event)">
                         <button class="retro-btn" onclick="sendShout()">Send</button>
                     </div>
                 </div>
@@ -1276,8 +1199,7 @@
                 <!-- Цитата дня -->
                 <div class="retro-card">
                     <div class="retro-card-title"><span>🔮 Предсказание</span><span>✨</span></div>
-                    <div id="quote-box"
-                        style="font-style: italic; font-size: 14px; text-align: center; padding: 5px; color: #ffff99;">
+                    <div id="quote-box" style="font-style: italic; font-size: 14px; text-align: center; padding: 5px; color: #ffff99;">
                         "The cyberspace is not a destination, it's a feeling."
                     </div>
                     <div style="text-align: center; margin-top: 6px;">
@@ -1288,26 +1210,19 @@
                 <!-- Опасная красная кнопка -->
                 <div class="retro-card" style="text-align: center;">
                     <div class="retro-card-title"><span>☢️ DO NOT CLICK</span><span>⚠️</span></div>
-                    <p style="font-size: 12px; color: #ff6666;">Внимание: эта кнопка вызывает непредсказуемый сбой
-                        матрицы!</p>
-                    <button class="retro-btn"
-                        style="background: #ff0000; color: #fff; border-color: #ff9999; font-size: 18px; padding: 8px 16px;"
-                        onclick="panicGlitch()">💥 НЕ НАЖИМАТЬ!</button>
+                    <p style="font-size: 12px; color: #ff6666; margin: 4px 0;">Внимание: эта кнопка вызывает непредсказуемый сбой матрицы!</p>
+                    <button class="retro-btn" style="background: #ff0000; color: #fff; border-color: #ff9999; font-size: 17px; padding: 6px 14px;" onclick="panicGlitch()">💥 НЕ НАЖИМАТЬ!</button>
                 </div>
 
                 <!-- Webring Виджет -->
                 <div class="webring-box">
                     <div style="color: #ffff00; font-weight: bold; margin-bottom: 4px;">★ THE CYBERSPACE WEBRING ★</div>
-                    <div style="font-size: 12px; margin-bottom: 6px;">[Member of Russian Vaporwave & Anime Webring]
-                    </div>
+                    <div style="font-size: 12px; margin-bottom: 6px;">[Member of Russian Vaporwave & Anime Webring]</div>
                     <div style="display: flex; justify-content: space-around;">
-                        <a href="javascript:void(0)" onclick="alert('Переход на предыдущий сайт вебринга...')">&lt;&lt;
-                            Prev</a>
-                        <a href="javascript:void(0)"
-                            onclick="alert('Каталог сайтов вебринга: 142 участника.')">Index</a>
+                        <a href="javascript:void(0)" onclick="alert('Переход на предыдущий сайт вебринга...')">&lt;&lt; Prev</a>
+                        <a href="javascript:void(0)" onclick="alert('Каталог сайтов вебринга: 142 участника.')">Index</a>
                         <a href="javascript:void(0)" onclick="randomWebring()">Random</a>
-                        <a href="javascript:void(0)" onclick="alert('Переход на следующий сайт вебринга...')">Next
-                            &gt;&gt;</a>
+                        <a href="javascript:void(0)" onclick="alert('Переход на следующий сайт вебринга...')">Next &gt;&gt;</a>
                     </div>
                 </div>
             </aside>
@@ -1317,16 +1232,12 @@
         <!-- Подвал сайта -->
         <footer class="site-footer">
             <p>
-                ★ © 2026 <strong>Erridian</strong>. Сделано с любовью к эстетике Web 1.0, GeoCities и Neocities
-                ★<br>
-                Оптимизировано для мониторов 800x600 и 1024x768 • Поддержка CSS & JavaScript
+                ★ © 2026 <strong>Erridian</strong>. Сделано с любовью к эстетике Web 1.0, GeoCities и Neocities ★<br>
+                Оптимизировано для мониторов 800x600 и 1024x768 • Чистый HTML, CSS & JavaScript
             </p>
             <div>
-                <a href="index.html" style="color: #ffff00; font-size: 18px; font-family: 'VT323', monospace;">[ 💾
-                    ВЕРНУТЬСЯ В ERRIDIAN OS 95 ]</a>
-                <span onclick="triggerDivergenceEgg()"
-                    style="cursor: pointer; opacity: 0.25; color: #39ff14; margin-left: 10px; font-size: 13px;"
-                    title="Operation Skuld">Ω</span>
+                <a href="index.html" style="color: #ffff00; font-size: 18px; font-family: 'VT323', monospace;">[ 💾 ВЕРНУТЬСЯ В ERRIDIAN OS 95 ]</a>
+                <span onclick="triggerDivergenceEgg()" style="cursor: pointer; opacity: 0.35; color: #39ff14; margin-left: 10px; font-size: 14px;" title="Operation Skuld">Ω</span>
             </div>
         </footer>
 
@@ -1340,30 +1251,31 @@
         // ==========================================
         // ЗВУКОВОЙ ДВИЖОК (Web Audio API)
         // ==========================================
-        let audioCtxInstance = null;
-        function getAudioContext() {
+        let webAudioCtx = null;
+        function getWebAudioCtx() {
             try {
-                if (!audioCtxInstance) {
+                if (!webAudioCtx) {
                     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-                    if (AudioContextClass) {
-                        audioCtxInstance = new AudioContextClass();
-                    }
+                    if (AudioContextClass) webAudioCtx = new AudioContextClass();
                 }
-                if (audioCtxInstance && audioCtxInstance.state === 'suspended') {
-                    audioCtxInstance.resume().catch(() => { });
-                }
-            } catch (e) {
-                console.warn("AudioContext warning:", e);
+            } catch (e) {}
+            return webAudioCtx;
+        }
+
+        function unlockWebAudio() {
+            const ctx = getWebAudioCtx();
+            if (ctx && ctx.state === 'suspended') {
+                ctx.resume().catch(() => {});
             }
-            return audioCtxInstance;
         }
 
         function playSfx(type) {
             try {
                 const chk = document.getElementById('sound-chk');
                 if (chk && !chk.checked) return;
-                const ctx = getAudioContext();
+                const ctx = getWebAudioCtx();
                 if (!ctx) return;
+                if (ctx.state === 'suspended') ctx.resume().catch(() => {});
 
                 const now = ctx.currentTime;
                 const osc = ctx.createOscillator();
@@ -1398,9 +1310,7 @@
                     osc.start(now);
                     osc.stop(now + 0.25);
                 }
-            } catch (e) {
-                console.warn("SFX warning:", e);
-            }
+            } catch (e) {}
         }
 
         // ==========================================
@@ -1446,16 +1356,12 @@
         function showTab(tabId, btnEl) {
             playSfx('click');
 
-            // Скрываем все вкладки и активируем выбранную
             const allTabs = document.querySelectorAll('.tab-content');
             allTabs.forEach(t => t.classList.remove('active'));
 
             const target = document.getElementById(tabId);
-            if (target) {
-                target.classList.add('active');
-            }
+            if (target) target.classList.add('active');
 
-            // Обновляем визуальное состояние кнопок навигации
             const allBtns = document.querySelectorAll('.nav-btn');
             allBtns.forEach(b => b.classList.remove('active'));
 
@@ -1466,17 +1372,13 @@
                 if (matchingBtn) matchingBtn.classList.add('active');
             }
 
-            // При переходе в Аркаду инициализируем рисовалку, если нужно
             if (tabId === 'tab-games') {
                 setTimeout(initDoodle, 50);
             }
 
-            // На мобильных экранах скроллим к открытой вкладке
             if (window.innerWidth <= 900) {
                 const centerCol = document.querySelector('.center-col');
-                if (centerCol) {
-                    centerCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (centerCol) centerCol.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
@@ -1484,7 +1386,7 @@
         // СЧЁТЧИК ПОСЕЩЕНИЙ И ЧАСЫ
         // ==========================================
         function initCounterAndClock() {
-            let visits = parseInt(localStorage.getItem('erridian_hit_counter') || '00000');
+            let visits = parseInt(localStorage.getItem('erridian_hit_counter') || '1337');
             visits += 1;
             localStorage.setItem('erridian_hit_counter', visits);
 
@@ -1510,23 +1412,46 @@
         const playerAudio = document.getElementById('web-audio-player');
         let visualizerAnim;
 
+        playerAudio.ontimeupdate = function() {
+            if (!isNaN(playerAudio.duration)) {
+                const cur = formatTime(playerAudio.currentTime);
+                const dur = formatTime(playerAudio.duration);
+                document.getElementById('juke-current-time').innerText = cur;
+                document.getElementById('juke-total-time').innerText = dur;
+                const seek = document.getElementById('juke-seek');
+                seek.value = (playerAudio.currentTime / playerAudio.duration) * 100;
+            }
+        };
+
+        function formatTime(secs) {
+            const m = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+
+        function seekJukebox(val) {
+            if (!isNaN(playerAudio.duration)) {
+                playerAudio.currentTime = (val / 100) * playerAudio.duration;
+            }
+        }
+
         function changeTrack(src) {
             if (!src) return;
+            unlockWebAudio();
             playerAudio.src = src;
             const selectEl = document.getElementById('track-select');
             const title = selectEl.options[selectEl.selectedIndex].text;
             document.getElementById('juke-display').innerText = "Playing: " + title;
             playerAudio.play().then(() => {
                 startVisualizer();
-            }).catch(e => {
-                console.log(e);
-            });
+            }).catch(() => {});
             playSfx('beep');
         }
 
         function playAudio() {
-            if (!playerAudio.src) {
-                const selectEl = document.getElementById('track-select');
+            unlockWebAudio();
+            const selectEl = document.getElementById('track-select');
+            if (!playerAudio.src || playerAudio.src === window.location.href) {
                 if (selectEl.value) {
                     changeTrack(selectEl.value);
                 } else {
@@ -1535,8 +1460,8 @@
                 }
                 return;
             }
-            playerAudio.play();
-            document.getElementById('juke-display').innerText = "Playing...";
+            playerAudio.play().catch(() => {});
+            document.getElementById('juke-display').innerText = "Playing: " + selectEl.options[selectEl.selectedIndex].text;
             startVisualizer();
             playSfx('click');
         }
@@ -1553,6 +1478,22 @@
             document.getElementById('juke-display').innerText = "Stopped";
             stopVisualizer();
             playSfx('click');
+        }
+
+        function nextTrack() {
+            const selectEl = document.getElementById('track-select');
+            let idx = selectEl.selectedIndex + 1;
+            if (idx >= selectEl.options.length) idx = 1;
+            selectEl.selectedIndex = idx;
+            changeTrack(selectEl.value);
+        }
+
+        function prevTrack() {
+            const selectEl = document.getElementById('track-select');
+            let idx = selectEl.selectedIndex - 1;
+            if (idx < 1) idx = selectEl.options.length - 1;
+            selectEl.selectedIndex = idx;
+            changeTrack(selectEl.value);
         }
 
         function setVolume(v) {
@@ -1592,11 +1533,9 @@
         // ==========================================
         // ИГРЫ: САПЁР
         // ==========================================
-        let sweeperGrid = [];
         function initSweeper() {
             const board = document.getElementById('sweeper-board');
             board.innerHTML = '';
-            sweeperGrid = [];
             document.getElementById('sweeper-status').innerText = 'Удачи!';
 
             for (let i = 0; i < 9; i++) {
@@ -1610,7 +1549,7 @@
                         if (hasBomb) {
                             cell.innerText = '💣';
                             cell.style.background = '#ff0000';
-                            document.getElementById('sweeper-status').innerText = 'БАМ! Попробуйте снова!';
+                            document.getElementById('sweeper-status').innerText = 'БАМ! Взрыв!';
                             playSfx('error');
                         } else {
                             const val = Math.floor(Math.random() * 3) + 1;
@@ -1711,19 +1650,19 @@
             petHunger = Math.min(100, petHunger + 3);
             petHappy = Math.max(0, petHappy - 3);
             if (petHunger >= 100) {
-                petStage = 4; // Призрак
+                petStage = 4;
             } else if (petHappy > 75 && petHunger < 30) {
-                petStage = 3; // Динозаврик
+                petStage = 3;
             } else if (petHunger > 60 || petHappy < 40) {
-                petStage = 1; // Цыплёнок
+                petStage = 1;
             } else {
-                petStage = 2; // Птичка
+                petStage = 2;
             }
             updatePetUi();
         }, 4000);
 
         // ==========================================
-        // ИГРЫ: PIXEL PAINT
+        // ИГРЫ: PIXEL PAINT (TOUCH & MOUSE)
         // ==========================================
         let doodleColor = '#000000';
         let doodleDrawing = false;
@@ -1732,6 +1671,7 @@
             const ctx = canvas.getContext('2d');
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.lineCap = 'round';
 
             canvas.onmousedown = (e) => {
                 doodleDrawing = true;
@@ -1748,6 +1688,27 @@
                 ctx.lineWidth = 3;
                 ctx.stroke();
             };
+
+            // Touch events for mobile
+            canvas.ontouchstart = (e) => {
+                doodleDrawing = true;
+                const r = canvas.getBoundingClientRect();
+                const t = e.touches[0];
+                ctx.beginPath();
+                ctx.moveTo(t.clientX - r.left, t.clientY - r.top);
+                e.preventDefault();
+            };
+            canvas.ontouchend = () => { doodleDrawing = false; };
+            canvas.ontouchmove = (e) => {
+                if (!doodleDrawing) return;
+                const r = canvas.getBoundingClientRect();
+                const t = e.touches[0];
+                ctx.lineTo(t.clientX - r.left, t.clientY - r.top);
+                ctx.strokeStyle = doodleColor;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                e.preventDefault();
+            };
         }
         function setDoodleColor(c) {
             doodleColor = c;
@@ -1761,9 +1722,6 @@
             playSfx('click');
         }
 
-        // ==========================================
-        // ПЕРЕКЛЮЧЕНИЕ МИНИ-ИГР
-        // ==========================================
         function openGameView(id) {
             playSfx('click');
             document.querySelectorAll('.game-view').forEach(v => v.style.display = 'none');
@@ -1854,14 +1812,14 @@
                     "Интересная мысль для Web 1.0 пространства!",
                     "A.L.I.C.E. согласна с вами!",
                     "Отличный вайб на этом сайте, не правда ли?",
-                    "Пейте чай!",
+                    "Пейте вкусный чай!",
                     "Попробуйте сыграть в сапёра!"
                 ];
                 const r = replies[Math.floor(Math.random() * replies.length)];
                 log.innerHTML += `<div><span style="color:#00ffff;">&lt;A.L.I.C.E.&gt;</span> ${r}</div>`;
                 log.scrollTop = log.scrollHeight;
                 playSfx('beep');
-            }, 800);
+            }, 700);
         }
 
         function escapeHtml(str) {
@@ -1886,20 +1844,23 @@
 
             let out = '';
             if (lower === 'help') {
-                out = 'Команды: help, dir, cls, ver, date, matrix, theme, play, lab, okabe, kurisu, clear';
+                out = 'Команды: help, dir, cls, ver, date, matrix, theme, play, stop, next, lab, okabe, kurisu, manga, clear';
             } else if (lower === 'okabe' || lower === 'fgl' || lower === 'lab' || lower === 'steinsgate' || lower === 'elpsykongroo') {
                 window.open('future_gadget_lab/okabe.html', '_blank');
                 out = 'Opening Future Gadget Lab / IBN 5100 Terminal... El Psy Kongroo.';
             } else if (lower === 'kurisu') {
                 window.open('future_gadget_lab/kurisu.html', '_blank');
                 out = 'Opening Makise Kurisu profile...';
+            } else if (lower === 'manga') {
+                showTab('tab-manga');
+                out = 'Switching to Fun Chozas Manga section...';
             } else if (lower === 'dir') {
-                out = 'Volume in drive C is ERRIDIAN_OS\n Directory of C:\\\n\nINDEX    HTML       55,317\nNEOCITY  HTML       32,180\n1        MP3     2,898,322\n2        MP3     2,483,094\nPOSTS    TXT         1,338\n       5 File(s)   5,470,251 bytes';
+                out = 'Volume in drive C is ERRIDIAN_OS\n Directory of C:\\\n\nINDEX    HTML       55,317\nNEOCITY  HTML       32,180\n1        MP3     2,898,322\n2        MP3     2,483,094\nMANGA    TXT         2,048\n       5 File(s)   5,471,961 bytes';
             } else if (lower === 'cls' || lower === 'clear') {
                 h.innerHTML = '';
                 return;
             } else if (lower === 'ver') {
-                out = 'Erridian DOS Version 6.22 (Neocities Retro Kernel)';
+                out = 'Erridian DOS Version 6.22 (Neocities Retro Kernel 2026)';
             } else if (lower === 'date') {
                 out = 'Current date: ' + new Date().toLocaleDateString();
             } else if (lower === 'matrix') {
@@ -1907,16 +1868,20 @@
                 out = 'Matrix mode activated.';
             } else if (lower === 'play') {
                 playAudio();
-                out = 'Jukebox playback triggered.';
+                out = 'Jukebox playback started.';
+            } else if (lower === 'stop') {
+                stopAudio();
+                out = 'Jukebox playback stopped.';
+            } else if (lower === 'next') {
+                nextTrack();
+                out = 'Skipped to next track.';
             } else if (lower === '') {
                 out = '';
             } else {
                 out = `Bad command or file name: "${escapeHtml(cmd)}"`;
             }
 
-            if (out) {
-                h.innerHTML += `<div>${out.replace(/\n/g, '<br>')}</div>`;
-            }
+            if (out) h.innerHTML += `<div>${out.replace(/\n/g, '<br>')}</div>`;
             const box = document.getElementById('term-box');
             box.scrollTop = box.scrollHeight;
             playSfx('click');
@@ -1929,7 +1894,7 @@
             '"The cyberspace is not a destination, it\'s a feeling."',
             '"Under construction forever — that is the true spirit of the Web."',
             '"Good design is vintage design."',
-            '"Never underestimate the power of a 88x31 button."',
+            '"Never underestimate the power of an 88x31 button."',
             '"Music sounds better at 128 kbps through Winamp."'
         ];
         function newQuote() {
@@ -1995,11 +1960,8 @@
             initDoodle();
             loadGuestbook();
 
-            // Восстановление темы
             const savedTheme = localStorage.getItem('erridian_web1_theme');
-            if (savedTheme) {
-                document.body.className = savedTheme;
-            }
+            if (savedTheme) document.body.className = savedTheme;
         };
     </script>
 </body>

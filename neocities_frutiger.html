@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Erridian's Realm • Frutiger Aero Edition 🫧</title>
+    <link rel="icon" href="favicon.ico">
+    <meta name="theme-color" content="#2596be">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --aqua-blue: #00a8ff;
+            --aqua-cyan: #00e5ff;
+            --aqua-green: #4cd137;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-card: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.85);
+            --text-dark: #1e272e;
+            --gloss-overlay: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,0.3) 100%);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            background: linear-gradient(180deg, #3aa8d8 0%, #70c4e8 40%, #b8e2f2 70%, #85cf58 85%, #56ab2f 100%);
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Плавающие пузыри */
+        .bubble {
+            position: fixed;
+            bottom: -60px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 60%, rgba(0, 180, 255, 0.4));
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1), inset 0 0 10px rgba(255,255,255,0.9);
+            pointer-events: none;
+            z-index: 1;
+            animation: rise linear infinite;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Навигатор вариаций */
+        .style-switcher {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 8px 15px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 15px auto;
+            box-shadow: 0 8px 25px rgba(0, 50, 100, 0.15);
+            font-size: 14px;
+            position: relative;
+            z-index: 10;
+        }
+        .style-switcher a {
+            color: #0984e3;
+            margin: 0 5px;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .style-switcher a:hover {
+            background: rgba(0, 168, 255, 0.2);
+        }
+        .style-switcher a.active {
+            background: linear-gradient(180deg, #00a8ff 0%, #0097e6 100%);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 168, 255, 0.4);
+        }
+
+        .aero-container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 40, 80, 0.25), inset 0 2px 10px rgba(255,255,255,0.8);
+            padding: 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Глянцевая шапка */
+        .aero-header {
+            text-align: center;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(220, 245, 255, 0.6) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 20px 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06), inset 0 1px 4px #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .aero-header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+            pointer-events: none;
+        }
+
+        .aero-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(180deg, #0984e3 0%, #00cec9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 5px 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .aero-subtitle {
+            color: #2d3436;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .aero-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 18px;
+        }
+        @media (max-width: 800px) {
+            .aero-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Глянцевые карточки */
+        .aero-card {
+            background: var(--glass-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 20px rgba(0, 50, 100, 0.08), inset 0 1px 2px #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .aero-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 45%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.05));
+            pointer-events: none;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .aero-card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0984e3;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid rgba(0, 168, 255, 0.2);
+            padding-bottom: 6px;
+        }
+
+        /* Глянцевые кнопки */
+        .glossy-btn {
+            background: linear-gradient(180deg, #74b9ff 0%, #0984e3 50%, #0060b9 100%);
+            border: 1px solid #4a90e2;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(9, 132, 227, 0.35), inset 0 1px 2px rgba(255,255,255,0.8);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .glossy-btn:hover {
+            background: linear-gradient(180deg, #8bc3ff 0%, #2e96eb 50%, #0070d6 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(9, 132, 227, 0.45);
+        }
+        .glossy-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(9, 132, 227, 0.3);
+        }
+
+        /* Ссылки и элементы списка */
+        .aero-link-box {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+        .aero-link-box:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* Виджет плеера */
+        .aqua-player {
+            background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 1px solid #90caf9;
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body onclick="unlockAeroAudio()">
+
+    <!-- Плавающие пузыри Frutiger Aero -->
+    <div class="bubble" style="left: 10%; width: 40px; height: 40px; animation-duration: 8s; animation-delay: 0s;"></div>
+    <div class="bubble" style="left: 25%; width: 60px; height: 60px; animation-duration: 12s; animation-delay: 2s;"></div>
+    <div class="bubble" style="left: 55%; width: 35px; height: 35px; animation-duration: 9s; animation-delay: 1s;"></div>
+    <div class="bubble" style="left: 75%; width: 50px; height: 50px; animation-duration: 11s; animation-delay: 3s;"></div>
+    <div class="bubble" style="left: 90%; width: 45px; height: 45px; animation-duration: 10s; animation-delay: 4s;"></div>
+
+    <!-- Навигатор вариаций -->
+    <div class="style-switcher">
+        <span>💧 <strong>REALMS & CONSOLES:</strong></span>
+        <a href="neocities_frutiger.html" class="active">💧 Frutiger Aero</a>
+        <a href="neocities.html">★ Cyber Realm</a>
+        <a href="neocities_nes.html">👾 NES 8-Bit</a>
+        <a href="neocities_sega.html">🦔 Sega 16-Bit</a>
+        <a href="neocities_ps1.html">💿 PS One 32-Bit</a>
+        <a href="neocities_gameboy.html">🕹️ GameBoy</a>
+        <a href="neocities_vhs.html">📼 VHS 90s TV</a>
+        <a href="neocities_geocities.html">🔥 GeoCities '97</a>
+        <a href="neocities_cyberpunk.html">⚡ Cyberpunk</a>
+        <a href="neocities_y2k.html">💿 Y2K</a>
+        <a href="index.html" style="background:#0984e3; color:#fff;">💾 OS 95</a>
+    </div>
+
+    <div class="aero-container">
+
+        <!-- Шапка Frutiger Aero -->
+        <header class="aero-header">
+            <h1 class="aero-title">🫧 ERRIDIAN'S REALM 🌿</h1>
+            <div class="aero-subtitle">Frutiger Aero & Web 2.0 Aqua Edition • Clean • Nature • Cyberspace</div>
+        </header>
+
+        <div class="aero-grid">
+            <!-- Левая колонка -->
+            <aside>
+                <!-- Профиль -->
+                <div class="aero-card">
+                    <div class="aero-card-title"><span>👤 Вебмастер</span></div>
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <div style="width: 80px; height: 80px; margin: 0 auto 8px auto; border-radius: 50%; background: linear-gradient(135deg, #74b9ff, #00cec9); border: 3px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; font-size: 40px;">
+                            🧙‍♂️
+                        </div>
+                        <strong style="font-size: 20px; color: #0984e3;">Erridian</strong>
+                        <div style="font-size: 13px; color: #636e72;">Manga Editor & Web Creator</div>
+                    </div>
+                    <p style="font-size: 14px; margin: 0; line-height: 1.5; color: #2d3436;">
+                        Добро пожаловать в свежий и глянцевый уголок интернета эпохи 2000-х! Чистый дизайн, природа и технологии.
+                    </p>
+                </div>
+
+                <!-- Aqua Плеер -->
+                <div class="aero-card">
+                    <div class="aero-card-title"><span>🎵 Aqua Media Player</span></div>
+                    <div class="aqua-player">
+                        <div id="aero-track-name" style="font-size: 14px; font-weight: 600; color: #0984e3; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            Ready to Play...
+                        </div>
+                        <select id="aero-select" style="width: 100%; padding: 6px; border-radius: 8px; border: 1px solid #90caf9; margin-bottom: 8px; font-family: inherit; font-size: 13px;" onchange="playAeroTrack(this.value)">
+                            <option value="">-- Выберите композицию --</option>
+                            <option value="ForestDump.mp3">Forest Dump (Nature Ambient)</option>
+                            <option value="teamrept20113.mp3">Team Rept Chill</option>
+                            <option value="future_gadget_lab/steinsgateMusicBox.mp3">Music Box Melancholy</option>
+                            <option value="https://lofi.stream.laut.fm/lofi">Lo-Fi Relax Radio</option>
+                            <option value="https://radio.plaza.one/mp3">Nightwave Plaza</option>
+                        </select>
+                        <div style="display: flex; gap: 6px; justify-content: center;">
+                            <button class="glossy-btn" style="padding: 6px 14px;" onclick="resumeAero()">▶ Play</button>
+                            <button class="glossy-btn" style="padding: 6px 14px; background: linear-gradient(180deg, #b2bec3, #636e72);" onclick="stopAero()">■ Stop</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Статистика -->
+                <div class="aero-card" style="text-align: center;">
+                    <div class="aero-card-title"><span>📊 Посещаемость</span></div>
+                    <div style="font-size: 28px; font-weight: 700; color: #00b894;" id="aero-counter">004,281</div>
+                    <div style="font-size: 12px; color: #636e72; margin-top: 4px;">Счастливых посетителей</div>
+                </div>
+            </aside>
+
+            <!-- Основной контент -->
+            <main>
+                <!-- О деятельности & Манга -->
+                <div class="aero-card">
+                    <div class="aero-card-title"><span>📖 Перевод манги • Fun Chozas</span></div>
+                    <p style="font-size: 15px; line-height: 1.6; margin-top: 0;">
+                        Наша команда <strong>Fun Chozas</strong> вкладывает душу в каждый релиз. Мы стремимся к идеальному балансу чистоты арта, правильной верстки звуков и живого, легкого русского текста.
+                    </p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;">
+                        <a href="https://vk.com/chikdyk" target="_blank" class="glossy-btn">💬 Сообщество VK</a>
+                        <a href="https://t.me/ocerr" target="_blank" class="glossy-btn" style="background: linear-gradient(180deg, #00cec9 0%, #0984e3 100%);">✈️ Telegram Канал</a>
+                    </div>
+                </div>
+
+                <!-- Проекты в стиле Web 2.0 карточек -->
+                <div class="aero-card">
+                    <div class="aero-card-title"><span>🌐 Мои проекты и разработки</span></div>
+                    
+                    <a href="https://github.com/Erridian" target="_blank" class="aero-link-box">
+                        <div>
+                            <strong style="color: #0984e3; font-size: 16px;">🎁 Dropushko (Giftseeker Fork)</strong>
+                            <div style="font-size: 13px; color: #636e72;">Автоматизация сбора раздач игр и подарков.</div>
+                        </div>
+                        <span style="color: #00cec9; font-weight: bold;">GitHub →</span>
+                    </a>
+
+                    <a href="https://github.com/Erridian" target="_blank" class="aero-link-box">
+                        <div>
+                            <strong style="color: #0984e3; font-size: 16px;">🐙 GitHub Профиль</strong>
+                            <div style="font-size: 13px; color: #636e72;">Открытые репозитории, скрипты и веб-проекты.</div>
+                        </div>
+                        <span style="color: #00cec9; font-weight: bold;">Перейти →</span>
+                    </a>
+
+                    <a href="https://youtube.com/erridian" target="_blank" class="aero-link-box">
+                        <div>
+                            <strong style="color: #0984e3; font-size: 16px;">📺 YouTube Канал</strong>
+                            <div style="font-size: 13px; color: #636e72;">Видеоролики, архивы и творчество.</div>
+                        </div>
+                        <span style="color: #00cec9; font-weight: bold;">Смотреть →</span>
+                    </a>
+
+                    <a href="https://steamcommunity.com/id/erridian" target="_blank" class="aero-link-box">
+                        <div>
+                            <strong style="color: #0984e3; font-size: 16px;">🎮 Steam Profile</strong>
+                            <div style="font-size: 13px; color: #636e72;">Игры, кооперативные прохождения и ачивки.</div>
+                        </div>
+                        <span style="color: #00cec9; font-weight: bold;">Steam →</span>
+                    </a>
+                </div>
+
+                <!-- Быстрые ссылки -->
+                <div class="aero-card" style="text-align: center;">
+                    <div style="font-size: 14px; color: #636e72;">Хотите окунуться в ретро-ОС?</div>
+                    <div style="margin-top: 8px;">
+                        <a href="index.html" class="glossy-btn" style="font-size: 16px; padding: 10px 24px;">💾 Запустить Erridian OS 95</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer style="text-align: center; margin-top: 15px; font-size: 13px; color: #2d3436;">
+            © 2006-2026 Erridian • Designed with Frutiger Aero Gloss & Glassmorphism
+        </footer>
+
+    </div>
+
+    <audio id="aero-audio"></audio>
+
+    <script>
+        const aeroAudio = document.getElementById('aero-audio');
+        function unlockAeroAudio() {
+            if (aeroAudio.paused && aeroAudio.src) {
+                aeroAudio.play().catch(() => {});
+            }
+        }
+
+        function playAeroTrack(src) {
+            if (!src) return;
+            aeroAudio.src = src;
+            const sel = document.getElementById('aero-select');
+            document.getElementById('aero-track-name').innerText = "Playing: " + sel.options[sel.selectedIndex].text;
+            aeroAudio.play().catch(() => {});
+        }
+
+        function resumeAero() {
+            const sel = document.getElementById('aero-select');
+            if (!aeroAudio.src) {
+                sel.selectedIndex = 1;
+                playAeroTrack(sel.value);
+            } else {
+                aeroAudio.play().catch(() => {});
+                document.getElementById('aero-track-name').innerText = "Playing...";
+            }
+        }
+
+        function stopAero() {
+            aeroAudio.pause();
+            aeroAudio.currentTime = 0;
+            document.getElementById('aero-track-name').innerText = "Stopped";
+        }
+
+        window.onload = function() {
+            let hits = parseInt(localStorage.getItem('aero_hits') || '4281') + 1;
+            localStorage.setItem('aero_hits', hits);
+            document.getElementById('aero-counter').innerText = hits.toLocaleString('en-US');
+        };
+    </script>
+</body>
+</html>

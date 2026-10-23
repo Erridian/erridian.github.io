@@ -239,6 +239,61 @@
             }
         }
 
+        .event-banner {
+            margin-bottom: 30px;
+            padding: 16px 20px;
+            background: rgba(10, 36, 8, 0.9);
+            border: 2px dashed var(--accent-orange);
+            box-shadow: 0 0 15px rgba(255, 176, 0, 0.3), inset 0 0 12px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .event-banner-tag {
+            color: var(--accent-orange);
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .event-pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ff3333;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff3333;
+            animation: blink 1s infinite alternate;
+        }
+
+        .event-banner-title {
+            color: var(--accent-orange);
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 8px rgba(255, 176, 0, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .event-banner-desc {
+            color: var(--main-green);
+            font-size: 21px;
+            line-height: 1.45;
+            margin-bottom: 10px;
+        }
+
+        .event-banner-footer {
+            font-size: 16px;
+            color: #ffb000;
+            opacity: 0.9;
+            letter-spacing: 1px;
+            border-top: 1px dashed rgba(57, 255, 20, 0.3);
+            padding-top: 6px;
+        }
+
         .profile {
             margin-bottom: 40px;
             padding: 20px;
@@ -525,6 +580,22 @@ CPU_TIME: <span id="cpu-time">0</span>ms</div>
             <h1>[ FUTURE GADGET LABORATORY: MEMBER ID 001 ]</h1>
             <h2>HOUOUIN KYOUMA</h2>
         </header>
+
+        <div class="event-banner">
+            <div class="event-banner-tag">
+                <span class="event-pulse"></span>
+                <span>[ TIMELINE REPORT // WORLD LINE CONVERGENCE ]</span>
+            </div>
+            <div class="event-banner-title">
+                ★ SUPER CON SIBERIA ЗАВЕРШЁН! ★
+            </div>
+            <div class="event-banner-desc">
+                Миссия на <em>Super Con Siberia</em> официально завершена. Но это лишь часть плана! Дальше последует появление других персонажей мировой линии. Лаборатория гаджетов будущего не спит!
+            </div>
+            <div class="event-banner-footer">
+                &gt;&gt; ОЖИДАЙТЕ ДАЛЬНЕЙШИХ ИНСТРУКЦИЙ. EL PSY KONGROO.
+            </div>
+        </div>
 
         <div class="profile">
             <p><span class="label">Status:</span> Mad Scientist.</p>

@@ -236,6 +236,69 @@
             animation: glitch 10s infinite;
         }
 
+        .event-banner {
+            margin-bottom: 35px;
+            padding: 16px 20px;
+            background: rgba(158, 27, 27, 0.12);
+            border: 1px solid rgba(158, 27, 27, 0.4);
+            border-left: 4px solid var(--accent-color);
+            position: relative;
+            backdrop-filter: blur(8px);
+        }
+
+        .event-banner-tag {
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-weight: 400;
+        }
+
+        .event-pulse {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-color);
+            animation: pulse-glow 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .event-banner-title {
+            color: var(--text-color);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .event-banner-desc {
+            color: rgba(253, 246, 227, 0.88);
+            font-size: 17px;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .event-banner-footer {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(253, 246, 227, 0.15);
+            font-size: 13px;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
         .profile {
             margin-bottom: 45px;
             font-size: 20px;
@@ -356,6 +419,22 @@
             <span class="member-id" title="Time is passing so quickly... I want to tell you so many things">FUTURE GADGET LABORATORY: MEMBER ID 004</span>
             <h1>MAKISE KURISU</h1>
         </header>
+
+        <div class="event-banner">
+            <div class="event-banner-tag">
+                <span class="event-pulse"></span>
+                <span>EXP_LOG // CONVERGENCE POINT ARCHIVED</span>
+            </div>
+            <div class="event-banner-title">
+                SUPER CON SIBERIA ЗАВЕРШИЛСЯ
+            </div>
+            <div class="event-banner-desc">
+                Фестиваль <em>Super Con Siberia</em> подошёл к концу. Эксперименты продолжаются, расчёты дивергенции не закончены — дальше будут представлены другие персонажи. Ждите обновлений системы.
+            </div>
+            <div class="event-banner-footer">
+                [ SYSTEM NOTICE: STAY TUNED FOR NEW ARRIVALS ]
+            </div>
+        </div>
 
         <div class="profile">
             Neuroscientist. Assistant.<br>

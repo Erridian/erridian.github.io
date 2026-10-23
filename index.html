@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Erridian OS 95 - Definitive Edition</title>
+    <link rel="icon" href="favicon.ico">
+    <meta name="description" content="Erridian OS 95 - Интерактивная ретро-ОС в браузере: плеер со скинами, читалка манги, ачивки, VHS TV, игры и терминал.">
+    <meta name="theme-color" content="#000080">
+    <meta property="og:title" content="Erridian OS 95 - Definitive Edition">
+    <meta property="og:description" content="Интерактивная ретро-ОС Windows 95 / Vaporwave на GitHub Pages: читалка манги, Winamp со скинами, ачивки, VHS плеер и пасхалки.">
+    <meta property="og:image" content="egg/ill.jpg">
+    <meta property="og:type" content="website">
+
     <style>
         /* --- ШРИФТЫ И ПЕРЕМЕННЫЕ --- */
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -14,6 +22,8 @@
             --win-border-dark: #808080;
             --win-border-black: #000000;
             --win-blue: #000080;
+            --win-active-blue: linear-gradient(90deg, #000080, #1084d0);
+            --win-inactive: #808080;
             --vapor-pink: #ff71ce;
             --vapor-blue: #01cdfe;
             --vapor-purple: #b967ff;
@@ -32,7 +42,7 @@
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="1"><path d="M5.5 3.21V20.8l4.66-4.66 4.16 9.6 4.24-1.84-4.16-9.6 7.08-.2L5.5 3.21z"/></svg>'), default;
         }
         
-        a, button, .icon, .menu-item, .start-btn, .mine-cell, .calc-btn, .ttt-cell {
+        a, button, .icon, .menu-item, .start-btn, .mine-cell, .calc-btn, .ttt-cell, .task-item, .manga-btn {
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="1"><path d="M12 2a1 1 0 0 1 1 1v7h1a1 1 0 0 1 1 1v5a1 1 0 0 1 2 0v-3a1 1 0 0 1 2 0v3a1 1 0 0 1 2 0v-2a1 1 0 0 1 2 0v7a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9a1 1 0 0 1 1-1h1V3a1 1 0 0 1 1-1h5z"/></svg>'), pointer;
         }
 
@@ -53,7 +63,7 @@
         /* --- BACKGROUNDS --- */
         #bg-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transition: background 0.5s; background-size: cover; background-position: center; }
         .theme-grid { background: linear-gradient(to bottom, #010a10 0%, #2f1138 75%, #561845 100%); perspective: 500px; overflow: hidden; }
-        .sun { position: absolute; top: 10%; left: 50%; transform: translate(-50%, 0); width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(to bottom, #ffed00 0%, #ff0055 100%); box-shadow: 0 0 40px #ff0055; display: none; }
+        .sun { position: absolute; top: 10%; left: 50%; transform: translate(-50%, 0); width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(to bottom, #ffed00 0%, #ff0055 100%); box-shadow: 0 0 40px #ff0055; display: none; cursor: pointer; }
         .theme-grid .sun { display: block; }
         .grid-plane { position: absolute; bottom: -30%; left: -50%; width: 200%; height: 100%; background-image: linear-gradient(rgba(255, 113, 206, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 113, 206, 0.4) 1px, transparent 1px); background-size: 40px 40px; transform: rotateX(60deg); animation: gridMove 20s linear infinite; display: none; }
         .theme-grid .grid-plane { display: block; }
@@ -67,7 +77,7 @@
         .theme-static { background: #111; background-image: repeating-radial-gradient(#000 0 0.0001%,#222 0 0.0002%); background-size: 100% 100%; }
 
         /* --- LAYERS --- */
-        #boot-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; color: #ddd; z-index: 8000; padding: 20px; font-family: 'VT323', monospace; font-size: 20px; display: flex; flex-direction: column; cursor: none; }
+        #boot-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; color: #ddd; z-index: 8000; padding: 20px; font-family: 'VT323', monospace; font-size: 20px; display: flex; flex-direction: column; cursor: pointer; }
         .bios-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
         .bios-text { margin-bottom: 5px; text-shadow: 0 0 5px var(--vapor-blue); }
         #shutdown-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; align-items: center; justify-content: center; flex-direction: column; }
@@ -89,27 +99,30 @@
         #clippy-char { font-size: 60px; filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.5)); }
 
         /* --- DESKTOP --- */
-        .desktop { position: relative; width: 100%; height: calc(100vh - 40px); padding: 20px; display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; gap: 15px; opacity: 0; transition: opacity 1s; }
-        .icon { width: 80px; text-align: center; color: #fff; text-shadow: 1px 1px 0 #000; display: flex; flex-direction: column; align-items: center; margin-bottom: 10px; }
+        .desktop { position: relative; width: 100%; height: calc(100vh - 35px); padding: 15px; display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; gap: 8px; opacity: 0; transition: opacity 1s; }
+        .icon { width: 80px; text-align: center; color: #fff; text-shadow: 1px 1px 0 #000; display: flex; flex-direction: column; align-items: center; margin-bottom: 6px; }
         .icon:active .icon-text { background-color: var(--win-blue); border: 1px dotted white; }
-        .icon-img { width: 48px; height: 48px; background-size: contain; background-repeat: no-repeat; margin-bottom: 5px; image-rendering: pixelated; font-size: 40px; text-align: center; line-height: 48px;}
+        .icon-img { width: 48px; height: 48px; background-size: contain; background-repeat: no-repeat; margin-bottom: 5px; image-rendering: pixelated; font-size: 38px; text-align: center; line-height: 48px;}
 
         /* --- WINDOWS GENERAL --- */
-        .window { position: absolute; background-color: var(--win-gray); border: 2px solid; border-color: var(--win-border-light) var(--win-border-black) var(--win-border-black) var(--win-border-light); box-shadow: 2px 2px 0 var(--win-border-dark); min-width: 300px; display: none; flex-direction: column; }
-        .window.active { z-index: 100; }
-        .title-bar { background: linear-gradient(90deg, var(--win-blue), #1084d0); padding: 3px 5px; display: flex; justify-content: space-between; align-items: center; }
-        .vapor-title { background: linear-gradient(90deg, var(--vapor-pink), var(--vapor-purple)); }
-        .title-bar-text { color: white; font-weight: bold; margin-left: 2px; }
-        .title-bar-controls button { width: 16px; height: 14px; background: var(--win-gray); border: 1px outset #fff; font-size: 9px; line-height: 8px; cursor: pointer; }
-        .title-bar-controls button:active { border: 1px inset #fff; }
-        .window-body { padding: 15px; font-size: 18px; color: black; overflow-y: auto; max-height: 400px; }
+        .window { position: absolute; background-color: var(--win-gray); border: 2px solid; border-color: var(--win-border-light) var(--win-border-black) var(--win-border-black) var(--win-border-light); box-shadow: 2px 2px 0 var(--win-border-dark); min-width: 280px; display: none; flex-direction: column; touch-action: none; }
+        .window.active { z-index: 100; box-shadow: 3px 3px 0 rgba(0,0,0,0.5); }
+        .window.active .title-bar { background: var(--win-active-blue); }
+        .window.active .title-bar.vapor-title { background: linear-gradient(90deg, var(--vapor-pink), var(--vapor-purple)); }
+        .window:not(.active) .title-bar { background: var(--win-inactive); }
+        .window.maximized { top: 0 !important; left: 0 !important; width: 100% !important; height: calc(100vh - 35px) !important; max-width: 100% !important; max-height: calc(100vh - 35px) !important; }
         
-        /* Trail Effect Clone */
+        .title-bar { padding: 3px 5px; display: flex; justify-content: space-between; align-items: center; user-select: none; cursor: move; }
+        .title-bar-text { color: white; font-weight: bold; margin-left: 2px; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .title-bar-controls { display: flex; gap: 2px; }
+        .title-bar-controls button { width: 16px; height: 14px; background: var(--win-gray); border: 1px outset #fff; font-size: 10px; line-height: 9px; cursor: pointer; padding: 0; font-weight: bold; font-family: monospace; display: flex; align-items: center; justify-content: center; }
+        .title-bar-controls button:active { border: 1px inset #fff; }
+        .window-body { padding: 12px; font-size: 18px; color: black; overflow-y: auto; max-height: 450px; flex-grow: 1; }
+        
         .window-clone { position: absolute; z-index: 50; opacity: 0.5; pointer-events: none; }
 
         /* --- APP SPECIFIC --- */
-        #bsod { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0000AA; color: #fff; z-index: 99999; padding: 50px; font-family: 'Courier New', monospace; font-size: 20px; cursor: none; }
-        .bsod-center { text-align: center; margin-top: 100px; }
+        #bsod { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0000AA; color: #fff; z-index: 99999; padding: 50px; font-family: 'Courier New', monospace; font-size: 20px; cursor: pointer; }
         
         /* Tic Tac Toe */
         .ttt-grid { display: grid; grid-template-columns: repeat(3, 60px); gap: 5px; margin: 0 auto; width: fit-content; }
@@ -124,63 +137,116 @@
         .cal-day.today { background: var(--vapor-blue); color: white; border: 1px solid white; }
 
         /* Others */
-        .cmd-body { background: black; color: #00ff00; font-family: monospace; padding: 10px; height: 300px; overflow-y: auto; }
+        .cmd-body { background: black; color: #00ff00; font-family: monospace; padding: 10px; height: 260px; overflow-y: auto; }
+        .cmd-input-line { display: flex; align-items: center; gap: 5px; }
         .cmd-input { background: transparent; border: none; color: #00ff00; font-family: inherit; font-size: inherit; flex-grow: 1; outline: none; }
-        .paint-toolbar { display: flex; gap: 5px; margin-bottom: 5px; background: #ddd; padding: 5px; border-bottom: 1px solid #888; }
-        .color-btn { width: 20px; height: 20px; border: 2px inset #fff; cursor: pointer; }
-        canvas { background: white; border: 2px inset #888; display: block; }
-        .defrag-grid { display: grid; grid-template-columns: repeat(20, 1fr); gap: 2px; background: #000; padding: 2px; }
-        .block { width: 100%; height: 12px; background: #808080; }
-        .block.reading { background: #ffff00; } .block.writing { background: #ff0000; } .block.done { background: #000080; } .block.vapor { background: var(--vapor-pink); }
+        .paint-toolbar { display: flex; gap: 5px; margin-bottom: 5px; background: #ddd; padding: 5px; border-bottom: 1px solid #888; align-items: center; }
+        .color-btn { width: 22px; height: 22px; border: 2px inset #fff; cursor: pointer; }
+        canvas { background: white; border: 2px inset #888; display: block; touch-action: none; }
+        
         .calc-display { background: white; border: 2px inset #888; text-align: right; padding: 5px; margin-bottom: 10px; font-family: monospace; font-size: 24px; }
         .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .calc-btn { height: 35px; background: var(--win-gray); border: 2px outset #fff; font-weight: bold; }
+        .calc-btn { height: 35px; background: var(--win-gray); border: 2px outset #fff; font-weight: bold; font-family: inherit; font-size: 18px; }
         .calc-btn:active { border: 2px inset #fff; }
-        .mine-grid { display: grid; grid-template-columns: repeat(9, 30px); gap: 1px; border: 3px inset #fff; background: #808080; width: fit-content; margin: 0 auto; }
-        .mine-cell { width: 30px; height: 30px; background: #c0c0c0; border: 2px outset #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .mine-cell.revealed { border: 1px solid #808080; background: #c0c0c0; } .mine-cell:active { border: none; }
         
-        .winamp-body { background: #222; color: #0f0; padding: 10px; font-family: monospace; }
-        .player-screen { background: #000; border: 2px inset #555; padding: 5px; margin-bottom: 5px; height: 30px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
-        .vis-container { width: 100%; height: 50px; background: #000; border: 2px inset #555; margin-bottom: 10px; }
+        /* Сапёр */
+        .mine-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border: 2px inset #888; padding: 4px 8px; background: #c0c0c0; }
+        .mine-digit-box { background: #000; color: #ff0000; font-family: monospace; font-size: 22px; padding: 2px 6px; border: 1px inset #fff; font-weight: bold; min-width: 45px; text-align: center; }
+        .mine-face-btn { width: 32px; height: 32px; border: 2px outset #fff; background: var(--win-gray); font-size: 20px; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .mine-face-btn:active { border: 2px inset #fff; }
+        .mine-grid { display: grid; grid-template-columns: repeat(9, 26px); gap: 1px; border: 3px inset #fff; background: #808080; width: fit-content; margin: 0 auto; }
+        .mine-cell { width: 26px; height: 26px; background: #c0c0c0; border: 2px outset #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; user-select: none; }
+        .mine-cell.revealed { border: 1px solid #7b7b7b; background: #c0c0c0; }
+        .mine-cell:active:not(.revealed) { border: 1px solid #808080; }
+        
+        /* WinAmp со скинами */
+        .winamp-body { background: #222; color: #0f0; padding: 10px; font-family: monospace; transition: all 0.3s; }
+        .winamp-body.skin-nerv { background: #1a0800; color: #ff6600; border: 2px solid #ff4400; }
+        .winamp-body.skin-cyber { background: #120024; color: #ff71ce; border: 2px solid #01cdfe; }
+        .winamp-body.skin-mac { background: #dcdde1; color: #2f3640; border: 2px solid #718093; }
+        
+        .player-screen { background: #000; border: 2px inset #555; padding: 5px; margin-bottom: 5px; height: 30px; overflow: hidden; white-space: nowrap; display: flex; align-items: center; font-size: 16px; color: #00ff00; }
+        .skin-nerv .player-screen { color: #ff9900; border-color: #ff5500; }
+        .skin-cyber .player-screen { color: #01cdfe; border-color: #ff71ce; }
+        .skin-mac .player-screen { background: #fff; color: #000; border-color: #999; }
+        
+        .vis-container { width: 100%; height: 50px; background: #000; border: 2px inset #555; margin-bottom: 8px; }
         #vis-canvas { width: 100%; height: 100%; }
-        .player-controls { display: flex; gap: 5px; flex-wrap: wrap; }
-        .player-btn { background: linear-gradient(#eee, #ccc); border: 1px outset #fff; padding: 5px 10px; font-size: 14px; min-width: 60px; color: black; }
+        .player-controls { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+        .player-btn { background: linear-gradient(#eee, #ccc); border: 1px outset #fff; padding: 4px 8px; font-size: 14px; min-width: 50px; color: black; font-family: inherit; }
         .player-btn:active { border: 1px inset #fff; }
 
         .chat-history { height: 200px; background: black; border: 2px inset #888; overflow-y: auto; padding: 5px; color: var(--vapor-blue); font-family: monospace; margin-bottom: 5px; }
-        .chat-input { width: 100%; background: white; border: 2px inset #888; color: black; font-family: inherit; }
+        .chat-input { width: 100%; background: white; border: 2px inset #888; color: black; font-family: inherit; font-size: 16px; padding: 3px; }
         .chat-msg { margin-bottom: 3px; } .chat-msg.user { color: var(--vapor-pink); }
 
-        .pet-screen { width: 100%; height: 150px; background: #9bb085; border: 4px inset #555; display: flex; align-items: center; justify-content: center; flex-direction: column; font-family: monospace; margin-bottom: 10px; position: relative; }
-        .pet-sprite { font-size: 60px; line-height: 60px; animation: bounce 1s infinite; }
-        .pet-stats { width: 100%; display: flex; justify-content: space-between; padding: 0 10px; font-size: 14px; margin-top: 10px; }
+        .pet-screen { width: 100%; height: 140px; background: #9bb085; border: 4px inset #555; display: flex; align-items: center; justify-content: center; flex-direction: column; font-family: monospace; margin-bottom: 10px; position: relative; }
+        .pet-sprite { font-size: 55px; line-height: 55px; animation: bounce 1s infinite; }
+        .pet-stats { width: 100%; display: flex; justify-content: space-between; padding: 0 10px; font-size: 14px; margin-top: 5px; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        /* Taskbar */
-        .taskbar { position: fixed; bottom: 0; left: 0; width: 100%; height: 35px; background-color: var(--win-gray); border-top: 2px solid var(--win-border-light); display: flex; align-items: center; padding: 2px; z-index: 1000; opacity: 0; transition: opacity 1s; }
-        .start-btn { display: flex; align-items: center; height: 26px; padding: 0 5px; background-color: var(--win-gray); border: 2px outset #fff; font-weight: bold; font-family: inherit; font-size: 16px; }
-        .start-btn:active, .start-btn.active { border: 2px inset #fff; }
-        .start-btn img { width: 18px; margin-right: 5px; }
-        .clock { margin-left: auto; border: 2px inset #fff; padding: 0 10px; height: 26px; display: flex; align-items: center; background: #fff; font-size: 16px; cursor: pointer; }
-        .start-menu { position: absolute; bottom: 37px; left: 2px; width: 200px; background-color: var(--win-gray); border: 2px outset #fff; display: none; flex-direction: column; z-index: 1001; }
-        .sidebar { width: 25px; background: #000080; position: absolute; left: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 5px;}
-        .sidebar-avatar { width: 20px; height: 20px; background: #fff; border: 1px solid #fff; margin-bottom: auto; margin-top: 5px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer;}
-        .sidebar-text { transform: rotate(-90deg); transform-origin: center; white-space: nowrap; color: white; font-weight: bold; font-size: 20px; margin-bottom: 20px;}
-        .menu-items { margin-left: 25px; display: flex; flex-direction: column; }
-        .menu-item { padding: 8px 15px; color: black; } .menu-item:hover { background-color: var(--win-blue); color: white; }
+        /* Читалка Манги */
+        .manga-viewer { width: 100%; height: 320px; background: #111; border: 3px inset #fff; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; margin-bottom: 8px; }
+        .manga-page-img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 0 10px rgba(0,0,0,0.8); }
+        .manga-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 
-        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%); background-size: 100% 4px; pointer-events: none; z-index: 9999; }
-        .radio-group label { display: block; margin: 5px 0; }
+        /* VHS Retro TV */
+        .vhs-screen { width: 100%; height: 240px; background: #000; border: 4px inset #444; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+        .vhs-osd { position: absolute; top: 10px; left: 10px; color: #00ff00; font-family: 'Courier New', monospace; font-weight: bold; font-size: 16px; text-shadow: 0 0 5px #00ff00; pointer-events: none; }
+        .vhs-glitch { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.2) 50%); background-size: 100% 4px; pointer-events: none; }
+
+        /* Всплывающее уведомление ачивок (Toast) */
+        #achievement-toast {
+            position: fixed;
+            bottom: 45px;
+            right: 15px;
+            background: linear-gradient(180deg, #ffffcc 0%, #ffcc00 100%);
+            border: 2px solid #000;
+            border-radius: 6px;
+            padding: 10px 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            display: none;
+            z-index: 10000;
+            max-width: 300px;
+            color: #000;
+            font-size: 16px;
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Taskbar */
+        .taskbar { position: fixed; bottom: 0; left: 0; width: 100%; height: 35px; background-color: var(--win-gray); border-top: 2px solid var(--win-border-light); display: flex; align-items: center; padding: 2px 4px; z-index: 1000; opacity: 0; transition: opacity 1s; gap: 4px; }
+        .start-btn { display: flex; align-items: center; height: 27px; padding: 0 6px; background-color: var(--win-gray); border: 2px outset #fff; font-weight: bold; font-family: inherit; font-size: 17px; gap: 5px; }
+        .start-btn:active, .start-btn.active { border: 2px inset #fff; }
+        .start-logo-svg { width: 18px; height: 18px; }
+        
+        .taskbar-divider { width: 2px; height: 24px; border-left: 1px solid #808080; border-right: 1px solid #fff; margin: 0 2px; }
+        .taskbar-tasks { display: flex; gap: 4px; flex-grow: 1; overflow-x: auto; height: 100%; align-items: center; }
+        .task-item { height: 26px; min-width: 90px; max-width: 160px; background-color: var(--win-gray); border: 2px outset #fff; padding: 0 6px; display: flex; align-items: center; gap: 5px; font-size: 15px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; user-select: none; }
+        .task-item.active { border: 2px inset #fff; background-color: #dfdfdf; font-weight: bold; }
+        .task-item:hover { background-color: #e8e8e8; }
+        
+        .clock { margin-left: auto; border: 2px inset #fff; padding: 0 8px; height: 26px; display: flex; align-items: center; background: #c0c0c0; font-size: 15px; cursor: pointer; }
+        .start-menu { position: absolute; bottom: 37px; left: 2px; width: 220px; background-color: var(--win-gray); border: 2px outset #fff; display: none; flex-direction: column; z-index: 1001; box-shadow: 3px 3px 10px rgba(0,0,0,0.5); }
+        .sidebar { width: 28px; background: #000080; position: absolute; left: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 5px;}
+        .sidebar-avatar { width: 22px; height: 22px; background: #fff; border: 1px solid #fff; margin-bottom: auto; margin-top: 5px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer;}
+        .sidebar-text { transform: rotate(-90deg); transform-origin: center; white-space: nowrap; color: white; font-weight: bold; font-size: 20px; margin-bottom: 30px;}
+        .menu-items { margin-left: 28px; display: flex; flex-direction: column; }
+        .menu-item { padding: 5px 12px; color: black; font-size: 16px; display: flex; align-items: center; gap: 8px; } 
+        .menu-item:hover { background-color: var(--win-blue); color: white; }
+
+        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%); background-size: 100% 4px; pointer-events: none; z-index: 9999; }
+        .radio-group label { display: block; margin: 4px 0; }
 
         @media (max-width: 600px) {
-            .window { width: 95% !important; left: 2.5% !important; top: 50px !important; }
+            .window { width: 95% !important; left: 2.5% !important; top: 30px !important; }
             .bios-header { flex-direction: column-reverse; }
             #clippy-container { display: none; }
+            .task-item { min-width: 40px; max-width: 80px; font-size: 13px; }
         }
     </style>
 </head>
-<body>
+<body onclick="unlockAudio()" onkeydown="unlockAudio()">
 
     <div class="scanlines"></div>
     <canvas id="matrix-canvas"></canvas>
@@ -188,63 +254,185 @@
     
     <!-- ФОН -->
     <div id="bg-layer" class="theme-grid">
-        <div class="sun" onclick="alert('System Warning: Sun temperature Critical!')"></div>
+        <div class="sun" onclick="alert('System Warning: Sun temperature Critical!')" title="Vapor Sun"></div>
         <div class="grid-plane"></div>
     </div>
 
     <div id="screensaver"><div id="saver-text">ERRIDIAN</div></div>
 
     <div id="bsod" onclick="hideBsod()">
-        <p style="background: #aaa; color: #0000AA; display: inline-block; font-weight: bold;">Windows</p>
-        <p>A fatal exception 0E has occurred at 0028:C0011E36.</p>
-        <p>Press any key to continue_</p>
+        <p style="background: #aaa; color: #0000AA; display: inline-block; font-weight: bold; padding: 2px 6px;">Windows</p>
+        <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36.</p>
+        <p>* Press any key or click to return to Windows.</p>
+        <p>* Press CTRL+ALT+DEL to restart your computer. You will lose any unsaved information.</p>
+        <p style="text-align: center; margin-top: 40px;">Press any key to continue _</p>
     </div>
     
     <div id="shutdown-screen">
         <div class="shutdown-text">It is now safe to turn off your computer.</div>
-        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px;">RESTART</button>
+        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; font-family: inherit; font-size: 20px; font-weight: bold; cursor: pointer;">RESTART</button>
     </div>
 
-    <div id="boot-screen">
+    <div id="boot-screen" onclick="skipBoot()">
         <div class="bios-header">
-            <div><div class="bios-text">ERRIDIAN MODULAR BIOS v4.51PG</div></div>
-            <div style="border: 2px solid white; padding: 5px; width: 100px; text-align: center;"><span style="font-size: 40px;">🎄</span></div>
+            <div>
+                <div class="bios-text">ERRIDIAN MODULAR BIOS v4.51PG</div>
+                <div class="bios-text" style="color: #888;">An Energy Star Ally Copyright (C) 1995-2026</div>
+            </div>
+            <div style="border: 2px solid white; padding: 5px; width: 90px; text-align: center;"><span style="font-size: 36px;">🎄</span></div>
         </div>
         <div class="bios-text" id="memory-check">Memory Test: 0 KB</div>
         <div id="bios-details"></div>
+        <div style="margin-top: auto; font-size: 16px; color: #888;">[ Click anywhere or press space to boot ]</div>
     </div>
 
     <div id="clippy-container">
-        <div id="clippy-bubble">Greetings...</div>
+        <div id="clippy-bubble">Greetings, traveler...</div>
         <div id="clippy-char">📎</div> 
+    </div>
+
+    <!-- Всплывающий тост ачивок -->
+    <div id="achievement-toast">
+        <div style="font-weight: bold; display: flex; align-items: center; gap: 5px;">
+            <span>🏆</span> <span id="toast-title">Achievement Unlocked!</span>
+        </div>
+        <div style="font-size: 14px; margin-top: 3px;" id="toast-desc">Details...</div>
     </div>
 
     <!-- DESKTOP ICONS -->
     <div class="desktop" id="desktop">
         <div class="icon" onclick="openWindow('mycomp')"><div class="icon-img">💻</div><div class="icon-text glitch-hover">System</div></div>
-        <div class="icon" onclick="openWindow('recycle')"><div class="icon-img">🗑️</div><div class="icon-text glitch-hover">Recycle</div></div>
-        <div class="icon" onclick="openWindow('about')"><div class="icon-img">📄</div><div class="icon-text glitch-hover">About Me</div></div>
-        <div class="icon" onclick="openWindow('projects')"><div class="icon-img">📁</div><div class="icon-text glitch-hover">Projects</div></div>
+        <div class="icon" onclick="openWindow('mangareader')"><div class="icon-img">📖</div><div class="icon-text glitch-hover">Manga</div></div>
+        <div class="icon" onclick="openWindow('achievements')"><div class="icon-img">🏆</div><div class="icon-text glitch-hover">Trophies</div></div>
+        <div class="icon" onclick="openWindow('vhstv')"><div class="icon-img">📼</div><div class="icon-text glitch-hover">VHS TV</div></div>
+        <div class="icon" onclick="openWindow('player')"><div class="icon-img">🎵</div><div class="icon-text glitch-hover">WinAmp</div></div>
         <div class="icon" onclick="openWindow('notepad')"><div class="icon-img">📝</div><div class="icon-text glitch-hover">Notepad</div></div>
         <div class="icon" onclick="openWindow('calc')"><div class="icon-img">🧮</div><div class="icon-text glitch-hover">Calc</div></div>
         <div class="icon" onclick="openWindow('minesweeper')"><div class="icon-img">💣</div><div class="icon-text glitch-hover">Sweeper</div></div>
         <div class="icon" onclick="openWindow('tictactoe')"><div class="icon-img">❌</div><div class="icon-text glitch-hover">TicTacToe</div></div>
         <div class="icon" onclick="openWindow('paint')"><div class="icon-img">🎨</div><div class="icon-text glitch-hover">Paint</div></div>
-        <div class="icon" onclick="openWindow('player')"><div class="icon-img">🎵</div><div class="icon-text glitch-hover">WinAmp</div></div>
         <div class="icon" onclick="openWindow('chat')"><div class="icon-img">💬</div><div class="icon-text glitch-hover">IRC Chat</div></div>
         <div class="icon" onclick="openWindow('pet')"><div class="icon-img">🥚</div><div class="icon-text glitch-hover">VaporPet</div></div>
-        <div class="icon" onclick="openWindow('run')"><div class="icon-img">🚀</div><div class="icon-text glitch-hover">Run</div></div>
-        <div class="icon" onclick="openWindow('settings')"><div class="icon-img">📺</div><div class="icon-text glitch-hover">Settings</div></div>
+        <div class="icon" onclick="openWindow('projects')"><div class="icon-img">📁</div><div class="icon-text glitch-hover">Projects</div></div>
+        <div class="icon" onclick="openWindow('about')"><div class="icon-img">📄</div><div class="icon-text glitch-hover">About Me</div></div>
+        <div class="icon" onclick="openWindow('recycle')"><div class="icon-img">🗑️</div><div class="icon-text glitch-hover">Recycle</div></div>
+        <div class="icon" onclick="openWindow('settings')"><div class="icon-img">⚙️</div><div class="icon-text glitch-hover">Settings</div></div>
         <div class="icon" onclick="window.location.href='neocities.html'"><div class="icon-img">🌐</div><div class="icon-text glitch-hover">Neocities</div></div>
     </div>
 
     <!-- WINDOWS -->
 
+    <!-- Manga Reader -->
+    <div class="window" id="mangareader" style="top: 40px; left: 240px; width: 440px;" data-title="Manga Reader" data-icon="📖">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'mangareader')" ontouchstart="dragTouchStart(event, 'mangareader')">
+            <div class="title-bar-text">📖 Fun Chozas Manga Reader</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('mangareader')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('mangareader')" title="Maximize">□</button>
+                <button onclick="closeWindow('mangareader')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 15px;">
+                <span>Project: <strong>Fun Chozas Special Preview</strong></span>
+                <span id="manga-page-num" style="color: var(--win-blue); font-weight: bold;">Page 1 / 3</span>
+            </div>
+            <div class="manga-viewer">
+                <img src="egg/ill.jpg" id="manga-img" class="manga-page-img" alt="Manga Page">
+            </div>
+            <div class="manga-controls">
+                <button class="player-btn" onclick="prevMangaPage()">◀ Prev Page</button>
+                <button class="player-btn" onclick="nextMangaPage()">Next Page ▶</button>
+                <a href="https://vk.com/chikdyk" target="_blank" style="margin-left: auto; font-size: 14px;">[ VK Releases ]</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements & Trophies -->
+    <div class="window" id="achievements" style="top: 70px; left: 280px; width: 380px;" data-title="Achievements" data-icon="🏆">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'achievements')" ontouchstart="dragTouchStart(event, 'achievements')">
+            <div class="title-bar-text">🏆 Trophies & Secrets</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('achievements')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('achievements')" title="Maximize">□</button>
+                <button onclick="closeWindow('achievements')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div style="margin-bottom: 8px; font-weight: bold;" id="ach-progress">Progress: 0 / 8 Unlocked</div>
+            <div id="ach-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 280px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <!-- VHS Retro TV -->
+    <div class="window" id="vhstv" style="top: 90px; left: 320px; width: 420px;" data-title="VHS Retro TV" data-icon="📼">
+        <div class="title-bar" style="background:#222;" onmousedown="dragMouseDown(event, 'vhstv')" ontouchstart="dragTouchStart(event, 'vhstv')">
+            <div class="title-bar-text">📼 CyberVision 90s CRT TV</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('vhstv')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('vhstv')" title="Maximize">□</button>
+                <button onclick="closeWindow('vhstv')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="background:#111; padding: 10px;">
+            <div class="vhs-screen" id="vhs-screen">
+                <div class="vhs-osd" id="vhs-osd">PLAY ▶ CH 03 [SP]</div>
+                <div class="vhs-glitch"></div>
+                <canvas id="vhs-canvas" width="380" height="220"></canvas>
+            </div>
+            <div style="display: flex; gap: 6px; justify-content: space-between; align-items: center;">
+                <div>
+                    <button class="player-btn" onclick="setVhsChannel(1)">CH 01</button>
+                    <button class="player-btn" onclick="setVhsChannel(2)">CH 02</button>
+                    <button class="player-btn" onclick="setVhsChannel(3)">CH 03</button>
+                </div>
+                <button class="player-btn" onclick="toggleVhsTracking()" style="color:#00ff00;">TRACKING</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WinAmp со скинами -->
+    <div class="window" id="player" style="top: 140px; left: 380px; width: 360px;" data-title="WinAmp" data-icon="🎵">
+        <div class="title-bar" style="background: #000080;" onmousedown="dragMouseDown(event, 'player')" ontouchstart="dragTouchStart(event, 'player')">
+            <div class="title-bar-text glitch-hover">🎵 WinAmp v1.95</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('player')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('player')" title="Maximize">□</button>
+                <button onclick="closeWindow('player')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="winamp-body" id="winamp-body">
+            <div class="player-screen" id="player-screen">Ready...</div>
+            <div class="vis-container"><canvas id="vis-canvas" width="320" height="50"></canvas></div>
+            <div class="player-controls">
+                <button class="player-btn" onclick="playRadio('vapor')">Vapor</button>
+                <button class="player-btn" onclick="playRadio('soviet')">Soviet</button>
+                <button class="player-btn" onclick="playRadio('chiptune')">Chip</button>
+                <button class="player-btn" onclick="playRadio('lofi')">Lofi</button>
+                <button class="player-btn" style="color:red; font-weight: bold;" onclick="stopRadio()">STOP</button>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 13px;">
+                <span>Skin:</span>
+                <select id="winamp-skin-sel" onchange="setWinampSkin(this.value)" style="background:#000; color:#0f0; border:1px solid #555; font-family: inherit; font-size: 14px;">
+                    <option value="skin-classic">Classic Winamp</option>
+                    <option value="skin-nerv">NERV Evangelion</option>
+                    <option value="skin-cyber">Cyber Neon</option>
+                    <option value="skin-mac">Mac OS Platinum</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <audio id="audio-player"></audio>
+
     <!-- Calendar -->
-    <div class="window" id="calendar" style="top: 100px; left: 300px; width: 250px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'calendar')">
-            <div class="title-bar-text">Calendar</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('calendar')">X</button></div>
+    <div class="window" id="calendar" style="top: 100px; left: 300px; width: 260px;" data-title="Calendar" data-icon="📅">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'calendar')" ontouchstart="dragTouchStart(event, 'calendar')">
+            <div class="title-bar-text">📅 Calendar</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('calendar')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('calendar')" title="Maximize">□</button>
+                <button onclick="closeWindow('calendar')" title="Close">X</button>
+            </div>
         </div>
         <div class="window-body">
             <div class="calendar-grid" id="cal-grid"></div>
@@ -252,114 +440,158 @@
     </div>
 
     <!-- Tic Tac Toe -->
-    <div class="window" id="tictactoe" style="top: 150px; left: 350px; width: 220px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'tictactoe')">
-            <div class="title-bar-text">Tic-Tac-Toe</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('tictactoe')">X</button></div>
+    <div class="window" id="tictactoe" style="top: 150px; left: 350px; width: 240px;" data-title="Tic-Tac-Toe" data-icon="❌">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'tictactoe')" ontouchstart="dragTouchStart(event, 'tictactoe')">
+            <div class="title-bar-text">❌ Tic-Tac-Toe</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('tictactoe')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('tictactoe')" title="Maximize">□</button>
+                <button onclick="closeWindow('tictactoe')" title="Close">X</button>
+            </div>
         </div>
         <div class="window-body" style="text-align:center;">
             <div class="ttt-grid" id="ttt-grid"></div>
-            <p id="ttt-status" style="margin:5px 0;">Your Turn (💾)</p>
-            <button onclick="initTTT()">Reset</button>
+            <p id="ttt-status" style="margin:8px 0; font-weight: bold;">Your Turn (💾)</p>
+            <button onclick="initTTT()" style="padding: 4px 12px; font-family: inherit; font-size: 16px;">Reset</button>
         </div>
     </div>
 
     <!-- Run Dialog -->
-    <div class="window" id="run" style="top: 200px; left: 200px; width: 300px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'run')">
-            <div class="title-bar-text">Run</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('run')">X</button></div>
+    <div class="window" id="run" style="top: 200px; left: 200px; width: 320px;" data-title="Run" data-icon="🚀">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'run')" ontouchstart="dragTouchStart(event, 'run')">
+            <div class="title-bar-text">🚀 Run</div>
+            <div class="title-bar-controls">
+                <button onclick="closeWindow('run')" title="Close">X</button>
+            </div>
         </div>
         <div class="window-body" style="display:flex; flex-direction:column; gap:10px;">
-            <p style="font-size:14px; margin:0;">Type the name of a program or URL.</p>
-            <div style="display:flex; align-items:center; gap:5px;"><span>Open:</span><input type="text" id="run-input" style="flex-grow:1;"></div>
-            <div style="display:flex; justify-content:flex-end; gap:5px;"><button onclick="runCommand()">OK</button><button onclick="closeWindow('run')">Cancel</button></div>
+            <p style="font-size:14px; margin:0;">Type program name, console (nes/sega/ps1), or URL:</p>
+            <div style="display:flex; align-items:center; gap:5px;"><span>Open:</span><input type="text" id="run-input" style="flex-grow:1; font-family: inherit; font-size: 16px;" onkeydown="if(event.key==='Enter') runCommand()"></div>
+            <div style="display:flex; justify-content:flex-end; gap:5px;"><button onclick="runCommand()" style="font-family: inherit; font-size: 16px; padding: 2px 10px;">OK</button><button onclick="closeWindow('run')" style="font-family: inherit; font-size: 16px; padding: 2px 10px;">Cancel</button></div>
         </div>
     </div>
 
     <!-- Chat Bot -->
-    <div class="window" id="chat" style="top: 100px; left: 450px; width: 320px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'chat')">
-            <div class="title-bar-text">IRC - #vaporwave</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('chat')">X</button></div>
+    <div class="window" id="chat" style="top: 100px; left: 450px; width: 340px;" data-title="IRC #vapor" data-icon="💬">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'chat')" ontouchstart="dragTouchStart(event, 'chat')">
+            <div class="title-bar-text">💬 IRC - #vaporwave</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('chat')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('chat')" title="Maximize">□</button>
+                <button onclick="closeWindow('chat')" title="Close">X</button>
+            </div>
         </div>
         <div class="window-body">
             <div class="chat-history" id="chat-history">
-                <div class="chat-msg">System: Connected to server...</div>
-                <div class="chat-msg">A.L.I.C.E. 95: Hello human.</div>
+                <div class="chat-msg">System: Connected to server #vaporwave...</div>
+                <div class="chat-msg">A.L.I.C.E. 95: Hello human. Welcome to cyberspace.</div>
             </div>
             <input type="text" class="chat-input" id="chat-input" placeholder="Say hello..." onkeydown="handleChat(event)">
         </div>
     </div>
 
     <!-- Tamagotchi -->
-    <div class="window" id="pet" style="top: 150px; left: 50px; width: 250px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'pet')">
-            <div class="title-bar-text">Virtual Pet</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('pet')">X</button></div>
+    <div class="window" id="pet" style="top: 150px; left: 50px; width: 260px;" data-title="VaporPet" data-icon="🥚">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'pet')" ontouchstart="dragTouchStart(event, 'pet')">
+            <div class="title-bar-text">🥚 Virtual Pet 2000</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('pet')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('pet')" title="Maximize">□</button>
+                <button onclick="closeWindow('pet')" title="Close">X</button>
+            </div>
         </div>
         <div class="window-body" style="text-align: center;">
             <div class="pet-screen">
                 <div id="pet-sprite" class="pet-sprite">🥚</div>
                 <div class="pet-stats"><span>Hunger: <span id="pet-hunger">0</span>%</span><span>Happy: <span id="pet-happy">100</span>%</span></div>
             </div>
-            <button onclick="feedPet()">Feed 🍖</button><button onclick="playPet()">Play 🎾</button>
+            <button onclick="feedPet()" style="padding: 4px 10px; font-family: inherit; font-size: 16px;">Feed 🍖</button>
+            <button onclick="playPet()" style="padding: 4px 10px; font-family: inherit; font-size: 16px; margin-left: 5px;">Play 🎾</button>
         </div>
     </div>
-
-    <!-- WinAmp -->
-    <div class="window" id="player" style="top: 220px; left: 400px; width: 340px;">
-        <div class="title-bar" style="background: #000080;" onmousedown="dragMouseDown(event, 'player')">
-            <div class="title-bar-text glitch-hover">WinAmp</div>
-            <div class="title-bar-controls"><button onclick="closeWindow('player')">X</button></div>
-        </div>
-        <div class="winamp-body">
-            <div class="player-screen" id="player-screen">Ready...</div>
-            <div class="vis-container"><canvas id="vis-canvas" width="300" height="50"></canvas></div>
-            <div class="player-controls">
-                <button class="player-btn" onclick="playRadio('vapor')">Vapor</button>
-                <button class="player-btn" onclick="playRadio('soviet')">Soviet</button>
-                <button class="player-btn" onclick="playRadio('chiptune')">Chip</button>
-                <button class="player-btn" onclick="playRadio('lofi')">Lofi</button>
-                <button class="player-btn" style="color:red;" onclick="stopRadio()">STOP</button>
-            </div>
-        </div>
-    </div>
-    <audio id="audio-player"></audio>
 
     <!-- My Computer -->
-    <div class="window" id="mycomp" style="top: 20px; left: 20px; width: 350px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'mycomp')"><div class="title-bar-text">System Information</div><div class="title-bar-controls"><button onclick="closeWindow('mycomp')">X</button></div></div>
+    <div class="window" id="mycomp" style="top: 20px; left: 20px; width: 350px;" data-title="System Info" data-icon="💻">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'mycomp')" ontouchstart="dragTouchStart(event, 'mycomp')">
+            <div class="title-bar-text">💻 System Information</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('mycomp')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('mycomp')" title="Maximize">□</button>
+                <button onclick="closeWindow('mycomp')" title="Close">X</button>
+            </div>
+        </div>
         <div class="window-body"><p><strong>System Diagnostics:</strong></p><ul id="sys-info"></ul></div>
     </div>
 
     <!-- Recycle Bin -->
-    <div class="window" id="recycle" style="top: 50px; left: 50px; width: 300px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'recycle')"><div class="title-bar-text">Recycle Bin</div><div class="title-bar-controls"><button onclick="closeWindow('recycle')">X</button></div></div>
-        <div class="window-body"><div class="file-list"><div class="file-item" onclick="playSound('error'); alert('File corrupted.')"><span class="file-icon">📄</span> hopes.txt</div><div class="file-item" onclick="playSound('error'); alert('Error 404.')"><span class="file-icon">💾</span> time.exe</div></div></div>
+    <div class="window" id="recycle" style="top: 50px; left: 50px; width: 300px;" data-title="Recycle Bin" data-icon="🗑️">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'recycle')" ontouchstart="dragTouchStart(event, 'recycle')">
+            <div class="title-bar-text">🗑️ Recycle Bin</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('recycle')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('recycle')" title="Maximize">□</button>
+                <button onclick="closeWindow('recycle')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body"><div class="file-list"><div class="file-item" style="cursor:pointer; padding: 4px;" onclick="playSound('error'); alert('File corrupted: hopes.txt')"><span class="file-icon">📄</span> hopes.txt</div><div class="file-item" style="cursor:pointer; padding: 4px;" onclick="playSound('error'); alert('Error 404: time.exe not found.')"><span class="file-icon">💾</span> time.exe</div></div></div>
     </div>
 
     <!-- Notepad -->
-    <div class="window" id="notepad" style="top: 80px; left: 80px; width: 300px; height: 300px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'notepad')"><div class="title-bar-text">Notepad</div><div class="title-bar-controls"><button onclick="closeWindow('notepad')">X</button></div></div>
-        <div class="window-body" style="padding: 0; height: 100%; display: flex; flex-direction: column;"><textarea id="notepad-area" style="width: 100%; height: 100%; border: none; resize: none; font-family: 'Courier New'; font-size: 16px; padding: 5px; outline: none;" placeholder="Type here..."></textarea></div>
+    <div class="window" id="notepad" style="top: 80px; left: 80px; width: 320px; height: 300px;" data-title="Notepad" data-icon="📝">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'notepad')" ontouchstart="dragTouchStart(event, 'notepad')">
+            <div class="title-bar-text">📝 Notepad</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('notepad')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('notepad')" title="Maximize">□</button>
+                <button onclick="closeWindow('notepad')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="padding: 0; height: 100%; display: flex; flex-direction: column;"><textarea id="notepad-area" style="width: 100%; height: 100%; border: none; resize: none; font-family: 'Courier New', monospace; font-size: 16px; padding: 8px; outline: none;" placeholder="Type your thoughts here (auto-saved to floppy)..."></textarea></div>
     </div>
 
     <!-- Calc -->
-    <div class="window" id="calc" style="top: 110px; left: 110px; width: 220px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'calc')"><div class="title-bar-text">Calculator</div><div class="title-bar-controls"><button onclick="closeWindow('calc')">X</button></div></div>
+    <div class="window" id="calc" style="top: 110px; left: 110px; width: 230px;" data-title="Calculator" data-icon="🧮">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'calc')" ontouchstart="dragTouchStart(event, 'calc')">
+            <div class="title-bar-text">🧮 Calculator</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('calc')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('calc')" title="Maximize">□</button>
+                <button onclick="closeWindow('calc')" title="Close">X</button>
+            </div>
+        </div>
         <div class="window-body"><div class="calc-display" id="calc-display">0</div><div class="calc-keys"><button class="calc-btn" onclick="calcInput('7')">7</button><button class="calc-btn" onclick="calcInput('8')">8</button><button class="calc-btn" onclick="calcInput('9')">9</button><button class="calc-btn" onclick="calcInput('/')">/</button><button class="calc-btn" onclick="calcInput('4')">4</button><button class="calc-btn" onclick="calcInput('5')">5</button><button class="calc-btn" onclick="calcInput('6')">6</button><button class="calc-btn" onclick="calcInput('*')">*</button><button class="calc-btn" onclick="calcInput('1')">1</button><button class="calc-btn" onclick="calcInput('2')">2</button><button class="calc-btn" onclick="calcInput('3')">3</button><button class="calc-btn" onclick="calcInput('-')">-</button><button class="calc-btn" onclick="calcInput('0')">0</button><button class="calc-btn" onclick="calcInput('.')">.</button><button class="calc-btn" onclick="calcResult()">=</button><button class="calc-btn" onclick="calcInput('+')">+</button><button class="calc-btn" onclick="calcClear()" style="grid-column: span 4; background: #ffcccc;">C</button></div></div>
     </div>
 
     <!-- Minesweeper -->
-    <div class="window" id="minesweeper" style="top: 140px; left: 140px; width: auto;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'minesweeper')"><div class="title-bar-text">VaporSweeper</div><div class="title-bar-controls"><button onclick="closeWindow('minesweeper')">X</button></div></div>
-        <div class="window-body" style="text-align: center; background: #c0c0c0;"><div style="display: flex; justify-content: space-between; margin-bottom: 10px; border: 2px inset #fff; padding: 5px;"><button onclick="initMinesweeper()">😎</button></div><div class="mine-grid" id="mine-grid"></div></div>
+    <div class="window" id="minesweeper" style="top: 140px; left: 140px; width: auto;" data-title="VaporSweeper" data-icon="💣">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'minesweeper')" ontouchstart="dragTouchStart(event, 'minesweeper')">
+            <div class="title-bar-text">💣 VaporSweeper</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('minesweeper')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('minesweeper')" title="Maximize">□</button>
+                <button onclick="closeWindow('minesweeper')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="text-align: center; background: #c0c0c0; padding: 8px;">
+            <div class="mine-panel">
+                <div class="mine-digit-box" id="mine-count">010</div>
+                <button class="mine-face-btn" id="mine-face" onclick="initMinesweeper()">😎</button>
+                <div class="mine-digit-box" id="mine-timer">000</div>
+            </div>
+            <div class="mine-grid" id="mine-grid"></div>
+        </div>
     </div>
 
     <!-- About -->
-    <div class="window" id="about" style="top: 30px; left: 300px; width: 400px;">
-        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'about')"><div class="title-bar-text">Erridian.txt</div><div class="title-bar-controls"><button onclick="closeWindow('about')">X</button></div></div>
+    <div class="window" id="about" style="top: 30px; left: 300px; width: 400px;" data-title="Erridian.txt" data-icon="📄">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'about')" ontouchstart="dragTouchStart(event, 'about')">
+            <div class="title-bar-text">📄 Erridian.txt</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('about')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('about')" title="Maximize">□</button>
+                <button onclick="closeWindow('about')" title="Close">X</button>
+            </div>
+        </div>
         <div class="window-body"><pre style="color: var(--vapor-purple); font-size: 10px;">
  ███████╗██████╗ ██████╗ 
  ██╔════╝██╔══██╗██╔══██╗
@@ -367,61 +599,114 @@
  ██╔══╝  ██╔══██╗██╔══██╗
  ███████╗██║  ██║██║  ██║
  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝
-        </pre><p><strong>Привет!</strong></p><p>Я Erridian. Перевожу мангу в команде "Fun Chozas", создатель проекта <strong>Dropushko</strong> (форк <em>Giftseeker</em> для автоматизации раздач), да занимаюсь различными приколямбами... Наверное. Заглядывайте в проекты! ;)</p></div>
+        </pre><p><strong>Привет!</strong></p><p>Я Erridian. Перевожу мангу в команде "Fun Chozas", создатель проекта <strong>Dropushko</strong> (форк <em>Giftseeker</em> для автоматизации раздач), да занимаюсь различными приколямбами... Заглядывайте в проекты! ;)</p></div>
     </div>
 
     <!-- Projects -->
-    <div class="window" id="projects" style="top: 60px; left: 350px; width: 350px;">
-        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')"><div class="title-bar-text">Projects</div><div class="title-bar-controls"><button onclick="closeWindow('projects')">X</button></div></div>
-        <div class="window-body"><p>📂 <strong>Проекты:</strong></p><ul><li><a href="https://github.com/Erridian" target="_blank"><strong>Dropushko</strong></a> (форк Giftseeker — автоматизация раздач)</li><li><a href="https://github.com/Erridian" target="_blank">GitHub</a></li><li><a href="https://vk.com/chikdyk" target="_blank">Личный блог VK</a></li><li><a href="https://t.me/ocerr" target="_blank">Личный блог Telegram</a></li></ul></div>
+    <div class="window" id="projects" style="top: 60px; left: 350px; width: 360px;" data-title="Projects" data-icon="📁">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')" ontouchstart="dragTouchStart(event, 'projects')">
+            <div class="title-bar-text">📁 Projects</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('projects')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('projects')" title="Maximize">□</button>
+                <button onclick="closeWindow('projects')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body"><p>📂 <strong>Проекты и ссылки:</strong></p><ul><li><a href="https://github.com/Erridian" target="_blank"><strong>Dropushko</strong></a> (форк Giftseeker — автоматизация раздач)</li><li><a href="https://github.com/Erridian" target="_blank">GitHub Профиль</a></li><li><a href="https://vk.com/chikdyk" target="_blank">Личный блог VK</a></li><li><a href="https://t.me/ocerr" target="_blank">Личный блог Telegram</a></li><li><a href="https://youtube.com/erridian" target="_blank">YouTube Канал</a></li><li><a href="https://steamcommunity.com/id/erridian" target="_blank">Steam Profile</a></li></ul></div>
     </div>
 
     <!-- Terminal -->
-    <div class="window" id="terminal" style="top: 120px; left: 450px; width: 500px;">
-        <div class="title-bar" style="background: #000;" onmousedown="dragMouseDown(event, 'terminal')"><div class="title-bar-text">CMD</div><div class="title-bar-controls"><button onclick="closeWindow('terminal')">X</button></div></div>
-        <div class="cmd-body" id="cmd-output" onclick="document.getElementById('cmd-input').focus()"><div>Erridian OS [Version 4.10.1998]</div><div id="cmd-history"></div><div class="cmd-input-line"><span>C:\></span><input type="text" id="cmd-input" class="cmd-input" autocomplete="off" onkeydown="handleCmd(event)"></div></div>
+    <div class="window" id="terminal" style="top: 120px; left: 450px; width: 500px;" data-title="CMD" data-icon="📟">
+        <div class="title-bar" style="background: #000;" onmousedown="dragMouseDown(event, 'terminal')" ontouchstart="dragTouchStart(event, 'terminal')">
+            <div class="title-bar-text">📟 Command Prompt</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('terminal')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('terminal')" title="Maximize">□</button>
+                <button onclick="closeWindow('terminal')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="cmd-body" id="cmd-output" onclick="document.getElementById('cmd-input').focus()"><div>Erridian OS [Version 4.10.1998]</div><div>(C) Copyright Microsoft Corp / CyberCorp 1995-2026.</div><div>Type 'help' for command list.</div><div id="cmd-history"></div><div class="cmd-input-line"><span>C:\&gt;</span><input type="text" id="cmd-input" class="cmd-input" autocomplete="off" onkeydown="handleCmd(event)"></div></div>
     </div>
 
     <!-- Paint -->
-    <div class="window" id="paint" style="top: 150px; left: 500px; width: 450px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'paint')"><div class="title-bar-text">Paint</div><div class="title-bar-controls"><button onclick="closeWindow('paint')">X</button></div></div>
-        <div class="window-body" style="padding: 5px;"><div class="paint-toolbar"><div class="color-btn" style="background:black" onclick="setPaintColor('black')"></div><div class="color-btn" style="background:var(--vapor-pink)" onclick="setPaintColor('#ff71ce')"></div><div class="color-btn" style="background:var(--vapor-blue)" onclick="setPaintColor('#01cdfe')"></div><div class="color-btn" style="background:white" onclick="setPaintColor('white')"></div><button onclick="clearCanvas()" style="margin-left: auto;">Clear</button></div><canvas id="paintCanvas" width="400" height="300"></canvas></div>
+    <div class="window" id="paint" style="top: 150px; left: 500px; width: 440px;" data-title="Paint" data-icon="🎨">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'paint')" ontouchstart="dragTouchStart(event, 'paint')">
+            <div class="title-bar-text">🎨 Paint</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('paint')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('paint')" title="Maximize">□</button>
+                <button onclick="closeWindow('paint')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="padding: 5px;">
+            <div class="paint-toolbar">
+                <div class="color-btn" style="background:black" onclick="setPaintColor('black')"></div>
+                <div class="color-btn" style="background:var(--vapor-pink)" onclick="setPaintColor('#ff71ce')"></div>
+                <div class="color-btn" style="background:var(--vapor-blue)" onclick="setPaintColor('#01cdfe')"></div>
+                <div class="color-btn" style="background:#00ff00" onclick="setPaintColor('#00ff00')"></div>
+                <div class="color-btn" style="background:#ffff00" onclick="setPaintColor('#ffff00')"></div>
+                <div class="color-btn" style="background:white" onclick="setPaintColor('white')"></div>
+                <button onclick="clearCanvas()" style="margin-left: auto; font-family: inherit;">Clear</button>
+            </div>
+            <canvas id="paintCanvas" width="400" height="280"></canvas>
+        </div>
     </div>
 
     <!-- Settings -->
-    <div class="window" id="settings" style="top: 200px; left: 300px; width: 300px;">
-        <div class="title-bar" onmousedown="dragMouseDown(event, 'settings')"><div class="title-bar-text">Settings</div><div class="title-bar-controls"><button onclick="closeWindow('settings')">X</button></div></div>
+    <div class="window" id="settings" style="top: 200px; left: 300px; width: 320px;" data-title="Settings" data-icon="⚙️">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'settings')" ontouchstart="dragTouchStart(event, 'settings')">
+            <div class="title-bar-text">⚙️ Settings & Themes</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('settings')" title="Minimize">_</button>
+                <button onclick="closeWindow('settings')" title="Close">X</button>
+            </div>
+        </div>
         <div class="window-body">
-            <fieldset><legend>Background</legend><div class="radio-group"><label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Grid</label><label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel</label><label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Teal</label><label><input type="radio" name="bg" value="theme-clouds" onclick="setTheme('theme-clouds')"> Clouds</label><label><input type="radio" name="bg" value="theme-hacker" onclick="setTheme('theme-hacker')"> Hacker</label><label><input type="radio" name="bg" value="theme-static" onclick="setTheme('theme-static')"> Static</label></div></fieldset>
-            <fieldset style="margin-top: 10px;"><legend>Effects</legend><label><input type="checkbox" id="xmas-toggle" checked onclick="toggleXmas()"> Holiday Mode</label><label><input type="checkbox" id="trail-toggle"> Glitch Drag (Trail)</label><label><input type="checkbox" id="sound-toggle" checked> Sound Effects</label></fieldset>
-            <fieldset style="margin-top: 10px;"><legend>Avatar</legend>
+            <fieldset><legend>Background Theme</legend><div class="radio-group"><label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Grid (Outrun / Synthwave)</label><label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel 90s</label><label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Classic Teal</label><label><input type="radio" name="bg" value="theme-clouds" onclick="setTheme('theme-clouds')"> Clouds</label><label><input type="radio" name="bg" value="theme-hacker" onclick="setTheme('theme-hacker')"> Matrix / Hacker</label><label><input type="radio" name="bg" value="theme-static" onclick="setTheme('theme-static')"> Static Noise</label></div></fieldset>
+            <fieldset style="margin-top: 10px;"><legend>Effects & Audio</legend><label><input type="checkbox" id="xmas-toggle" checked onclick="toggleXmas()"> Holiday Snow & Lights</label><label><input type="checkbox" id="trail-toggle"> Glitch Drag (Trail)</label><label><input type="checkbox" id="sound-toggle" checked> Sound FX (Web Audio)</label><label><input type="checkbox" id="hdd-toggle" checked> HDD & Floppy Drive Sounds</label></fieldset>
+            <fieldset style="margin-top: 10px;"><legend>User Avatar</legend>
                 <div style="display:flex; justify-content:space-around;">
                     <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('👤')">👤</span>
                     <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('👽')">👽</span>
                     <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('💾')">💾</span>
                     <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('🐱')">🐱</span>
+                    <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('🧙‍♂️')">🧙‍♂️</span>
                 </div>
             </fieldset>
-            <div style="margin-top:10px; text-align:center;"><button onclick="closeWindow('settings')">OK</button></div>
+            <div style="margin-top:10px; text-align:center;"><button onclick="closeWindow('settings')" style="padding: 4px 16px; font-family: inherit; font-size: 16px;">OK</button></div>
         </div>
     </div>
 
     <!-- Taskbar -->
     <div class="taskbar" id="taskbar">
-        <button class="start-btn" onclick="toggleStartMenu()"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Windows_95_logo_icon.svg/512px-Windows_95_logo_icon.svg.png" alt="logo"> Start</button>
-        <div style="width: 2px; height: 26px; border-left: 1px solid white; border-right: 1px solid gray; margin: 0 5px;"></div>
-        <div class="clock" id="clock" onclick="openWindow('calendar'); playSound('click')">12:00 PM</div>
+        <button class="start-btn" id="start-btn-el" onclick="toggleStartMenu()">
+            <svg class="start-logo-svg" viewBox="0 0 24 24">
+                <path fill="#f25022" d="M1 3h9v9H1z"/>
+                <path fill="#00a4ef" d="M1 13h9v9H1z"/>
+                <path fill="#7fba00" d="M11 3h9v9h-9z"/>
+                <path fill="#ffb900" d="M11 13h9v9h-9z"/>
+            </svg>
+            Start
+        </button>
+        <div class="taskbar-divider"></div>
+        <div class="taskbar-tasks" id="taskbar-tasks"></div>
+        <div class="clock" id="clock" onclick="openWindow('calendar'); playSound('click')" title="Click for Calendar">12:00 PM</div>
     </div>
 
     <div class="start-menu" id="startMenu">
         <div class="sidebar">
-            <div class="sidebar-avatar" id="user-avatar">👤</div>
+            <div class="sidebar-avatar" id="user-avatar" onclick="openWindow('settings'); toggleStartMenu()">👤</div>
             <span class="sidebar-text">ERRIDIAN 95</span>
         </div>
         <div class="menu-items">
+            <div class="menu-item" onclick="openWindow('mangareader'); toggleStartMenu()">📖 Читалка Манги</div>
+            <div class="menu-item" onclick="openWindow('achievements'); toggleStartMenu()">🏆 Достижения</div>
+            <div class="menu-item" onclick="openWindow('vhstv'); toggleStartMenu()">📼 VHS ТВ Видео</div>
+            <div class="menu-item" onclick="openWindow('player'); toggleStartMenu()">🎵 WinAmp Плеер</div>
             <div class="menu-item" onclick="openWindow('about'); toggleStartMenu()">📂 О себе</div>
+            <div class="menu-item" onclick="openWindow('projects'); toggleStartMenu()">📁 Проекты</div>
             <div class="menu-item" onclick="openWindow('run'); toggleStartMenu()">🚀 Выполнить</div>
-            <div class="menu-item" onclick="openWindow('chat'); toggleStartMenu()">💬 Чат</div>
+            <div class="menu-item" onclick="openWindow('chat'); toggleStartMenu()">💬 IRC Чат</div>
             <div class="menu-item" onclick="openWindow('pet'); toggleStartMenu()">🥚 Питомец</div>
             <div class="menu-item" onclick="openWindow('minesweeper'); toggleStartMenu()">💣 Сапёр</div>
             <div class="menu-item" onclick="openWindow('tictactoe'); toggleStartMenu()">❌ Крестики</div>
@@ -429,47 +714,436 @@
             <div class="menu-item" onclick="openWindow('calc'); toggleStartMenu()">🧮 Калькулятор</div>
             <div class="menu-item" onclick="openWindow('terminal'); toggleStartMenu()">📟 CMD</div>
             <div class="menu-item" onclick="openWindow('paint'); toggleStartMenu()">🎨 Paint</div>
+            <div class="menu-item" onclick="openWindow('settings'); toggleStartMenu()">⚙️ Настройки</div>
+            <div class="menu-item" onclick="toggleFullscreen(); toggleStartMenu()">🖥️ Полноэкранный режим</div>
             <div class="menu-item" onclick="window.location.href='neocities.html'">🌐 Neocities (Web 1.0)</div>
-            <div class="menu-item" onclick="showBsod(); toggleStartMenu()">☢️ Crash</div>
-            <hr style="width: 100%; border: 1px inset white;">
+            <div class="menu-item" onclick="showBsod(); toggleStartMenu()">☢️ Crash (BSOD)</div>
+            <hr style="width: 100%; border: 1px inset white; margin: 3px 0;">
             <div class="menu-item" onclick="shutdownPC()">🔌 Выход</div>
         </div>
     </div>
 
     <script>
-        window.onload = function() {
-            runBios(); updateClock(); initPaint(); startClippy(); initXmas();
-            setupScreensaver(); loadSysInfo(); initNotepad(); initMinesweeper(); startPet(); initTTT(); renderCalendar();
-            loadAvatar();
-        };
-
-        // --- AUDIO ENGINE ---
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playSound(type) {
-            if(!document.getElementById('sound-toggle').checked) return;
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            
-            if(type === 'click') {
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.05);
-            } else if (type === 'error') {
-                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.2, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.3);
-            } else if (type === 'open') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.1);
-            } else if (type === 'startup') {
-                osc.type = 'square'; osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.5);
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.5);
-            } else {
-                osc.stop(audioCtx.currentTime + 0.1);
+        // --- AUDIO ENGINE WITH NOSTALGIC SOUNDS ---
+        let audioCtx = null;
+        function getAudioCtx() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) audioCtx = new AudioContextClass();
             }
-            osc.start();
+            return audioCtx;
+        }
+
+        function unlockAudio() {
+            const ctx = getAudioCtx();
+            if (ctx && ctx.state === 'suspended') {
+                ctx.resume().catch(() => {});
+            }
+        }
+
+        function playSound(type) {
+            const sndToggle = document.getElementById('sound-toggle');
+            if (sndToggle && !sndToggle.checked) return;
+            const ctx = getAudioCtx();
+            if (!ctx) return;
+            if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+            
+            try {
+                const now = ctx.currentTime;
+                
+                if (type === 'click') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(600, now);
+                    gain.gain.setValueAtTime(0.08, now);
+                    osc.start(now); osc.stop(now + 0.05);
+                } else if (type === 'error') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(100, now);
+                    gain.gain.setValueAtTime(0.2, now);
+                    osc.start(now); osc.stop(now + 0.3);
+                } else if (type === 'open') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
+                    gain.gain.setValueAtTime(0.1, now);
+                    osc.start(now); osc.stop(now + 0.1);
+                    if (document.getElementById('hdd-toggle').checked) playHddCrunch();
+                } else if (type === 'startup') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(600, now + 0.5);
+                    gain.gain.setValueAtTime(0.12, now);
+                    osc.start(now); osc.stop(now + 0.5);
+                } else if (type === 'win' || type === 'achievement') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain); gain.connect(ctx.destination);
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                        gain.gain.setValueAtTime(0.12, now + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.2);
+                        osc.start(now + idx * 0.08);
+                        osc.stop(now + idx * 0.08 + 0.2);
+                    });
+                } else if (type === 'pageturn') {
+                    // White noise burst for page turn
+                    const bufferSize = ctx.sampleRate * 0.15;
+                    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                    const noise = ctx.createBufferSource();
+                    noise.buffer = buffer;
+                    const filter = ctx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(1000, now);
+                    const gain = ctx.createGain();
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                    noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+                    noise.start(now);
+                } else if (type === 'floppy') {
+                    // Floppy motor seek step
+                    for(let i=0; i<3; i++) {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(180 + i * 40, now + i * 0.09);
+                        gain.gain.setValueAtTime(0.1, now + i * 0.09);
+                        osc.connect(gain); gain.connect(ctx.destination);
+                        osc.start(now + i * 0.09); osc.stop(now + i * 0.09 + 0.06);
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function playHddCrunch() {
+            const ctx = getAudioCtx();
+            if (!ctx) return;
+            const now = ctx.currentTime;
+            for (let i = 0; i < 4; i++) {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(80 + Math.random() * 60, now + i * 0.04);
+                gain.gain.setValueAtTime(0.03, now + i * 0.04);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(now + i * 0.04); osc.stop(now + i * 0.04 + 0.02);
+            }
+        }
+
+        // --- ACHIEVEMENTS SYSTEM ---
+        const ACHIEVEMENTS = [
+            { id: 'boot', title: '🖥️ First Boot', desc: 'Загрузился в Erridian OS 95' },
+            { id: 'manga', title: '📖 Manga Lover', desc: 'Полистал страницы в Manga Reader' },
+            { id: 'sweeper', title: '💣 Sweeper Pro', desc: 'Одержал победу в VaporSweeper' },
+            { id: 'lab', title: '🔮 Reading Steiner', desc: 'Нашёл секретную лабораторию Steins;Gate' },
+            { id: 'note', title: '📝 Chronicler', desc: 'Сохранил заметку в Блокноте' },
+            { id: 'winamp', title: '🎵 WinAmp DJ', desc: 'Запустил радиостанцию в плеере' },
+            { id: 'pet', title: '🥚 Good Parent', desc: 'Покормил виртуального питомца' },
+            { id: 'vhs', title: '📼 VHS Nostalgia', desc: 'Включил кассетный ретро-телевизор' }
+        ];
+
+        function getUnlockedAch() {
+            return JSON.parse(localStorage.getItem('erridian_achievements') || '[]');
+        }
+
+        function unlockAchievement(id) {
+            const unlocked = getUnlockedAch();
+            if (unlocked.includes(id)) return;
+            unlocked.push(id);
+            localStorage.setItem('erridian_achievements', JSON.stringify(unlocked));
+
+            const ach = ACHIEVEMENTS.find(a => a.id === id);
+            if (ach) {
+                showAchToast(ach.title, ach.desc);
+                playSound('achievement');
+                renderAchList();
+            }
+        }
+
+        function showAchToast(title, desc) {
+            const toast = document.getElementById('achievement-toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-desc').innerText = desc;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 4000);
+        }
+
+        function renderAchList() {
+            const list = document.getElementById('ach-list');
+            if (!list) return;
+            const unlocked = getUnlockedAch();
+            list.innerHTML = '';
+            document.getElementById('ach-progress').innerText = `Progress: ${unlocked.length} / ${ACHIEVEMENTS.length} Unlocked`;
+
+            ACHIEVEMENTS.forEach(ach => {
+                const isDone = unlocked.includes(ach.id);
+                const item = document.createElement('div');
+                item.style.border = '1px solid ' + (isDone ? '#008800' : '#888');
+                item.style.background = isDone ? '#e0ffe0' : '#ddd';
+                item.style.padding = '6px';
+                item.style.display = 'flex';
+                item.style.alignItems = 'center';
+                item.style.justifyContent = 'space-between';
+                item.innerHTML = `
+                    <div>
+                        <strong>${ach.title}</strong>
+                        <div style="font-size:13px; color:#555;">${ach.desc}</div>
+                    </div>
+                    <span style="font-size:20px;">${isDone ? '✨' : '🔒'}</span>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // --- MANGA READER WIDGET ---
+        const mangaPages = ['egg/ill.jpg', 'oldsite/ill.jpg', 'ref/ill.jpg'];
+        let curMangaIdx = 0;
+
+        function nextMangaPage() {
+            curMangaIdx = (curMangaIdx + 1) % mangaPages.length;
+            updateMangaView();
+            playSound('pageturn');
+            unlockAchievement('manga');
+        }
+
+        function prevMangaPage() {
+            curMangaIdx = (curMangaIdx - 1 + mangaPages.length) % mangaPages.length;
+            updateMangaView();
+            playSound('pageturn');
+            unlockAchievement('manga');
+        }
+
+        function updateMangaView() {
+            const img = document.getElementById('manga-img');
+            img.src = mangaPages[curMangaIdx];
+            document.getElementById('manga-page-num').innerText = `Page ${curMangaIdx + 1} / ${mangaPages.length}`;
+        }
+
+        // --- VHS RETRO TV PLAYER ---
+        let vhsInterval;
+        let vhsChannel = 1;
+        function initVhs() {
+            const canvas = document.getElementById('vhs-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            clearInterval(vhsInterval);
+            vhsInterval = setInterval(() => {
+                if (document.getElementById('vhstv').style.display === 'none') return;
+                
+                if (vhsChannel === 1) {
+                    // Synthwave sunset anim
+                    ctx.fillStyle = '#110022'; ctx.fillRect(0,0,canvas.width,canvas.height);
+                    ctx.fillStyle = '#ff0055'; ctx.beginPath(); ctx.arc(190, 110, 50, 0, Math.PI*2); ctx.fill();
+                    ctx.fillStyle = '#01cdfe';
+                    for(let i=0; i<10; i++) {
+                        ctx.fillRect(0, 110 + i*10, canvas.width, 2);
+                    }
+                } else if (vhsChannel === 2) {
+                    // Matrix stream
+                    ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+                    ctx.fillStyle = '#00ff00'; ctx.font = '14px monospace';
+                    for(let i=0; i<20; i++) {
+                        ctx.fillText(String.fromCharCode(0x30A0 + Math.random()*96), i*20, Math.random()*canvas.height);
+                    }
+                } else {
+                    // Static noise
+                    const imgData = ctx.createImageData(canvas.width, canvas.height);
+                    for (let i = 0; i < imgData.data.length; i += 4) {
+                        const val = Math.random() * 255;
+                        imgData.data[i] = val; imgData.data[i+1] = val; imgData.data[i+2] = val; imgData.data[i+3] = 255;
+                    }
+                    ctx.putImageData(imgData, 0, 0);
+                }
+            }, 50);
+        }
+
+        function setVhsChannel(ch) {
+            vhsChannel = ch;
+            playSound('click');
+            unlockAchievement('vhs');
+            document.getElementById('vhs-osd').innerText = `PLAY ▶ CH 0${ch} [SP]`;
+        }
+
+        function toggleVhsTracking() {
+            playSound('click');
+            const osd = document.getElementById('vhs-osd');
+            osd.innerText = "TRACKING AUTO...";
+            setTimeout(() => { osd.innerText = `PLAY ▶ CH 0${vhsChannel} [HI-FI]`; }, 1200);
+        }
+
+        // --- WINAMP SKINS ---
+        function setWinampSkin(skinClass) {
+            const b = document.getElementById('winamp-body');
+            b.className = 'winamp-body ' + skinClass;
+            playSound('click');
+        }
+
+        // --- WINDOW MANAGER & DYNAMIC TASKBAR ---
+        let zIndexCounter = 100;
+        const activeWindows = new Set();
+
+        function openWindow(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.style.display = 'flex';
+            bringToFront(el);
+            activeWindows.add(id);
+            updateTaskbar();
+            playSound('open');
+            if (id === 'achievements') renderAchList();
+        }
+
+        function closeWindow(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.style.display = 'none';
+            el.classList.remove('maximized');
+            activeWindows.delete(id);
+            updateTaskbar();
+            playSound('click');
+        }
+
+        function minimizeWindow(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.style.display = 'none';
+            el.classList.remove('active');
+            updateTaskbar();
+            playSound('click');
+        }
+
+        function maximizeWindow(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.toggle('maximized');
+            bringToFront(el);
+            playSound('click');
+        }
+
+        function bringToFront(el) {
+            zIndexCounter++;
+            el.style.zIndex = zIndexCounter;
+            document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
+            el.classList.add('active');
+            updateTaskbar();
+        }
+
+        function toggleTaskWindow(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (el.style.display === 'none') {
+                el.style.display = 'flex';
+                bringToFront(el);
+            } else if (el.classList.contains('active')) {
+                minimizeWindow(id);
+            } else {
+                bringToFront(el);
+            }
+        }
+
+        function updateTaskbar() {
+            const bar = document.getElementById('taskbar-tasks');
+            if (!bar) return;
+            bar.innerHTML = '';
+            
+            activeWindows.forEach(id => {
+                const win = document.getElementById(id);
+                if (!win) return;
+                const title = win.getAttribute('data-title') || id;
+                const icon = win.getAttribute('data-icon') || '📁';
+                const isVisible = win.style.display !== 'none';
+                const isActive = win.classList.contains('active') && isVisible;
+
+                const btn = document.createElement('div');
+                btn.className = 'task-item' + (isActive ? ' active' : '');
+                btn.innerHTML = `<span>${icon}</span><span>${title}</span>`;
+                btn.onclick = () => toggleTaskWindow(id);
+                bar.appendChild(btn);
+            });
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+
+        // --- DRAG WINDOWS ---
+        function dragMouseDown(e, id) {
+            e.preventDefault();
+            const elmnt = document.getElementById(id);
+            if (elmnt.classList.contains('maximized')) return;
+            bringToFront(elmnt);
+
+            let pos3 = e.clientX, pos4 = e.clientY;
+            document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
+            document.onmousemove = (e) => {
+                e.preventDefault();
+                let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
+                moveWindowSafe(elmnt, elmnt.offsetLeft - pos1, elmnt.offsetTop - pos2);
+                spawnTrail(elmnt);
+            };
+        }
+
+        function dragTouchStart(e, id) {
+            const elmnt = document.getElementById(id);
+            if (elmnt.classList.contains('maximized')) return;
+            bringToFront(elmnt);
+
+            let touch = e.touches[0];
+            let pos3 = touch.clientX, pos4 = touch.clientY;
+
+            function touchMoveHandler(ev) {
+                let t = ev.touches[0];
+                let pos1 = pos3 - t.clientX, pos2 = pos4 - t.clientY;
+                pos3 = t.clientX; pos4 = t.clientY;
+                moveWindowSafe(elmnt, elmnt.offsetLeft - pos1, elmnt.offsetTop - pos2);
+            }
+
+            function touchEndHandler() {
+                document.removeEventListener('touchmove', touchMoveHandler);
+                document.removeEventListener('touchend', touchEndHandler);
+            }
+
+            document.addEventListener('touchmove', touchMoveHandler, { passive: false });
+            document.addEventListener('touchend', touchEndHandler);
+        }
+
+        function moveWindowSafe(elmnt, newLeft, newTop) {
+            const maxLeft = window.innerWidth - 60;
+            const maxTop = window.innerHeight - 60;
+            elmnt.style.left = Math.max(0, Math.min(maxLeft, newLeft)) + 'px';
+            elmnt.style.top = Math.max(0, Math.min(maxTop, newTop)) + 'px';
+        }
+
+        function spawnTrail(elmnt) {
+            const trailToggle = document.getElementById('trail-toggle');
+            if (trailToggle && trailToggle.checked) {
+                const clone = elmnt.cloneNode(true);
+                clone.classList.add('window-clone');
+                clone.removeAttribute('id');
+                clone.style.zIndex = zIndexCounter - 1;
+                document.body.appendChild(clone);
+                setTimeout(() => clone.remove(), 400);
+            }
         }
 
         // --- CALENDAR ---
@@ -506,18 +1180,19 @@
         function moveTTT(i, el) {
             if(!tttGameActive || tttBoard[i]) return;
             tttBoard[i] = '💾'; el.innerText = '💾'; playSound('click');
-            if(checkTTTWin()) { document.getElementById('ttt-status').innerText = "You Win!"; tttGameActive=false; return; }
+            if(checkTTTWin()) { document.getElementById('ttt-status').innerText = "🎉 You Win!"; playSound('win'); tttGameActive=false; return; }
             if(!tttBoard.includes(null)) { document.getElementById('ttt-status').innerText = "Draw!"; tttGameActive=false; return; }
             document.getElementById('ttt-status').innerText = "PC Thinking...";
-            setTimeout(aiMoveTTT, 500);
+            setTimeout(aiMoveTTT, 400);
         }
         function aiMoveTTT() {
             if(!tttGameActive) return;
             let empty = tttBoard.map((v, i) => v===null ? i : null).filter(v => v!==null);
+            if (empty.length === 0) return;
             let move = empty[Math.floor(Math.random()*empty.length)];
             tttBoard[move] = '💿'; 
             document.getElementsByClassName('ttt-cell')[move].innerText = '💿';
-            if(checkTTTWin()) { document.getElementById('ttt-status').innerText = "PC Wins!"; tttGameActive=false; }
+            if(checkTTTWin()) { document.getElementById('ttt-status').innerText = "💀 PC Wins!"; playSound('error'); tttGameActive=false; }
             else document.getElementById('ttt-status').innerText = "Your Turn (💾)";
         }
         function checkTTTWin() {
@@ -525,7 +1200,414 @@
             return wins.some(c => tttBoard[c[0]] && tttBoard[c[0]] === tttBoard[c[1]] && tttBoard[c[0]] === tttBoard[c[2]]);
         }
 
-        // --- AVATAR ---
+        // --- TAMAGOTCHI ---
+        let petState = 0, hunger = 0, happy = 100;
+        const sprites = ['🥚', '🐣', '🐥', '👻'];
+        function startPet() {
+            setInterval(() => {
+                if(petState === 3) return;
+                hunger = Math.min(100, hunger + 2); happy = Math.max(0, happy - 2);
+                if(hunger >= 100) petState = 3;
+                else if(petState === 0 && happy < 90) petState = 1;
+                else if(petState === 1 && happy > 50 && hunger < 20) petState = 2;
+                document.getElementById('pet-sprite').innerText = sprites[petState];
+                document.getElementById('pet-hunger').innerText = hunger;
+                document.getElementById('pet-happy').innerText = happy;
+            }, 3000);
+        }
+        function feedPet() { if(petState!==3) { hunger = Math.max(0, hunger - 10); playSound('click'); document.getElementById('pet-hunger').innerText = hunger; unlockAchievement('pet'); } }
+        function playPet() { if(petState!==3) { happy = Math.min(100, happy + 10); playSound('click'); document.getElementById('pet-happy').innerText = happy; unlockAchievement('pet'); } }
+
+        // --- CHAT BOT ---
+        function handleChat(e) {
+            if(e.key === 'Enter') {
+                const input = e.target.value.trim();
+                if (!input) return;
+                addChat("User: " + input, "user"); e.target.value = "";
+                setTimeout(() => {
+                    let r = "I am listening to your signals...";
+                    if(input.match(/hi|hello|привет/i)) r = "Greetings, user.";
+                    else if(input.match(/who|кто ты/i)) r = "I am A.L.I.C.E. 95 neural prototype.";
+                    else if(input.match(/life|жизнь/i)) r = "Cyberspace simulation 1.048596%.";
+                    else if(input.match(/manga|манга|fun chozas/i)) r = "Check out the new Manga Reader on desktop!";
+                    addChat("A.L.I.C.E. 95: " + r, ""); playSound('open');
+                }, 800);
+            }
+        }
+        function addChat(txt, cls) {
+            const h = document.getElementById('chat-history');
+            h.innerHTML += `<div class="chat-msg ${cls}">${txt}</div>`; h.scrollTop = h.scrollHeight;
+        }
+
+        // --- VISUALIZER ---
+        let visInterval;
+        function startVisualizer() {
+            const canvas = document.getElementById('vis-canvas');
+            const ctx = canvas.getContext('2d');
+            clearInterval(visInterval);
+            visInterval = setInterval(() => {
+                ctx.fillStyle = 'black'; ctx.fillRect(0,0,canvas.width,canvas.height);
+                for(let i=0; i<30; i++) {
+                    const h = Math.random() * 50;
+                    ctx.fillStyle = `hsl(${Math.random()*360}, 100%, 50%)`; ctx.fillRect(i*10, 50-h, 8, h);
+                }
+            }, 100);
+        }
+        function stopVisualizer() { clearInterval(visInterval); }
+
+        // --- BIOS & BOOT ---
+        let bootSkipped = false;
+        function skipBoot() {
+            if (bootSkipped) return;
+            bootSkipped = true;
+            document.getElementById('boot-screen').style.display = 'none';
+            document.getElementById('desktop').style.opacity = 1;
+            document.getElementById('taskbar').style.opacity = 1;
+            playSound('startup');
+            unlockAchievement('boot');
+            openWindow('about');
+        }
+
+        function runBios() {
+            let mem = 0;
+            const interval = setInterval(() => {
+                if (bootSkipped) { clearInterval(interval); return; }
+                mem += 4096;
+                if(mem >= 64512) {
+                    clearInterval(interval);
+                    document.getElementById('memory-check').innerText = "Memory Test: 64512 KB OK";
+                    document.getElementById('bios-details').innerHTML = '<div class="bios-text">Plug and Play BIOS Extension v1.0A</div><div class="bios-text" style="color:#00ff00;">Booting Erridian OS 95...</div>';
+                    setTimeout(() => { if (!bootSkipped) skipBoot(); }, 1200);
+                } else {
+                    document.getElementById('memory-check').innerText = "Memory Test: " + mem + " KB";
+                }
+            }, 15);
+        }
+
+        function shutdownPC() {
+            document.getElementById('startMenu').style.display = 'none';
+            document.body.style.cursor = 'none';
+            setTimeout(() => document.getElementById('shutdown-screen').style.display = 'flex', 800);
+        }
+
+        function loadSysInfo() {
+            document.getElementById('sys-info').innerHTML = `
+                <li>OS: Erridian 95 (Definitive Edition)</li>
+                <li>Resolution: ${screen.width}x${screen.height}</li>
+                <li>Browser: ${navigator.userAgent.split(' ')[0]}</li>
+                <li style="cursor:pointer; color:#00aa00; margin-top:5px; font-weight:bold;" onclick="window.open('future_gadget_lab/okabe.html', '_blank'); unlockAchievement('lab');" title="Secret Lab Connection">Ω Divergence: 1.048596%</li>
+            `;
+        }
+
+        function initNotepad() {
+            const a = document.getElementById('notepad-area');
+            a.value = localStorage.getItem('vapor_note') || '';
+            a.addEventListener('input', () => {
+                localStorage.setItem('vapor_note', a.value);
+                playSound('floppy');
+                unlockAchievement('note');
+            });
+        }
+
+        function setTheme(t) {
+            document.getElementById('bg-layer').className = t;
+            localStorage.setItem('erridian_theme', t);
+        }
+
+        function updateClock() {
+            const d = new Date();
+            document.getElementById('clock').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        setInterval(updateClock, 1000);
+
+        function toggleStartMenu() {
+            const m = document.getElementById('startMenu');
+            const btn = document.getElementById('start-btn-el');
+            const isOpen = m.style.display === 'flex';
+            m.style.display = isOpen ? 'none' : 'flex';
+            if (isOpen) btn.classList.remove('active'); else btn.classList.add('active');
+            playSound('click');
+        }
+
+        document.addEventListener('click', e => {
+            const m = document.getElementById('startMenu');
+            const btn = document.getElementById('start-btn-el');
+            if (m && !m.contains(e.target) && !btn.contains(e.target) && m.style.display === 'flex') {
+                m.style.display = 'none';
+                btn.classList.remove('active');
+            }
+        });
+
+        // --- RADIO ---
+        const stations = {
+            'vapor': 'https://radio.plaza.one/mp3',
+            'soviet': 'https://radiorecord.hostingradio.ru/synth96.aacp',
+            'chiptune': 'https://stream.cvgm.net/cvgm128',
+            'lofi': 'https://lofi.stream.laut.fm/lofi'
+        };
+        const audio = document.getElementById('audio-player');
+        function playRadio(g) {
+            unlockAudio();
+            audio.src = stations[g];
+            audio.play().catch(() => {});
+            document.getElementById('player-screen').innerText = "Playing: " + g.toUpperCase();
+            startVisualizer();
+            unlockAchievement('winamp');
+        }
+        function stopRadio() {
+            audio.pause();
+            document.getElementById('player-screen').innerText = "Stopped";
+            stopVisualizer();
+        }
+
+        // --- SCREENSAVER & BSOD ---
+        let idleTime = 0, saverInterval, animInterval;
+        function setupScreensaver() {
+            ['mousemove', 'mousedown', 'keypress', 'click', 'touchstart'].forEach(e => document.addEventListener(e, () => {
+                idleTime = 0;
+                if(document.getElementById('screensaver').style.display === 'block') stopSaver();
+            }));
+            saverInterval = setInterval(() => {
+                idleTime++;
+                if(idleTime >= 75) startSaver();
+            }, 1000);
+        }
+        function startSaver() {
+            if (document.getElementById('screensaver').style.display === 'block' || document.getElementById('bsod').style.display === 'block') return;
+            document.getElementById('screensaver').style.display = 'block';
+            let x=100, y=100, vx=3, vy=3, txt = document.getElementById('saver-text');
+            clearInterval(animInterval);
+            animInterval = setInterval(() => {
+                x+=vx; y+=vy;
+                if(x<=0 || x+txt.offsetWidth>=window.innerWidth) { vx=-vx; txt.style.color=`hsl(${Math.random()*360},100%,50%)`; }
+                if(y<=0 || y+txt.offsetHeight>=window.innerHeight) { vy=-vy; txt.style.color=`hsl(${Math.random()*360},100%,50%)`; }
+                txt.style.left=x+'px'; txt.style.top=y+'px';
+            }, 20);
+        }
+        function stopSaver() { document.getElementById('screensaver').style.display = 'none'; clearInterval(animInterval); }
+        function showBsod() { document.getElementById('bsod').style.display = 'block'; playSound('error'); }
+        function hideBsod() { document.getElementById('bsod').style.display = 'none'; }
+        
+        window.addEventListener('keydown', () => {
+            if (document.getElementById('bsod').style.display === 'block') hideBsod();
+        });
+
+        // --- CALCULATOR ---
+        let calcBuffer = "";
+        function calcInput(v) { calcBuffer += v; document.getElementById('calc-display').innerText = calcBuffer; playSound('click'); }
+        function calcResult() {
+            try {
+                calcBuffer = Function('"use strict";return (' + calcBuffer + ')')().toString();
+            } catch(e) {
+                calcBuffer = "Error";
+            }
+            document.getElementById('calc-display').innerText = calcBuffer;
+        }
+        function calcClear() { calcBuffer = ""; document.getElementById('calc-display').innerText = "0"; }
+
+        // --- PAINT ---
+        let ctx, painting = false;
+        function initPaint() {
+            const c = document.getElementById('paintCanvas');
+            ctx = c.getContext('2d');
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = 'black';
+
+            c.addEventListener('mousedown', e => { painting = true; draw(e); });
+            c.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); });
+            c.addEventListener('mousemove', draw);
+
+            c.addEventListener('touchstart', e => {
+                painting = true;
+                const r = c.getBoundingClientRect();
+                const t = e.touches[0];
+                ctx.beginPath();
+                ctx.moveTo(t.clientX - r.left, t.clientY - r.top);
+                e.preventDefault();
+            }, { passive: false });
+
+            c.addEventListener('touchend', () => { painting = false; ctx.beginPath(); });
+            c.addEventListener('touchmove', e => {
+                if (!painting) return;
+                const r = c.getBoundingClientRect();
+                const t = e.touches[0];
+                ctx.lineTo(t.clientX - r.left, t.clientY - r.top);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(t.clientX - r.left, t.clientY - r.top);
+                e.preventDefault();
+            }, { passive: false });
+        }
+        function draw(e) {
+            if(!painting) return;
+            const r = document.getElementById('paintCanvas').getBoundingClientRect();
+            ctx.lineTo(e.clientX - r.left, e.clientY - r.top);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
+        }
+        function setPaintColor(c) { ctx.strokeStyle = c; playSound('click'); }
+        function clearCanvas() { ctx.clearRect(0,0,400,280); playSound('click'); }
+
+        // --- САПЁР ---
+        let mineRows = 9, mineCols = 9, mineBombs = 10;
+        let mineBoard = [], mineRevealed = [], mineFlagged = [];
+        let mineFirstClick = true, mineGameOver = false, mineTimerVal = 0, mineTimerInterval = null;
+
+        function initMinesweeper() {
+            clearInterval(mineTimerInterval);
+            mineTimerVal = 0;
+            document.getElementById('mine-timer').innerText = "000";
+            document.getElementById('mine-count').innerText = "010";
+            document.getElementById('mine-face').innerText = "😎";
+            mineGameOver = false;
+            mineFirstClick = true;
+            mineBoard = Array.from({length: mineRows}, () => Array(mineCols).fill(0));
+            mineRevealed = Array.from({length: mineRows}, () => Array(mineCols).fill(false));
+            mineFlagged = Array.from({length: mineRows}, () => Array(mineCols).fill(false));
+
+            const container = document.getElementById('mine-grid');
+            container.innerHTML = '';
+
+            for (let r = 0; r < mineRows; r++) {
+                for (let c = 0; c < mineCols; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'mine-cell';
+                    cell.dataset.r = r;
+                    cell.dataset.c = c;
+                    cell.onmousedown = (e) => {
+                        if (mineGameOver) return;
+                        if (e.button === 2) {
+                            toggleMineFlag(r, c, cell);
+                        } else {
+                            document.getElementById('mine-face').innerText = '😮';
+                        }
+                    };
+                    cell.onmouseup = () => {
+                        if (!mineGameOver) document.getElementById('mine-face').innerText = '😎';
+                    };
+                    cell.onclick = () => clickMineCell(r, c);
+                    cell.oncontextmenu = (e) => { e.preventDefault(); toggleMineFlag(r, c, cell); };
+                    container.appendChild(cell);
+                }
+            }
+        }
+
+        function placeMines(safeR, safeC) {
+            let placed = 0;
+            while (placed < mineBombs) {
+                let r = Math.floor(Math.random() * mineRows);
+                let c = Math.floor(Math.random() * mineCols);
+                if (mineBoard[r][c] !== 'M' && !(Math.abs(r - safeR) <= 1 && Math.abs(c - safeC) <= 1)) {
+                    mineBoard[r][c] = 'M';
+                    placed++;
+                }
+            }
+            for (let r = 0; r < mineRows; r++) {
+                for (let c = 0; c < mineCols; c++) {
+                    if (mineBoard[r][c] === 'M') continue;
+                    let count = 0;
+                    for (let dr = -1; dr <= 1; dr++) {
+                        for (let dc = -1; dc <= 1; dc++) {
+                            let nr = r + dr, nc = c + dc;
+                            if (nr >= 0 && nr < mineRows && nc >= 0 && nc < mineCols && mineBoard[nr][nc] === 'M') count++;
+                        }
+                    }
+                    mineBoard[r][c] = count;
+                }
+            }
+        }
+
+        function clickMineCell(r, c) {
+            if (mineGameOver || mineFlagged[r][c] || mineRevealed[r][c]) return;
+
+            if (mineFirstClick) {
+                mineFirstClick = false;
+                placeMines(r, c);
+                mineTimerInterval = setInterval(() => {
+                    mineTimerVal = Math.min(999, mineTimerVal + 1);
+                    document.getElementById('mine-timer').innerText = String(mineTimerVal).padStart(3, '0');
+                }, 1000);
+            }
+
+            if (mineBoard[r][c] === 'M') {
+                mineGameOver = true;
+                clearInterval(mineTimerInterval);
+                document.getElementById('mine-face').innerText = '😵';
+                playSound('error');
+                revealAllMines();
+                return;
+            }
+
+            revealCell(r, c);
+            playSound('click');
+
+            if (checkMineWin()) {
+                mineGameOver = true;
+                clearInterval(mineTimerInterval);
+                document.getElementById('mine-face').innerText = '😎';
+                playSound('win');
+                unlockAchievement('sweeper');
+                alert('🎉 Congratulations! You cleared VaporSweeper!');
+            }
+        }
+
+        function revealCell(r, c) {
+            if (r < 0 || r >= mineRows || c < 0 || c >= mineCols || mineRevealed[r][c] || mineFlagged[r][c]) return;
+            mineRevealed[r][c] = true;
+            const index = r * mineCols + c;
+            const cell = document.getElementById('mine-grid').children[index];
+            cell.classList.add('revealed');
+
+            const val = mineBoard[r][c];
+            if (val > 0) {
+                cell.innerText = val;
+                const colors = ['', '#0000ff', '#008000', '#ff0000', '#000080', '#800000', '#008080', '#000000', '#808080'];
+                cell.style.color = colors[val] || '#000';
+            } else {
+                cell.innerText = '';
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        if (dr !== 0 || dc !== 0) revealCell(r + dr, c + dc);
+                    }
+                }
+            }
+        }
+
+        function toggleMineFlag(r, c, cell) {
+            if (mineGameOver || mineRevealed[r][c]) return;
+            mineFlagged[r][c] = !mineFlagged[r][c];
+            cell.innerText = mineFlagged[r][c] ? '🚩' : '';
+            playSound('click');
+            let flags = mineFlagged.flat().filter(Boolean).length;
+            document.getElementById('mine-count').innerText = String(Math.max(0, mineBombs - flags)).padStart(3, '0');
+        }
+
+        function revealAllMines() {
+            for (let r = 0; r < mineRows; r++) {
+                for (let c = 0; c < mineCols; c++) {
+                    const idx = r * mineCols + c;
+                    const cell = document.getElementById('mine-grid').children[idx];
+                    if (mineBoard[r][c] === 'M') {
+                        cell.classList.add('revealed');
+                        cell.innerText = '💣';
+                        cell.style.background = '#ff6666';
+                    }
+                }
+            }
+        }
+
+        function checkMineWin() {
+            for (let r = 0; r < mineRows; r++) {
+                for (let c = 0; c < mineCols; c++) {
+                    if (mineBoard[r][c] !== 'M' && !mineRevealed[r][c]) return false;
+                }
+            }
+            return true;
+        }
+
+        // --- AVATAR & SETTINGS ---
         function loadAvatar() {
             const av = localStorage.getItem('user_avatar') || '👤';
             document.getElementById('user-avatar').innerText = av;
@@ -544,14 +1626,27 @@
             const map = {
                 'calc': 'calc', 'notepad': 'notepad', 'paint': 'paint', 'cmd': 'terminal', 
                 'chat': 'chat', 'pet': 'pet', 'winamp': 'player', 'minesweeper': 'minesweeper',
-                'calendar': 'calendar', 'ttt': 'tictactoe'
+                'calendar': 'calendar', 'ttt': 'tictactoe', 'settings': 'settings', 'projects': 'projects', 
+                'about': 'about', 'manga': 'mangareader', 'achievements': 'achievements', 'vhs': 'vhstv'
             };
             if(map[val]) { openWindow(map[val]); return; }
             if(val === 'matrix') { startMatrix(); return; }
             if(val === 'neocities' || val === 'web1') { window.location.href = 'neocities.html'; return; }
-            // Секретные пасхалки Steins;Gate
+            if(val === 'gameboy' || val === 'gb') { window.location.href = 'neocities_gameboy.html'; return; }
+            if(val === 'vhs' || val === 'tv') { window.location.href = 'neocities_vhs.html'; return; }
+            if(val === 'nes' || val === '8bit' || val === 'famicom') { window.location.href = 'neocities_nes.html'; return; }
+            if(val === 'sega' || val === '16bit' || val === 'genesis' || val === 'sonic') { window.location.href = 'neocities_sega.html'; return; }
+            if(val === 'ps1' || val === 'psx' || val === 'playstation') { window.location.href = 'neocities_ps1.html'; return; }
+            if(val === 'geocities' || val === 'geo' || val === '1997') { window.location.href = 'neocities_geocities.html'; return; }
+            if(val === 'cyberpunk' || val === 'cyber' || val === 'hud') { window.location.href = 'neocities_cyberpunk.html'; return; }
+            if(val === 'frutiger' || val === 'aero' || val === 'aqua') { window.location.href = 'neocities_frutiger.html'; return; }
+            if(val === 'y2k' || val === '2000' || val === 'millennium') { window.location.href = 'neocities_y2k.html'; return; }
+            if(val === 'fullscreen' || val === 'fs') { toggleFullscreen(); return; }
+            
+            // Пасхалки Steins;Gate
             if(val === 'okabe' || val === 'lab' || val === 'fgl' || val === 'steinsgate' || val === 'elpsykongroo' || val === '1.048596' || val === 'dmail') {
                 playSound('startup');
+                unlockAchievement('lab');
                 alert('Reading Steiner activated! Divergence: 1.048596%\nConnecting to Future Gadget Laboratory...');
                 window.open('future_gadget_lab/okabe.html', '_blank');
                 return;
@@ -563,154 +1658,176 @@
             }
             if(val === 'shutdown') { shutdownPC(); return; }
             if(val === 'bsod') { showBsod(); return; }
-            alert("Cannot find '" + val + "'.");
+            alert("Cannot find '" + val + "'. Make sure the name is entered correctly.");
         }
 
-        // --- TAMAGOTCHI ---
-        let petState = 0, hunger = 0, happy = 100;
-        const sprites = ['🥚', '🐣', '🐥', '👻'];
-        function startPet() {
-            setInterval(() => {
-                if(petState === 3) return;
-                hunger = Math.min(100, hunger + 2); happy = Math.max(0, happy - 2);
-                if(hunger >= 100) petState = 3;
-                else if(petState === 0 && happy < 90) petState = 1;
-                else if(petState === 1 && happy > 50 && hunger < 20) petState = 2;
-                document.getElementById('pet-sprite').innerText = sprites[petState];
-                document.getElementById('pet-hunger').innerText = hunger;
-                document.getElementById('pet-happy').innerText = happy;
-            }, 3000);
-        }
-        function feedPet() { if(petState!==3) { hunger = Math.max(0, hunger - 10); playSound('click'); } }
-        function playPet() { if(petState!==3) { happy = Math.min(100, happy + 10); playSound('click'); } }
+        // --- CMD PROMPT ---
+        function handleCmd(e) {
+            if (e.key === 'Enter') {
+                const input = e.target;
+                const cmd = input.value.trim();
+                input.value = '';
+                const history = document.getElementById('cmd-history');
+                history.innerHTML += `<div>C:\\&gt;${cmd}</div>`;
+                const lower = cmd.toLowerCase();
 
-        // --- CHAT BOT ---
-        function handleChat(e) {
-            if(e.key === 'Enter') {
-                const input = e.target.value; addChat("User: " + input, "user"); e.target.value = "";
-                setTimeout(() => {
-                    let r = "I am listening...";
-                    if(input.match(/hi|hello/i)) r = "Greetings, user.";
-                    else if(input.match(/who/i)) r = "I am A.L.I.C.E. 95.";
-                    else if(input.match(/life/i)) r = "Just a simulation.";
-                    addChat("A.L.I.C.E. 95: " + r, ""); playSound('open');
-                }, 1000);
+                let out = '';
+                if (lower === 'help') {
+                    out = 'Commands: HELP, DIR, CLS, VER, DATE, MANGA, ACH, VHS, WIN, MATRIX, FS, LAB, OKABE, KURISU, SHUTDOWN, BSOD';
+                } else if (lower === 'dir') {
+                    out = 'Volume in drive C is ERRIDIAN_95\n Directory of C:\\\n\nMANGA    EXE       64,200\nACHIEVE  DAT        8,192\nVHS_TV   EXE       92,400\nNOTEPAD  EXE       48,220\nWINAMP   EXE      120,400\nSWEEPER  EXE       32,100\n       6 File(s)    365,512 bytes';
+                } else if (lower === 'cls' || lower === 'clear') {
+                    history.innerHTML = '';
+                    return;
+                } else if (lower === 'ver') {
+                    out = 'Erridian OS 95 [Version 4.10.1998] (Definitive Edition)';
+                } else if (lower === 'date') {
+                    out = 'Current date is: ' + new Date().toLocaleDateString();
+                } else if (lower === 'manga') {
+                    openWindow('mangareader');
+                    out = 'Opening Manga Reader...';
+                } else if (lower === 'ach') {
+                    openWindow('achievements');
+                    out = 'Opening Achievements & Trophies...';
+                } else if (lower === 'vhs') {
+                    openWindow('vhstv');
+                    out = 'Powering on VHS CRT TV...';
+                } else if (lower === 'matrix') {
+                    startMatrix();
+                    out = 'Matrix screensaver triggered.';
+                } else if (lower === 'fs') {
+                    toggleFullscreen();
+                    out = 'Toggled fullscreen.';
+                } else if (lower === 'okabe' || lower === 'lab' || lower === 'steinsgate') {
+                    window.open('future_gadget_lab/okabe.html', '_blank');
+                    unlockAchievement('lab');
+                    out = 'IBN 5100 Terminal connection established...';
+                } else if (lower === 'kurisu') {
+                    window.open('future_gadget_lab/kurisu.html', '_blank');
+                    out = 'Lab Member 004 profile opened.';
+                } else if (lower === 'bsod') {
+                    showBsod();
+                    return;
+                } else if (lower === '') {
+                    out = '';
+                } else {
+                    out = `Bad command or file name: "${cmd}"`;
+                }
+
+                if (out) history.innerHTML += `<div>${out.replace(/\n/g, '<br>')}</div>`;
+                const box = document.getElementById('cmd-output');
+                box.scrollTop = box.scrollHeight;
+                playSound('click');
             }
         }
-        function addChat(txt, cls) {
-            const h = document.getElementById('chat-history');
-            h.innerHTML += `<div class="chat-msg ${cls}">${txt}</div>`; h.scrollTop = h.scrollHeight;
-        }
 
-        // --- WINDOW DRAG & TRAIL ---
-        let zIndex = 100;
-        function openWindow(id) { document.getElementById(id).style.display = 'flex'; bringToFront(document.getElementById(id)); playSound('open'); }
-        function closeWindow(id) { document.getElementById(id).style.display = 'none'; playSound('click'); }
-        function bringToFront(el) { zIndex++; el.style.zIndex = zIndex; document.querySelectorAll('.window').forEach(w => w.classList.remove('active')); el.classList.add('active'); }
-        function dragMouseDown(e, id) {
-            e.preventDefault(); const elmnt = document.getElementById(id); bringToFront(elmnt);
-            let pos3 = e.clientX, pos4 = e.clientY;
-            document.onmouseup = () => { document.onmouseup = null; document.onmousemove = null; };
-            document.onmousemove = (e) => {
-                e.preventDefault(); let pos1 = pos3 - e.clientX, pos2 = pos4 - e.clientY;
-                pos3 = e.clientX; pos4 = e.clientY;
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px"; elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-                
-                // Trail Logic
-                if(document.getElementById('trail-toggle').checked) {
-                    const clone = elmnt.cloneNode(true);
-                    clone.classList.add('window-clone');
-                    clone.removeAttribute('id');
-                    clone.style.zIndex = zIndex - 1;
-                    document.body.appendChild(clone);
-                    setTimeout(() => clone.remove(), 500);
+        // --- MATRIX RAIN ---
+        function startMatrix() {
+            const canvas = document.getElementById('matrix-canvas');
+            canvas.style.display = 'block';
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-/\\';
+            const fontSize = 16;
+            const columns = Math.floor(canvas.width / fontSize);
+            const drops = Array(columns).fill(1);
+
+            const matrixInterval = setInterval(() => {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#00ff00';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters[Math.floor(Math.random() * letters.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
                 }
+            }, 33);
+
+            canvas.onclick = () => {
+                clearInterval(matrixInterval);
+                canvas.style.display = 'none';
             };
         }
 
-        // --- VISUALIZER ---
-        let visInterval;
-        function startVisualizer() {
-            const ctx = document.getElementById('vis-canvas').getContext('2d');
-            visInterval = setInterval(() => {
-                ctx.fillStyle = 'black'; ctx.fillRect(0,0,300,50);
-                for(let i=0; i<30; i++) {
-                    const h = Math.random() * 50;
-                    ctx.fillStyle = `hsl(${Math.random()*360}, 100%, 50%)`; ctx.fillRect(i*10, 50-h, 8, h);
+        // --- XMAS LAYER ---
+        function initXmas() {
+            const l = document.getElementById('xmas-layer');
+            const wire = document.getElementById('lights-container');
+            wire.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const bulb = document.createElement('div');
+                bulb.className = 'light-bulb';
+                wire.appendChild(bulb);
+            }
+            l.innerHTML = '';
+            l.appendChild(wire);
+            for(let i=0; i<30; i++) {
+                let d=document.createElement('div');
+                d.className='snowflake';
+                d.innerText='❄';
+                d.style.left=Math.random()*100+'vw';
+                d.style.animationDuration=(Math.random()*5+5)+'s';
+                l.appendChild(d);
+            }
+            const toggle = document.getElementById('xmas-toggle');
+            toggle.addEventListener('change', e => {
+                l.style.display = e.target.checked ? 'block' : 'none';
+                localStorage.setItem('erridian_xmas', e.target.checked);
+            });
+            l.style.display = toggle.checked ? 'block' : 'none';
+        }
+        function toggleXmas() {
+            const toggle = document.getElementById('xmas-toggle');
+            document.getElementById('xmas-layer').style.display = toggle.checked ? 'block' : 'none';
+        }
+
+        function startClippy() {
+            const quotes = [
+                "It looks like you're browsing cyberspace. Need help?",
+                "Have you tried reading manga in the new Manga Reader?",
+                "Check out the new Retro TV and Achievements!",
+                "Have you tried listening to WinAmp radio?"
+            ];
+            setInterval(() => {
+                if(Math.random()>0.75) {
+                    const b = document.getElementById('clippy-bubble');
+                    b.innerText = quotes[Math.floor(Math.random() * quotes.length)];
+                    b.style.display = 'block';
+                    setTimeout(() => b.style.display='none', 4000);
                 }
-            }, 100);
+            }, 12000);
         }
-        function stopVisualizer() { clearInterval(visInterval); }
 
-        // --- COMMON & EGGS ---
-        function runBios() {
-            let mem = 0;
-            const interval = setInterval(() => {
-                mem += 2048;
-                if(mem >= 64512) {
-                    clearInterval(interval); document.getElementById('memory-check').innerText = "Memory Test: 64512 KB OK";
-                    document.getElementById('bios-details').innerHTML += '<div>Booting...</div>';
-                    setTimeout(() => { document.getElementById('boot-screen').style.display = 'none'; document.getElementById('desktop').style.opacity = 1; document.getElementById('taskbar').style.opacity = 1; playSound('startup'); openWindow('about'); }, 2000);
-                } else document.getElementById('memory-check').innerText = "Memory Test: "+mem+" KB";
-            }, 10);
-        }
-        function shutdownPC() { document.getElementById('startMenu').style.display = 'none'; document.body.style.cursor = 'none'; setTimeout(() => document.getElementById('shutdown-screen').style.display = 'flex', 1000); }
-        function loadSysInfo() {
-            document.getElementById('sys-info').innerHTML = `<li>OS: Erridian 95</li><li>Res: ${screen.width}x${screen.height}</li><li>Browser: ${navigator.userAgent.split(' ')[0]}</li><li style="cursor:pointer; color:#00aa00; margin-top:5px; opacity:0.8;" onclick="window.open('future_gadget_lab/okabe.html', '_blank')" title="Secret Lab Connection">Ω Divergence: 1.048596%</li>`;
-        }
-        function initNotepad() { const a = document.getElementById('notepad-area'); a.value = localStorage.getItem('vapor_note') || ''; a.addEventListener('input', () => localStorage.setItem('vapor_note', a.value)); }
-        function setTheme(t) { document.getElementById('bg-layer').className = t; }
-        function updateClock() { const d = new Date(); document.getElementById('clock').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); }
-        setInterval(updateClock, 1000);
-        function toggleStartMenu() { const m = document.getElementById('startMenu'); m.style.display = (m.style.display==='flex')?'none':'flex'; playSound('click'); }
-        document.addEventListener('click', e => { const m = document.getElementById('startMenu'); if(!m.contains(e.target) && !document.querySelector('.start-btn').contains(e.target)) m.style.display = 'none'; });
-        
-        // Radio
-        const stations = {'vapor': 'https://radio.plaza.one/mp3', 'soviet': 'https://radiorecord.hostingradio.ru/synth96.aacp', 'chiptune': 'https://stream.cvgm.net/cvgm128', 'lofi': 'https://lofi.stream.laut.fm/lofi'};
-        const audio = document.getElementById('audio-player');
-        function playRadio(g) { audio.src = stations[g]; audio.play(); document.getElementById('player-screen').innerText = "Playing: " + g.toUpperCase(); startVisualizer(); }
-        function stopRadio() { audio.pause(); document.getElementById('player-screen').innerText = "Stopped"; stopVisualizer(); }
+        // --- INIT ON LOAD ---
+        window.onload = function() {
+            runBios();
+            updateClock();
+            initPaint();
+            initVhs();
+            startClippy();
+            initXmas();
+            setupScreensaver();
+            loadSysInfo();
+            initNotepad();
+            initMinesweeper();
+            startPet();
+            initTTT();
+            renderCalendar();
+            loadAvatar();
 
-        // Screensaver
-        let idleTime=0, saverInterval, animInterval;
-        function setupScreensaver() {
-            ['mousemove', 'mousedown', 'keypress', 'click'].forEach(e => document.addEventListener(e, () => { idleTime=0; if(document.getElementById('screensaver').style.display === 'block') stopSaver(); if(document.getElementById('bsod').style.display==='block' && Math.random()>0.5) hideBsod(); }));
-            saverInterval = setInterval(() => { idleTime++; if(idleTime >= 60) startSaver(); }, 1000);
-        }
-        function startSaver() {
-            if (document.getElementById('screensaver').style.display === 'block' || document.getElementById('bsod').style.display === 'block') return;
-            if(Math.random() < 0.01) { showBsod(); return; } // Rare BSOD
-            document.getElementById('screensaver').style.display = 'block';
-            let x=100, y=100, vx=3, vy=3, txt = document.getElementById('saver-text');
-            clearInterval(animInterval);
-            animInterval = setInterval(() => {
-                x+=vx; y+=vy;
-                if(x<=0 || x+txt.offsetWidth>=window.innerWidth) { vx=-vx; txt.style.color=`hsl(${Math.random()*360},100%,50%)`; }
-                if(y<=0 || y+txt.offsetHeight>=window.innerHeight) { vy=-vy; txt.style.color=`hsl(${Math.random()*360},100%,50%)`; }
-                txt.style.left=x+'px'; txt.style.top=y+'px';
-            }, 20);
-        }
-        function stopSaver() { document.getElementById('screensaver').style.display = 'none'; clearInterval(animInterval); }
-        function showBsod() { document.getElementById('bsod').style.display = 'block'; playSound('error'); }
-        function hideBsod() { document.getElementById('bsod').style.display = 'none'; }
-
-        // Init other apps (Calc, Paint, etc - simplified for space, logic kept from previous)
-        let calcBuffer = "";
-        function calcInput(v) { calcBuffer += v; document.getElementById('calc-display').innerText = calcBuffer; playSound('click'); }
-        function calcResult() { try { calcBuffer = eval(calcBuffer).toString(); } catch(e) { calcBuffer = "Error"; } document.getElementById('calc-display').innerText = calcBuffer; }
-        function calcClear() { calcBuffer = ""; document.getElementById('calc-display').innerText = "0"; }
-        
-        let ctx, painting = false;
-        function initPaint() { const c = document.getElementById('paintCanvas'); ctx = c.getContext('2d'); ctx.lineWidth = 2; ctx.strokeStyle = 'black'; c.addEventListener('mousedown', e => { painting = true; draw(e); }); c.addEventListener('mouseup', () => { painting = false; ctx.beginPath(); }); c.addEventListener('mousemove', draw); }
-        function draw(e) { if(!painting) return; const r = document.getElementById('paintCanvas').getBoundingClientRect(); ctx.lineTo(e.clientX - r.left, e.clientY - r.top); ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - r.left, e.clientY - r.top); }
-        function setPaintColor(c) { ctx.strokeStyle = c; } function clearCanvas() { ctx.clearRect(0,0,400,300); }
-
-        function initMinesweeper() { 
-            const c = document.getElementById('mine-grid'); c.innerHTML = ''; 
-            for(let i=0; i<9; i++) for(let j=0; j<9; j++) { let d = document.createElement('div'); d.className = 'mine-cell'; d.onclick = function() { this.classList.add('revealed'); this.style.background = '#c0c0c0'; if(Math.random()<0.15) { this.innerText='💣'; this.style.background='red'; playSound('error'); alert('BOOM'); initMinesweeper(); } else { this.innerText = Math.floor(Math.random()*3)+1; playSound('click'); } }; c.appendChild(d); }
-        }
-        function initXmas() { const l = document.getElementById('xmas-layer'); for(let i=0; i<30; i++) { let d=document.createElement('div'); d.className='snowflake'; d.innerText='❄'; d.style.left=Math.random()*100+'vw'; d.style.animationDuration=(Math.random()*5+5)+'s'; l.appendChild(d); } document.getElementById('xmas-toggle').addEventListener('change', e => l.style.display = e.target.checked ? 'block' : 'none'); }
-        function startClippy() { setInterval(() => { if(Math.random()>0.8) { const b = document.getElementById('clippy-bubble'); b.style.display = 'block'; setTimeout(() => b.style.display='none', 3000); } }, 10000); }
+            const savedTheme = localStorage.getItem('erridian_theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+                const r = document.querySelector(`input[name="bg"][value="${savedTheme}"]`);
+                if (r) r.checked = true;
+            }
+        };
     </script>
 </body>
 </html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERRIDIAN // VHS RETRO TAPE 1997</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --osd-green: #2bf740;
+      --osd-blue: #0022cc;
+      --osd-cyan: #00f0ff;
+      --tv-body: #1e1b18;
+      --tv-bezel: #12100e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #080706;
+      background-image: 
+        radial-gradient(#151210 20%, transparent 20%),
+        radial-gradient(#151210 20%, transparent 20%);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px 40px;
+      font-family: 'VT323', monospace;
+      color: #e0e0e0;
+    }
+
+    /* Style Bar */
+    .style-bar {
+      width: 100%;
+      max-width: 960px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 8px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 25px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    .style-bar span { color: #2bf740; font-weight: bold; }
+    .style-bar a {
+      color: #bbb;
+      text-decoration: none;
+      padding: 3px 8px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .style-bar a:hover, .style-bar a.active {
+      background: #2bf740;
+      color: #000;
+      border-color: #2bf740;
+      text-shadow: none;
+    }
+
+    /* CRT Television Enclosure */
+    .tv-enclosure {
+      width: 100%;
+      max-width: 920px;
+      background: linear-gradient(145deg, #2b2620, #141210);
+      border-radius: 28px;
+      padding: 25px;
+      box-shadow: 
+        0 25px 60px rgba(0,0,0,0.9),
+        inset 0 2px 4px #554a3e,
+        inset 0 -8px 15px #0a0908;
+      border: 4px solid #3d352b;
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 25px;
+    }
+
+    @media (max-width: 820px) {
+      .tv-enclosure {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Screen Frame */
+    .crt-bezel {
+      background: var(--tv-bezel);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: inset 0 6px 14px #000, 0 2px 4px rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    /* The actual CRT screen display */
+    .crt-screen {
+      position: relative;
+      background: #020914;
+      border-radius: 14px;
+      height: 480px;
+      overflow-y: auto;
+      padding: 24px;
+      color: #bbf8c2;
+      box-shadow: inset 0 0 40px rgba(0, 50, 100, 0.4);
+      text-shadow: 0 0 4px rgba(43, 247, 64, 0.6);
+    }
+
+    /* CRT Scanlines & Screen Curve Overlay */
+    .crt-screen::before {
+      content: " ";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* VHS Noise Jitter */
+    .vhs-noise-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      z-index: 15;
+    }
+
+    /* OSD (On-Screen Display) Header */
+    .vhs-osd-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--osd-green);
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+      border-bottom: 1px dashed rgba(43, 247, 64, 0.3);
+      padding-bottom: 6px;
+    }
+    .osd-rec {
+      color: #ff3333;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: blinkRec 1s infinite;
+    }
+    @keyframes blinkRec {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0.2; }
+    }
+
+    .vhs-osd-bottom {
+      margin-top: 20px;
+      border-top: 1px dashed rgba(43, 247, 64, 0.3);
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      color: var(--osd-green);
+    }
+
+    /* Content Layouts */
+    .channel-view { display: none; }
+    .channel-view.active { display: block; }
+
+    .vhs-title {
+      font-size: 28px;
+      color: #fff;
+      text-shadow: 2px 2px #0022cc, -2px -2px #ff0055;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .vhs-card {
+      background: rgba(0, 25, 45, 0.5);
+      border: 1px solid #2bf740;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      border-radius: 4px;
+    }
+    .vhs-card h3 {
+      font-size: 22px;
+      color: #2bf740;
+      margin-bottom: 6px;
+    }
+    .vhs-card p {
+      font-size: 19px;
+      line-height: 1.4;
+      color: #d8f5dd;
+    }
+
+    .vhs-link {
+      display: inline-block;
+      color: #000;
+      background: #2bf740;
+      text-decoration: none;
+      padding: 4px 12px;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 8px;
+      margin-right: 8px;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .vhs-link:hover {
+      background: #fff;
+      box-shadow: 0 0 10px #2bf740;
+    }
+
+    /* TV Right Control Panel */
+    .tv-controls {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #191613;
+      border-radius: 16px;
+      padding: 18px;
+      border: 2px solid #2b241c;
+      box-shadow: inset 0 2px 6px #0a0907;
+    }
+
+    .tv-brand {
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      color: #d6b38a;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      border-bottom: 2px solid #3a3227;
+      padding-bottom: 8px;
+    }
+    .tv-brand span {
+      display: block;
+      font-size: 9px;
+      color: #8c765c;
+    }
+
+    .tv-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .ch-btn {
+      background: #2c251f;
+      color: #e0c8b0;
+      border: 2px solid #4a3e33;
+      padding: 8px 10px;
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      cursor: pointer;
+      text-align: left;
+      border-radius: 4px;
+      box-shadow: 0 3px 0 #15120e;
+      transition: all 0.1s;
+    }
+    .ch-btn:hover, .ch-btn.active {
+      background: #2bf740;
+      color: #000;
+      border-color: #2bf740;
+      box-shadow: 0 0 10px rgba(43, 247, 64, 0.5);
+    }
+    .ch-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #15120e;
+    }
+
+    /* Dials */
+    .dials-row {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+    .dial-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .dial-knob {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #4a3e33 40%, #1c1814 90%);
+      border: 3px solid #110e0c;
+      box-shadow: 0 4px 6px #000;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .dial-knob::after {
+      content: "";
+      position: absolute;
+      top: 4px; left: 19px;
+      width: 3px; height: 10px;
+      background: #e0c8b0;
+      border-radius: 2px;
+    }
+    .dial-label {
+      font-size: 11px;
+      color: #a8947e;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* Speaker Grid */
+    .tv-speaker {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 15px;
+      padding: 10px 0 0;
+      border-top: 2px solid #2b241c;
+    }
+    .tv-speaker-slit {
+      height: 3px;
+      background: #0d0b09;
+      border-radius: 2px;
+      box-shadow: inset 0 1px 1px #000;
+    }
+
+    /* Synth Sound Grid */
+    .synth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .synth-btn {
+      background: #002244;
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      padding: 10px;
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 4px;
+    }
+    .synth-btn:hover {
+      background: #00f0ff;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Style Switcher Bar -->
+  <div class="style-bar">
+    <span>THEMES:</span>
+    <a href="index.html">OS 95</a>
+    <a href="neocities.html">Cyber Realm</a>
+    <a href="neocities_geocities.html">GeoCities '97</a>
+    <a href="neocities_cyberpunk.html">Cyberpunk HUD</a>
+    <a href="neocities_frutiger.html">Frutiger Aero</a>
+    <a href="neocities_y2k.html">Y2K 2000</a>
+    <a href="neocities_nes.html">NES 8-Bit</a>
+    <a href="neocities_sega.html">Sega 16-Bit</a>
+    <a href="neocities_ps1.html">PS1 32-Bit</a>
+    <a href="neocities_gameboy.html">GameBoy DMG</a>
+    <a href="neocities_vhs.html" class="active">VHS 90s TV</a>
+  </div>
+
+  <!-- CRT Retro Television Frame -->
+  <div class="tv-enclosure">
+    <!-- Screen side -->
+    <div class="crt-bezel">
+      <div class="crt-screen" id="crtScreen">
+        <canvas id="noiseCanvas" class="vhs-noise-overlay"></canvas>
+
+        <!-- OSD TOP -->
+        <div class="vhs-osd-top">
+          <div class="osd-rec">● REC [SP]</div>
+          <div id="vhsTimecode">00:14:28:19</div>
+          <div id="osdChannel">CH 01</div>
+        </div>
+
+        <!-- CHANNEL 01: LAB PROFILE -->
+        <div class="channel-view active" id="ch-1">
+          <h1 class="vhs-title">BROADCAST 01: ERRIDIAN LAB</h1>
+          <div class="vhs-card">
+            <h3>TRANSMISSION IDENTITY</h3>
+            <p>NAME: ERRIDIAN // OPERATOR<br>
+               LOCATION: WORLD LINE 1.048596%<br>
+               STATUS: BROADCASTING ANALOG SIGNAL OVER THE WEB</p>
+          </div>
+          <div class="vhs-card">
+            <h3>LAB OBJECTIVES</h3>
+            <p>Preserving retro aesthetics, manga scans, sound synthesizers, and cybernetic experimental web interfaces.</p>
+          </div>
+          <div style="margin-top: 15px;">
+            <a class="vhs-link" href="https://t.me/ocerr" target="_blank">► TELEGRAM</a>
+            <a class="vhs-link" href="https://vk.com/dropushko" target="_blank">► VK / DROPUSHKO</a>
+            <a class="vhs-link" href="https://www.youtube.com/channel/UCb2VbVdGz9e0gA7EaBfO_3w" target="_blank">► YOUTUBE</a>
+          </div>
+        </div>
+
+        <!-- CHANNEL 02: TAPE LOGS -->
+        <div class="channel-view" id="ch-2">
+          <h1 class="vhs-title">BROADCAST 02: ARCHIVE TAPES</h1>
+          <div class="vhs-card">
+            <h3>TAPE #094 - RETRO RECONSTRUCTION</h3>
+            <p>Analog signals degrade gracefully into magnetic noise. Exploring Web 1.0, 8-bit, 16-bit, and 32-bit computing eras.</p>
+          </div>
+          <div class="vhs-card">
+            <h3>TAPE #095 - D-MAIL LOG</h3>
+            <p>Warning: Temporal shifts detected in regional frequency 433.92 MHz. Divergence meter steady.</p>
+          </div>
+          <div class="vhs-card">
+            <h3>TAPE #096 - HARDWARE SPECS</h3>
+            <p>Phosphor CRT tube, magnetic tape deck, mono/stereo analog mixing, simulated phosphor decay.</p>
+          </div>
+        </div>
+
+        <!-- CHANNEL 03: FUN CHOZAS MANGA -->
+        <div class="channel-view" id="ch-3">
+          <h1 class="vhs-title">BROADCAST 03: FUN CHOZAS</h1>
+          <div class="vhs-card">
+            <h3>MANGA SCANLATION CHANNEL</h3>
+            <p>Welcome to the Fun Chozas VHS broadcast. Featuring manga translation releases, scanlation updates, and artistic works.</p>
+          </div>
+          <div class="vhs-card">
+            <h3>COMMUNITY LINKS</h3>
+            <p>Join the community and read translated chapters directly.</p>
+            <a class="vhs-link" href="https://vk.com/funchozas" target="_blank">► OPEN VK / FUNCHOZAS</a>
+          </div>
+        </div>
+
+        <!-- CHANNEL 04: SYNTH SOUND GENERATOR -->
+        <div class="channel-view" id="ch-4">
+          <h1 class="vhs-title">BROADCAST 04: ANALOG SYNTH</h1>
+          <p style="font-size: 18px; margin-bottom: 12px;">Trigger real-time analog synth tones through Web Audio API:</p>
+          <div class="synth-grid">
+            <button class="synth-btn" onclick="playVhsTone('saw', 220)">ANALOG BASS (220Hz)</button>
+            <button class="synth-btn" onclick="playVhsTone('sine', 440)">TEST TONE A4 (440Hz)</button>
+            <button class="synth-btn" onclick="playVhsTone('square', 880)">SQUARE LEAD (880Hz)</button>
+            <button class="synth-btn" onclick="playTapeRewind()">REWIND TAPE SFX</button>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size: 16px; color:#888;">Static buzz / Tape flutter engine active.</p>
+          </div>
+        </div>
+
+        <!-- CHANNEL 05: STEINS;GATE EGG -->
+        <div class="channel-view" id="ch-5">
+          <h1 class="vhs-title" style="color: #ff3333; text-shadow: 2px 2px #550000;">BROADCAST 05: CLASSIFIED</h1>
+          <div class="vhs-card" style="border-color: #ff3333; background: rgba(50, 0, 0, 0.6);">
+            <h3 style="color:#ff3333;">TOP SECRET // SERN INTERCEPT</h3>
+            <p>DIVERGENCE METER: 1.048596<br>
+               "The world line has been preserved. Beware of the Agency's monitoring satellites."<br>
+               EL PSY KONGROO.</p>
+          </div>
+          <button class="vhs-link" style="border:none; cursor:pointer;" onclick="playDmailSound()">SEND D-MAIL SIGNAL</button>
+        </div>
+
+        <!-- OSD BOTTOM -->
+        <div class="vhs-osd-bottom">
+          <div>OCT. 24 1997</div>
+          <div id="trackingStatus">AUTO TRACKING: OK</div>
+          <div>AUDIO: STEREO</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TV Controls side -->
+    <div class="tv-controls">
+      <div class="tv-brand">
+        ERRIDIAN CRT-97
+        <span>COLOR VIDEO MONITOR</span>
+      </div>
+
+      <!-- Channel Buttons -->
+      <div class="tv-buttons">
+        <button class="ch-btn active" onclick="switchChannel(1)">CH 01 : LAB PROFILE</button>
+        <button class="ch-btn" onclick="switchChannel(2)">CH 02 : VHS ARCHIVE</button>
+        <button class="ch-btn" onclick="switchChannel(3)">CH 03 : FUN CHOZAS</button>
+        <button class="ch-btn" onclick="switchChannel(4)">CH 04 : SYNTH GENERATOR</button>
+        <button class="ch-btn" onclick="switchChannel(5)">CH 05 : [CLASSIFIED]</button>
+      </div>
+
+      <!-- Dials -->
+      <div class="dials-row">
+        <div class="dial-group">
+          <div class="dial-knob" id="knobTrack" onclick="tweakTracking()" title="Adjust Tracking"></div>
+          <div class="dial-label">TRACKING</div>
+        </div>
+        <div class="dial-group">
+          <div class="dial-knob" id="knobVol" onclick="tweakVolume()" title="Volume Dial"></div>
+          <div class="dial-label">VOLUME</div>
+        </div>
+      </div>
+
+      <!-- Speaker slit -->
+      <div class="tv-speaker">
+        <div class="tv-speaker-slit"></div>
+        <div class="tv-speaker-slit"></div>
+        <div class="tv-speaker-slit"></div>
+        <div class="tv-speaker-slit"></div>
+        <div class="tv-speaker-slit"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Audio Context
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playVhsTone(type, freq) {
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.6);
+      } catch(e){}
+    }
+
+    function playTapeRewind() {
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, now);
+        osc.frequency.exponentialRampToValueAtTime(1200, now + 0.8);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.8);
+
+        // Flash screen tracking
+        const scr = document.getElementById('crtScreen');
+        scr.style.filter = 'blur(2px) contrast(200%)';
+        setTimeout(() => { scr.style.filter = 'none'; }, 800);
+      } catch(e){}
+    }
+
+    function playDmailSound() {
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        [880, 1174, 1318, 1760].forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+          gain.gain.setValueAtTime(0.12, now + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.08);
+          osc.stop(now + idx * 0.08 + 0.3);
+        });
+      } catch(e){}
+    }
+
+    // Timecode simulation
+    let frames = 19, secs = 28, mins = 14, hours = 0;
+    setInterval(() => {
+      frames++;
+      if (frames >= 30) {
+        frames = 0;
+        secs++;
+        if (secs >= 60) {
+          secs = 0;
+          mins++;
+          if (mins >= 60) {
+            mins = 0;
+            hours++;
+          }
+        }
+      }
+      const tc = `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}:${String(frames).padStart(2, '0')}`;
+      const el = document.getElementById('vhsTimecode');
+      if (el) el.innerText = tc;
+    }, 1000 / 30);
+
+    // Channel Switching
+    function switchChannel(chNum) {
+      playVhsTone('square', 300);
+      document.querySelectorAll('.channel-view').forEach(v => v.classList.remove('active'));
+      const target = document.getElementById(`ch-${chNum}`);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.ch-btn').forEach((btn, idx) => {
+        if (idx === chNum - 1) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+
+      document.getElementById('osdChannel').innerText = `CH 0${chNum}`;
+      document.getElementById('crtScreen').scrollTop = 0;
+
+      // Channel static glitch flash
+      const noise = document.getElementById('noiseCanvas');
+      noise.style.opacity = '0.6';
+      setTimeout(() => { noise.style.opacity = '0.12'; }, 200);
+    }
+
+    // Dial Knobs interaction
+    let trackAngle = 0;
+    function tweakTracking() {
+      trackAngle = (trackAngle + 45) % 360;
+      document.getElementById('knobTrack').style.transform = `rotate(${trackAngle}deg)`;
+      const stat = document.getElementById('trackingStatus');
+      stat.innerText = trackAngle === 0 ? "AUTO TRACKING: OK" : `MANUAL TRACK: ${trackAngle}°`;
+      playVhsTone('triangle', 400 + trackAngle);
+    }
+
+    let volAngle = 0;
+    function tweakVolume() {
+      volAngle = (volAngle + 30) % 180;
+      document.getElementById('knobVol').style.transform = `rotate(${volAngle}deg)`;
+      playVhsTone('sine', 300 + volAngle * 3);
+    }
+
+    // VHS Static Noise Canvas
+    const canvas = document.getElementById('noiseCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeNoise() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeNoise);
+    resizeNoise();
+
+    function renderNoise() {
+      const w = canvas.width;
+      const h = canvas.height;
+      if (w > 0 && h > 0) {
+        const imgData = ctx.createImageData(w, h);
+        const buffer = new Uint32Array(imgData.data.buffer);
+        for (let i = 0; i < buffer.length; i++) {
+          if (Math.random() < 0.06) {
+            buffer[i] = 0xffffffff;
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+      }
+      requestAnimationFrame(renderNoise);
+    }
+    renderNoise();
+  </script>
+</body>
+</html>
