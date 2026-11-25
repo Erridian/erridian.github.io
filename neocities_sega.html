@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦔 ERRIDIAN // SEGA 16-BIT MEGA DRIVE EDITION (1991)</title>
+    <link rel="icon" href="favicon.ico">
+    <meta name="theme-color" content="#0033cc">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sega-blue: #0022aa;
+            --sega-sky: #0088ff;
+            --sega-gold: #ffcc00;
+            --sega-red: #ee0022;
+            --sega-dark: #000c22;
+            --sonic-grass: #1b8d2b;
+            --check-brown1: #9d5019;
+            --check-brown2: #723406;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 12px;
+            background: linear-gradient(180deg, #001155 0%, #0033aa 40%, #0088ff 70%, #00aa44 71%, #1b8d2b 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+
+        a {
+            color: var(--sega-gold);
+            text-decoration: underline;
+            text-shadow: 2px 2px #000;
+        }
+        a:hover {
+            color: #fff;
+            background: var(--sega-red);
+            text-decoration: none;
+        }
+
+        /* Навигатор стилей */
+        .style-switcher {
+            background: rgba(0, 0, 0, 0.85);
+            border: 3px ridge var(--sega-gold);
+            padding: 6px;
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 10px;
+            line-height: 2;
+        }
+        .style-switcher a {
+            color: var(--sega-gold);
+            margin: 0 4px;
+            display: inline-block;
+            padding: 2px 6px;
+            border: 1px solid #555;
+            text-decoration: none;
+        }
+        .style-switcher a.active {
+            background: var(--sega-blue);
+            color: #fff;
+            border-color: var(--sega-gold);
+        }
+
+        .sega-wrapper {
+            max-width: 920px;
+            margin: 0 auto;
+            background: rgba(0, 10, 40, 0.9);
+            border: 4px solid var(--sega-gold);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(0, 136, 255, 0.5);
+            padding: 15px;
+        }
+
+        /* 16-Bit Шапка в стиле Sonic / Mega Drive */
+        .sega-header {
+            text-align: center;
+            background: radial-gradient(circle, #0044cc 0%, #001144 100%);
+            border: 3px outset var(--sega-gold);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .sega-logo {
+            font-family: 'Righteous', 'Impact', sans-serif;
+            font-size: 38px;
+            letter-spacing: 3px;
+            color: #fff;
+            text-shadow: 4px 4px var(--sega-blue), -2px -2px var(--sega-red);
+            margin: 0 0 5px 0;
+        }
+
+        .blast-text {
+            color: var(--sega-gold);
+            font-size: 11px;
+            text-shadow: 2px 2px #000;
+        }
+
+        .hud-counters {
+            display: flex;
+            justify-content: space-between;
+            background: #000;
+            border: 2px inset var(--sega-sky);
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sega-grid {
+            display: grid;
+            grid-template-columns: 270px 1fr;
+            gap: 15px;
+        }
+        @media (max-width: 780px) {
+            .sega-grid { grid-template-columns: 1fr; }
+        }
+
+        .sega-card {
+            background: rgba(0, 20, 60, 0.85);
+            border: 3px outset #4488ff;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+        }
+
+        .sega-card-title {
+            background: linear-gradient(90deg, var(--sega-red), var(--sega-blue));
+            color: #fff;
+            padding: 4px 8px;
+            margin: -12px -12px 10px -12px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom: 2px solid var(--sega-gold);
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sega-btn {
+            background: linear-gradient(180deg, #ffcc00 0%, #dd8800 100%);
+            border: 2px outset #ffffff;
+            color: #000;
+            font-family: inherit;
+            font-size: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            font-weight: bold;
+            box-shadow: 2px 2px 0 #000;
+        }
+        .sega-btn:hover {
+            filter: brightness(1.2);
+            transform: translateY(-1px);
+        }
+        .sega-btn:active {
+            border: 2px inset #ffffff;
+            transform: translateY(1px);
+        }
+
+        /* Checkered pattern box */
+        .checkered-box {
+            background-color: var(--check-brown1);
+            background-image: linear-gradient(45deg, var(--check-brown2) 25%, transparent 25%), 
+                              linear-gradient(-45deg, var(--check-brown2) 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, var(--check-brown2) 75%), 
+                              linear-gradient(-45deg, transparent 75%, var(--check-brown2) 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+            padding: 10px;
+            border: 3px solid #000;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body onclick="unlockSegaAudio()">
+
+    <!-- Навигатор стилей -->
+    <div class="style-switcher">
+        <span>🎮 <strong>RETRO CONSOLE & WEB REALMS:</strong></span><br>
+        <a href="neocities_nes.html">👾 NES 8-Bit</a>
+        <a href="neocities_sega.html" class="active">🦔 Sega 16-Bit</a>
+        <a href="neocities_ps1.html">💿 PS One 32-Bit</a>
+        <a href="neocities_gameboy.html">🕹️ GameBoy</a>
+        <a href="neocities_vhs.html">📼 VHS 90s TV</a>
+        <a href="neocities.html">★ Cyber Realm</a>
+        <a href="neocities_geocities.html">🔥 GeoCities 97</a>
+        <a href="neocities_cyberpunk.html">⚡ Cyberpunk</a>
+        <a href="neocities_frutiger.html">💧 Frutiger Aero</a>
+        <a href="neocities_y2k.html">💿 Y2K</a>
+        <a href="index.html" style="background:#0022aa; color:#fff;">💾 OS 95</a>
+    </div>
+
+    <div class="sega-wrapper">
+
+        <!-- Sega HUD Counter -->
+        <div class="hud-counters">
+            <div>SCORE <span style="color:#ffcc00;" id="sega-score">084200</span></div>
+            <div>TIME <span style="color:#fff;" id="sega-timer">0:45</span></div>
+            <div>RINGS <span style="color:#ffcc00;" id="ring-count">★ 99</span></div>
+        </div>
+
+        <!-- Шапка 16-Bit Genesis -->
+        <header class="sega-header">
+            <h1 class="sega-logo">ERRIDIAN // 16-BIT</h1>
+            <div class="blast-text">★ HIGH DEFINITION GRAPHICS • BLAST PROCESSING ★</div>
+            <div style="margin-top: 8px; font-size: 10px; color: #fff;">~ 16-BIT CARTRIDGE: FUN CHOZAS MANGA ADVENTURE ~</div>
+        </header>
+
+        <div class="sega-grid">
+            <!-- Левая колонка -->
+            <aside>
+                <!-- Персонаж -->
+                <div class="sega-card">
+                    <div class="sega-card-title"><span>PLAYER STATUS</span><span>[1P]</span></div>
+                    <div style="text-align: center; margin-bottom: 8px;">
+                        <div style="font-size: 38px; border: 3px outset var(--sega-gold); background: #001133; display: inline-block; padding: 6px; border-radius: 8px;">🧙‍♂️</div>
+                        <div style="color: var(--sega-gold); margin-top: 6px; font-size: 12px;">ERRIDIAN</div>
+                        <div style="font-size: 9px; color: var(--sega-sky);">LIVES: ★ x 3</div>
+                    </div>
+                </div>
+
+                <!-- FM Sound Test Player -->
+                <div class="sega-card">
+                    <div class="sega-card-title"><span>FM SOUND TEST</span><span>[YM2612]</span></div>
+                    <div id="sega-track-name" style="font-size: 9px; color: var(--sega-gold); margin-bottom: 8px; word-break: break-all;">TRACK: 01 MEGA MIX</div>
+                    <select id="sega-sound-select" style="width: 100%; background: #000; color: #fff; border: 2px solid var(--sega-sky); font-family: inherit; font-size: 9px; padding: 4px; margin-bottom: 8px;" onchange="changeSegaTrack(this.value)">
+                        <option value="teamrept20113.mp3">01 Team Rept FM Synth</option>
+                        <option value="ForestDump.mp3">02 Forest Zone Act 1</option>
+                        <option value="future_gadget_lab/steinsgate8bit.mp3">03 16-Bit Special Stage</option>
+                        <option value="https://stream.cvgm.net/cvgm128">04 Arcade FM Live Radio</option>
+                    </select>
+                    <div style="display: flex; gap: 4px;">
+                        <button class="sega-btn" style="flex-grow:1;" onclick="playSegaAudio()">PLAY ▶</button>
+                        <button class="sega-btn" style="background:#cc0000; color:#fff;" onclick="stopSegaAudio()">STOP ■</button>
+                    </div>
+                </div>
+
+                <!-- 16-Bit SFX -->
+                <div class="sega-card">
+                    <div class="sega-card-title"><span>AUDIO FX</span></div>
+                    <button class="sega-btn" style="width:100%;" onclick="playSegaRingSfx()">💍 COLLECT RING</button>
+                    <button class="sega-btn" style="width:100%;" onclick="playSegaSpringSfx()">🌀 SPRING BOUNCE</button>
+                    <button class="sega-btn" style="width:100%;" onclick="playSegaChantSfx()">🗣️ S-E-G-A CHANT</button>
+                </div>
+            </aside>
+
+            <!-- Правая колонка: Zone Select -->
+            <main>
+                <!-- Zone 1: Manga -->
+                <div class="sega-card">
+                    <div class="sega-card-title"><span>ZONE 1: MANGA TRANSLATION (FUN CHOZAS)</span></div>
+                    <p style="font-size: 11px; margin-top: 0;">
+                        ★ GREEN HILL RELEASE ZONE ★
+                    </p>
+                    <p style="font-size: 10px; color: #e0e0e0; line-height: 1.6;">
+                        Наша команда <strong>Fun Chozas</strong> переводит мангу на сверхзвуковой скорости Blast Processing: первоклассный клининг, стильный тайпсет и душевный перевод!
+                    </p>
+                    <div style="margin-top: 10px;">
+                        <a href="https://vk.com/chikdyk" target="_blank" class="sega-btn">⚡ VK COMMUNITY</a>
+                        <a href="https://t.me/ocerr" target="_blank" class="sega-btn" style="background: linear-gradient(180deg, #00ddff, #0088ff); color:#fff;">🌀 TELEGRAM</a>
+                    </div>
+                </div>
+
+                <!-- Zone 2: Projects & Dropushko -->
+                <div class="sega-card">
+                    <div class="sega-card-title"><span>ZONE 2: CHEMICAL INVENTORY & CODE</span></div>
+                    
+                    <div class="checkered-box">
+                        <div style="color: var(--sega-gold); font-weight: bold;">🎁 DROPUSHKO AUTOMATED MODULE</div>
+                        <div style="font-size: 10px; color: #fff; margin: 4px 0;">Форк Giftseeker для автоматического сбора игровых раздач.</div>
+                        <a href="https://github.com/Erridian" target="_blank" class="sega-btn" style="font-size: 9px;">[ GITHUB REPOSITORY ]</a>
+                    </div>
+
+                    <div style="margin-top: 10px; font-size: 10px;">
+                        <div>EXTERNAL NET HUBS:</div>
+                        <div style="margin-top: 6px;">
+                            <a href="https://github.com/Erridian" target="_blank" class="sega-btn">GITHUB</a>
+                            <a href="https://youtube.com/erridian" target="_blank" class="sega-btn">YOUTUBE</a>
+                            <a href="https://steamcommunity.com/id/erridian" target="_blank" class="sega-btn">STEAM</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zone 3: Special Stage -->
+                <div class="sega-card" style="text-align: center;">
+                    <div class="sega-card-title"><span>SPECIAL STAGE: IBN 5100 LAB</span></div>
+                    <p style="font-size: 10px; color: var(--sega-gold);">DIVERGENCE BARRIER: 1.048596%</p>
+                    <button class="sega-btn" style="background: linear-gradient(180deg, #ff0055, #990022); color: #fff; font-size: 11px; padding: 10px 16px;" onclick="window.open('future_gadget_lab/okabe.html', '_blank')">
+                        🔮 ENTER FUTURE GADGET LAB
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <footer style="margin-top: 15px; border-top: 3px solid var(--sega-gold); padding-top: 10px; text-align: center; font-size: 10px;">
+            <div>© 1991-2026 ERRIDIAN // SEGA 16-BIT TRIBUTE EDITION</div>
+            <div style="margin-top: 6px;">
+                <a href="index.html" class="sega-btn" style="background:#0022aa; color:#fff;">[ 💾 RETURN TO OS 95 ]</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <audio id="sega-audio"></audio>
+
+    <script>
+        const segaAudio = document.getElementById('sega-audio');
+        let segaCtx = null;
+
+        function getSegaCtx() {
+            if (!segaCtx) {
+                const AudioClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioClass) segaCtx = new AudioClass();
+            }
+            return segaCtx;
+        }
+
+        function unlockSegaAudio() {
+            const ctx = getSegaCtx();
+            if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {});
+            if (segaAudio.paused && segaAudio.src) segaAudio.play().catch(() => {});
+        }
+
+        function playSegaRingSfx() {
+            const ctx = getSegaCtx();
+            if (!ctx) return;
+            if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(2000, now);
+            osc.frequency.setValueAtTime(2500, now + 0.08);
+            gain.gain.setValueAtTime(0.15, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+            osc.start(now);
+            osc.stop(now + 0.3);
+        }
+
+        function playSegaSpringSfx() {
+            const ctx = getSegaCtx();
+            if (!ctx) return;
+            if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+            const now = ctx.currentTime;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(400, now);
+            osc.frequency.exponentialRampToValueAtTime(1400, now + 0.25);
+            gain.gain.setValueAtTime(0.15, now);
+            osc.start(now);
+            osc.stop(now + 0.25);
+        }
+
+        function playSegaChantSfx() {
+            const ctx = getSegaCtx();
+            if (!ctx) return;
+            if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+            const now = ctx.currentTime;
+            // Synth voice chord simulation (C major chord swell)
+            [523.25, 659.25, 783.99, 1046.50].forEach(f => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(f, now);
+                gain.gain.setValueAtTime(0.04, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.8);
+            });
+        }
+
+        function changeSegaTrack(src) {
+            if (!src) return;
+            segaAudio.src = src;
+            const sel = document.getElementById('sega-sound-select');
+            document.getElementById('sega-track-name').innerText = "TRACK: " + sel.options[sel.selectedIndex].text;
+            segaAudio.play().catch(() => {});
+        }
+
+        function playSegaAudio() {
+            const sel = document.getElementById('sega-sound-select');
+            if (!segaAudio.src || segaAudio.src === window.location.href) {
+                changeSegaTrack(sel.value);
+            } else {
+                segaAudio.play().catch(() => {});
+            }
+        }
+
+        function stopSegaAudio() {
+            segaAudio.pause();
+            segaAudio.currentTime = 0;
+            document.getElementById('sega-track-name').innerText = "TRACK: STOPPED";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ ERRIDIAN CYBERNET // NETRUNNER HUD v4.0 ⚡</title>
+    <link rel="icon" href="favicon.ico">
+    <meta name="theme-color" content="#00ff66">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --term-green: #00ff66;
+            --term-dim: #008833;
+            --term-amber: #ffb000;
+            --term-red: #ff3344;
+            --term-cyan: #00f0ff;
+            --term-bg: #050d08;
+            --box-bg: rgba(5, 20, 10, 0.85);
+            --border-color: #00ff66;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 10px;
+            background-color: var(--term-bg);
+            color: var(--term-green);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 15px;
+            line-height: 1.4;
+            min-height: 100vh;
+            background-image: 
+                linear-gradient(rgba(0, 255, 100, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 100, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            text-shadow: 0 0 4px rgba(0, 255, 102, 0.6);
+        }
+
+        /* Scanlines */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+            background-size: 100% 4px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        a {
+            color: var(--term-cyan);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px var(--term-cyan);
+            background: rgba(0, 240, 255, 0.2);
+        }
+
+        /* Навигатор вариаций */
+        .style-switcher {
+            background: #000;
+            border: 1px solid var(--term-green);
+            padding: 6px;
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .style-switcher a {
+            color: var(--term-green);
+            margin: 0 4px;
+            display: inline-block;
+            padding: 2px 6px;
+            border: 1px solid var(--term-dim);
+        }
+        .style-switcher a.active {
+            background: var(--term-green);
+            color: #000;
+            text-shadow: none;
+            font-weight: bold;
+        }
+
+        .hud-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 2px solid var(--border-color);
+            background: var(--box-bg);
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.25), inset 0 0 15px rgba(0, 255, 102, 0.1);
+            padding: 15px;
+            position: relative;
+        }
+
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--term-green);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hud-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px var(--term-green);
+            letter-spacing: 2px;
+        }
+
+        .hud-status-badge {
+            border: 1px solid var(--term-amber);
+            color: var(--term-amber);
+            padding: 3px 8px;
+            font-size: 12px;
+            animation: pulse 1.5s infinite alternate;
+        }
+        @keyframes pulse { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        .hud-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 15px;
+        }
+        @media (max-width: 800px) {
+            .hud-grid { grid-template-columns: 1fr; }
+        }
+
+        .hud-panel {
+            border: 1px solid var(--term-dim);
+            background: rgba(0, 10, 5, 0.8);
+            padding: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .hud-panel::before {
+            content: "▲";
+            position: absolute;
+            top: 2px; right: 4px;
+            font-size: 8px;
+            color: var(--term-dim);
+        }
+
+        .hud-panel-title {
+            color: var(--term-amber);
+            font-weight: bold;
+            font-size: 16px;
+            border-bottom: 1px dashed var(--term-dim);
+            padding-bottom: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Интерактивный терминал */
+        .cyber-term {
+            background: #000;
+            border: 1px solid var(--term-green);
+            padding: 10px;
+            height: 220px;
+            overflow-y: auto;
+            font-size: 13px;
+            color: var(--term-green);
+            margin-bottom: 8px;
+        }
+        .cyber-input-row {
+            display: flex;
+            gap: 6px;
+            background: #000;
+            border: 1px solid var(--term-green);
+            padding: 4px;
+        }
+        .cyber-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        /* Аудио монитор */
+        .cyber-audio-box {
+            background: #000;
+            border: 1px solid var(--term-cyan);
+            padding: 8px;
+        }
+        #cyber-canvas {
+            width: 100%;
+            height: 45px;
+            background: #010804;
+            display: block;
+            border: 1px solid #004422;
+            margin-bottom: 6px;
+        }
+
+        /* Кнопки действий */
+        .cyber-btn {
+            background: transparent;
+            border: 1px solid var(--term-green);
+            color: var(--term-green);
+            font-family: inherit;
+            font-size: 13px;
+            padding: 4px 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cyber-btn:hover {
+            background: var(--term-green);
+            color: #000;
+            box-shadow: 0 0 10px var(--term-green);
+        }
+
+        .meter-bar {
+            width: 100%;
+            height: 8px;
+            background: #002211;
+            border: 1px solid var(--term-dim);
+            margin: 4px 0 8px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .meter-fill {
+            height: 100%;
+            background: var(--term-green);
+            width: 78%;
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+<body onclick="unlockCyberAudio()">
+
+    <!-- Панель стилей -->
+    <div class="style-switcher">
+        <span>⚡ <strong>REALMS & CONSOLES:</strong></span>
+        <a href="neocities_cyberpunk.html" class="active">⚡ Cyberpunk</a>
+        <a href="neocities.html">★ Cyber Realm</a>
+        <a href="neocities_nes.html">👾 NES 8-Bit</a>
+        <a href="neocities_sega.html">🦔 Sega 16-Bit</a>
+        <a href="neocities_ps1.html">💿 PS One 32-Bit</a>
+        <a href="neocities_gameboy.html">🕹️ GameBoy</a>
+        <a href="neocities_vhs.html">📼 VHS 90s TV</a>
+        <a href="neocities_geocities.html">🔥 GeoCities '97</a>
+        <a href="neocities_frutiger.html">💧 Frutiger Aero</a>
+        <a href="neocities_y2k.html">💿 Y2K</a>
+        <a href="index.html" style="border-color:#00f0ff;">💾 OS 95</a>
+    </div>
+
+    <div class="hud-wrapper">
+
+        <!-- Шапка HUD -->
+        <header class="hud-header">
+            <div>
+                <div class="hud-title">ERRIDIAN // CYBER_DECK_v4.0</div>
+                <div style="font-size: 12px; color: var(--term-dim);">IP: 127.0.0.1 • PROTOCOL: RETRO-TCP/IP • DIVERGENCE: 1.048596%</div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <div class="hud-status-badge">NODE: ONLINE</div>
+                <div style="color: var(--term-cyan); font-size: 13px;" id="cyber-clock">00:00:00 UTC</div>
+            </div>
+        </header>
+
+        <div class="hud-grid">
+            <!-- Левая колонка мониторинга -->
+            <aside>
+                <!-- Оператор -->
+                <div class="hud-panel">
+                    <div class="hud-panel-title"><span>NETRUNNER_PROFILE</span><span>[001]</span></div>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 32px; border: 1px solid var(--term-green); padding: 4px; background:#000;">🧙‍♂️</div>
+                        <div>
+                            <div style="color: #fff; font-weight: bold;">ERRIDIAN</div>
+                            <div style="font-size: 12px; color: var(--term-dim);">Role: Manga Translator & Coder</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px;">
+                        <div>SYS INTEGRITY: <span style="color:#fff;">99.4%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" style="width: 94%;"></div></div>
+                        <div>SIGNAL SYNC: <span style="color:var(--term-cyan);">1.048596%</span></div>
+                        <div class="meter-bar"><div class="meter-fill" style="width: 82%; background:var(--term-cyan);"></div></div>
+                    </div>
+                </div>
+
+                <!-- Аудио Декодер -->
+                <div class="hud-panel">
+                    <div class="hud-panel-title"><span>SYNTH_AUDIO_DECK</span><span>[PLAY]</span></div>
+                    <div class="cyber-audio-box">
+                        <canvas id="cyber-canvas" width="240" height="45"></canvas>
+                        <div id="cyber-track-label" style="font-size: 12px; color: var(--term-amber); margin-bottom: 6px; white-space: nowrap; overflow: hidden;">Ready...</div>
+                        <select id="cyber-audio-select" style="width: 100%; background: #000; color: var(--term-green); border: 1px solid var(--term-dim); font-family: inherit; font-size: 12px; margin-bottom: 6px;" onchange="changeCyberTrack(this.value)">
+                            <option value="">-- SELECT DATA STREAM --</option>
+                            <option value="future_gadget_lab/steinsgate8bit.mp3">Steins;Gate 8-Bit</option>
+                            <option value="future_gadget_lab/steinsgateMusicBox.mp3">Steins;Gate MusicBox</option>
+                            <option value="ForestDump.mp3">Forest Dump Synth</option>
+                            <option value="teamrept20113.mp3">Team Rept Module</option>
+                            <option value="https://radio.plaza.one/mp3">📻 Nightwave Plaza</option>
+                            <option value="https://stream.cvgm.net/cvgm128">📻 Chiptune Stream</option>
+                        </select>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="cyber-btn" style="flex-grow: 1;" onclick="playCyberAudio()">PLAY</button>
+                            <button class="cyber-btn" style="flex-grow: 1;" onclick="pauseCyberAudio()">PAUSE</button>
+                            <button class="cyber-btn" style="color: var(--term-red);" onclick="stopCyberAudio()">HALT</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Быстрые команды -->
+                <div class="hud-panel">
+                    <div class="hud-panel-title"><span>NEURAL_SHORTCUTS</span></div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 13px;">
+                        <button class="cyber-btn" onclick="injectDmail()">⚡ TRIGGER D-MAIL</button>
+                        <button class="cyber-btn" onclick="openLab()">🔬 CONNECT IBN 5100</button>
+                        <button class="cyber-btn" onclick="glitchScreen()">💥 GLITCH MATRIX</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Центральный терминал и данные -->
+            <main>
+                <!-- Раздел проектов и манги -->
+                <div class="hud-panel">
+                    <div class="hud-panel-title"><span>DIRECTIVES // PROJECTS & MANGA</span><span>[0x7F]</span></div>
+                    
+                    <div style="margin-bottom: 10px; border-left: 3px solid var(--term-cyan); padding-left: 8px;">
+                        <div style="color: #fff; font-weight: bold;">[01] FUN CHOZAS MANGA TRANSLATION UNIT</div>
+                        <div style="font-size: 13px; color: #ccc;">
+                            Локализация, клининг и вёрстка манги. Свежие релизы публикуются в сети:
+                        </div>
+                        <div style="margin-top: 4px;">
+                            <a href="https://vk.com/chikdyk" target="_blank">[VK_COMMUNITY]</a> | 
+                            <a href="https://t.me/ocerr" target="_blank">[TELEGRAM_FEED]</a>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 10px; border-left: 3px solid var(--term-amber); padding-left: 8px;">
+                        <div style="color: #fff; font-weight: bold;">[02] DROPUSHKO AUTOMATION DAEMON</div>
+                        <div style="font-size: 13px; color: #ccc;">
+                            Форк Giftseeker для автоматического мониторинга и сбора игровых раздач.
+                        </div>
+                        <div style="margin-top: 4px;">
+                            <a href="https://github.com/Erridian" target="_blank">[GITHUB_SOURCE]</a>
+                        </div>
+                    </div>
+
+                    <div style="border-left: 3px solid var(--term-green); padding-left: 8px;">
+                        <div style="color: #fff; font-weight: bold;">[03] EXTERNAL HUBS & NET NODES</div>
+                        <div style="font-size: 13px; margin-top: 4px;">
+                            <a href="https://github.com/Erridian" target="_blank">GitHub</a> • 
+                            <a href="https://youtube.com/erridian" target="_blank">YouTube</a> • 
+                            <a href="https://steamcommunity.com/id/erridian" target="_blank">Steam Profile</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Интерактивный Netrunner Терминал -->
+                <div class="hud-panel">
+                    <div class="hud-panel-title"><span>NETRUNNER_CLI_TERMINAL</span><span>[BASH]</span></div>
+                    <div class="cyber-term" id="cyber-term-out">
+                        <div>Initializing Erridian Netrunner Kernel... [OK]</div>
+                        <div>Secure node established. Type 'help' for command syntax.</div>
+                    </div>
+                    <div class="cyber-input-row">
+                        <span style="color:var(--term-green);">&gt;</span>
+                        <input type="text" id="cyber-term-in" class="cyber-input" autocomplete="off" placeholder="Enter command..." onkeydown="handleCyberCmd(event)">
+                    </div>
+                </div>
+
+                <!-- Пакетный логгер -->
+                <div class="hud-panel">
+                    <div class="hud-panel-title"><span>PACKET_STREAM_LOGGER</span><span>[LIVE]</span></div>
+                    <div id="packet-log" style="font-size: 12px; color: var(--term-dim); height: 60px; overflow: hidden; font-family: monospace;">
+                        [REC] 192.168.1.104 -> SYN_ACK -> SECURE_CHANNEL_READY
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer style="margin-top: 15px; border-top: 1px solid var(--term-dim); padding-top: 8px; display: flex; justify-content: space-between; font-size: 12px; color: var(--term-dim); flex-wrap: wrap;">
+            <div>© 2026 ERRIDIAN CYBERSYSTEMS // ALL RIGHTS ENCRYPTED</div>
+            <div><a href="index.html">[ 💾 RETURN TO OS 95 ]</a></div>
+        </footer>
+
+    </div>
+
+    <audio id="cyber-audio-player"></audio>
+
+    <script>
+        const cyberAudio = document.getElementById('cyber-audio-player');
+        let cyberAnim;
+
+        function unlockCyberAudio() {
+            if (cyberAudio.paused && cyberAudio.src) {
+                cyberAudio.play().catch(() => {});
+            }
+        }
+
+        function changeCyberTrack(src) {
+            if (!src) return;
+            cyberAudio.src = src;
+            const sel = document.getElementById('cyber-audio-select');
+            document.getElementById('cyber-track-label').innerText = "DATA_STREAM: " + sel.options[sel.selectedIndex].text;
+            cyberAudio.play().then(() => startCyberVis()).catch(() => {});
+        }
+
+        function playCyberAudio() {
+            const sel = document.getElementById('cyber-audio-select');
+            if (!cyberAudio.src || cyberAudio.src === window.location.href) {
+                sel.selectedIndex = 1;
+                changeCyberTrack(sel.value);
+            } else {
+                cyberAudio.play().catch(() => {});
+                startCyberVis();
+            }
+        }
+
+        function pauseCyberAudio() {
+            cyberAudio.pause();
+            document.getElementById('cyber-track-label').innerText = "PAUSED";
+        }
+
+        function stopCyberAudio() {
+            cyberAudio.pause();
+            cyberAudio.currentTime = 0;
+            document.getElementById('cyber-track-label').innerText = "HALTED";
+            cancelAnimationFrame(cyberAnim);
+            const canvas = document.getElementById('cyber-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#010804';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function startCyberVis() {
+            const canvas = document.getElementById('cyber-canvas');
+            const ctx = canvas.getContext('2d');
+            cancelAnimationFrame(cyberAnim);
+
+            function draw() {
+                ctx.fillStyle = 'rgba(1, 8, 4, 0.2)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#00ff66';
+
+                const bars = 24;
+                const w = canvas.width / bars;
+                for (let i = 0; i < bars; i++) {
+                    const h = Math.random() * (canvas.height - 5);
+                    ctx.fillRect(i * w + 1, canvas.height - h, w - 2, h);
+                }
+                cyberAnim = requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        // Терминал
+        function handleCyberCmd(e) {
+            if (e.key === 'Enter') {
+                const input = e.target;
+                const cmd = input.value.trim();
+                input.value = '';
+                if (!cmd) return;
+
+                const out = document.getElementById('cyber-term-out');
+                out.innerHTML += `<div style="color:#fff;">&gt; ${cmd}</div>`;
+                const low = cmd.toLowerCase();
+
+                let resp = '';
+                if (low === 'help') {
+                    resp = 'COMMANDS: help, scan, ping, hack, dmail, lab, kurisu, cls, clear, exit';
+                } else if (low === 'scan') {
+                    resp = 'SCANNING NETWORK... Found 1 active node: ERRIDIAN_SERVER [PORT 8080 OPEN]';
+                } else if (low === 'ping') {
+                    resp = 'PING 127.0.0.1 (56 bytes): time=0.42ms TTL=64';
+                } else if (low === 'hack') {
+                    resp = 'ACCESS GRANTED: ROOT ACCESS UNLOCKED. Welcome to the mainframe.';
+                } else if (low === 'dmail' || low === 'steinsgate' || low === 'elpsykongroo') {
+                    injectDmail();
+                    resp = 'D-Mail transmission initiated... Divergence updated.';
+                } else if (low === 'lab' || low === 'okabe') {
+                    openLab();
+                    resp = 'Connecting to Future Gadget Laboratory...';
+                } else if (low === 'kurisu') {
+                    window.open('future_gadget_lab/kurisu.html', '_blank');
+                    resp = 'Makise Kurisu sub-routine loaded.';
+                } else if (low === 'cls' || low === 'clear') {
+                    out.innerHTML = '';
+                    return;
+                } else {
+                    resp = `UNKNOWN COMMAND: "${cmd}". Type 'help'.`;
+                }
+
+                out.innerHTML += `<div style="color:var(--term-cyan);">${resp}</div>`;
+                out.scrollTop = out.scrollHeight;
+            }
+        }
+
+        function injectDmail() {
+            alert('⚡ [D-MAIL DISPATCHED] ⚡\nSending data back in time (36 bytes)...\nWorld line shifted!');
+            window.open('future_gadget_lab/okabe.html', '_blank');
+        }
+
+        function openLab() {
+            window.open('future_gadget_lab/okabe.html', '_blank');
+        }
+
+        function glitchScreen() {
+            document.body.style.filter = 'invert(100%) hue-rotate(90deg)';
+            setTimeout(() => { document.body.style.filter = 'none'; }, 800);
+        }
+
+        // Packet simulator
+        setInterval(() => {
+            const hex = Math.floor(Math.random()*16777215).toString(16).toUpperCase();
+            const log = document.getElementById('packet-log');
+            log.innerHTML = `[TRAFFIC] 0x${hex} -> PACKET_ROUTED -> SYNC OK<br>` + log.innerHTML.slice(0, 200);
+        }, 2000);
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('cyber-clock').innerText = now.toTimeString().split(' ')[0] + ' LOCAL';
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>

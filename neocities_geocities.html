@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>★ Erridian's GeoCities Shrine (1997) ★</title>
+    <link rel="icon" href="favicon.ico">
+    <meta name="theme-color" content="#000000">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000033;
+            --text-color: #ffff00;
+            --link-color: #00ff00;
+            --link-visited: #ff00ff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 10px;
+            background-color: #000000;
+            background-image: 
+                radial-gradient(white 1px, transparent 1px),
+                radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px);
+            background-size: 50px 50px, 100px 100px;
+            background-position: 0 0, 25px 25px;
+            color: #ffffff;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 16px;
+            line-height: 1.5;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23ffff00' stroke='%23000000' stroke-width='1.5'><polygon points='0,0 0,22 6,16 12,22 15,20 9,14 17,14'/></svg>"), default;
+        }
+
+        a {
+            color: #00ffff;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #ffff00;
+            background: #ff0055;
+            text-decoration: none;
+        }
+
+        /* Навигатор вариаций */
+        .style-switcher {
+            background: #110033;
+            border: 3px ridge #ff00ff;
+            padding: 6px;
+            text-align: center;
+            margin-bottom: 12px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+        }
+        .style-switcher a {
+            color: #ffff00;
+            margin: 0 6px;
+            display: inline-block;
+            padding: 2px 6px;
+            background: #000066;
+            border: 1px outset #fff;
+            text-decoration: none;
+        }
+        .style-switcher a.active {
+            background: #ff0055;
+            color: #fff;
+            border: 1px inset #fff;
+        }
+
+        .main-table {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #000044;
+            border: 5px ridge #9999ff;
+            box-shadow: 0 0 15px #00ffff;
+            padding: 15px;
+        }
+
+        .flame-header {
+            text-align: center;
+            background: linear-gradient(180deg, #ff0000 0%, #ff8800 50%, #ffff00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 36px;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            filter: drop-shadow(0 0 8px #ff3300);
+        }
+
+        .construction-tape {
+            background: repeating-linear-gradient(45deg, #ffff00, #ffff00 15px, #000000 15px, #000000 30px);
+            color: #ffff00;
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 6px;
+            text-align: center;
+            border: 2px solid #fff;
+            margin: 10px 0;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .blink {
+            animation: blinker 0.8s linear infinite;
+        }
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        .rainbow-text {
+            background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .retro-box {
+            border: 3px double #ffff00;
+            background: #000022;
+            padding: 10px;
+            margin-bottom: 12px;
+        }
+
+        .retro-box-title {
+            background: #660066;
+            color: #00ffff;
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            padding: 3px 8px;
+            margin: -10px -10px 10px -10px;
+            border-bottom: 2px solid #ffff00;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 750px) {
+            .grid-layout { grid-template-columns: 1fr; }
+        }
+
+        .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+        }
+        .badge {
+            width: 88px;
+            height: 31px;
+            border: 2px outset #fff;
+            font-size: 10px;
+            font-family: 'VT323', monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .midi-player-box {
+            background: #220022;
+            border: 2px inset #ff00ff;
+            padding: 8px;
+            text-align: center;
+            margin-bottom: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+        }
+
+        .hit-counter-led {
+            background: #000;
+            border: 3px inset #888;
+            color: #00ff00;
+            font-family: 'VT323', monospace;
+            font-size: 28px;
+            letter-spacing: 4px;
+            display: inline-block;
+            padding: 2px 10px;
+            text-shadow: 0 0 8px #00ff00;
+        }
+
+        .guestbook-entry {
+            border-bottom: 1px dotted #ff00ff;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body onclick="unlockAudio()">
+
+    <!-- Панель стилей -->
+    <div class="style-switcher">
+        <span>🌐 <strong>REALMS & CONSOLES:</strong></span>
+        <a href="neocities_geocities.html" class="active">🔥 GeoCities '97</a>
+        <a href="neocities.html">★ Cyber Realm</a>
+        <a href="neocities_nes.html">👾 NES 8-Bit</a>
+        <a href="neocities_sega.html">🦔 Sega 16-Bit</a>
+        <a href="neocities_ps1.html">💿 PS One 32-Bit</a>
+        <a href="neocities_gameboy.html">🕹️ GameBoy</a>
+        <a href="neocities_vhs.html">📼 VHS 90s TV</a>
+        <a href="neocities_cyberpunk.html">⚡ Cyberpunk</a>
+        <a href="neocities_frutiger.html">💧 Frutiger Aero</a>
+        <a href="neocities_y2k.html">💿 Y2K</a>
+        <a href="index.html" style="background:#000080; color:#fff;">💾 OS 95</a>
+    </div>
+
+    <div class="main-table">
+
+        <!-- Верхняя лента стройки -->
+        <div class="construction-tape">
+            🚧 ⚠️ <span class="blink">WARNING: SITE UNDER HEAVY CONSTRUCTION (1997)</span> ⚠️ 🚧
+        </div>
+
+        <!-- Огненная шапка -->
+        <div style="text-align: center;">
+            <div style="font-size: 28px;">✨ 🛸 🔮 🛸 ✨</div>
+            <h1 class="flame-header">★ WELCOME TO ERRIDIAN'S HOMEPAGE ★</h1>
+            <div style="font-family: 'Comic Neue', cursive; font-size: 18px; color: #00ffea;">
+                ~ Tokyo Neighborhood • Sector 7G • Anime & Translation Shrine ~
+            </div>
+            <p class="rainbow-text" style="font-size: 18px; margin: 5px 0;">
+                « Лучший сайт Рунета по версии вебмастера 1997 года! »
+            </p>
+        </div>
+
+        <marquee scrollamount="5" style="background: #000; color: #ffff00; font-family: 'VT323', monospace; font-size: 18px; border: 2px ridge #ff00ff; padding: 3px; margin: 10px 0;">
+            ★★★ ПРИВЕТСТВУЮ ВСЕХ ФАНАТОВ МАНГИ И РЕТРО-ВЕБА! ★★★ ВЫ ЗАШЛИ НА ДОМАШНЮЮ СТРАНИЦУ ERRIDIAN ★★★ ПЕРЕВОДИМ МАНГУ В FUN CHOZAS ★★★ РАЗДАЧИ В DROPUSHKO ★★★ НЕ ЗАБУДЬТЕ ОСТАВИТЬ СЛЕД В ГОСТЕВОЙ КНИГЕ! ★★★
+        </marquee>
+
+        <div class="grid-layout">
+            <!-- Левая колонка -->
+            <aside>
+                <!-- Вебмастер -->
+                <div class="retro-box">
+                    <div class="retro-box-title"><span>🧙‍♂️ Вебмастер</span><span>[?]</span></div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 45px; border: 2px dashed #00ffff; display: inline-block; padding: 5px; background: #000;">🧙‍♂️</div>
+                        <div style="color: #ffff00; font-weight: bold; font-size: 18px;">Erridian</div>
+                        <div style="font-size: 12px; color: #ff99cc;">Level 99 Internet Wizard</div>
+                        <p style="font-size: 13px; text-align: left; margin-top: 8px;">
+                            Привет! Это мой уголок в GeoCities. Перевожу мангу, собираю гифки и пишу код на блокноте.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- MIDI Jukebox -->
+                <div class="midi-player-box">
+                    <div style="color: #00ffff; font-weight: bold; margin-bottom: 5px;">🎵 RETRO MIDI PLAYER 🎵</div>
+                    <div id="track-name" style="background: #000; color: #00ff00; padding: 4px; font-size: 14px; margin-bottom: 6px;">Ready...</div>
+                    <select id="midi-select" style="width: 100%; background: #000; color: #ffff00; border: 1px solid #ff00ff; font-family: inherit; margin-bottom: 6px;" onchange="playMidi(this.value)">
+                        <option value="">-- Выберите мелодию --</option>
+                        <option value="ForestDump.mp3">Forest Dump Theme</option>
+                        <option value="teamrept20113.mp3">Team Rept Chiptune</option>
+                        <option value="future_gadget_lab/steinsgate8bit.mp3">Steins;Gate 8-Bit</option>
+                        <option value="future_gadget_lab/steinsgateMusicBox.mp3">Steins;Gate MusicBox</option>
+                        <option value="https://stream.cvgm.net/cvgm128">Chiptune Live Radio</option>
+                    </select>
+                    <div style="display: flex; gap: 4px; justify-content: center;">
+                        <button onclick="resumeMidi()" style="background:#00aa00; color:#fff; border:2px outset #fff; cursor:pointer;">PLAY ▶</button>
+                        <button onclick="stopMidi()" style="background:#aa0000; color:#fff; border:2px outset #fff; cursor:pointer;">STOP ■</button>
+                    </div>
+                </div>
+
+                <!-- Счётчик посещений -->
+                <div class="retro-box" style="text-align: center;">
+                    <div class="retro-box-title"><span>📊 Посетители</span></div>
+                    <div style="font-size: 12px; margin-bottom: 4px;">ТЫ ПОСЕТИТЕЛЬ НОМЕР:</div>
+                    <div class="hit-counter-led" id="led-counter">007391</div>
+                    <div style="font-size: 11px; color: #aaa; margin-top: 5px;">Best viewed in 800x600 resolution</div>
+                </div>
+
+                <!-- 88x31 кнопки -->
+                <div class="retro-box">
+                    <div class="retro-box-title"><span>🌟 Web Badges</span></div>
+                    <div class="badge-list">
+                        <div class="badge" style="background:#000088; border-color:#00ffff; color:#00ffff;">NETSCAPE<br>NOW!</div>
+                        <div class="badge" style="background:#ff6600; color:#fff;">HTML 3.2<br>VERIFIED</div>
+                        <div class="badge" style="background:#800080; color:#ffff00;">FUN<br>CHOZAS</div>
+                        <div class="badge" style="background:#000; color:#00ff00; border-color:#00ff00;">MADE WITH<br>NOTEPAD</div>
+                        <div class="badge" style="background:#cc0066; color:#fff;">GEOCITIES<br>NEIGHBOR</div>
+                        <div class="badge" style="background:#004d1a; color:#00ff66;">DROPUSHKO<br>BOT</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Правая колонка -->
+            <main>
+                <!-- О себе & Святыня перевода -->
+                <div class="retro-box">
+                    <div class="retro-box-title"><span>⛩️ ХРАМ ПЕРЕВОДА МАНГИ (FUN CHOZAS)</span></div>
+                    <p style="font-size: 15px;">
+                        Добро пожаловать в святилище переводов! Наша команда <strong>"Fun Chozas"</strong> занимается локализацией манги:
+                    </p>
+                    <ul>
+                        <li><span style="color:#00ffff;">Перевод:</span> отборные шутки и живой текст!</li>
+                        <li><span style="color:#ff71ce;">Клининг:</span> вычищаем сканы до зеркального блеска!</li>
+                        <li><span style="color:#ffff00;">Тайпсет:</span> только каноничные шрифты!</li>
+                    </ul>
+                    <div style="border: 2px dashed #ff00ff; padding: 8px; text-align: center; background: #110022;">
+                        👉 Свежие главы и релизы: <a href="https://vk.com/chikdyk" target="_blank">[ Группа VK ]</a> | <a href="https://t.me/ocerr" target="_blank">[ Telegram канал ]</a>
+                    </div>
+                </div>
+
+                <!-- Мои проекты -->
+                <div class="retro-box">
+                    <div class="retro-box-title"><span>💾 МОИ КИБЕР-ПРОЕКТЫ</span></div>
+                    <p>Список моих уголков и разработок в сети:</p>
+                    <table border="1" bordercolor="#9999ff" style="width: 100%; font-size: 14px; background: #050522;">
+                        <tr bgcolor="#000088" style="color: #ffff00;">
+                            <th>Проект</th>
+                            <th>Описание</th>
+                            <th>Ссылка</th>
+                        </tr>
+                        <tr>
+                            <td><strong>🎁 Dropushko</strong></td>
+                            <td>Форк Giftseeker — автопоиск раздач</td>
+                            <td><a href="https://github.com/Erridian" target="_blank">GitHub</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>🐙 GitHub</strong></td>
+                            <td>Все репозитории и открытый код</td>
+                            <td><a href="https://github.com/Erridian" target="_blank">Erridian</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>💬 Блог VK</strong></td>
+                            <td>Мысли, новости и жизнь</td>
+                            <td><a href="https://vk.com/chikdyk" target="_blank">chikdyk</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>📺 YouTube</strong></td>
+                            <td>Видеоролики и архивы</td>
+                            <td><a href="https://youtube.com/erridian" target="_blank">Канал</a></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Интерактивная Мини-Гостевая книга -->
+                <div class="retro-box">
+                    <div class="retro-box-title"><span>📜 ГОСТЕВАЯ КНИГА GEOCITIES</span></div>
+                    <form onsubmit="addGeoGuest(event)" style="margin-bottom: 10px;">
+                        <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+                            <input type="text" id="g-name" placeholder="Твоё имя/Ник..." required style="background:#000; color:#fff; border:1px solid #00ffff; padding:4px; flex-grow:1;">
+                            <input type="text" id="g-email" placeholder="E-mail (опционально)..." style="background:#000; color:#fff; border:1px solid #00ffff; padding:4px; flex-grow:1;">
+                        </div>
+                        <textarea id="g-msg" rows="2" placeholder="Оставь весточку вебмастеру..." required style="width: 100%; background:#000; color:#fff; border:1px solid #00ffff; padding:4px;"></textarea>
+                        <button type="submit" style="background:#ffff00; color:#000; font-weight:bold; padding:4px 12px; cursor:pointer; margin-top:4px;">✍️ Черкнуть в книгу!</button>
+                    </form>
+                    <div id="geo-guest-list"></div>
+                </div>
+
+                <!-- Webring -->
+                <div style="border: 3px double #00ff00; padding: 8px; text-align: center; font-size: 13px; background: #001100;">
+                    <span style="color: #00ff00; font-weight: bold;">[ Russian Anime & Web 1.0 Ring ]</span><br>
+                    <a href="javascript:alert('Предыдущий сайт')">&lt;&lt; Назад</a> | 
+                    <a href="javascript:alert('Каталог кольца')">Список сайтов</a> | 
+                    <a href="javascript:alert('Случайный сайт')">Случайный</a> | 
+                    <a href="javascript:alert('Следующий сайт')">Вперёд &gt;&gt;</a>
+                </div>
+            </main>
+        </div>
+
+        <!-- Подвал -->
+        <footer style="text-align: center; margin-top: 15px; border-top: 2px dashed #999; padding-top: 10px; font-size: 13px;">
+            <div>© 1997-2026 Erridian GeoCities Shrine • Hosted on GitHub Pages • No cookies tracking!</div>
+            <div style="margin-top: 5px;">
+                <a href="index.html" style="color: #ffff00; font-family: 'VT323', monospace; font-size: 18px;">[ 💾 ВЕРНУТЬСЯ В ERRIDIAN OS 95 ]</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <audio id="geo-audio"></audio>
+
+    <script>
+        const audio = document.getElementById('geo-audio');
+        function unlockAudio() {
+            if (audio.paused && audio.src) {
+                audio.play().catch(() => {});
+            }
+        }
+
+        function playMidi(src) {
+            if (!src) return;
+            audio.src = src;
+            const sel = document.getElementById('midi-select');
+            document.getElementById('track-name').innerText = "Playing: " + sel.options[sel.selectedIndex].text;
+            audio.play().catch(() => {});
+        }
+        function resumeMidi() {
+            if (!audio.src) {
+                const sel = document.getElementById('midi-select');
+                sel.selectedIndex = 1;
+                playMidi(sel.value);
+            } else {
+                audio.play().catch(() => {});
+                document.getElementById('track-name').innerText = "Playing...";
+            }
+        }
+        function stopMidi() {
+            audio.pause();
+            audio.currentTime = 0;
+            document.getElementById('track-name').innerText = "Stopped";
+        }
+
+        // Гостевая книга
+        const defaultEntries = [
+            { name: "NeoOtaku_97", msg: "Крутой сайт чувак! Спасибо за переводы манги!", date: "12.04.1997" },
+            { name: "SailorFan", msg: "Добавь ещё картинок! Классная музыка на фоне ^_^", date: "28.08.1998" }
+        ];
+
+        function renderGuests() {
+            const list = document.getElementById('geo-guest-list');
+            const data = JSON.parse(localStorage.getItem('geo_guests') || JSON.stringify(defaultEntries));
+            list.innerHTML = '';
+            data.forEach(d => {
+                const div = document.createElement('div');
+                div.className = 'guestbook-entry';
+                div.innerHTML = `<strong style="color:#00ffff;">${escapeStr(d.name)}</strong> <span style="color:#aaa; font-size:11px;">(${d.date})</span>: <span>${escapeStr(d.msg)}</span>`;
+                list.appendChild(div);
+            });
+        }
+
+        function addGeoGuest(e) {
+            e.preventDefault();
+            const name = document.getElementById('g-name').value.trim();
+            const msg = document.getElementById('g-msg').value.trim();
+            if (!name || !msg) return;
+            const data = JSON.parse(localStorage.getItem('geo_guests') || JSON.stringify(defaultEntries));
+            const now = new Date();
+            data.unshift({ name, msg, date: now.toLocaleDateString() });
+            localStorage.setItem('geo_guests', JSON.stringify(data));
+            document.getElementById('g-name').value = '';
+            document.getElementById('g-msg').value = '';
+            renderGuests();
+            alert('Спасибо за запись!');
+        }
+
+        function escapeStr(s) {
+            return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        window.onload = function() {
+            renderGuests();
+            let hits = parseInt(localStorage.getItem('geo_hits') || '7391') + 1;
+            localStorage.setItem('geo_hits', hits);
+            document.getElementById('led-counter').innerText = String(hits).padStart(6, '0');
+        };
+    </script>
+</body>
+</html>

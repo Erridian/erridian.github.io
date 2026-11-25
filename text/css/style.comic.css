@@ -1,0 +1,88 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+header {
+	background-color: #1a1a1a;
+	color: #fff;
+	padding: 10px;
+}
+
+h1 {
+	font-size: 36px;
+	font-family: 'Press Start 2P', sans-serif;
+	text-align: center;
+}
+
+main {
+	padding: 20px;
+}
+
+.comic-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.comic {
+	flex: 1 1 300px;
+	margin: 10px;
+	background-color: #fff;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.comic img {
+	max-width: 100%;
+	height: auto;
+}
+
+.info {
+	padding: 10px;
+}
+
+.info h2 {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+.info p {
+	margin-bottom: 10px;
+}
+
+.chapters {
+	margin-top: 20px;
+}
+
+.chapters ul {
+	list-style: none;
+	padding: 0;
+}
+
+.chapters ul li {
+	margin-bottom: 10px;
+}
+
+.chapters ul li a {
+	display: inline-block;
+	padding: 5px 10px;
+	background-color: #1a1a1a;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+}
+
+.chapters ul li a:hover {
+	background-color: #333;
+}
+
+.gallery-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: none;
+	z-index
+}

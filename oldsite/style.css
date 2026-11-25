@@ -1,0 +1,166 @@
+@font-face {
+    font-family: Linux;
+    src: url(console_font.ttf);
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+    margin-left: 3px;
+    padding-left: 1px;
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(72, 250, 90);
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}
+
+body{
+    
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+#video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto; height: auto;
+}
+
+.domain{
+    color: rgb(72, 250, 90);
+}
+
+.main{
+    width: 650px;
+    height: 350px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 3px 3px 0 0;
+    margin: -175px 0 0 -325px;
+    background: #000;
+    -webkit-box-shadow: 0px 0px 7px -2px rgba(0,0,0,1);
+    -moz-box-shadow: 0px 0px 7px -2px rgba(0,0,0,1);
+    box-shadow: 0px 0px 7px -2px rgba(0,0,0,1);
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}
+
+ul.controls_list {
+    margin: 0;
+    padding-top: 13px;
+    margin-left: 80%;
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}
+ul.controls_list li {
+    display: inline;
+    margin-right: 2px;
+    padding: 3px;
+}
+
+.main.header{
+    position: absolute;
+    width: 650px;
+    height: 40px;
+    top: 50%;
+    left: 50%;
+    margin: -175px 0 0 -325px;
+    background: #939393;
+    background: -moz-linear-gradient(top, #939393 0%, #c1c1c1 55%, #eaeaea 100%);
+    background: -webkit-linear-gradient(top, #939393 0%,#c1c1c1 55%,#eaeaea 100%);
+    background: linear-gradient(to bottom, #939393 0%,#c1c1c1 55%,#eaeaea 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#939393', endColorstr='#eaeaea',GradientType=0 );
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}
+
+.name{
+    position: absolute;
+    left: 37.5%;
+    bottom: 0;
+    height: 72%;
+    font-size: 15px;
+    font-family: 'Tahoma', cursive;
+    text-align: center;
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}
+
+.main.content{
+    position: absolute;
+    border-radius: 0;
+    border-top: solid 1px #6C6C6C;
+    padding-top: 4px;
+    color: white;
+    width: 650px;
+    height: 310px;
+    top: 50%;
+    left: 50%;
+    margin: -135px 0 0 -325px;
+    background: #000;
+    -webkit-box-shadow: 0px 0px 0px -2px rgba(0,0,0,1);
+    -moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+    font-family: 'Linux', cursive;
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}
+.notice {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    color: white;
+    text-decoration: none;
+    -webkit-touch-callout: none; 
+-webkit-user-select: none; 
+-khtml-user-select: none; 
+-moz-user-select: none; 
+-ms-user-select: none; 
+user-select: none;
+}

@@ -1,0 +1,19 @@
+		.post {
+			background-color: #6C3A98;
+			border-radius: 5px;
+			padding: 20px;
+			margin-bottom: 20px;
+		}
+		.post h2 {
+			font-size: 2em;
+			margin-top: 0;
+			margin-bottom: 10px;
+		}
+		.post p {
+			margin: 0;
+			font-size: 1.2em;
+			line-height: 1.5;
+		}
+		form {
+			position: relative;
+		}

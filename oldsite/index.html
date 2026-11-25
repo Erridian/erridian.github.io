@@ -1,0 +1,213 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="shortcut icon" href="ill.jpg" />
+	<title> OWNED TEIROP </title>
+	<script language=javascript>
+    var rev = "fwd";
+    function titlebar(val){
+        var msg  = "ERRIDIAN OWNED ";
+        var res = " ERRIDIAN OWNED ";
+        var speed = 110;
+        var pos = val;
+        msg = "    "+msg+" Don`t CRY";
+        var le = msg.length;
+        if(rev == "fwd"){
+            if(pos < le){
+                pos = pos+1;
+                scroll = msg.substr(0,pos);
+                document.title = scroll;
+                timer = window.setTimeout("titlebar("+pos+")",speed);
+            }
+            else {
+                rev = "bwd";
+                timer = window.setTimeout("titlebar("+pos+")",speed);
+            }
+        }
+        else {
+            if(pos > 0) {
+                pos = pos-1;
+                var ale = le-pos;
+                scrol = msg.substr(ale,le);
+                document.title = scrol;
+                timer = window.setTimeout("titlebar("+pos+")",speed);
+            }
+            else {
+                rev = "fwd";
+                timer = window.setTimeout("titlebar("+pos+")",speed);
+            }
+        }
+    }
+    titlebar(0);
+</script>
+	<style type="text/css">body, a, a:link{cursor:url(cursor.cur), default;} a:hover {cursor:url(cursor2.cur),wait;}</style>
+	<link href="./core.css" rel="stylesheet">
+
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+	<link rel=”stylesheet” type=”text/css” href=”/public_html/css/font-awesome.css” media=”all” />
+<style type="text/css"></style></head>
+<body  >
+
+<video autoplay="1" loop="2"><source src="vid/1.mp4" type="video/mp4"></video>
+
+    <div class="block">
+
+	<div class="pageOverlay">
+
+	<p align="center">#ERRIDIAN OWNED</p>
+
+		<div class="lightbox">
+			<div class="wrapper">
+				<div class="titles animate"><a class="btn-draw" href="https://steamcommunity.com/id/erridian/" target="_blank"><span>STEAM</span></a>
+<a class="btn-draw" href="https://vk.com/erridian" target="_blank"><span>VK</span></a>
+//<a class="btn-draw" href="skype:live:b7c9ae77c1ef8e0a" target="_blank"><span>Skype</span></a>
+
+				</div>
+
+
+					<div class="media animate"> </div>
+
+<canvas id="can1vas"></canvas>
+<script type="text/javascript">
+let resizeReset = function() {
+	w = canvasBody.width = window.innerWidth;
+	h = canvasBody.height = window.innerHeight;
+}
+
+const opts = { 
+	particleColor: "rgb(200,200,200)",
+	lineColor: "rgb(200,22,200)",
+	particleAmount: 30,
+	defaultSpeed: 1,
+	variantSpeed: 1,
+	defaultRadius: 2,
+	variantRadius: 2,
+	linkRadius: 200,
+};
+
+
+window.addEventListener("resize", function(){
+	deBouncer();
+});
+
+let deBouncer = function() {
+    clearTimeout(tid);
+    tid = setTimeout(function() {
+        resizeReset();
+    }, delay);
+};
+
+let checkDistance = function(x1, y1, x2, y2){ 
+	return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+};
+
+let linkPoints = function(point1, hubs){ 
+	for (let i = 0; i < hubs.length; i++) {
+		let distance = checkDistance(point1.x, point1.y, hubs[i].x, hubs[i].y);
+		let opacity = 1 - distance / opts.linkRadius;
+		if (opacity > 0) { 
+			drawArea.lineWidth = 0.5;
+			drawArea.strokeStyle = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${opacity})`;
+			drawArea.beginPath();
+			drawArea.moveTo(point1.x, point1.y);
+			drawArea.lineTo(hubs[i].x, hubs[i].y);
+			drawArea.closePath();
+			drawArea.stroke();
+		}
+	}
+}
+
+Particle = function(xPos, yPos){ 
+	this.x = Math.random() * w; 
+	this.y = Math.random() * h;
+	this.speed = opts.defaultSpeed + Math.random() * opts.variantSpeed; 
+	this.directionAngle = Math.floor(Math.random() * 360); 
+	this.color = opts.particleColor;
+	this.radius = opts.defaultRadius + Math.random() * opts. variantRadius; 
+	this.vector = {
+		x: Math.cos(this.directionAngle) * this.speed,
+		y: Math.sin(this.directionAngle) * this.speed
+	};
+	this.update = function(){ 
+		this.border(); 
+		this.x += this.vector.x; 
+		this.y += this.vector.y; 
+	};
+	this.border = function(){ 
+		if (this.x >= w || this.x <= 0) { 
+			this.vector.x *= -1;
+		}
+		if (this.y >= h || this.y <= 0) {
+			this.vector.y *= -1;
+		}
+		if (this.x > w) this.x = w;
+		if (this.y > h) this.y = h;
+		if (this.x < 0) this.x = 0;
+		if (this.y < 0) this.y = 0;	
+	};
+	this.draw = function(){ 
+		drawArea.beginPath();
+		drawArea.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+		drawArea.closePath();
+		drawArea.fillStyle = this.color;
+		drawArea.fill();
+	};
+};
+
+function setup(){ 
+	particles = [];
+	resizeReset();
+	for (let i = 0; i < opts.particleAmount; i++){
+		particles.push( new Particle() );
+	}
+	window.requestAnimationFrame(loop);
+}
+
+function loop(){ 
+	window.requestAnimationFrame(loop);
+	drawArea.clearRect(0,0,w,h);
+	for (let i = 0; i < particles.length; i++){
+		particles[i].update();
+		particles[i].draw();
+	}
+	for (let i = 0; i < particles.length; i++){
+		linkPoints(particles[i], particles);
+	}
+}
+
+const canvasBody = document.getElementById("can1vas"),
+drawArea = canvasBody.getContext("2d");
+let delay = 200, tid,
+rgb = opts.lineColor.match(/\d+/g);
+resizeReset();
+setup();
+</script>
+
+
+ <script type="text/javascript" >
+    window.onkeydown = function(evt) {
+        if(evt.keyCode == 123) return false;
+    };
+
+    window.onkeypress = function(evt) {
+        if(evt.keyCode == 123) return false;
+    };
+	    window.onkeypress = function(evt) {
+        if(evt.keyCode == 85) return false;
+
+    };
+	    window.onkeypress = function(evt) {
+        if(evt.keyCode == 17) return false;
+    };
+</script></div>
+					</a>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+		</div>
+
+	</body>
+</html>

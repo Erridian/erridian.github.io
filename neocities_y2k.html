@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💿 ERRIDIAN 2000 // Y2K CYBER-POP REALM 🌐</title>
+    <link rel="icon" href="favicon.ico">
+    <meta name="theme-color" content="#d1c4e9">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --chrome-light: #ffffff;
+            --chrome-silver: #dcdde1;
+            --chrome-dark: #718093;
+            --y2k-purple: #9c88ff;
+            --y2k-pink: #ff79cd;
+            --y2k-cyan: #00d2d3;
+            --y2k-yellow: #feca57;
+            --card-bg: rgba(25, 20, 45, 0.85);
+            --border-chrome: linear-gradient(135deg, #fff 0%, #b8b8b8 50%, #666 100%);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 12px;
+            background: #110e20;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(156, 136, 255, 0.15) 0%, transparent 60%),
+                linear-gradient(rgba(255, 121, 205, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 210, 211, 0.08) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: #f5f6fa;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--y2k-cyan);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        a:hover {
+            color: var(--y2k-pink);
+            text-shadow: 0 0 8px var(--y2k-pink);
+        }
+
+        /* Навигатор вариаций */
+        .style-switcher {
+            background: rgba(30, 25, 55, 0.9);
+            border: 2px solid var(--y2k-purple);
+            border-radius: 20px;
+            padding: 6px 12px;
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto 15px auto;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+        }
+        .style-switcher a {
+            color: #fff;
+            margin: 0 4px;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .style-switcher a.active {
+            background: linear-gradient(135deg, var(--y2k-pink), var(--y2k-purple));
+            color: #fff;
+            border-color: #fff;
+            box-shadow: 0 0 10px var(--y2k-pink);
+        }
+
+        .y2k-wrapper {
+            max-width: 960px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 3px solid transparent;
+            border-image: linear-gradient(135deg, #fff, #9c88ff, #ff79cd, #00d2d3) 1;
+            box-shadow: 0 0 30px rgba(156, 136, 255, 0.3), inset 0 0 20px rgba(0, 210, 211, 0.15);
+            padding: 16px;
+        }
+
+        /* Хромированный заголовок */
+        .chrome-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 34px;
+            font-weight: 900;
+            background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 40%, #888888 50%, #ffffff 52%, #a8a8a8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 8px rgba(255, 121, 205, 0.5));
+            letter-spacing: 3px;
+            margin: 10px 0;
+        }
+
+        .y2k-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 16px;
+            margin-top: 15px;
+        }
+        @media (max-width: 800px) {
+            .y2k-grid { grid-template-columns: 1fr; }
+        }
+
+        .y2k-card {
+            background: rgba(40, 30, 70, 0.7);
+            border: 1px solid rgba(156, 136, 255, 0.5);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .y2k-card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            color: var(--y2k-yellow);
+            border-bottom: 1px solid var(--y2k-purple);
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .y2k-btn {
+            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            border: 1px solid #fff;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            padding: 8px 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .y2k-btn:hover {
+            filter: brightness(1.2);
+            transform: scale(1.02);
+        }
+
+        .mp3-player-y2k {
+            background: linear-gradient(180deg, #2d3436 0%, #1e272e 100%);
+            border: 2px solid #a4b0be;
+            border-radius: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body onclick="unlockY2kAudio()">
+
+    <!-- Панель стилей -->
+    <div class="style-switcher">
+        <span>💿 <strong>REALMS & CONSOLES:</strong></span>
+        <a href="neocities_y2k.html" class="active">💿 Y2K</a>
+        <a href="neocities.html">★ Cyber Realm</a>
+        <a href="neocities_nes.html">👾 NES 8-Bit</a>
+        <a href="neocities_sega.html">🦔 Sega 16-Bit</a>
+        <a href="neocities_ps1.html">💿 PS One 32-Bit</a>
+        <a href="neocities_gameboy.html">🕹️ GameBoy</a>
+        <a href="neocities_vhs.html">📼 VHS 90s TV</a>
+        <a href="neocities_geocities.html">🔥 GeoCities '97</a>
+        <a href="neocities_cyberpunk.html">⚡ Cyberpunk</a>
+        <a href="neocities_frutiger.html">💧 Frutiger Aero</a>
+        <a href="index.html" style="background:#6c5ce7; color:#fff;">💾 OS 95</a>
+    </div>
+
+    <div class="y2k-wrapper">
+
+        <!-- Шапка Y2K -->
+        <header style="text-align: center; border-bottom: 2px solid var(--y2k-purple); padding-bottom: 15px;">
+            <div style="font-size: 14px; color: var(--y2k-cyan); font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">
+                /// MILLENNIUM 2000 CYBER-SPACE STATION ///
+            </div>
+            <h1 class="chrome-title">ERRIDIAN // Y2K REALM</h1>
+            <div style="color: var(--y2k-pink); font-size: 14px; font-weight: bold;">
+                ★ MANGA SCANLATION • RETRO-CODE • CYBER-POP BEATS ★
+            </div>
+        </header>
+
+        <div class="y2k-grid">
+            <!-- Левая колонка -->
+            <aside>
+                <!-- Профиль -->
+                <div class="y2k-card">
+                    <div class="y2k-card-title"><span>AVATAR // PROFILE</span><span>[00]</span></div>
+                    <div style="text-align: center; margin-bottom: 8px;">
+                        <div style="font-size: 40px; background: rgba(0,0,0,0.4); border: 2px solid var(--y2k-pink); border-radius: 50%; width: 75px; height: 75px; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto;">
+                            🧙‍♂️
+                        </div>
+                        <strong style="color: var(--y2k-cyan); font-family: 'Orbitron', sans-serif; font-size: 16px;">ERRIDIAN</strong>
+                        <div style="font-size: 12px; color: #a4b0be;">Manga Editor & Net Artist</div>
+                    </div>
+                    <p style="font-size: 13px; margin: 0; color: #dcdde1;">
+                        Добро пожаловать в эстетику рубежа 2000-х: хром, футуризм, рейв-вайб и любимая манга!
+                    </p>
+                </div>
+
+                <!-- Y2K MP3 Плеер -->
+                <div class="y2k-card">
+                    <div class="y2k-card-title"><span>CYBER MP3 JUKEBOX</span><span>[2000]</span></div>
+                    <div class="mp3-player-y2k">
+                        <div id="y2k-track-label" style="font-family: 'VT323', monospace; font-size: 18px; color: #00d2d3; margin-bottom: 6px; white-space: nowrap; overflow: hidden;">
+                            Ready...
+                        </div>
+                        <select id="y2k-audio-select" style="width: 100%; background: #000; color: #fff; border: 1px solid #718093; font-family: inherit; font-size: 13px; padding: 4px; margin-bottom: 8px;" onchange="changeY2kTrack(this.value)">
+                            <option value="">-- SELECT TRACK --</option>
+                            <option value="teamrept20113.mp3">Team Rept Cyber-Mix</option>
+                            <option value="ForestDump.mp3">Forest Dump Techno</option>
+                            <option value="future_gadget_lab/steinsgate8bit.mp3">Steins;Gate 8-Bit</option>
+                            <option value="https://radio.plaza.one/mp3">Nightwave Plaza Stream</option>
+                            <option value="https://stream.cvgm.net/cvgm128">Chiptune Arcade Radio</option>
+                        </select>
+                        <div style="display: flex; gap: 4px;">
+                            <button class="y2k-btn" style="flex-grow: 1;" onclick="playY2kAudio()">PLAY ▶</button>
+                            <button class="y2k-btn" style="background:#576574;" onclick="stopY2kAudio()">STOP ■</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hit Counter -->
+                <div class="y2k-card" style="text-align: center;">
+                    <div class="y2k-card-title"><span>VISITOR COUNTER</span></div>
+                    <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; color: var(--y2k-pink);" id="y2k-counter">
+                        009,420
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Основная часть -->
+            <main>
+                <!-- Манга секция -->
+                <div class="y2k-card">
+                    <div class="y2k-card-title"><span>★ FUN CHOZAS // MANGA RELEASE HUB</span></div>
+                    <p style="font-size: 14px; line-height: 1.5; margin-top: 0;">
+                        Команда <strong>Fun Chozas</strong> переводит мангу на русский язык в максимальном качестве.
+                    </p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+                        <a href="https://vk.com/chikdyk" target="_blank" class="y2k-btn">💬 VK Community</a>
+                        <a href="https://t.me/ocerr" target="_blank" class="y2k-btn" style="background: linear-gradient(135deg, #00d2d3, #54a0ff);">✈️ Telegram Feed</a>
+                    </div>
+                </div>
+
+                <!-- Проекты -->
+                <div class="y2k-card">
+                    <div class="y2k-card-title"><span>CYBER-PROJECTS & REPOSITORIES</span></div>
+                    
+                    <div style="display: grid; gap: 8px;">
+                        <div style="border: 1px solid rgba(255,255,255,0.2); padding: 8px; border-radius: 8px; background: rgba(0,0,0,0.3);">
+                            <div style="color: var(--y2k-yellow); font-weight: bold;">🎁 Dropushko Automated Seeker</div>
+                            <div style="font-size: 13px; color: #ccc;">Форк Giftseeker — автоматический поиск и сбор раздач.</div>
+                            <div style="margin-top: 4px;"><a href="https://github.com/Erridian" target="_blank">[ View on GitHub ]</a></div>
+                        </div>
+
+                        <div style="border: 1px solid rgba(255,255,255,0.2); padding: 8px; border-radius: 8px; background: rgba(0,0,0,0.3);">
+                            <div style="color: var(--y2k-cyan); font-weight: bold;">🐙 GitHub Profile</div>
+                            <div style="font-size: 13px; color: #ccc;">Открытые исходники и репозитории веб-страниц.</div>
+                            <div style="margin-top: 4px;"><a href="https://github.com/Erridian" target="_blank">[ github.com/Erridian ]</a></div>
+                        </div>
+
+                        <div style="border: 1px solid rgba(255,255,255,0.2); padding: 8px; border-radius: 8px; background: rgba(0,0,0,0.3);">
+                            <div style="color: var(--y2k-pink); font-weight: bold;">📺 YouTube & Steam Hubs</div>
+                            <div style="font-size: 13px; color: #ccc;">Видеоархивы и игровой профиль.</div>
+                            <div style="margin-top: 4px;">
+                                <a href="https://youtube.com/erridian" target="_blank">YouTube</a> • 
+                                <a href="https://steamcommunity.com/id/erridian" target="_blank">Steam</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Быстрый возврат в ОС -->
+                <div class="y2k-card" style="text-align: center;">
+                    <div style="margin-bottom: 8px; font-size: 13px;">Хотите переключиться в режим Windows 95?</div>
+                    <a href="index.html" class="y2k-btn" style="background: linear-gradient(135deg, var(--y2k-pink), var(--y2k-purple)); font-size: 13px; padding: 10px 20px;">💾 Launch Erridian OS 95</a>
+                </div>
+            </main>
+        </div>
+
+        <footer style="margin-top: 15px; border-top: 1px solid var(--y2k-purple); padding-top: 10px; text-align: center; font-size: 12px; color: #a4b0be;">
+            © 2000-2026 Erridian // Y2K Millennium Edition • Hosted on GitHub Pages
+        </footer>
+
+    </div>
+
+    <audio id="y2k-audio"></audio>
+
+    <script>
+        const y2kAudio = document.getElementById('y2k-audio');
+        function unlockY2kAudio() {
+            if (y2kAudio.paused && y2kAudio.src) {
+                y2kAudio.play().catch(() => {});
+            }
+        }
+
+        function changeY2kTrack(src) {
+            if (!src) return;
+            y2kAudio.src = src;
+            const sel = document.getElementById('y2k-audio-select');
+            document.getElementById('y2k-track-label').innerText = "Playing: " + sel.options[sel.selectedIndex].text;
+            y2kAudio.play().catch(() => {});
+        }
+
+        function playY2kAudio() {
+            const sel = document.getElementById('y2k-audio-select');
+            if (!y2kAudio.src) {
+                sel.selectedIndex = 1;
+                changeY2kTrack(sel.value);
+            } else {
+                y2kAudio.play().catch(() => {});
+            }
+        }
+
+        function stopY2kAudio() {
+            y2kAudio.pause();
+            y2kAudio.currentTime = 0;
+            document.getElementById('y2k-track-label').innerText = "Stopped";
+        }
+
+        window.onload = function() {
+            let hits = parseInt(localStorage.getItem('y2k_hits') || '9420') + 1;
+            localStorage.setItem('y2k_hits', hits);
+            document.getElementById('y2k-counter').innerText = hits.toLocaleString('en-US');
+        };
+    </script>
+</body>
+</html>

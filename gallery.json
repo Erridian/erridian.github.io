@@ -1,0 +1,34 @@
+[
+  {
+    "id": "egg-ill",
+    "title": "Секретный арт (Egg)",
+    "category": "art",
+    "date": "2026-11-25",
+    "src": "egg/ill.jpg",
+    "desc": "Иллюстрация из архива пасхалок и старых экспериментов сайта."
+  },
+  {
+    "id": "ref-ill",
+    "title": "Референс / Концепт",
+    "category": "art",
+    "date": "2026-11-20",
+    "src": "ref/ill.jpg",
+    "desc": "Визуальный референс для оформления ретро-пространства."
+  },
+  {
+    "id": "oldsite-1",
+    "title": "Архив Oldsite v1",
+    "category": "screenshots",
+    "date": "2026-11-10",
+    "src": "oldsite/ill.jpg",
+    "desc": "Визуал из первой архивной версии сайта."
+  },
+  {
+    "id": "oldsite-2",
+    "title": "Архив Oldsite v2",
+    "category": "screenshots",
+    "date": "2026-11-12",
+    "src": "oldsite2/ill.jpg",
+    "desc": "Вторая ревизия визуального оформления из архива."
+  }
+]

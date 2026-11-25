@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="p:domain_verify" content="c0336278cf6c6261bac1cd0536cede17"/>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Добавлен метатег для мобильных устройств -->
+	<title>Erridian</title>
+
+	<link rel="stylesheet" type="text/css" href="text/css/style.css">
+	<link rel="stylesheet" type="text/css" href="text/css/player.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="text/css/manga.css">
+	<link rel="stylesheet" type="text/css" href="text/css/post.css">
+	<link rel="stylesheet" type="text/css" href="text/css/nav.css">
+    <style>img[alt="www.000webhost.com"]{display:none;}</style>
+
+	<script src = "text/js/switchpage.js"></script>
+	<script src = "text/js/eggs.js"></script>
+	<script src = "text/js/showdown.min.js"></script>
+	<script src = "text/js/jquery-3.6.0.min.js"></script>
+
+	
+</head>
+<body>
+
+	<header>
+<pre style="font-family: Courier New; font-size: 0.5em;">
+      ___           ___           ___                        ___                        ___           ___     
+     /  /\         /  /\         /  /\           ___        /  /\           ___        /  /\         /  /\    
+    /  /::\       /  /::\       /  /::\         /__/\      /  /::\         /__/\      /  /::\       /  /::|   
+   /  /:/\:\     /  /:/\:\     /  /:/\:\        \__\:\    /  /:/\:\        \__\:\    /  /:/\:\     /  /:|:|   
+  /  /::\ \:\   /  /::\ \:\   /  /::\ \:\       /  /::\  /  /:/  \:\       /  /::\  /  /::\ \:\   /  /:/|:|__ 
+ /__/:/\:\ \:\ /__/:/\:\_\:\ /__/:/\:\_\:\   __/  /:/\/ /__/:/ \__\:|   __/  /:/\/ /__/:/\:\_\:\ /__/:/ |:| /\
+ \  \:\ \:\_\/ \__\/~|::\/:/ \__\/~|::\/:/  /__/\/:/~~  \  \:\ /  /:/  /__/\/:/~~  \__\/  \:\/:/ \__\/  |:|/:/
+  \  \:\ \:\      |  |:|::/     |  |:|::/   \  \::/      \  \:\  /:/   \  \::/          \__\::/      |  |:/:/ 
+   \  \:\_\/      |  |:|\/      |  |:|\/     \  \:\       \  \:\/:/     \  \:\          /  /:/       |__|::/  
+    \  \:\        |__|:|~       |__|:|~       \__\/        \__\::/       \__\/         /__/:/        /__/:/   
+     \__\/         \__\|         \__\|                         ~~                      \__\/         \__\/    
+ 	</pre>
+	</header>
+	<nav>
+		<form class="container">
+<button type="button" class="btn-8bit" onclick="togglePage('page1')">О себе</button>
+<button type="button" class="btn-8bit" onclick="togglePage('page2')">Посты</button>
+<!-- button type="button" class="btn-8bit" onclick="togglePage('page3')">Каталог манги</button -->
+			
+		</form>
+	</nav>
+	<main>
+				<div id="page1" class="page">
+			
+				
+				
+<ul id="list">
+  <li>Немного информации обо мне: Звать меня [Name]. О чем можно убедиться взглянув на мои соц сети.</li>
+  <li>Занимаюсь разными вещами. От творческих, до бесполезных</li>
+  <li>Недавно открыл сервер для Miecraft XD</li>
+</ul>
+
+<script src = "text/js/pm.js"></script>
+
+			<div class="social-menu">
+			<nav role="navigation" class="primary-navigation">
+<ul>
+ <li><a class="hvck" href="http://t.me/erridian">[telegram]</a> </li>
+ <li><a href="http://youtube.com/erridian">[youtube]</a> </li>
+ <li><a href="http://steamcommunity.com/id/erridian">[steam]</a> </li>
+<li><a href="#">[Gram]</a> 
+   <ul class="dropdown">
+<li><a href="https://grustnogram.ru/u/erridian">[grustnogram]</a> </li>
+ <li><a href="https://www.instagram.com/erridian_/">[instagram]</a> </li>
+</ul></li>
+
+ <li><a href="http://vk.com/erridian">[vk]</a> </li>
+ <li><a href="/ref">[Ref Code]</a> </li>
+            </nav>  
+			
+			</div>
+		</div>
+
+		<div id="page2" class="page hidden">
+  <div id="posts"></div>
+
+
+	</div>
+
+	    <div id="page3" class="page hidden">
+ 		<div class="comic-container">
+            <div class="comic">
+                <img src="img/comic1.jpg" alt="Комикс 1">
+                <div class="info">
+                    <h2>Комикс 1</h2>
+                    <p>Описание комикса 1.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+            </div>
+            <div class="comic">
+                <img src="img/comic2.jpg" alt="Комикс 2">
+                <div class="info">
+                    <h2>Комикс 2</h2>
+                    <p>Описание комикса 2.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+            </div>
+            <div class="comic">
+                <img src="img/comic3.jpg" alt="Комикс 3">
+                <div class="info">
+					<h2>Комикс 3</h2>
+                    <p>Описание комикса 3.</p>
+                    <a href="#">Выбрать</a>
+                </div>
+			</div>
+		</div>
+    </div>
+</main>
+	<footer>
+							
+<audio id="audio" src="Radmila Maro-Skazka111.mp3" ontimeupdate="updateTime()"></audio>
+
+<div class="player">
+  <button class="player__button" onclick="playPause()">▶</button>
+  <span class="player__time">0:00</span>
+  <div class="player__progress-bar" onclick="setAudioTime(event)">
+    <div class="player__progress"></div>
+  </div>
+  <span class="player__name">Radmila Maro - Сказка 111</span>
+</div>
+
+<script src = "text/js/player.js">></script>
+		<p>&copy; 
+		  <script>document.write(new Date().getFullYear())</script> 
+			Erridian. Все права защищены.</p>
+	</footer>
+		<script src = "text/js/load-posts.js"></script>
+</body>
+</html>

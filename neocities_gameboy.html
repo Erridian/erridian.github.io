@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERRIDIAN // GAME BOY DMG-01 (1989)</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gb-darkest: #0f380f;
+      --gb-dark: #306230;
+      --gb-light: #8bac0f;
+      --gb-lightest: #9bbc0f;
+      --case-color: #d1cfc7;
+      --case-shadow: #9a9890;
+      --screen-bezel: #686976;
+      --btn-magenta: #8b1d56;
+      --btn-rubber: #2b2b2b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background: #18191f;
+      background-image: 
+        radial-gradient(#252733 15%, transparent 16%),
+        radial-gradient(#252733 15%, transparent 16%);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 10px 40px;
+      font-family: 'Press Start 2P', monospace;
+      color: var(--gb-darkest);
+    }
+
+    /* Style Switcher Bar */
+    .style-bar {
+      width: 100%;
+      max-width: 900px;
+      background: #0d0e12;
+      border: 2px solid #333;
+      padding: 8px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 25px;
+      border-radius: 6px;
+      font-size: 9px;
+      color: #aaa;
+    }
+    .style-bar span { color: #8bac0f; font-weight: bold; }
+    .style-bar a {
+      color: #fff;
+      text-decoration: none;
+      padding: 4px 8px;
+      background: #1f222e;
+      border: 1px solid #444;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .style-bar a:hover, .style-bar a.active {
+      background: #9bbc0f;
+      color: #0f380f;
+      border-color: #8bac0f;
+    }
+
+    /* Game Boy Shell */
+    .gb-console {
+      width: 100%;
+      max-width: 420px;
+      background: var(--case-color);
+      border-radius: 20px 20px 70px 20px;
+      box-shadow: 
+        0 15px 35px rgba(0,0,0,0.8),
+        inset 0 2px 4px #ffffff,
+        inset 0 -6px 10px var(--case-shadow),
+        inset 6px 0 10px var(--case-shadow),
+        inset -6px 0 10px var(--case-shadow);
+      padding: 28px 24px 35px;
+      border: 3px solid #828078;
+      position: relative;
+    }
+
+    /* Top decorative grooves */
+    .gb-groove-top {
+      position: absolute;
+      top: 8px;
+      left: 30px;
+      right: 30px;
+      height: 3px;
+      background: #b5b3aa;
+      border-bottom: 1px solid #ffffff;
+    }
+
+    /* Screen Bezel */
+    .screen-bezel {
+      background: var(--screen-bezel);
+      border-radius: 12px 12px 35px 12px;
+      padding: 22px 20px 24px;
+      box-shadow: inset 0 4px 8px #222, 0 2px 3px rgba(255,255,255,0.4);
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .bezel-top-lines {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 7.5px;
+      color: #a8a9b8;
+      letter-spacing: 1px;
+    }
+    .line-blue { flex: 1; height: 2px; background: #2f347a; margin-right: 8px; }
+    .line-red { flex: 1; height: 2px; background: #8b1d56; margin-left: 8px; }
+
+    .battery-indicator {
+      position: absolute;
+      left: 10px;
+      top: 48%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .battery-led {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ff2b2b;
+      box-shadow: 0 0 8px #ff2b2b, inset 0 1px 2px #fff;
+    }
+    .battery-label {
+      font-size: 5px;
+      color: #ccc;
+      letter-spacing: 0.5px;
+    }
+
+    /* LCD Screen */
+    .lcd-screen {
+      background: var(--gb-lightest);
+      border: 4px solid #111;
+      box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5);
+      border-radius: 4px;
+      height: 320px;
+      padding: 12px;
+      overflow-y: auto;
+      position: relative;
+      color: var(--gb-darkest);
+    }
+    .lcd-screen::before {
+      content: " ";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(rgba(15, 56, 15, 0.08) 50%, rgba(0, 0, 0, 0) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Scrollbar */
+    .lcd-screen::-webkit-scrollbar { width: 6px; }
+    .lcd-screen::-webkit-scrollbar-track { background: var(--gb-light); }
+    .lcd-screen::-webkit-scrollbar-thumb { background: var(--gb-darkest); }
+
+    .nintendo-logo {
+      font-size: 11px;
+      font-weight: bold;
+      color: #2b337c;
+      letter-spacing: 2px;
+      margin-top: 10px;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .nintendo-logo span {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+    }
+
+    /* Gameboy Screen Content */
+    .screen-header {
+      border-bottom: 2px solid var(--gb-darkest);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+    }
+    .cartridge-title {
+      font-size: 10px;
+      line-height: 1.4;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .menu-item {
+      padding: 6px 4px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      font-size: 8.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px dashed transparent;
+    }
+    .menu-item:hover, .menu-item.selected {
+      background: var(--gb-dark);
+      color: var(--gb-lightest);
+      border-color: var(--gb-darkest);
+    }
+    .menu-item::before {
+      content: "►";
+      opacity: 0;
+    }
+    .menu-item:hover::before, .menu-item.selected::before {
+      opacity: 1;
+    }
+
+    .gb-card {
+      border: 2px solid var(--gb-darkest);
+      padding: 8px;
+      margin-bottom: 10px;
+      background: var(--gb-light);
+    }
+    .gb-card h4 {
+      font-size: 9px;
+      margin-bottom: 6px;
+      border-bottom: 1px dashed var(--gb-darkest);
+      padding-bottom: 4px;
+    }
+    .gb-card p {
+      font-size: 7.5px;
+      line-height: 1.5;
+    }
+
+    .gb-link {
+      display: block;
+      color: var(--gb-darkest);
+      background: var(--gb-light);
+      border: 1px solid var(--gb-darkest);
+      padding: 5px;
+      margin-bottom: 5px;
+      text-decoration: none;
+      font-size: 7.5px;
+      font-weight: bold;
+    }
+    .gb-link:hover {
+      background: var(--gb-darkest);
+      color: var(--gb-lightest);
+    }
+
+    /* Controls Panel */
+    .controls-panel {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    /* D-PAD */
+    .dpad {
+      position: relative;
+      width: 90px;
+      height: 90px;
+    }
+    .dpad-center {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      width: 30px;
+      height: 30px;
+      background: #111;
+      border-radius: 2px;
+    }
+    .dpad-center::after {
+      content: "";
+      position: absolute;
+      top: 8px; left: 8px; width: 14px; height: 14px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      box-shadow: inset 0 1px 2px #000;
+    }
+    .dpad-btn {
+      position: absolute;
+      background: #151515;
+      cursor: pointer;
+      box-shadow: inset 0 1px 2px #444, 0 3px 5px rgba(0,0,0,0.6);
+      transition: transform 0.05s;
+    }
+    .dpad-btn:active {
+      transform: translateY(2px);
+      background: #000;
+    }
+    .dpad-up { top: 0; left: 30px; width: 30px; height: 30px; border-radius: 4px 4px 0 0; }
+    .dpad-down { bottom: 0; left: 30px; width: 30px; height: 30px; border-radius: 0 0 4px 4px; }
+    .dpad-left { top: 30px; left: 0; width: 30px; height: 30px; border-radius: 4px 0 0 4px; }
+    .dpad-right { top: 30px; right: 0; width: 30px; height: 30px; border-radius: 0 4px 4px 0; }
+
+    /* Action Buttons (A & B) */
+    .action-buttons {
+      display: flex;
+      gap: 16px;
+      transform: rotate(-25deg);
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+    .action-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .round-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--btn-magenta);
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 4px 6px rgba(0,0,0,0.7);
+      cursor: pointer;
+      border: none;
+      transition: transform 0.05s;
+    }
+    .round-btn:active {
+      transform: translateY(3px);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+    }
+    .btn-label {
+      font-size: 9px;
+      font-weight: bold;
+      color: #2b337c;
+      transform: rotate(25deg);
+    }
+
+    /* Start / Select Buttons */
+    .pills-container {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 35px;
+    }
+    .pill-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transform: rotate(-25deg);
+    }
+    .pill-btn {
+      width: 48px;
+      height: 12px;
+      background: var(--btn-rubber);
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: inset 0 1px 2px #555, 0 2px 4px rgba(0,0,0,0.6);
+      border: none;
+    }
+    .pill-btn:active {
+      transform: translateY(2px);
+    }
+    .pill-label {
+      font-size: 7px;
+      font-weight: bold;
+      color: #2b337c;
+      letter-spacing: 1px;
+    }
+
+    /* Speaker Grill */
+    .speaker-grill {
+      position: absolute;
+      bottom: 22px;
+      right: 20px;
+      display: flex;
+      gap: 6px;
+      transform: rotate(-25deg);
+    }
+    .grill-hole {
+      width: 5px;
+      height: 45px;
+      background: #807e77;
+      border-radius: 4px;
+      box-shadow: inset 0 1px 2px #000;
+    }
+
+    /* Mini Game Canvas */
+    #gameCanvas {
+      background: var(--gb-lightest);
+      border: 1px solid var(--gb-darkest);
+      display: block;
+      margin: 8px auto 0;
+      image-rendering: pixelated;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Style Switcher Navigation -->
+  <div class="style-bar">
+    <span>THEMES:</span>
+    <a href="index.html">OS 95</a>
+    <a href="neocities.html">Cyber Realm</a>
+    <a href="neocities_geocities.html">GeoCities '97</a>
+    <a href="neocities_cyberpunk.html">Cyberpunk HUD</a>
+    <a href="neocities_frutiger.html">Frutiger Aero</a>
+    <a href="neocities_y2k.html">Y2K 2000</a>
+    <a href="neocities_nes.html">NES 8-Bit</a>
+    <a href="neocities_sega.html">Sega 16-Bit</a>
+    <a href="neocities_ps1.html">PS1 32-Bit</a>
+    <a href="neocities_gameboy.html" class="active">GameBoy DMG</a>
+    <a href="neocities_vhs.html">VHS 90s TV</a>
+  </div>
+
+  <!-- Game Boy DMG-01 Console Shell -->
+  <div class="gb-console">
+    <div class="gb-groove-top"></div>
+
+    <!-- Screen Bezel -->
+    <div class="screen-bezel">
+      <div class="bezel-top-lines">
+        <div class="line-blue"></div>
+        <span>DOT MATRIX WITH STEREO SOUND</span>
+        <div class="line-red"></div>
+      </div>
+
+      <div class="battery-indicator">
+        <div class="battery-led"></div>
+        <div class="battery-label">BATTERY</div>
+      </div>
+
+      <!-- Monochrome LCD Screen -->
+      <div class="lcd-screen" id="lcdScreen">
+        <div class="screen-header">
+          <span id="screenTime">00:00</span>
+          <span>GB-ROM: ERRIDIAN</span>
+        </div>
+
+        <!-- TAB: MENU -->
+        <div class="tab-content active" id="tab-menu">
+          <p class="cartridge-title" style="text-align: center; margin-bottom: 12px;">★ ERRIDIAN OS ★<br><span style="font-size:7px;">SELECT CARTRIDGE</span></p>
+          <div class="menu-item selected" onclick="switchGbTab('profile')">1. ABOUT_ME.GB</div>
+          <div class="menu-item" onclick="switchGbTab('posts')">2. QUEST_LOGS.GB</div>
+          <div class="menu-item" onclick="switchGbTab('manga')">3. FUN_CHOZAS.GB</div>
+          <div class="menu-item" onclick="switchGbTab('sound')">4. SOUND_TEST.GB</div>
+          <div class="menu-item" onclick="switchGbTab('game')">5. LAB_DEFENDER.GB</div>
+          <div class="menu-item" onclick="switchGbTab('links')">6. WARP_LINKS.GB</div>
+          <div style="font-size: 7px; margin-top: 15px; text-align: center; line-height: 1.6;">
+            [D-PAD] NAVIGATE<br>
+            [A] SELECT / [B] BACK
+          </div>
+        </div>
+
+        <!-- TAB: PROFILE -->
+        <div class="tab-content" id="tab-profile">
+          <p class="cartridge-title">★ ERRIDIAN STATS</p>
+          <div class="gb-card">
+            <h4>TRAINER CARD</h4>
+            <p>NAME: ERRIDIAN<br>
+               CLASS: DIGITAL ARCHIVIST<br>
+               LEVEL: 99<br>
+               HP: 255 / 255<br>
+               EXP: MAXIMUM</p>
+          </div>
+          <div class="gb-card">
+            <h4>MISSION</h4>
+            <p>Reconstructing forgotten web artifacts, cyberpunk stories, chiptunes, and manga lore.</p>
+          </div>
+          <button class="gb-link" style="width:100%; border:none; cursor:pointer;" onclick="switchGbTab('menu')">◄ RETURN TO MENU</button>
+        </div>
+
+        <!-- TAB: POSTS -->
+        <div class="tab-content" id="tab-posts">
+          <p class="cartridge-title">★ LOG ARCHIVE</p>
+          <div class="gb-card">
+            <h4>ENTRY #001</h4>
+            <p>Welcome to the 8-bit DMG dimension! 4-shade dot matrix power active.</p>
+          </div>
+          <div class="gb-card">
+            <h4>ENTRY #002</h4>
+            <p>D-Mail protocol synchronized. Lab gadgets under supervision.</p>
+          </div>
+          <button class="gb-link" style="width:100%; border:none; cursor:pointer;" onclick="switchGbTab('menu')">◄ RETURN TO MENU</button>
+        </div>
+
+        <!-- TAB: MANGA -->
+        <div class="tab-content" id="tab-manga">
+          <p class="cartridge-title">★ FUN CHOZAS</p>
+          <div class="gb-card">
+            <h4>MANGA PROJECTS</h4>
+            <p>Official manga translation & editing archives.<br>
+            Read latest chapters in VK community or reader.</p>
+          </div>
+          <a class="gb-link" href="https://vk.com/funchozas" target="_blank">► OPEN VK / FUNCHOZAS</a>
+          <button class="gb-link" style="width:100%; border:none; cursor:pointer; margin-top:6px;" onclick="switchGbTab('menu')">◄ RETURN TO MENU</button>
+        </div>
+
+        <!-- TAB: SOUND TEST -->
+        <div class="tab-content" id="tab-sound">
+          <p class="cartridge-title">★ 8-BIT SOUND TEST</p>
+          <div class="menu-item" onclick="playGbSfx('jump')">♪ 01: JUMP BOUNCE</div>
+          <div class="menu-item" onclick="playGbSfx('coin')">♪ 02: GET COIN</div>
+          <div class="menu-item" onclick="playGbSfx('powerup')">♪ 03: POWER UP</div>
+          <div class="menu-item" onclick="playGbSfx('laser')">♪ 04: 8-BIT BLASTER</div>
+          <div class="menu-item" onclick="playGbSfx('gameover')">♪ 05: GAME OVER</div>
+          <div class="menu-item" onclick="playGbSfx('dmail')">♪ 06: D-MAIL BEEP</div>
+          <button class="gb-link" style="width:100%; border:none; cursor:pointer; margin-top:8px;" onclick="switchGbTab('menu')">◄ RETURN TO MENU</button>
+        </div>
+
+        <!-- TAB: MINI GAME -->
+        <div class="tab-content" id="tab-game">
+          <p class="cartridge-title">★ LAB DEFENDER</p>
+          <canvas id="gameCanvas" width="180" height="150"></canvas>
+          <div style="font-size:7px; text-align:center; margin-top:6px;">SCORE: <span id="gameScore">0</span> | [LEFT/RIGHT] MOVE</div>
+          <button class="gb-link" style="width:100%; border:none; cursor:pointer; margin-top:6px;" onclick="startMiniGame()">RESTART GAME</button>
+          <button class="gb-link" style="width:100%; border:none; cursor:pointer; margin-top:4px;" onclick="switchGbTab('menu')">◄ RETURN TO MENU</button>
+        </div>
+
+        <!-- TAB: LINKS -->
+        <div class="tab-content" id="tab-links">
+          <p class="cartridge-title">★ WARP ZONES</p>
+          <a class="gb-link" href="https://t.me/ocerr" target="_blank">► TELEGRAM (@ocerr)</a>
+          <a class="gb-link" href="https://vk.com/dropushko" target="_blank">► VK / DROPUSHKO</a>
+          <a class="gb-link" href="https://www.youtube.com/channel/UCb2VbVdGz9e0gA7EaBfO_3w" target="_blank">► YOUTUBE</a>
+          <a class="gb-link" href="https://steamcommunity.com/id/erridian" target="_blank">► STEAM</a>
+          <button class="gb-link" style="width:100%; border:none; cursor:pointer; margin-top:6px;" onclick="switchGbTab('menu')">◄ RETURN TO MENU</button>
+        </div>
+
+      </div>
+
+      <div class="nintendo-logo">
+        Nintendo <span>GAME BOY</span><sub>™</sub>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-panel">
+      <!-- D-Pad -->
+      <div class="dpad">
+        <div class="dpad-center"></div>
+        <button class="dpad-btn dpad-up" onclick="handleDpad('up')" title="Up"></button>
+        <button class="dpad-btn dpad-down" onclick="handleDpad('down')" title="Down"></button>
+        <button class="dpad-btn dpad-left" onclick="handleDpad('left')" title="Left"></button>
+        <button class="dpad-btn dpad-right" onclick="handleDpad('right')" title="Right"></button>
+      </div>
+
+      <!-- Action Buttons B & A -->
+      <div class="action-buttons">
+        <div class="action-group">
+          <button class="round-btn" onclick="handleBtnB()" title="B Button"></button>
+          <div class="btn-label">B</div>
+        </div>
+        <div class="action-group">
+          <button class="round-btn" onclick="handleBtnA()" title="A Button"></button>
+          <div class="btn-label">A</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Select / Start -->
+    <div class="pills-container">
+      <div class="pill-group">
+        <button class="pill-btn" onclick="handleSelect()"></button>
+        <div class="pill-label">SELECT</div>
+      </div>
+      <div class="pill-group">
+        <button class="pill-btn" onclick="handleStart()"></button>
+        <div class="pill-label">START</div>
+      </div>
+    </div>
+
+    <!-- Speaker Grill -->
+    <div class="speaker-grill">
+      <div class="grill-hole"></div>
+      <div class="grill-hole"></div>
+      <div class="grill-hole"></div>
+      <div class="grill-hole"></div>
+      <div class="grill-hole"></div>
+      <div class="grill-hole"></div>
+    </div>
+  </div>
+
+  <script>
+    // Audio Context
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playGbSfx(type) {
+      try {
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'click') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(400, now);
+          osc.frequency.setValueAtTime(200, now + 0.03);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } else if (type === 'jump') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(150, now);
+          osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+          gain.gain.setValueAtTime(0.1, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+          osc.start(now);
+          osc.stop(now + 0.15);
+        } else if (type === 'coin') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(987.77, now); // B5
+          osc.frequency.setValueAtTime(1318.51, now + 0.08); // E6
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        } else if (type === 'powerup') {
+          osc.type = 'triangle';
+          const notes = [330, 392, 659, 523, 587, 784];
+          notes.forEach((freq, idx) => {
+            osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+          });
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+          osc.start(now);
+          osc.stop(now + 0.4);
+        } else if (type === 'laser') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(100, now + 0.12);
+          gain.gain.setValueAtTime(0.1, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'gameover') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(400, now);
+          osc.frequency.setValueAtTime(350, now + 0.12);
+          osc.frequency.setValueAtTime(300, now + 0.24);
+          osc.frequency.setValueAtTime(250, now + 0.36);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+          osc.start(now);
+          osc.stop(now + 0.5);
+        } else if (type === 'dmail') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1200, now);
+          osc.frequency.setValueAtTime(1800, now + 0.08);
+          osc.frequency.setValueAtTime(1200, now + 0.16);
+          osc.frequency.setValueAtTime(2400, now + 0.24);
+          gain.gain.setValueAtTime(0.1, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+          osc.start(now);
+          osc.stop(now + 0.4);
+        }
+      } catch(e){}
+    }
+
+    // Time update
+    setInterval(() => {
+      const d = new Date();
+      const h = String(d.getHours()).padStart(2, '0');
+      const m = String(d.getMinutes()).padStart(2, '0');
+      const el = document.getElementById('screenTime');
+      if (el) el.innerText = `${h}:${m}`;
+    }, 1000);
+
+    // Tab Navigation
+    let currentTab = 'menu';
+    const menuTabs = ['profile', 'posts', 'manga', 'sound', 'game', 'links'];
+    let selectedMenuIndex = 0;
+
+    function switchGbTab(tabName) {
+      playGbSfx('click');
+      currentTab = tabName;
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(`tab-${tabName}`);
+      if (target) {
+        target.classList.add('active');
+        document.getElementById('lcdScreen').scrollTop = 0;
+      }
+      if (tabName === 'game') {
+        startMiniGame();
+      }
+    }
+
+    function updateMenuSelection() {
+      const items = document.querySelectorAll('#tab-menu .menu-item');
+      items.forEach((item, idx) => {
+        if (idx === selectedMenuIndex) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+    }
+
+    // D-Pad and Button Controls
+    function handleDpad(dir) {
+      playGbSfx('click');
+      if (currentTab === 'menu') {
+        const items = document.querySelectorAll('#tab-menu .menu-item');
+        if (dir === 'up') {
+          selectedMenuIndex = (selectedMenuIndex - 1 + items.length) % items.length;
+        } else if (dir === 'down') {
+          selectedMenuIndex = (selectedMenuIndex + 1) % items.length;
+        }
+        updateMenuSelection();
+      } else if (currentTab === 'game') {
+        if (dir === 'left') playerX = Math.max(10, playerX - 15);
+        if (dir === 'right') playerX = Math.min(170, playerX + 15);
+      } else {
+        const scr = document.getElementById('lcdScreen');
+        if (dir === 'up') scr.scrollTop -= 30;
+        if (dir === 'down') scr.scrollTop += 30;
+      }
+    }
+
+    function handleBtnA() {
+      if (currentTab === 'menu') {
+        switchGbTab(menuTabs[selectedMenuIndex]);
+      } else if (currentTab === 'game') {
+        fireBullet();
+      } else {
+        playGbSfx('coin');
+      }
+    }
+
+    function handleBtnB() {
+      if (currentTab !== 'menu') {
+        switchGbTab('menu');
+      } else {
+        playGbSfx('click');
+      }
+    }
+
+    function handleStart() {
+      playGbSfx('powerup');
+      if (currentTab === 'game') {
+        startMiniGame();
+      } else {
+        switchGbTab('menu');
+      }
+    }
+
+    function handleSelect() {
+      playGbSfx('click');
+      if (currentTab === 'menu') {
+        selectedMenuIndex = (selectedMenuIndex + 1) % menuTabs.length;
+        updateMenuSelection();
+      }
+    }
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp' || e.key === 'w') handleDpad('up');
+      if (e.key === 'ArrowDown' || e.key === 's') handleDpad('down');
+      if (e.key === 'ArrowLeft' || e.key === 'a') handleDpad('left');
+      if (e.key === 'ArrowRight' || e.key === 'd') handleDpad('right');
+      if (e.key === 'z' || e.key === 'j' || e.key === 'Enter') handleBtnA();
+      if (e.key === 'x' || e.key === 'k' || e.key === 'Escape') handleBtnB();
+    });
+
+    // MINI GAME: LAB DEFENDER (Game Boy Style)
+    let canvas, ctx;
+    let playerX = 90;
+    let bullets = [];
+    let enemies = [];
+    let gameScore = 0;
+    let gameLoopId = null;
+
+    function startMiniGame() {
+      canvas = document.getElementById('gameCanvas');
+      if (!canvas) return;
+      ctx = canvas.getContext('2d');
+      playerX = 80;
+      bullets = [];
+      enemies = [];
+      gameScore = 0;
+      document.getElementById('gameScore').innerText = '0';
+      if (gameLoopId) cancelAnimationFrame(gameLoopId);
+      lastSpawn = Date.now();
+      gameLoop();
+    }
+
+    let lastSpawn = 0;
+    function fireBullet() {
+      playGbSfx('laser');
+      bullets.push({ x: playerX + 7, y: 130 });
+    }
+
+    function gameLoop() {
+      if (currentTab !== 'game') return;
+
+      // Update & Draw
+      ctx.fillStyle = '#9bbc0f';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw player ship
+      ctx.fillStyle = '#0f380f';
+      ctx.fillRect(playerX, 135, 16, 6);
+      ctx.fillRect(playerX + 6, 130, 4, 5);
+
+      // Spawn enemy
+      if (Date.now() - lastSpawn > 1200) {
+        enemies.push({ x: Math.random() * 160 + 10, y: 0, w: 12, h: 8 });
+        lastSpawn = Date.now();
+      }
+
+      // Update bullets
+      ctx.fillStyle = '#0f380f';
+      for (let i = bullets.length - 1; i >= 0; i--) {
+        bullets[i].y -= 4;
+        ctx.fillRect(bullets[i].x, bullets[i].y, 2, 4);
+        if (bullets[i].y < 0) bullets.splice(i, 1);
+      }
+
+      // Update enemies
+      ctx.fillStyle = '#306230';
+      for (let i = enemies.length - 1; i >= 0; i--) {
+        enemies[i].y += 1;
+        ctx.fillRect(enemies[i].x, enemies[i].y, enemies[i].w, enemies[i].h);
+
+        // Check collision with bullets
+        for (let j = bullets.length - 1; j >= 0; j--) {
+          if (bullets[j].x >= enemies[i].x && bullets[j].x <= enemies[i].x + enemies[i].w &&
+              bullets[j].y >= enemies[i].y && bullets[j].y <= enemies[i].y + enemies[i].h) {
+            playGbSfx('coin');
+            gameScore += 100;
+            document.getElementById('gameScore').innerText = gameScore;
+            enemies.splice(i, 1);
+            bullets.splice(j, 1);
+            break;
+          }
+        }
+
+        if (enemies[i] && enemies[i].y > 150) {
+          enemies.splice(i, 1);
+        }
+      }
+
+      gameLoopId = requestAnimationFrame(gameLoop);
+    }
+  </script>
+</body>
+</html>
