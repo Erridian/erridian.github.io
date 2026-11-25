@@ -3,7 +3,7 @@ title: "Проверка публикации, через мобильное п�
 date: 2026-11-25
 category: diary
 tags: []
-cover: "posts/images/1000051893_20261125160059.png"
+cover: "posts/images/1000050803_20261125163841.png"
 publish: true
 ---
 
