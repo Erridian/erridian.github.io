@@ -4,7 +4,9 @@
     "title": "Проверка публикации, через приложение",
     "date": "2026-11-25",
     "category": "diary",
-    "tags": [],
+    "tags": [
+      "блог"
+    ],
     "file": "posts/proverka-publikatsii-cherez-prilozhenie.md",
     "excerpt": "Хочу протестировать, сработает ли публикация на сайт, через микро приложение.",
     "rating": "0/0"
