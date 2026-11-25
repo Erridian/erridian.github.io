@@ -1,5 +1,15 @@
 [
   {
+    "slug": "proverka-publikatsii-cherez-mobilnoe-prilozhenie",
+    "title": "Проверка публикации, через мобильное приложение",
+    "date": "2026-11-25",
+    "category": "diary",
+    "tags": [],
+    "file": "posts/proverka-publikatsii-cherez-mobilnoe-prilozhenie.md",
+    "excerpt": "Просто проверяю, как работает публикация постов, через обычное приложение на телефоне))",
+    "cover": "posts/images/1000051893_20261125160059.png"
+  },
+  {
     "slug": "proverka-publikatsii-cherez-prilozhenie",
     "title": "Проверка публикации, через приложение",
     "date": "2026-11-25",
