@@ -277,6 +277,14 @@
         .welcome-box { background: #fff; border: 2px inset #fff; padding: 12px; }
         .welcome-post-card { border: 1px solid #bbb; background: #f9f9f9; padding: 8px 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 
+        /* --- FOLDER EXPLORER --- */
+        .folder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 10px; padding: 12px; background: #fff; border: 2px inset #fff; min-height: 150px; }
+        .folder-item { display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; padding: 6px 4px; border: 1px solid transparent; }
+        .folder-item:hover { background: #e8efff; border: 1px dotted #000080; }
+        .folder-item-icon { font-size: 32px; line-height: 1.1; }
+        .folder-item-label { font-size: 15px; margin-top: 4px; color: #000; }
+        .folder-status { background: var(--win-gray); border-top: 2px groove #fff; padding: 3px 8px; font-size: 14px; color: #333; margin-top: 6px; }
+
         /* --- GALLERY --- */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 8px; padding: 8px; background: #fff; border: 2px inset #fff; max-height: 290px; overflow-y: auto; }
         .gallery-card { border: 2px outset #fff; background: var(--win-gray); padding: 4px; cursor: pointer; text-align: center; transition: transform 0.1s; }
@@ -411,27 +419,79 @@
     <div class="desktop" id="desktop">
         <div class="icon" onclick="openWindow('win-mail')"><div class="icon-img">📧</div><div class="icon-text glitch-hover">Blog / Mail</div></div>
         <div class="icon" onclick="openWindow('win-gallery')"><div class="icon-img">🖼️</div><div class="icon-text glitch-hover">Gallery</div></div>
-        <div class="icon" onclick="openWindow('mycomp')"><div class="icon-img">💻</div><div class="icon-text glitch-hover">System</div></div>
-        <div class="icon" onclick="openWindow('mangareader')"><div class="icon-img">📖</div><div class="icon-text glitch-hover">Manga</div></div>
-        <div class="icon" onclick="openWindow('achievements')"><div class="icon-img">🏆</div><div class="icon-text glitch-hover">Trophies</div></div>
-        <div class="icon" onclick="openWindow('vhstv')"><div class="icon-img">📼</div><div class="icon-text glitch-hover">VHS TV</div></div>
-        <div class="icon" onclick="openWindow('player')"><div class="icon-img">🎵</div><div class="icon-text glitch-hover">WinAmp</div></div>
-        <div class="icon" onclick="openWindow('notepad')"><div class="icon-img">📝</div><div class="icon-text glitch-hover">Notepad</div></div>
-        <div class="icon" onclick="openWindow('calc')"><div class="icon-img">🧮</div><div class="icon-text glitch-hover">Calc</div></div>
-        <div class="icon" onclick="openWindow('minesweeper')"><div class="icon-img">💣</div><div class="icon-text glitch-hover">Sweeper</div></div>
-        <div class="icon" onclick="openWindow('win-snake')"><div class="icon-img">🐍</div><div class="icon-text glitch-hover">Snake 95</div></div>
-        <div class="icon" onclick="openWindow('tictactoe')"><div class="icon-img">❌</div><div class="icon-text glitch-hover">TicTacToe</div></div>
-        <div class="icon" onclick="openWindow('paint')"><div class="icon-img">🎨</div><div class="icon-text glitch-hover">Paint</div></div>
-        <div class="icon" onclick="openWindow('chat')"><div class="icon-img">💬</div><div class="icon-text glitch-hover">IRC Chat</div></div>
-        <div class="icon" onclick="openWindow('pet')"><div class="icon-img">🥚</div><div class="icon-text glitch-hover">VaporPet</div></div>
+        <div class="icon" onclick="openWindow('folder-games')"><div class="icon-img">🎮</div><div class="icon-text glitch-hover">Games</div></div>
+        <div class="icon" onclick="openWindow('folder-media')"><div class="icon-img">🎵</div><div class="icon-text glitch-hover">Media</div></div>
+        <div class="icon" onclick="openWindow('folder-system')"><div class="icon-img">⚙️</div><div class="icon-text glitch-hover">System</div></div>
         <div class="icon" onclick="openWindow('projects')"><div class="icon-img">📁</div><div class="icon-text glitch-hover">Projects</div></div>
         <div class="icon" onclick="openWindow('about')"><div class="icon-img">📄</div><div class="icon-text glitch-hover">About Me</div></div>
-        <div class="icon" onclick="openWindow('recycle')"><div class="icon-img">🗑️</div><div class="icon-text glitch-hover">Recycle</div></div>
-        <div class="icon" onclick="openWindow('settings')"><div class="icon-img">⚙️</div><div class="icon-text glitch-hover">Settings</div></div>
         <div class="icon" onclick="window.location.href='neocities.html'"><div class="icon-img">🌐</div><div class="icon-text glitch-hover">Neocities</div></div>
+        <div class="icon" onclick="openWindow('recycle')"><div class="icon-img">🗑️</div><div class="icon-text glitch-hover">Recycle</div></div>
     </div>
 
     <!-- WINDOWS -->
+
+    <!-- Folder: Games -->
+    <div class="window" id="folder-games" style="top: 70px; left: 150px; width: 380px;" data-title="Игры" data-icon="🎮">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'folder-games')" ontouchstart="dragTouchStart(event, 'folder-games')">
+            <div class="title-bar-text">🎮 C:\Erridian\Games</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('folder-games')" title="Minimize">_</button>
+                <button onclick="closeWindow('folder-games')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="padding: 6px;">
+            <div class="folder-grid">
+                <div class="folder-item" onclick="openWindow('minesweeper')"><div class="folder-item-icon">💣</div><div class="folder-item-label">Sweeper</div></div>
+                <div class="folder-item" onclick="openWindow('win-snake')"><div class="folder-item-icon">🐍</div><div class="folder-item-label">Snake 95</div></div>
+                <div class="folder-item" onclick="openWindow('tictactoe')"><div class="folder-item-icon">❌</div><div class="folder-item-label">TicTacToe</div></div>
+                <div class="folder-item" onclick="openWindow('pet')"><div class="folder-item-icon">🥚</div><div class="folder-item-label">VaporPet</div></div>
+            </div>
+            <div class="folder-status">4 object(s)</div>
+        </div>
+    </div>
+
+    <!-- Folder: Media & Fun -->
+    <div class="window" id="folder-media" style="top: 95px; left: 190px; width: 380px;" data-title="Медиа" data-icon="🎵">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'folder-media')" ontouchstart="dragTouchStart(event, 'folder-media')">
+            <div class="title-bar-text">🎵 C:\Erridian\Media</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('folder-media')" title="Minimize">_</button>
+                <button onclick="closeWindow('folder-media')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="padding: 6px;">
+            <div class="folder-grid">
+                <div class="folder-item" onclick="openWindow('player')"><div class="folder-item-icon">🎵</div><div class="folder-item-label">WinAmp</div></div>
+                <div class="folder-item" onclick="openWindow('mangareader')"><div class="folder-item-icon">📖</div><div class="folder-item-label">Manga</div></div>
+                <div class="folder-item" onclick="openWindow('vhstv')"><div class="folder-item-icon">📼</div><div class="folder-item-label">VHS TV</div></div>
+                <div class="folder-item" onclick="openWindow('paint')"><div class="folder-item-icon">🎨</div><div class="folder-item-label">Paint</div></div>
+            </div>
+            <div class="folder-status">4 object(s)</div>
+        </div>
+    </div>
+
+    <!-- Folder: System & Tools -->
+    <div class="window" id="folder-system" style="top: 120px; left: 230px; width: 410px;" data-title="Система" data-icon="⚙️">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'folder-system')" ontouchstart="dragTouchStart(event, 'folder-system')">
+            <div class="title-bar-text">⚙️ C:\Erridian\System</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('folder-system')" title="Minimize">_</button>
+                <button onclick="closeWindow('folder-system')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="padding: 6px;">
+            <div class="folder-grid">
+                <div class="folder-item" onclick="openWindow('mycomp')"><div class="folder-item-icon">💻</div><div class="folder-item-label">SysInfo</div></div>
+                <div class="folder-item" onclick="openWindow('terminal')"><div class="folder-item-icon">📟</div><div class="folder-item-label">CMD</div></div>
+                <div class="folder-item" onclick="openWindow('notepad')"><div class="folder-item-icon">📝</div><div class="folder-item-label">Notepad</div></div>
+                <div class="folder-item" onclick="openWindow('calc')"><div class="folder-item-icon">🧮</div><div class="folder-item-label">Calc</div></div>
+                <div class="folder-item" onclick="openWindow('chat')"><div class="folder-item-icon">💬</div><div class="folder-item-label">IRC Chat</div></div>
+                <div class="folder-item" onclick="openWindow('achievements')"><div class="folder-item-icon">🏆</div><div class="folder-item-label">Trophies</div></div>
+                <div class="folder-item" onclick="openWindow('settings')"><div class="folder-item-icon">⚙️</div><div class="folder-item-label">Settings</div></div>
+            </div>
+            <div class="folder-status">7 object(s)</div>
+        </div>
+    </div>
 
     <!-- Erridian Mail (Blog / Digital Garden) -->
     <div class="window" id="win-mail" style="top: 25px; left: 100px; width: 720px;" data-title="Erridian Mail (Блог)" data-icon="📧">
