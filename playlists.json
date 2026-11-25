@@ -1,0 +1,44 @@
+[
+  {
+    "id": "lab-chiptune",
+    "name": "🔬 Лаборатория (Steins;Gate & 8-Bit)",
+    "tracks": [
+      {
+        "title": "Steins;Gate — 8-Bit Remix",
+        "src": "future_gadget_lab/steinsgate8bit.mp3",
+        "note": "Чиптюн-версия главной темы для путешествий по мировым линиям."
+      },
+      {
+        "title": "Steins;Gate — Music Box",
+        "src": "future_gadget_lab/steinsgateMusicBox.mp3",
+        "note": "Спокойная музыкальная шкатулка для ночного чтения заметок."
+      }
+    ]
+  },
+  {
+    "id": "erridian-archive",
+    "name": "📼 Архивный микс Erridian",
+    "tracks": [
+      {
+        "title": "ForestDump",
+        "src": "ForestDump.mp3",
+        "note": "Атмосферный трек из локальной коллекции."
+      },
+      {
+        "title": "Radmila Maro — Сказка",
+        "src": "Radmila Maro-Skazka111.mp3",
+        "note": "Мелодичный трек с ностальгическим настроением."
+      },
+      {
+        "title": "TeamRept 20113",
+        "src": "teamrept20113.mp3",
+        "note": "Олдскульный архивный трек из папки сайта."
+      },
+      {
+        "title": "Any / Track 1 / Track 2",
+        "src": "Any.mp3",
+        "note": "Секретный бонус-трек для фона."
+      }
+    ]
+  }
+]

@@ -11,6 +11,7 @@
     <meta property="og:description" content="Интерактивная ретро-ОС Windows 95 / Vaporwave на GitHub Pages: читалка манги, Winamp со скинами, ачивки, VHS плеер и пасхалки.">
     <meta property="og:image" content="egg/ill.jpg">
     <meta property="og:type" content="website">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
         /* --- ШРИФТЫ И ПЕРЕМЕННЫЕ --- */
@@ -238,11 +239,114 @@
         .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%); background-size: 100% 4px; pointer-events: none; z-index: 9999; }
         .radio-group label { display: block; margin: 4px 0; }
 
-        @media (max-width: 600px) {
-            .window { width: 95% !important; left: 2.5% !important; top: 30px !important; }
+        /* --- ERRIDIAN MAIL (BLOG / DIGITAL GARDEN) --- */
+        .mail-toolbar { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; background: var(--win-gray); border-bottom: 2px groove #fff; align-items: center; }
+        .mail-filter-btn { background: var(--win-gray); border: 2px outset #fff; padding: 2px 8px; font-family: inherit; font-size: 14px; cursor: pointer; }
+        .mail-filter-btn.active { border: 2px inset #fff; background: #dfdfdf; font-weight: bold; }
+        .mail-search { flex: 1; min-width: 120px; border: 2px inset #fff; padding: 2px 6px; font-family: inherit; font-size: 15px; background: #fff; }
+        .mail-split { display: flex; height: 390px; background: #fff; border: 2px inset #fff; overflow: hidden; }
+        .mail-list { width: 230px; min-width: 190px; border-right: 2px groove #ccc; overflow-y: auto; background: #f8f8f8; }
+        .mail-item { padding: 8px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background 0.1s; }
+        .mail-item:hover { background: #e8efff; }
+        .mail-item.selected { background: var(--win-blue); color: #fff; }
+        .mail-item-meta { font-size: 13px; opacity: 0.78; display: flex; justify-content: space-between; margin-bottom: 2px; }
+        .mail-item-title { font-size: 16px; font-weight: bold; line-height: 1.15; }
+        .mail-reader { flex: 1; overflow-y: auto; padding: 14px 16px; background: #fff; color: #111; }
+        .mail-review-card { background: #f0f0f0; border: 2px groove #fff; padding: 10px 12px; margin-bottom: 14px; display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+        .mail-review-cover { width: 84px; height: 112px; object-fit: cover; border: 2px inset #fff; background: #000; }
+        .mail-review-info { flex: 1; min-width: 180px; }
+        .mail-badge { display: inline-block; background: #000080; color: #fff; padding: 1px 6px; font-size: 13px; margin-right: 4px; margin-top: 3px; }
+        .mail-rating { display: inline-block; background: #ffcc00; color: #000; border: 1px solid #000; padding: 1px 7px; font-weight: bold; font-size: 15px; }
+        .mail-actions-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; padding-bottom: 8px; margin-bottom: 10px; border-bottom: 1px dashed #999; font-size: 14px; color: #444; }
+        .mail-md-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 15px; line-height: 1.6; color: #1a1a1a; }
+        .mail-md-body h1, .mail-md-body h2, .mail-md-body h3 { font-family: 'VT323', monospace; color: #000080; margin: 12px 0 6px; }
+        .mail-md-body h1 { font-size: 26px; border-bottom: 1px solid #ccc; padding-bottom: 3px; }
+        .mail-md-body h2 { font-size: 22px; }
+        .mail-md-body p { margin: 8px 0; }
+        .mail-md-body ul, .mail-md-body ol { margin: 8px 0 8px 22px; }
+        .mail-md-body blockquote { border-left: 4px solid #000080; background: #f4f4f8; padding: 6px 12px; margin: 10px 0; color: #333; }
+        .mail-md-body pre, .mail-md-body code { background: #111; color: #0f0; font-family: 'Courier New', monospace; padding: 2px 5px; font-size: 13px; }
+        .mail-md-body pre { padding: 10px; overflow-x: auto; margin: 10px 0; border: 2px inset #888; }
+        .giscus-wrap { margin-top: 20px; padding-top: 14px; border-top: 2px groove #ccc; }
+
+        /* --- WELCOME / WHAT'S NEW --- */
+        .welcome-box { background: #fff; border: 2px inset #fff; padding: 12px; }
+        .welcome-post-card { border: 1px solid #bbb; background: #f9f9f9; padding: 8px 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+        /* --- GALLERY --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 8px; padding: 8px; background: #fff; border: 2px inset #fff; max-height: 290px; overflow-y: auto; }
+        .gallery-card { border: 2px outset #fff; background: var(--win-gray); padding: 4px; cursor: pointer; text-align: center; transition: transform 0.1s; }
+        .gallery-card:hover { background: #d4e4ff; }
+        .gallery-thumb { width: 100%; height: 86px; object-fit: cover; border: 1px solid #808080; background: #000; display: block; }
+        .gallery-caption { font-size: 13px; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gallery-viewer { background: #111; color: #fff; border: 2px inset #fff; padding: 10px; text-align: center; }
+        .gallery-viewer img { max-width: 100%; max-height: 280px; border: 2px solid #444; object-fit: contain; }
+
+        /* --- PROJECTS CARDS --- */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+        .project-card { background: #fff; border: 2px groove #fff; padding: 8px 10px; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
+        .project-tag { display: inline-block; background: #000080; color: #fff; font-size: 12px; padding: 1px 5px; margin-right: 3px; }
+
+        /* --- WINAMP PLAYLISTS --- */
+        .winamp-playlist-box { background: #0b0b0b; color: #00ff66; border: 1px inset #555; max-height: 115px; overflow-y: auto; margin-top: 6px; font-size: 13px; padding: 3px; }
+        .winamp-track-row { padding: 3px 6px; cursor: pointer; display: flex; justify-content: space-between; border-bottom: 1px dashed #222; }
+        .winamp-track-row:hover { background: #1b2e1b; }
+        .winamp-track-row.active { background: #004400; color: #ffff00; font-weight: bold; }
+        .winamp-note { background: #111; color: #aaffcc; border: 1px solid #333; padding: 4px 6px; font-size: 13px; margin-top: 4px; min-height: 22px; }
+
+        /* --- PDA / MOBILE BAR --- */
+        .pda-bar { display: none; }
+
+        @media (max-width: 768px) {
+            body { font-size: 18px; }
+            .desktop { padding-bottom: 95px; justify-content: flex-start; gap: 8px; }
+            .window {
+                width: 100vw !important;
+                height: calc(100vh - 78px) !important;
+                left: 0 !important;
+                top: 0 !important;
+                max-width: 100vw !important;
+                box-shadow: none !important;
+            }
+            .window-body { flex: 1; overflow-y: auto; max-height: none !important; font-size: 17px; }
+            .title-bar { padding: 6px 8px; font-size: 18px; }
+            .title-bar-controls button { width: 24px; height: 22px; font-size: 15px; }
+            .mail-split { flex-direction: column; height: auto; min-height: 420px; }
+            .mail-list { width: 100%; max-height: 175px; border-right: none; border-bottom: 2px groove #ccc; }
+            .mail-reader { padding: 12px; }
+            .mail-md-body { font-size: 16px; }
             .bios-header { flex-direction: column-reverse; }
             #clippy-container { display: none; }
-            .task-item { min-width: 40px; max-width: 80px; font-size: 13px; }
+            .taskbar { bottom: 40px; }
+            .task-item { min-width: 40px; max-width: 90px; font-size: 14px; }
+            .pda-bar {
+                display: flex;
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                height: 40px;
+                background: var(--win-gray);
+                border-top: 2px outset #fff;
+                z-index: 1002;
+                justify-content: space-around;
+                align-items: center;
+                padding: 2px 4px;
+                gap: 4px;
+            }
+            .pda-btn {
+                flex: 1;
+                height: 32px;
+                background: var(--win-gray);
+                border: 2px outset #fff;
+                font-family: inherit;
+                font-size: 15px;
+                font-weight: bold;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+            }
+            .pda-btn:active { border: 2px inset #fff; }
         }
     </style>
 </head>
@@ -301,6 +405,8 @@
 
     <!-- DESKTOP ICONS -->
     <div class="desktop" id="desktop">
+        <div class="icon" onclick="openWindow('win-mail')"><div class="icon-img">📧</div><div class="icon-text glitch-hover">Blog / Mail</div></div>
+        <div class="icon" onclick="openWindow('win-gallery')"><div class="icon-img">🖼️</div><div class="icon-text glitch-hover">Gallery</div></div>
         <div class="icon" onclick="openWindow('mycomp')"><div class="icon-img">💻</div><div class="icon-text glitch-hover">System</div></div>
         <div class="icon" onclick="openWindow('mangareader')"><div class="icon-img">📖</div><div class="icon-text glitch-hover">Manga</div></div>
         <div class="icon" onclick="openWindow('achievements')"><div class="icon-img">🏆</div><div class="icon-text glitch-hover">Trophies</div></div>
@@ -309,6 +415,7 @@
         <div class="icon" onclick="openWindow('notepad')"><div class="icon-img">📝</div><div class="icon-text glitch-hover">Notepad</div></div>
         <div class="icon" onclick="openWindow('calc')"><div class="icon-img">🧮</div><div class="icon-text glitch-hover">Calc</div></div>
         <div class="icon" onclick="openWindow('minesweeper')"><div class="icon-img">💣</div><div class="icon-text glitch-hover">Sweeper</div></div>
+        <div class="icon" onclick="openWindow('win-snake')"><div class="icon-img">🐍</div><div class="icon-text glitch-hover">Snake 95</div></div>
         <div class="icon" onclick="openWindow('tictactoe')"><div class="icon-img">❌</div><div class="icon-text glitch-hover">TicTacToe</div></div>
         <div class="icon" onclick="openWindow('paint')"><div class="icon-img">🎨</div><div class="icon-text glitch-hover">Paint</div></div>
         <div class="icon" onclick="openWindow('chat')"><div class="icon-img">💬</div><div class="icon-text glitch-hover">IRC Chat</div></div>
@@ -321,6 +428,108 @@
     </div>
 
     <!-- WINDOWS -->
+
+    <!-- Erridian Mail (Blog / Digital Garden) -->
+    <div class="window" id="win-mail" style="top: 25px; left: 100px; width: 720px;" data-title="Erridian Mail (Блог)" data-icon="📧">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'win-mail')" ontouchstart="dragTouchStart(event, 'win-mail')">
+            <div class="title-bar-text">📧 Erridian Mail — Цифровой сад & Обзоры</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('win-mail')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('win-mail')" title="Maximize">□</button>
+                <button onclick="closeWindow('win-mail')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="mail-toolbar">
+            <button class="mail-filter-btn active" onclick="filterMail('all', this)">Все</button>
+            <button class="mail-filter-btn" onclick="filterMail('anime', this)">🎌 Аниме/Манга</button>
+            <button class="mail-filter-btn" onclick="filterMail('games', this)">🎮 Игры</button>
+            <button class="mail-filter-btn" onclick="filterMail('tech', this)">💾 Техника/Веб</button>
+            <button class="mail-filter-btn" onclick="filterMail('diary', this)">📓 Дневник</button>
+            <input type="text" class="mail-search" id="mail-search" placeholder="Поиск по заголовку или тегу..." oninput="renderMailList()">
+        </div>
+        <div class="window-body" style="padding: 6px;">
+            <div class="mail-split">
+                <div class="mail-list" id="mail-list">
+                    <div style="padding: 12px; color: #666;">Загрузка писем...</div>
+                </div>
+                <div class="mail-reader" id="mail-reader">
+                    <div style="color: #666; padding: 20px; text-align: center;">Выберите заметку или обзор слева ✉️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="window" id="win-gallery" style="top: 45px; left: 160px; width: 580px;" data-title="Галерея" data-icon="🖼️">
+        <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'win-gallery')" ontouchstart="dragTouchStart(event, 'win-gallery')">
+            <div class="title-bar-text">🖼️ Erridian Gallery — Просмотрщик изображений</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('win-gallery')" title="Minimize">_</button>
+                <button onclick="maximizeWindow('win-gallery')" title="Maximize">□</button>
+                <button onclick="closeWindow('win-gallery')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="mail-toolbar">
+            <button class="mail-filter-btn active" onclick="filterGallery('all', this)">Все</button>
+            <button class="mail-filter-btn" onclick="filterGallery('art', this)">🎨 Арты</button>
+            <button class="mail-filter-btn" onclick="filterGallery('screenshots', this)">🖥️ Скриншоты</button>
+            <button class="mail-filter-btn" onclick="filterGallery('photo', this)">📷 Фото</button>
+            <button class="mail-filter-btn" onclick="filterGallery('pixel', this)">👾 Пиксель-арт</button>
+        </div>
+        <div class="window-body" style="padding: 8px;">
+            <div id="gallery-grid-view">
+                <div class="gallery-grid" id="gallery-grid">
+                    <div style="padding: 15px; color: #666;">Загрузка галереи...</div>
+                </div>
+            </div>
+            <div id="gallery-viewer-view" style="display: none;">
+                <div class="gallery-viewer">
+                    <img id="gallery-viewer-img" src="" alt="Preview">
+                    <div id="gallery-viewer-title" style="font-size: 18px; font-weight: bold; margin-top: 8px; color: #01cdfe;"></div>
+                    <div id="gallery-viewer-desc" style="font-size: 14px; color: #ccc; margin-top: 4px;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                    <button class="win-btn" onclick="closeGalleryViewer()">◄ К списку</button>
+                    <div>
+                        <button class="win-btn" onclick="stepGallery(-1)">◄ Пред.</button>
+                        <button class="win-btn" onclick="stepGallery(1)">След. ►</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome / What's New -->
+    <div class="window" id="win-welcome" style="top: 60px; left: 200px; width: 470px;" data-title="Что нового" data-icon="✨">
+        <div class="title-bar" onmousedown="dragMouseDown(event, 'win-welcome')" ontouchstart="dragTouchStart(event, 'win-welcome')">
+            <div class="title-bar-text">✨ Добро пожаловать в Erridian OS 95</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('win-welcome')" title="Minimize">_</button>
+                <button onclick="closeWindow('win-welcome')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <div style="font-size: 32px;">💾</div>
+                <div>
+                    <div style="font-size: 20px; font-weight: bold;">Свежие заметки и обзоры</div>
+                    <div style="font-size: 14px; color: #444;">Личный цифровой сад, ретро-эксперименты и переводы.</div>
+                </div>
+            </div>
+            <div class="welcome-box" id="welcome-posts-list">
+                <div style="color: #666;">Загрузка последних записей...</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; flex-wrap: wrap; gap: 8px;">
+                <label style="font-size: 14px; cursor: pointer;">
+                    <input type="checkbox" id="welcome-hide-today" onchange="toggleWelcomeToday(this.checked)"> Не показывать сегодня
+                </label>
+                <div style="display: flex; gap: 6px;">
+                    <button class="win-btn" onclick="closeWindow('win-welcome'); openWindow('win-mail');">📧 Открыть Блог</button>
+                    <button class="win-btn" onclick="closeWindow('win-welcome')">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Manga Reader -->
     <div class="window" id="mangareader" style="top: 40px; left: 240px; width: 440px;" data-title="Manga Reader" data-icon="📖">
@@ -405,12 +614,22 @@
             <div class="player-screen" id="player-screen">Ready...</div>
             <div class="vis-container"><canvas id="vis-canvas" width="320" height="50"></canvas></div>
             <div class="player-controls">
+                <button class="player-btn" onclick="stepPlaylistTrack(-1)" title="Предыдущий трек">⏮</button>
                 <button class="player-btn" onclick="playRadio('vapor')">Vapor</button>
                 <button class="player-btn" onclick="playRadio('soviet')">Soviet</button>
                 <button class="player-btn" onclick="playRadio('chiptune')">Chip</button>
                 <button class="player-btn" onclick="playRadio('lofi')">Lofi</button>
                 <button class="player-btn" style="color:red; font-weight: bold;" onclick="stopRadio()">STOP</button>
+                <button class="player-btn" onclick="stepPlaylistTrack(1)" title="Следующий трек">⏭</button>
             </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 13px; gap: 6px;">
+                <span>Playlist:</span>
+                <select id="winamp-playlist-sel" onchange="selectWinampPlaylist(this.value)" style="flex:1; background:#000; color:#0f0; border:1px solid #555; font-family: inherit; font-size: 13px;">
+                    <option value="">Загрузка плейлистов...</option>
+                </select>
+            </div>
+            <div class="winamp-playlist-box" id="winamp-playlist-box"></div>
+            <div class="winamp-note" id="winamp-note">Выберите радиостанцию или трек из плейлиста ♪</div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 13px;">
                 <span>Skin:</span>
                 <select id="winamp-skin-sel" onchange="setWinampSkin(this.value)" style="background:#000; color:#0f0; border:1px solid #555; font-family: inherit; font-size: 14px;">
@@ -533,7 +752,59 @@
                 <button onclick="closeWindow('recycle')" title="Close">X</button>
             </div>
         </div>
-        <div class="window-body"><div class="file-list"><div class="file-item" style="cursor:pointer; padding: 4px;" onclick="playSound('error'); alert('File corrupted: hopes.txt')"><span class="file-icon">📄</span> hopes.txt</div><div class="file-item" style="cursor:pointer; padding: 4px;" onclick="playSound('error'); alert('Error 404: time.exe not found.')"><span class="file-icon">💾</span> time.exe</div></div></div>
+        <div class="window-body"><div class="file-list"><div class="file-item" style="cursor:pointer; padding: 4px;" onclick="playSound('error'); alert('File corrupted: hopes.txt')"><span class="file-icon">📄</span> hopes.txt</div><div class="file-item" style="cursor:pointer; padding: 4px;" onclick="playSound('error'); alert('Error 404: time.exe not found.')"><span class="file-icon">💾</span> time.exe</div><div class="file-item" style="cursor:pointer; padding: 4px; color:#000080; font-weight:bold;" onclick="playSound('floppy'); alert('[ПЕРЕХВАТ #01 - dmail_draft.txt]\n\nСигнал IBN 5100 сбит.\nПервая часть кода сдвига: 1.048\n\nПодсказка: открой терминал CMD и выполни команду: scan')"><span class="file-icon">📡</span> dmail_draft.txt</div></div></div>
+    </div>
+
+    <!-- Cyber Snake 95 -->
+    <div class="window" id="win-snake" style="top: 60px; left: 260px; width: 320px;" data-title="Snake 95" data-icon="🐍">
+        <div class="title-bar" style="background:#006633;" onmousedown="dragMouseDown(event, 'win-snake')" ontouchstart="dragTouchStart(event, 'win-snake')">
+            <div class="title-bar-text">🐍 Cyber Snake 95</div>
+            <div class="title-bar-controls">
+                <button onclick="minimizeWindow('win-snake')" title="Minimize">_</button>
+                <button onclick="closeWindow('win-snake'); stopSnake()" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="text-align:center;">
+            <div style="display:flex; justify-content:space-between; font-size:16px; margin-bottom:6px; font-weight:bold;">
+                <span>Score: <span id="snake-score" style="color:#008800;">0</span></span>
+                <span>Best: <span id="snake-best" style="color:#000080;">0</span></span>
+            </div>
+            <canvas id="snake-canvas" width="280" height="240" style="background:#0a140a; border:2px inset #fff; display:block; margin:0 auto;"></canvas>
+            <div style="display:flex; justify-content:center; gap:6px; margin-top:8px;">
+                <button class="win-btn" onclick="startSnake()">▶ Старт / Рестарт</button>
+            </div>
+            <div style="margin-top:8px; display:grid; grid-template-columns:repeat(3, 44px); gap:4px; justify-content:center;">
+                <div></div><button class="win-btn" onclick="setSnakeDir(0,-1)">▲</button><div></div>
+                <button class="win-btn" onclick="setSnakeDir(-1,0)">◄</button>
+                <button class="win-btn" onclick="setSnakeDir(0,1)">▼</button>
+                <button class="win-btn" onclick="setSnakeDir(1,0)">►</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret ARG Ending -->
+    <div class="window" id="win-arg-ending" style="top: 80px; left: 190px; width: 440px;" data-title="Steins Gate" data-icon="🔮">
+        <div class="title-bar" style="background: linear-gradient(90deg, #111, #b35900);" onmousedown="dragMouseDown(event, 'win-arg-ending')" ontouchstart="dragTouchStart(event, 'win-arg-ending')">
+            <div class="title-bar-text">🔮 DIVERGENCE METER: 1.048596%</div>
+            <div class="title-bar-controls">
+                <button onclick="closeWindow('win-arg-ending')" title="Close">X</button>
+            </div>
+        </div>
+        <div class="window-body" style="background:#080808; color:#ff9900; font-family:'VT323', monospace; padding:16px;">
+            <div style="font-size:28px; text-align:center; text-shadow:0 0 10px #ff6600; border:2px solid #ff6600; padding:8px; margin-bottom:12px;">
+                1.048596% — STEINS GATE REACHED
+            </div>
+            <p style="font-size:18px; color:#eee; line-height:1.4;">
+                D-Mail успешно доставлен в прошлое! Временная линия стабилизирована, а наблюдение SERN за Erridian OS 95 нейтрализовано.
+            </p>
+            <p style="font-size:17px; color:#00ff66; margin-top:8px;">
+                &gt; Получен секретный статус члена Лаборатории #009.<br>
+                &gt; El Psy Kongroo.
+            </p>
+            <div style="text-align:center; margin-top:12px;">
+                <button class="win-btn" onclick="closeWindow('win-arg-ending')">Закрыть терминал</button>
+            </div>
+        </div>
     </div>
 
     <!-- Notepad -->
@@ -603,16 +874,64 @@
     </div>
 
     <!-- Projects -->
-    <div class="window" id="projects" style="top: 60px; left: 350px; width: 360px;" data-title="Projects" data-icon="📁">
+    <div class="window" id="projects" style="top: 50px; left: 310px; width: 520px;" data-title="Projects" data-icon="📁">
         <div class="title-bar vapor-title" onmousedown="dragMouseDown(event, 'projects')" ontouchstart="dragTouchStart(event, 'projects')">
-            <div class="title-bar-text">📁 Projects</div>
+            <div class="title-bar-text">📁 Projects — Витрина работ и ссылок</div>
             <div class="title-bar-controls">
                 <button onclick="minimizeWindow('projects')" title="Minimize">_</button>
                 <button onclick="maximizeWindow('projects')" title="Maximize">□</button>
                 <button onclick="closeWindow('projects')" title="Close">X</button>
             </div>
         </div>
-        <div class="window-body"><p>📂 <strong>Проекты и ссылки:</strong></p><ul><li><a href="https://github.com/Erridian" target="_blank"><strong>Dropushko</strong></a> (форк Giftseeker — автоматизация раздач)</li><li><a href="https://github.com/Erridian" target="_blank">GitHub Профиль</a></li><li><a href="https://vk.com/chikdyk" target="_blank">Личный блог VK</a></li><li><a href="https://t.me/ocerr" target="_blank">Личный блог Telegram</a></li><li><a href="https://youtube.com/erridian" target="_blank">YouTube Канал</a></li><li><a href="https://steamcommunity.com/id/erridian" target="_blank">Steam Profile</a></li></ul></div>
+        <div class="window-body">
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div>
+                        <div style="font-weight:bold; font-size:17px;">📖 Fun Chozas</div>
+                        <div style="font-size:14px; color:#333; margin:4px 0;">Сообщество переводов и эдита манги.</div>
+                        <span class="project-tag">Манга</span><span class="project-tag" style="background:#006600;">Активно</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <a class="win-btn" href="https://vk.com/funchozas" target="_blank" style="text-decoration:none; color:#000;">VK Группа</a>
+                        <button class="win-btn" onclick="openWindow('mangareader')">Читалка в ОС</button>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div>
+                        <div style="font-weight:bold; font-size:17px;">💾 Erridian OS 95 & Realms</div>
+                        <div style="font-size:14px; color:#333; margin:4px 0;">11 ретро-версий сайта: Win95, NES, Sega, PS1, GameBoy, VHS TV.</div>
+                        <span class="project-tag">Web</span><span class="project-tag">Retro</span>
+                    </div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                        <a class="win-btn" href="neocities.html" style="text-decoration:none; color:#000;">Neocities</a>
+                        <a class="win-btn" href="neocities_gameboy.html" style="text-decoration:none; color:#000;">GameBoy</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div>
+                        <div style="font-weight:bold; font-size:17px;">🎁 Dropushko</div>
+                        <div style="font-size:14px; color:#333; margin:4px 0;">Форк Giftseeker — автоматизация раздач и скрипты.</div>
+                        <span class="project-tag">Code</span><span class="project-tag">GitHub</span>
+                    </div>
+                    <div>
+                        <a class="win-btn" href="https://github.com/Erridian" target="_blank" style="text-decoration:none; color:#000;">GitHub Профиль</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div>
+                        <div style="font-weight:bold; font-size:17px;">🌐 Социальные сети</div>
+                        <div style="font-size:14px; color:#333; margin:4px 0;">Связь, блоги, видео и игровой профиль.</div>
+                        <span class="project-tag">Links</span>
+                    </div>
+                    <div style="display:flex; gap:4px; flex-wrap:wrap; font-size:14px;">
+                        <a href="https://t.me/ocerr" target="_blank">Telegram</a> •
+                        <a href="https://vk.com/chikdyk" target="_blank">VK</a> •
+                        <a href="https://youtube.com/erridian" target="_blank">YouTube</a> •
+                        <a href="https://steamcommunity.com/id/erridian" target="_blank">Steam</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Terminal -->
@@ -664,6 +983,20 @@
         <div class="window-body">
             <fieldset><legend>Background Theme</legend><div class="radio-group"><label><input type="radio" name="bg" value="theme-grid" checked onclick="setTheme('theme-grid')"> Grid (Outrun / Synthwave)</label><label><input type="radio" name="bg" value="theme-pastel" onclick="setTheme('theme-pastel')"> Pastel 90s</label><label><input type="radio" name="bg" value="theme-classic" onclick="setTheme('theme-classic')"> Classic Teal</label><label><input type="radio" name="bg" value="theme-clouds" onclick="setTheme('theme-clouds')"> Clouds</label><label><input type="radio" name="bg" value="theme-hacker" onclick="setTheme('theme-hacker')"> Matrix / Hacker</label><label><input type="radio" name="bg" value="theme-static" onclick="setTheme('theme-static')"> Static Noise</label></div></fieldset>
             <fieldset style="margin-top: 10px;"><legend>Effects & Audio</legend><label><input type="checkbox" id="xmas-toggle" checked onclick="toggleXmas()"> Holiday Snow & Lights</label><label><input type="checkbox" id="trail-toggle"> Glitch Drag (Trail)</label><label><input type="checkbox" id="sound-toggle" checked> Sound FX (Web Audio)</label><label><input type="checkbox" id="hdd-toggle" checked> HDD & Floppy Drive Sounds</label></fieldset>
+            <fieldset style="margin-top: 10px;"><legend>Custom Wallpaper & Accent</legend>
+                <div style="display:flex; gap:4px; margin-bottom:6px;">
+                    <input type="text" id="custom-wallpaper-url" placeholder="URL картинки (или egg/ill.jpg)" style="flex:1; font-family:inherit; font-size:13px; border:2px inset #fff; padding:2px 4px;">
+                    <button class="win-btn" onclick="applyCustomWallpaper()">OK</button>
+                    <button class="win-btn" onclick="clearCustomWallpaper()" title="Сброс">✕</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:6px; font-size:14px;">
+                    <span>Цвет заголовков:</span>
+                    <button class="win-btn" onclick="setAccentTheme('default')" style="background:#000080; color:#fff;">95</button>
+                    <button class="win-btn" onclick="setAccentTheme('vapor')" style="background:#b967ff; color:#fff;">Vapor</button>
+                    <button class="win-btn" onclick="setAccentTheme('emerald')" style="background:#006644; color:#fff;">Matrix</button>
+                    <button class="win-btn" onclick="setAccentTheme('crimson')" style="background:#8b0000; color:#fff;">NERV</button>
+                </div>
+            </fieldset>
             <fieldset style="margin-top: 10px;"><legend>User Avatar</legend>
                 <div style="display:flex; justify-content:space-around;">
                     <span style="font-size:24px; cursor:pointer;" onclick="setAvatar('👤')">👤</span>
@@ -693,12 +1026,23 @@
         <div class="clock" id="clock" onclick="openWindow('calendar'); playSound('click')" title="Click for Calendar">12:00 PM</div>
     </div>
 
+    <!-- PDA Mobile Bottom Bar -->
+    <div class="pda-bar" id="pda-bar">
+        <button class="pda-btn" onclick="pdaShowDesktop()">🖥️ Стол</button>
+        <button class="pda-btn" onclick="openWindow('win-mail')">📧 Блог</button>
+        <button class="pda-btn" onclick="openWindow('player')">🎵 Плеер</button>
+        <button class="pda-btn" onclick="pdaMinimizeActive()">➖ Свернуть</button>
+    </div>
+
     <div class="start-menu" id="startMenu">
         <div class="sidebar">
             <div class="sidebar-avatar" id="user-avatar" onclick="openWindow('settings'); toggleStartMenu()">👤</div>
             <span class="sidebar-text">ERRIDIAN 95</span>
         </div>
         <div class="menu-items">
+            <div class="menu-item" onclick="openWindow('win-mail'); toggleStartMenu()">📧 Erridian Mail (Блог)</div>
+            <div class="menu-item" onclick="openWindow('win-gallery'); toggleStartMenu()">🖼️ Галерея</div>
+            <div class="menu-item" onclick="openWindow('win-welcome'); toggleStartMenu()">✨ Что нового</div>
             <div class="menu-item" onclick="openWindow('mangareader'); toggleStartMenu()">📖 Читалка Манги</div>
             <div class="menu-item" onclick="openWindow('achievements'); toggleStartMenu()">🏆 Достижения</div>
             <div class="menu-item" onclick="openWindow('vhstv'); toggleStartMenu()">📼 VHS ТВ Видео</div>
@@ -709,6 +1053,7 @@
             <div class="menu-item" onclick="openWindow('chat'); toggleStartMenu()">💬 IRC Чат</div>
             <div class="menu-item" onclick="openWindow('pet'); toggleStartMenu()">🥚 Питомец</div>
             <div class="menu-item" onclick="openWindow('minesweeper'); toggleStartMenu()">💣 Сапёр</div>
+            <div class="menu-item" onclick="openWindow('win-snake'); toggleStartMenu()">🐍 Snake 95</div>
             <div class="menu-item" onclick="openWindow('tictactoe'); toggleStartMenu()">❌ Крестики</div>
             <div class="menu-item" onclick="openWindow('notepad'); toggleStartMenu()">📝 Блокнот</div>
             <div class="menu-item" onclick="openWindow('calc'); toggleStartMenu()">🧮 Калькулятор</div>
@@ -854,7 +1199,9 @@
             { id: 'note', title: '📝 Chronicler', desc: 'Сохранил заметку в Блокноте' },
             { id: 'winamp', title: '🎵 WinAmp DJ', desc: 'Запустил радиостанцию в плеере' },
             { id: 'pet', title: '🥚 Good Parent', desc: 'Покормил виртуального питомца' },
-            { id: 'vhs', title: '📼 VHS Nostalgia', desc: 'Включил кассетный ретро-телевизор' }
+            { id: 'vhs', title: '📼 VHS Nostalgia', desc: 'Включил кассетный ретро-телевизор' },
+            { id: 'arg', title: '📡 Worldline Shifter', desc: 'Прошёл ARG-квест и отправил D-Mail (1.048596)' },
+            { id: 'snake', title: '🐍 Cyber Snake Master', desc: 'Набрал 100+ очков в Cyber Snake 95' }
         ];
 
         function getUnlockedAch() {
@@ -990,6 +1337,9 @@
         function setWinampSkin(skinClass) {
             const b = document.getElementById('winamp-body');
             b.className = 'winamp-body ' + skinClass;
+            const sel = document.getElementById('winamp-skin-sel');
+            if (sel) sel.value = skinClass;
+            localStorage.setItem('erridian_winamp_skin', skinClass);
             playSound('click');
         }
 
@@ -1006,6 +1356,9 @@
             updateTaskbar();
             playSound('open');
             if (id === 'achievements') renderAchList();
+            if (id === 'win-snake') {
+                document.getElementById('snake-best').innerText = localStorage.getItem('erridian_snake_best') || '0';
+            }
         }
 
         function closeWindow(id) {
@@ -1265,7 +1618,7 @@
             document.getElementById('taskbar').style.opacity = 1;
             playSound('startup');
             unlockAchievement('boot');
-            openWindow('about');
+            handleInitialRoute();
         }
 
         function runBios() {
@@ -1673,7 +2026,21 @@
 
                 let out = '';
                 if (lower === 'help') {
-                    out = 'Commands: HELP, DIR, CLS, VER, DATE, MANGA, ACH, VHS, WIN, MATRIX, FS, LAB, OKABE, KURISU, SHUTDOWN, BSOD';
+                    out = 'Commands: HELP, DIR, CLS, VER, DATE, SCAN, DMAIL, SNAKE, MANGA, ACH, VHS, MATRIX, FS, LAB, OKABE, KURISU, BSOD';
+                } else if (lower === 'scan') {
+                    playSound('hdd');
+                    out = '[ПЕРЕХВАТ #02] Сканирование секторов...\nОбнаружен скрытый сигнал SERN!\nВторая часть кода: 596\nЕсли у тебя есть первая часть из Корзины, введи: dmail <полный_код>';
+                } else if (lower === 'dmail 1.048596') {
+                    playSound('startup');
+                    unlockAchievement('arg');
+                    openWindow('win-arg-ending');
+                    out = 'D-MAIL TRANSMITTED -> WORLDLINE SHIFTED TO 1.048596%!';
+                } else if (lower.startsWith('dmail')) {
+                    playSound('error');
+                    out = 'Usage: dmail <divergence_code> (Подсказка: ищи фрагменты в Корзине и через scan)';
+                } else if (lower === 'snake') {
+                    openWindow('win-snake');
+                    out = 'Launching Cyber Snake 95...';
                 } else if (lower === 'dir') {
                     out = 'Volume in drive C is ERRIDIAN_95\n Directory of C:\\\n\nMANGA    EXE       64,200\nACHIEVE  DAT        8,192\nVHS_TV   EXE       92,400\nNOTEPAD  EXE       48,220\nWINAMP   EXE      120,400\nSWEEPER  EXE       32,100\n       6 File(s)    365,512 bytes';
                 } else if (lower === 'cls' || lower === 'clear') {
@@ -1804,6 +2171,532 @@
             }, 12000);
         }
 
+        // --- ERRIDIAN MAIL (BLOG), WELCOME, PDA & DEEP LINKS ---
+        let blogPosts = [];
+        let currentMailFilter = 'all';
+        let currentPostSlug = null;
+
+        const CAT_LABELS = {
+            anime: '🎌 Аниме/Манга',
+            manga: '📖 Манга',
+            games: '🎮 Игры',
+            music: '🎵 Музыка',
+            tech: '💾 Техника/Веб',
+            diary: '📓 Дневник'
+        };
+
+        async function initMailBlog() {
+            try {
+                const res = await fetch('posts/index.json');
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                blogPosts = await res.json();
+            } catch (err) {
+                console.warn('Не удалось загрузить posts/index.json:', err);
+                blogPosts = [];
+            }
+            renderMailList();
+            renderWelcomePosts();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const postParam = urlParams.get('post');
+            if (postParam && blogPosts.some(p => p.slug === postParam)) {
+                openMailPost(postParam);
+            } else if (blogPosts.length > 0 && !currentPostSlug) {
+                openMailPost(blogPosts[0].slug, false);
+            }
+        }
+
+        function filterMail(cat, btnEl) {
+            currentMailFilter = cat;
+            document.querySelectorAll('.mail-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            renderMailList();
+            playSound('click');
+        }
+
+        function renderMailList() {
+            const listEl = document.getElementById('mail-list');
+            if (!listEl) return;
+            const query = (document.getElementById('mail-search')?.value || '').trim().toLowerCase();
+
+            const filtered = blogPosts.filter(p => {
+                const matchCat = currentMailFilter === 'all' || p.category === currentMailFilter;
+                const haystack = `${p.title} ${(p.tags || []).join(' ')} ${p.excerpt || ''}`.toLowerCase();
+                const matchQuery = !query || haystack.includes(query);
+                return matchCat && matchQuery;
+            });
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = '<div style="padding: 12px; color: #666;">Ничего не найдено 📭</div>';
+                return;
+            }
+
+            listEl.innerHTML = filtered.map(p => {
+                const isSelected = p.slug === currentPostSlug ? 'selected' : '';
+                const catIcon = (CAT_LABELS[p.category] || '📄').split(' ')[0];
+                const ratingBadge = p.rating ? `<span style="color: ${isSelected ? '#ff0' : '#b36b00'}; font-weight:bold;">★ ${p.rating}</span>` : '';
+                return `
+                    <div class="mail-item ${isSelected}" onclick="openMailPost('${p.slug}')">
+                        <div class="mail-item-meta">
+                            <span>${catIcon} ${p.date}</span>
+                            ${ratingBadge}
+                        </div>
+                        <div class="mail-item-title">${p.title}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function fallbackMdToHtml(md) {
+            return md
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+                .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+        }
+
+        async function openMailPost(slug, playSfx = true) {
+            const post = blogPosts.find(p => p.slug === slug);
+            if (!post) return;
+            currentPostSlug = slug;
+            renderMailList();
+            if (playSfx) playSound('click');
+
+            const reader = document.getElementById('mail-reader');
+            if (!reader) return;
+            reader.innerHTML = '<div style="padding: 20px; color: #666;">Загрузка письма... ⏳</div>';
+
+            let rawMd = post.excerpt || '';
+            try {
+                const res = await fetch(post.file);
+                if (res.ok) rawMd = await res.text();
+            } catch (e) {
+                console.warn('Ошибка чтения файла поста:', e);
+            }
+
+            const words = rawMd.trim().split(/\s+/).length;
+            const readMins = Math.max(1, Math.ceil(words / 160));
+            const htmlBody = (typeof marked !== 'undefined' && marked.parse)
+                ? marked.parse(rawMd)
+                : `<p>${fallbackMdToHtml(rawMd)}</p>`;
+
+            const tagsHtml = (post.tags || []).map(t => `<span class="mail-badge">#${t}</span>`).join('');
+            const reviewCardHtml = (post.rating || post.cover || post.status) ? `
+                <div class="mail-review-card">
+                    ${post.cover ? `<img src="${post.cover}" class="mail-review-cover" alt="cover">` : ''}
+                    <div class="mail-review-info">
+                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 4px;">${post.title}</div>
+                        ${post.rating ? `<span class="mail-rating">Оценка: ${post.rating}</span>` : ''}
+                        ${post.status ? `<span class="mail-badge" style="background:#006600;">${post.status}</span>` : ''}
+                        <div style="margin-top: 6px;">${tagsHtml}</div>
+                    </div>
+                </div>
+            ` : `<div style="margin-bottom: 10px;">${tagsHtml}</div>`;
+
+            reader.innerHTML = `
+                <div class="mail-actions-bar">
+                    <div>
+                        <strong>${CAT_LABELS[post.category] || 'Заметка'}</strong> • 📅 ${post.date} • ⏱️ ~${readMins} мин чтения
+                    </div>
+                    <button class="win-btn" onclick="copyPostLink('${post.slug}')">🔗 Поделиться ссылкой</button>
+                </div>
+                ${reviewCardHtml}
+                <div class="mail-md-body">${htmlBody}</div>
+                <div class="giscus-wrap" id="giscus-container">
+                    <div style="font-size: 14px; color: #555; margin-bottom: 6px;">💬 Комментарии и реакции (GitHub Discussions / Giscus):</div>
+                </div>
+            `;
+
+            loadGiscusForPost(post.slug);
+            reader.scrollTop = 0;
+        }
+
+        function showToast(title, desc) {
+            const toast = document.getElementById('achievement-toast');
+            if (!toast) return;
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-desc').innerText = desc;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        function copyPostLink(slug) {
+            const url = `${window.location.origin}${window.location.pathname}?post=${encodeURIComponent(slug)}`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showToast('Ссылка скопирована!', url);
+                }).catch(() => prompt('Скопируйте ссылку:', url));
+            } else {
+                prompt('Скопируйте ссылку:', url);
+            }
+            playSound('click');
+        }
+
+        function loadGiscusForPost(slug) {
+            const container = document.getElementById('giscus-container');
+            if (!container) return;
+            // Примечание: чтобы комментарии заработали на GitHub Pages,
+            // включите Discussions в настройках репозитория на GitHub и впишите repo-id / category-id с сайта giscus.app
+            const script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', 'Erridian/erridian.github.io');
+            script.setAttribute('data-repo-id', 'REPLACE_WITH_REPO_ID');
+            script.setAttribute('data-category', 'Announcements');
+            script.setAttribute('data-category-id', 'REPLACE_WITH_CATEGORY_ID');
+            script.setAttribute('data-mapping', 'specific');
+            script.setAttribute('data-term', slug);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'top');
+            script.setAttribute('data-theme', 'light');
+            script.setAttribute('data-lang', 'ru');
+            script.crossOrigin = 'anonymous';
+            script.async = true;
+            container.appendChild(script);
+        }
+
+        function renderWelcomePosts() {
+            const box = document.getElementById('welcome-posts-list');
+            if (!box) return;
+            if (!blogPosts || blogPosts.length === 0) {
+                box.innerHTML = '<div style="color:#666;">Пока нет загруженных записей (откройте сайт через HTTP или GitHub Pages).</div>';
+                return;
+            }
+            const latest = blogPosts.slice(0, 3);
+            box.innerHTML = latest.map(p => `
+                <div class="welcome-post-card">
+                    <div>
+                        <div style="font-size: 13px; color: #666;">${CAT_LABELS[p.category] || 'Заметка'} • ${p.date}</div>
+                        <div style="font-weight: bold; font-size: 16px;">${p.title}</div>
+                    </div>
+                    <button class="win-btn" onclick="closeWindow('win-welcome'); openWindow('win-mail'); openMailPost('${p.slug}');">Читать</button>
+                </div>
+            `).join('');
+        }
+
+        function toggleWelcomeToday(hide) {
+            const today = new Date().toISOString().slice(0, 10);
+            if (hide) localStorage.setItem('erridian_welcome_hide_date', today);
+            else localStorage.removeItem('erridian_welcome_hide_date');
+        }
+
+        function handleInitialRoute() {
+            const params = new URLSearchParams(window.location.search);
+            const postSlug = params.get('post');
+            const appId = params.get('app');
+
+            if (postSlug) {
+                openWindow('win-mail');
+                return;
+            }
+            if (appId && document.getElementById(appId)) {
+                openWindow(appId);
+                return;
+            }
+
+            const today = new Date().toISOString().slice(0, 10);
+            const hideDate = localStorage.getItem('erridian_welcome_hide_date');
+            if (hideDate !== today) {
+                const chk = document.getElementById('welcome-hide-today');
+                if (chk) chk.checked = false;
+                openWindow('win-welcome');
+            }
+        }
+
+        // PDA Mobile helpers
+        function pdaShowDesktop() {
+            document.querySelectorAll('.window').forEach(w => {
+                if (w.style.display !== 'none') w.style.display = 'none';
+            });
+            updateTaskbar();
+            playSound('click');
+        }
+
+        function pdaMinimizeActive() {
+            const active = document.querySelector('.window.active');
+            if (active && active.id) minimizeWindow(active.id);
+        }
+
+        // --- GALLERY, WINAMP PLAYLISTS & CUSTOMIZATION ---
+        let galleryItems = [];
+        let galleryFilter = 'all';
+        let galleryFiltered = [];
+        let galleryIdx = 0;
+
+        async function initGallery() {
+            try {
+                const res = await fetch('gallery.json');
+                if (res.ok) galleryItems = await res.json();
+            } catch (e) {
+                console.warn('Не удалось загрузить gallery.json:', e);
+            }
+            renderGallery();
+        }
+
+        function filterGallery(cat, btnEl) {
+            galleryFilter = cat;
+            document.querySelectorAll('#win-gallery .mail-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            closeGalleryViewer();
+            renderGallery();
+            playSound('click');
+        }
+
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            if (!grid) return;
+            galleryFiltered = galleryItems.filter(i => galleryFilter === 'all' || i.category === galleryFilter);
+            if (galleryFiltered.length === 0) {
+                grid.innerHTML = '<div style="padding: 15px; color: #666;">В этой категории пока пусто 🖼️</div>';
+                return;
+            }
+            grid.innerHTML = galleryFiltered.map((item, idx) => `
+                <div class="gallery-card" onclick="openGalleryViewer(${idx})">
+                    <img src="${item.src}" class="gallery-thumb" alt="${item.title}">
+                    <div class="gallery-caption" title="${item.title}">${item.title}</div>
+                </div>
+            `).join('');
+        }
+
+        function openGalleryViewer(idx) {
+            if (!galleryFiltered[idx]) return;
+            galleryIdx = idx;
+            const item = galleryFiltered[idx];
+            document.getElementById('gallery-viewer-img').src = item.src;
+            document.getElementById('gallery-viewer-title').innerText = item.title;
+            document.getElementById('gallery-viewer-desc').innerText = `${item.desc || ''} (${item.date || ''})`;
+            document.getElementById('gallery-grid-view').style.display = 'none';
+            document.getElementById('gallery-viewer-view').style.display = 'block';
+            playSound('click');
+        }
+
+        function closeGalleryViewer() {
+            const gv = document.getElementById('gallery-grid-view');
+            const vv = document.getElementById('gallery-viewer-view');
+            if (gv) gv.style.display = 'block';
+            if (vv) vv.style.display = 'none';
+        }
+
+        function stepGallery(dir) {
+            if (galleryFiltered.length === 0) return;
+            const next = (galleryIdx + dir + galleryFiltered.length) % galleryFiltered.length;
+            openGalleryViewer(next);
+        }
+
+        // WinAmp Playlists
+        let winampPlaylists = [];
+        let activePlaylist = null;
+        let activeTrackIdx = -1;
+
+        async function initWinampPlaylists() {
+            try {
+                const res = await fetch('playlists.json');
+                if (res.ok) winampPlaylists = await res.json();
+            } catch (e) {
+                console.warn('Не удалось загрузить playlists.json:', e);
+            }
+            const sel = document.getElementById('winamp-playlist-sel');
+            if (!sel || winampPlaylists.length === 0) return;
+            sel.innerHTML = winampPlaylists.map(pl => `<option value="${pl.id}">${pl.name}</option>`).join('');
+            selectWinampPlaylist(winampPlaylists[0].id);
+
+            audio.addEventListener('ended', () => {
+                if (activePlaylist && activeTrackIdx >= 0) stepPlaylistTrack(1);
+            });
+        }
+
+        function selectWinampPlaylist(plId) {
+            activePlaylist = winampPlaylists.find(p => p.id === plId) || winampPlaylists[0];
+            activeTrackIdx = -1;
+            renderWinampPlaylist();
+        }
+
+        function renderWinampPlaylist() {
+            const box = document.getElementById('winamp-playlist-box');
+            if (!box || !activePlaylist) return;
+            box.innerHTML = activePlaylist.tracks.map((t, idx) => `
+                <div class="winamp-track-row ${idx === activeTrackIdx ? 'active' : ''}" onclick="playPlaylistTrack(${idx})">
+                    <span>${idx + 1}. ${t.title}</span>
+                    <span>▶</span>
+                </div>
+            `).join('');
+        }
+
+        function playPlaylistTrack(idx) {
+            if (!activePlaylist || !activePlaylist.tracks[idx]) return;
+            unlockAudio();
+            activeTrackIdx = idx;
+            const track = activePlaylist.tracks[idx];
+            audio.src = track.src;
+            audio.play().catch(() => {});
+            document.getElementById('player-screen').innerText = track.title;
+            const noteEl = document.getElementById('winamp-note');
+            if (noteEl) noteEl.innerText = track.note || 'Playing track ♪';
+            renderWinampPlaylist();
+            startVisualizer();
+            unlockAchievement('winamp');
+        }
+
+        function stepPlaylistTrack(dir) {
+            if (!activePlaylist || activePlaylist.tracks.length === 0) return;
+            const next = activeTrackIdx < 0
+                ? 0
+                : (activeTrackIdx + dir + activePlaylist.tracks.length) % activePlaylist.tracks.length;
+            playPlaylistTrack(next);
+        }
+
+        // Custom Wallpaper & Accent
+        function applyCustomWallpaper(urlOverride) {
+            const input = document.getElementById('custom-wallpaper-url');
+            const url = (urlOverride !== undefined ? urlOverride : (input ? input.value.trim() : ''));
+            if (!url) return;
+            const bg = document.getElementById('bg-layer');
+            bg.style.backgroundImage = `url('${url}')`;
+            bg.style.backgroundSize = 'cover';
+            bg.style.backgroundPosition = 'center';
+            localStorage.setItem('erridian_wallpaper_url', url);
+            if (input && urlOverride === undefined) playSound('click');
+        }
+
+        function clearCustomWallpaper() {
+            const bg = document.getElementById('bg-layer');
+            bg.style.backgroundImage = '';
+            bg.style.backgroundSize = '';
+            bg.style.backgroundPosition = '';
+            localStorage.removeItem('erridian_wallpaper_url');
+            const input = document.getElementById('custom-wallpaper-url');
+            if (input) input.value = '';
+            playSound('click');
+        }
+
+        function setAccentTheme(accent) {
+            const map = {
+                default: 'linear-gradient(90deg, #000080, #1084d0)',
+                vapor: 'linear-gradient(90deg, #b967ff, #01cdfe)',
+                emerald: 'linear-gradient(90deg, #004d33, #00aa66)',
+                crimson: 'linear-gradient(90deg, #7a0000, #d42020)'
+            };
+            const val = map[accent] || map.default;
+            document.documentElement.style.setProperty('--win-active-blue', val);
+            localStorage.setItem('erridian_accent', accent);
+            playSound('click');
+        }
+
+        // --- CYBER SNAKE 95 ---
+        let snakeTimer = null;
+        let snakeArr = [];
+        let snakeDir = { x: 1, y: 0 };
+        let snakeNextDir = { x: 1, y: 0 };
+        let snakeFood = { x: 10, y: 10 };
+        let snakeScore = 0;
+        const SNAKE_GRID = 20;
+
+        function startSnake() {
+            const c = document.getElementById('snake-canvas');
+            if (!c) return;
+            snakeArr = [{ x: 6, y: 6 }, { x: 5, y: 6 }, { x: 4, y: 6 }];
+            snakeDir = { x: 1, y: 0 };
+            snakeNextDir = { x: 1, y: 0 };
+            snakeScore = 0;
+            document.getElementById('snake-score').innerText = '0';
+            document.getElementById('snake-best').innerText = localStorage.getItem('erridian_snake_best') || '0';
+            spawnSnakeFood();
+            if (snakeTimer) clearInterval(snakeTimer);
+            snakeTimer = setInterval(tickSnake, 130);
+            playSound('click');
+        }
+
+        function stopSnake() {
+            if (snakeTimer) {
+                clearInterval(snakeTimer);
+                snakeTimer = null;
+            }
+        }
+
+        function setSnakeDir(dx, dy) {
+            if (dx !== 0 && snakeDir.x === -dx) return;
+            if (dy !== 0 && snakeDir.y === -dy) return;
+            snakeNextDir = { x: dx, y: dy };
+        }
+
+        function spawnSnakeFood() {
+            const c = document.getElementById('snake-canvas');
+            const cols = Math.floor(c.width / SNAKE_GRID);
+            const rows = Math.floor(c.height / SNAKE_GRID);
+            snakeFood = {
+                x: Math.floor(Math.random() * cols),
+                y: Math.floor(Math.random() * rows)
+            };
+        }
+
+        function tickSnake() {
+            const c = document.getElementById('snake-canvas');
+            if (!c) return;
+            const ctx = c.getContext('2d');
+            const cols = Math.floor(c.width / SNAKE_GRID);
+            const rows = Math.floor(c.height / SNAKE_GRID);
+
+            snakeDir = snakeNextDir;
+            const head = { x: snakeArr[0].x + snakeDir.x, y: snakeArr[0].y + snakeDir.y };
+
+            if (head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows ||
+                snakeArr.some(s => s.x === head.x && s.y === head.y)) {
+                stopSnake();
+                playSound('error');
+                ctx.fillStyle = 'rgba(180,0,0,0.6)';
+                ctx.fillRect(0, 0, c.width, c.height);
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 20px VT323, monospace';
+                ctx.fillText('GAME OVER! Score: ' + snakeScore, 55, c.height / 2);
+                return;
+            }
+
+            snakeArr.unshift(head);
+            if (head.x === snakeFood.x && head.y === snakeFood.y) {
+                snakeScore += 10;
+                document.getElementById('snake-score').innerText = snakeScore;
+                const best = parseInt(localStorage.getItem('erridian_snake_best') || '0', 10);
+                if (snakeScore > best) {
+                    localStorage.setItem('erridian_snake_best', snakeScore);
+                    document.getElementById('snake-best').innerText = snakeScore;
+                }
+                if (snakeScore >= 100) unlockAchievement('snake');
+                playSound('achievement');
+                spawnSnakeFood();
+            } else {
+                snakeArr.pop();
+            }
+
+            ctx.fillStyle = '#0a140a';
+            ctx.fillRect(0, 0, c.width, c.height);
+
+            // Food
+            ctx.fillStyle = '#ff007f';
+            ctx.fillRect(snakeFood.x * SNAKE_GRID + 2, snakeFood.y * SNAKE_GRID + 2, SNAKE_GRID - 4, SNAKE_GRID - 4);
+
+            // Snake
+            snakeArr.forEach((seg, idx) => {
+                ctx.fillStyle = idx === 0 ? '#00ff66' : '#00aa44';
+                ctx.fillRect(seg.x * SNAKE_GRID + 1, seg.y * SNAKE_GRID + 1, SNAKE_GRID - 2, SNAKE_GRID - 2);
+            });
+        }
+
+        window.addEventListener('keydown', (e) => {
+            const win = document.getElementById('win-snake');
+            if (!win || win.style.display === 'none' || !win.classList.contains('active')) return;
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) e.preventDefault();
+            if (e.key === 'ArrowUp' || e.key === 'w') setSnakeDir(0, -1);
+            if (e.key === 'ArrowDown' || e.key === 's') setSnakeDir(0, 1);
+            if (e.key === 'ArrowLeft' || e.key === 'a') setSnakeDir(-1, 0);
+            if (e.key === 'ArrowRight' || e.key === 'd') setSnakeDir(1, 0);
+        });
+
         // --- INIT ON LOAD ---
         window.onload = function() {
             runBios();
@@ -1827,6 +2720,36 @@
                 const r = document.querySelector(`input[name="bg"][value="${savedTheme}"]`);
                 if (r) r.checked = true;
             }
+
+            const savedSkin = localStorage.getItem('erridian_winamp_skin');
+            if (savedSkin) {
+                const b = document.getElementById('winamp-body');
+                if (b) b.className = 'winamp-body ' + savedSkin;
+                const sel = document.getElementById('winamp-skin-sel');
+                if (sel) sel.value = savedSkin;
+            }
+
+            const savedXmas = localStorage.getItem('erridian_xmas');
+            if (savedXmas !== null) {
+                const xmasToggle = document.getElementById('xmas-toggle');
+                const xmasLayer = document.getElementById('xmas-layer');
+                if (xmasToggle) xmasToggle.checked = (savedXmas === 'true');
+                if (xmasLayer) xmasLayer.style.display = (savedXmas === 'true') ? 'block' : 'none';
+            }
+
+            const savedWallpaper = localStorage.getItem('erridian_wallpaper_url');
+            if (savedWallpaper) {
+                const inp = document.getElementById('custom-wallpaper-url');
+                if (inp) inp.value = savedWallpaper;
+                applyCustomWallpaper(savedWallpaper);
+            }
+
+            const savedAccent = localStorage.getItem('erridian_accent');
+            if (savedAccent) setAccentTheme(savedAccent);
+
+            initMailBlog();
+            initGallery();
+            initWinampPlaylists();
         };
     </script>
 </body>

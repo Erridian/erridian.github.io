@@ -1,0 +1,33 @@
+[
+  {
+    "slug": "welcome-digital-garden",
+    "title": "Добро пожаловать в Erridian Mail & Цифровой сад",
+    "date": "2026-11-25",
+    "category": "diary",
+    "tags": ["блог", "win95", "сайт"],
+    "file": "posts/welcome-digital-garden.md",
+    "excerpt": "Запуск почтового клиента Erridian Mail внутри Windows 95: зачем мне цифровой сад и что здесь будет выходить."
+  },
+  {
+    "slug": "steins-gate-review",
+    "title": "Steins;Gate — почему эта история до сих пор держит мировую линию",
+    "date": "2026-11-20",
+    "category": "anime",
+    "tags": ["аниме", "обзор", "sci-fi", "steins;gate"],
+    "rating": "10/10",
+    "status": "Шедевр / Пересмотрено",
+    "file": "posts/steins-gate-review.md",
+    "excerpt": "Небольшой разбор того, как визуальная новелла и аниме про микроволновку и D-Mail стали эталоном сай-фая."
+  },
+  {
+    "slug": "retro-consoles-web-note",
+    "title": "Зачем делать 11 ретро-версий одного сайта на чистом HTML",
+    "date": "2026-11-15",
+    "category": "tech",
+    "tags": ["веб", "ретро", "nes", "gameboy", "vhs"],
+    "rating": "9/10",
+    "status": "Эксперимент",
+    "file": "posts/retro-consoles-web-note.md",
+    "excerpt": "Мысли о том, почему эпоха Web 1.0, CRT-телевизоров и 8-битных консолей вдохновляет сильнее современных шаблонов."
+  }
+]
