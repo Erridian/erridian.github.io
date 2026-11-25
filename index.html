@@ -2278,6 +2278,8 @@
             } catch (e) {
                 console.warn('Ошибка чтения файла поста:', e);
             }
+            // Срезаем YAML Frontmatter (метаданные Obsidian), чтобы он не выводился в тексте
+            rawMd = rawMd.replace(/^---\s*\r?\n[\s\S]*?\r?\n---\s*\r?\n?/, '');
 
             const words = rawMd.trim().split(/\s+/).length;
             const readMins = Math.max(1, Math.ceil(words / 160));
@@ -2340,14 +2342,29 @@
         function loadGiscusForPost(slug) {
             const container = document.getElementById('giscus-container');
             if (!container) return;
-            // Примечание: чтобы комментарии заработали на GitHub Pages,
-            // включите Discussions в настройках репозитория на GitHub и впишите repo-id / category-id с сайта giscus.app
+
+            // Замени эти значения на свои с сайта https://giscus.app
+            const GISCUS_REPO = 'Erridian/erridian.github.io';
+            const GISCUS_REPO_ID = 'MDEwOlJlcG9zaXRvcnkyMzE5NDA0NDc=';
+            const GISCUS_CATEGORY_ID = 'DIC_kwDODdMhX84DL7Wa';
+
+            if (GISCUS_REPO_ID === 'REPLACE_WITH_REPO_ID' || GISCUS_CATEGORY_ID === 'REPLACE_WITH_CATEGORY_ID') {
+                container.innerHTML += `
+                    <div style="background:#ffffe1; border:1px solid #999; padding:8px 10px; font-size:13px; color:#333;">
+                        <b>⚙️ Комментарии Giscus ещё не привязаны:</b><br>
+                        1. Включи <b>Discussions</b> в Settings репозитория на GitHub.<br>
+                        2. Установи приложение <a href="https://github.com/apps/giscus" target="_blank">github.com/apps/giscus</a> на свой репозиторий.<br>
+                        3. Получи <code>repo-id</code> и <code>category-id</code> на <a href="https://giscus.app/ru" target="_blank">giscus.app</a> и впиши их в <code>loadGiscusForPost()</code>.
+                    </div>`;
+                return;
+            }
+
             const script = document.createElement('script');
             script.src = 'https://giscus.app/client.js';
-            script.setAttribute('data-repo', 'Erridian/erridian.github.io');
-            script.setAttribute('data-repo-id', 'REPLACE_WITH_REPO_ID');
+            script.setAttribute('data-repo', GISCUS_REPO);
+            script.setAttribute('data-repo-id', GISCUS_REPO_ID);
             script.setAttribute('data-category', 'Announcements');
-            script.setAttribute('data-category-id', 'REPLACE_WITH_CATEGORY_ID');
+            script.setAttribute('data-category-id', GISCUS_CATEGORY_ID);
             script.setAttribute('data-mapping', 'specific');
             script.setAttribute('data-term', slug);
             script.setAttribute('data-strict', '0');
