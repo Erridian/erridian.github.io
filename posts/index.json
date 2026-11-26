@@ -1,5 +1,18 @@
 [
   {
+    "slug": "prostaya-mysl",
+    "title": "Простая мысль",
+    "date": "2026-11-26",
+    "category": "diary",
+    "tags": [
+      "Блог",
+      "дневник"
+    ],
+    "file": "posts/prostaya-mysl.md",
+    "excerpt": "Чет просто задумался",
+    "cover": "posts/images/ChatGPT_Image_19____._2026__.__11_27_57.png"
+  },
+  {
     "slug": "proverka-publikatsii-cherez-prilozhenie",
     "title": "Проверка публикации, через приложение",
     "date": "2026-11-25",
